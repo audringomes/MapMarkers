@@ -1,0 +1,20 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+remex(:raster_symbol_style)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+##
+def_slotted_exemplar(:raster_symbol_style,{},:cs_thematic_point_style)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol_style.actual_custom_style_method
+	## 
+	## 
+	>> :|draw_raster_symbol()|
+_endmethod
+$

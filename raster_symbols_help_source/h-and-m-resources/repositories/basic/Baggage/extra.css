@@ -1,0 +1,19 @@
+/* These styles ahould be added to the project or custom.css skin */
+span.f_Inline_Icon /* Inline_Icon */
+{
+  vertical-align: middle;
+}
+.p_Inline_Icon /* Inline_Icon */
+{
+	margin: 0px 0px 0px 0px;
+	vertical-align: middle;
+}
+.CodeExampleTable /* Table with Code Example */
+{
+   margin-left: 10px;
+   font-size: 9pt;
+}
+
+/* If you use htmlize in emacs for formatting magik
+   you should add magik.css from this repository to
+   your skin */ 

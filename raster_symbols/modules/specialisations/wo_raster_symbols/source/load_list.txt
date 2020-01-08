@@ -1,0 +1,6 @@
+wo_rwo_record
+ws_coverage
+ws_leak
+ws_measurement_point
+symbol_definitions
+gen_magik/

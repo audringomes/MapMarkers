@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="windows-1252" standalone="yes"?>
+<colour_map name="Histogram9(Grid)" num_layers="40" origin="0">
+	<colour index="0" red="0.00000" green="0.48235" blue="0.00000"/>
+	<colour index="1" red="0.03137" green="0.51765" blue="0.00000"/>
+	<colour index="2" red="0.06275" green="0.54902" blue="0.00000"/>
+	<colour index="3" red="0.12549" green="0.56863" blue="0.00000"/>
+	<colour index="4" red="0.19216" green="0.58039" blue="0.00000"/>
+	<colour index="5" red="0.23922" green="0.61176" blue="0.00000"/>
+	<colour index="6" red="0.32157" green="0.65490" blue="0.00000"/>
+	<colour index="7" red="0.40392" green="0.67843" blue="0.00000"/>
+	<colour index="8" red="0.48235" green="0.70980" blue="0.00000"/>
+	<colour index="9" red="0.54902" green="0.75294" blue="0.00000"/>
+	<colour index="10" red="0.61176" green="0.77647" blue="0.00000"/>
+	<colour index="11" red="0.67843" green="0.80784" blue="0.00000"/>
+	<colour index="12" red="0.77255" green="0.85490" blue="0.00000"/>
+	<colour index="13" red="0.85490" green="0.88627" blue="0.00000"/>
+	<colour index="14" red="0.92549" green="0.91373" blue="0.00000"/>
+	<colour index="15" red="0.96863" green="0.90196" blue="0.00000"/>
+	<colour index="16" red="0.96863" green="0.83922" blue="0.00000"/>
+	<colour index="17" red="0.96863" green="0.79216" blue="0.00000"/>
+	<colour index="18" red="0.93725" green="0.68627" blue="0.00000"/>
+	<colour index="19" red="0.93725" green="0.63137" blue="0.00000"/>
+	<colour index="20" red="0.93725" green="0.61176" blue="0.00000"/>
+	<colour index="21" red="0.93725" green="0.58039" blue="0.00000"/>
+	<colour index="22" red="0.93725" green="0.53333" blue="0.00000"/>
+	<colour index="23" red="0.93725" green="0.48235" blue="0.00000"/>
+	<colour index="24" red="0.93725" green="0.41961" blue="0.00000"/>
+	<colour index="25" red="0.93725" green="0.35294" blue="0.00000"/>
+	<colour index="26" red="0.90588" green="0.32157" blue="0.00000"/>
+	<colour index="27" red="0.90588" green="0.29020" blue="0.00000"/>
+	<colour index="28" red="0.90588" green="0.25882" blue="0.00000"/>
+	<colour index="29" red="0.90588" green="0.20784" blue="0.00000"/>
+	<colour index="30" red="0.90588" green="0.12941" blue="0.00000"/>
+	<colour index="31" red="0.90588" green="0.08627" blue="0.00000"/>
+	<colour index="32" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="33" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="34" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="35" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="36" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="37" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="38" red="0.00000" green="0.00000" blue="0.00000"/>
+	<colour index="39" red="0.00000" green="0.00000" blue="0.00000"/>
+</colour_map>

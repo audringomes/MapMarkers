@@ -1,0 +1,13 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_block
+	message_handler.new(:cond_message_handler)
+_endblock
+$

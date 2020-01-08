@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">The NOTHING symbol</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The raster Symbol named &quot;NOTHING&quot; can be used in GOTO mappings of geometries that should not be drawn in a Goto request. The symbol has a completely transparent raster_image, but isn&apos;t drawn at all.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">You can apply this to certain geometries that are present in the goto_request, but need not to be drawn. For example because a point geometry is enough, and you don&apos;t want a label to be drawn.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" translate="true">The symbol &quot;NOTHING&quot;</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0053.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

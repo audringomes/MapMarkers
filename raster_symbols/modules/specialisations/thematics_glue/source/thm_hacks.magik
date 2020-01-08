@@ -1,0 +1,234 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_pragma(classify_level=restricted, topic={thematics})
+_method cs_thematic_style_properties_component.display_trees
+	## 
+	## Subclassed
+	##
+
+	#DEBUG write("Add symbol type item")
+	_if _self.actions[:symbol_type] _is _unset
+	_then
+		_self.add_action(sw_action.new(:symbol_type,
+					       :image,{:symbol_type_thumbnail,:raster_symbols_core},
+					       :caption,"Symbol type",
+					       :value, "Normal symbol",
+					       :enabled?,_true ,
+					       :engine,_self,
+					       :items, {"Normal symbol","Picture symbol"},
+					       :action_message,:|test()|))
+	_endif
+
+
+	_local l_tree << _super.display_trees
+	_for i _over l_tree.fast_elements()
+	_loop _if i.key = :point_title
+	      _then
+		      _local l_dtree << display_tree.new(:symbol_type,property_list.new())
+		      l_dtree.styled_string << {:image,{:symbol_type_thumbnail,:raster_symbols_core},"Symbol type",:tab,:value,:symbol_type}
+		      l_dtree.set_value_method(_self,{:get_value|()|,:symbol_type},{:set_value|()|,:symbol_type})
+#		      l_dtree.value[:symbol_type]<<"Normal symbol"
+		      .available_display_trees[:symbol_type]<<l_dtree
+		      i.add_child(l_dtree,1)
+		      _local l_agent << .tree_item.agent
+		      _local l_ed << .editors[:symbol_type] << in_place_choice_editor.new(l_agent)
+		      l_ed.items << {"Normal symbol","Picture symbol"}
+	      _endif
+		
+	_endloop
+	>> l_tree
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={thematics})
+_method cs_thematic_style_properties_component.available_symbol_names
+	## 
+	## Overwrite
+	##
+	>> _if .actions[:symbol_type].value="Picture symbol"
+	   _then >> sw:raster_symbol_handler.available_symbol_names
+	   _else >> _self.symbol_names
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={thematics})
+_method cs_thematic_style_properties_component.set_value(p_what,p_data)
+	## 
+	## subclass that sets value of point_name
+
+	#DEBUG write(_self,".set_value(",p_what,p_data,")")
+	_super.set_value(p_what,p_data)
+
+	_if p_what = :point_name _andif
+	    _self.action(:symbol_type).value ="Picture symbol"
+	_then 
+		
+	_endif
+	_local l << _self.available_symbol_names
+	_self.action(:point_name).set_items(l)
+	_self.delayed_action(:point_name ).items << l
+	.editors[:point_name ].items << l
+	_self.action(:point_name).set_value(p_data)
+
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_private _method cs_thematic_style_properties_component.handle_point_style_changed( what, value, style )
+	##
+	## Handles point style changes
+	## Subclassed to set style colour when it is changed
+	##
+	## PS/CHANGE: Set draw_style property when symbol_type = "Picture symbol"
+
+	_local col
+	new_style << _super.handle_point_style_changed( what, value, style )
+
+
+	# START CHANGE
+	#DEBUG write(_self,"handle_point_style_changed(",what, value, style )
+	_if _self.action(:symbol_type).value ="Picture symbol"
+	_then new_style.draw_style << "raster_symbol()"
+	      #DEBUG write("Set draw style")
+	_endif
+	# END CHANGE
+	
+	# set colour properly
+
+	new_style.unrealise()
+	_if what _is :area_fg_colour _andif
+	    value _isnt _unset
+	_then
+		col << value.scaled_rgb_vector(100)
+
+	_elif what _isnt :area_fg_colour _andif
+	      (gc << new_style.global_colour) _isnt _unset
+	_then
+		col << gc.scaled_rgb_vector(100)
+	_endif
+
+	>> new_style.realise(_unset,col)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, usage={subclassable})
+_method cs_thematic_style_item.draw_style( canvas, x, y, text_style, renderer, display_tree )
+	##
+	## OVERWRITE that draws raster_symbol thumbnail with name derived from
+	## cs_style in _self.value[:style] if this has draw_style "raster_symbol()" 
+	##
+	## Draws the colour (DISPLAY_TREE's value) on CANVAS at
+	## position (X, Y)
+	##
+
+	_local box << bounding_box.new_with_size( x, y, renderer.width, renderer.height * 0.9 )
+	_local div_y << (16 - box.height.rounded) _div 2
+	_local (xmin, ymin, xmax, ymax) << (box.xmin.rounded, box.ymin.rounded + div_y,
+					    box.xmax.rounded-2, box.ymax.rounded-2+div_y )
+	_local pv << pixel_coords_vector.new_with_xy( xmin, ymin, xmin, ymax, xmax, ymax, xmax, ymin, xmin, ymin )
+
+	# START CHANGE
+	#DEBUG write(_self.value[:style].draw_style)
+	_if (l_style << _self.value[:style]).draw_style = "raster_symbol()"
+	_then
+		_try _with p_cond
+			_local l_sname << l_style.symbol_name
+			#DEBUG write(" Symbol name " ,l_sname)
+			_local l_image << raster_symbol_handler.symbol(l_sname).thumbnail
+			_local (l_w,l_h) << l_image.size()
+			canvas.render_raster(l_image,pv.bounds.xmin,pv.bounds.ymax-l_h,_true)
+			_return 
+		_when error 
+			write(p_cond.report_contents_string)
+		_endtry
+	_endif
+	# END CHANGE
+
+	ls << line_style.new(colour.called(:white))
+	canvas.draw_line( ls, pv )
+	fs << fill_style.new(colour.called(:white))
+	canvas.fill_line(fs,pv)
+
+	_if display_tree.value(:style) _is _unset
+	_then
+		ls << line_style
+		canvas.draw_line( ls, pv )
+	_else
+		display_tree.value(:style).draw_sample(canvas,box,:flipped?,_true )
+	_endif
+
+_endmethod
+$
+
+# sw_core/modules/sw_core/geometry_vector/source/geometry_mixin.magik
+
+_pragma(classify_level=restricted, topic={geometry})
+_method point_geometry_mixin.paint(draw?, window, a_style, _optional style_type, auto_scale?)
+	##
+	## !OVERWRITE that draws raster_symbol with name derived from
+	## a_style if this style has the draw_style "raster_symbol()" 
+	##
+	##
+	## Draws (draw? = _true) or undraws (draw = _false) _self on WINDOW
+	## using style A_STYLE. If there is no point symbology defined for
+	## the symbol, a standard symbol (a box) is drawn/undrawn with a default
+	## default line style
+	##
+	## If auto_scale is true then the point will be autoscaled such
+	## that its size is view independent 
+
+	#DEBUG write("point_geometry_mixin.paint(" ,draw?, window, a_style, style_type, auto_scale?," ) DRAW_STYLE ", a_style.draw_style)
+
+	_dynamic !current_unit_factor!
+
+	# START CHANGE
+	_if a_style.draw_style = "raster_symbol()"
+	_then
+		_if (l_sym << raster_symbol_handler.get_symbol(a_style.symbol_name)) _isnt _unset
+		_then l_sym.draw_on(window,_self,style_type="highight")
+		_else raster_symbol_handler.default_raster_symbol().draw_on(window,_self,style_type="highight")
+		_endif
+	      _return 
+	_endif
+	# END CHANGE
+
+	_if (geoms << a_style.actual_geoms) _isnt _unset
+	_then
+		# a_style is a gis_style
+		styles << a_style.actual_styles
+
+		# Index of the first component to draw
+		start_seq << _if a_style.responds_to?(:start_seq)
+			     _then >> a_style.start_seq
+			     _else >> symbol_component.start_seq
+			     _endif
+		
+                xform << _self.point_draw_transform(window, a_style, auto_scale?)
+
+		# redefine the dynamic for the target world uf to the uf of self's style
+		# so that any sub-point styles are deemed to be rendering into self
+		
+		!current_unit_factor! << a_style.unit_factor 
+		_if draw?
+		_then 
+			window.draw_symbol(styles, geoms, xform, start_seq)
+		_else 
+			window.undraw_symbol(styles, geoms, xform, start_seq)
+		_endif 
+	_else
+		#DEBUG write(_Self," MUST paint_shape_on" )
+		_local draw_mark_style << _self.style_for_default_draw_mark(a_style)
+		_if draw_mark_style _isnt _unset 
+		_then
+			#DEBUG write(_Self," DOES paint_shape_on" )
+			_self.paint_shape_on(draw?, window, _self.default_draw_mark, draw_mark_style)
+		_endif 
+	_endif
+_endmethod
+$

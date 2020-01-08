@@ -1,0 +1,7 @@
+rs_thematics_glue 1
+description
+	Enables the use of Raster Symbols in Thematic Mapping
+end
+requires
+	thematic_viewer_plugin
+end

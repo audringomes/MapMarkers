@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>test_plugin.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">#</span><span class="comment">% text_encoding = iso8859_1
+</span><span class="magik-font-lock-keyword-statements">_package</span> sw
+
+<span class="magik-font-lock-procedure">remex</span>(<span class="magik-font-lock-symbol">:test_plugin</span>)
+$
+
+<span class="type">def_slotted_exemplar</span>(<span class="magik-font-lock-symbol">:test_plugin</span>,{},<span class="magik-font-lock-symbol">:plugin</span>)
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="type">test_plugin</span>.define_shared<span class="constant">_constant</span>(
+        <span class="magik-font-lock-symbol">:databus_producer_data_types</span>,
+        {<span class="magik-font-lock-symbol">:draw_raster_symbols</span>},
+        <span class="magik-font-lock-symbol">:public</span>)
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">post_init_plugins</span>()
+        <span class="type">_self</span>.<span class="function-name">register_self_on_app_databus</span>()
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">regi</span>ster_self_on_app_databus()
+        <span class="type">_self</span>.application.databus.<span class="function-name">add_producer</span>(<span class="type">_self</span>,<span class="magik-font-lock-keyword-arguments">_scatter</span> <span class="type">_self</span>.databus_producer_data_types)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">map_manager</span>
+        &gt;&gt; <span class="type">_self</span>.application.<span class="function-name">plugin</span>(<span class="magik-font-lock-symbol">:maps</span>)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">draw_selection_candidates</span>()
+<span class="doc">        ## </span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span>        <span class="magik-font-lock-keyword-variable">_local</span> l_props &lt;&lt; property_list.<span class="function-name">new</span>()
+        <span class="magik-font-lock-keyword-variable">_local</span> l_view &lt;&lt; <span class="type">_self</span>.map_manager.current_map_view
+        l_props[<span class="magik-font-lock-symbol">:graphics_context</span>] &lt;&lt; l_view.window.<span class="function-name">create_graphics_context</span>()
+        l_props[<span class="magik-font-lock-symbol">:geometry_set</span>] &lt;&lt; l_view.<span class="function-name">get_selection_candidates</span>(<span class="magik-font-lock-symbol">:within</span>,l_view.current_view_bounds)
+        l_props[<span class="magik-font-lock-symbol">:symbol</span>] &lt;&lt; <span class="string">"Red10"</span>
+        
+        <span class="type">_self</span>.application.databus.<span class="function-name">make_data_available</span>(<span class="magik-font-lock-symbol">:draw_raster_symbols</span>,l_props)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">draw_ordered_selection_candidates</span>()
+<span class="doc">        ## </span><span class="comment">
+</span><span class="doc">        ## </span><span class="comment">
+</span>
+        <span class="magik-font-lock-keyword-variable">_local</span> l_view &lt;&lt; <span class="type">_self</span>.map_manager.current_map_view
+        gc &lt;&lt; l_view.window.<span class="function-name">create_graphics_context</span>()
+        data &lt;&lt; l_view.<span class="function-name">ge</span>t_selection_candidates(<span class="magik-font-lock-symbol">:within</span>,l_view.current_view_bounds,<span class="constant">_true</span> )
+        sym &lt;&lt; raster_symbol_handler.<span class="function-name">get_symbol</span>(<span class="string">"Red10"</span>)
+        format &lt;&lt; float_format.<span class="function-name">new_with_properties</span>(<span class="magik-font-lock-symbol">:float_decimal_places</span>,0)
+        
+        <span class="magik-font-lock-keyword-loop">_for</span> <span class="variable-name">i</span> <span class="magik-font-lock-keyword-loop">_over</span> data.<span class="function-name">fast_elements</span>()
+        <span class="magik-font-lock-keyword-loop">_loop</span> sym.<span class="function-name">draw_on</span>(gc,i[2],<span class="constant">_false</span>,format.<span class="function-name">format</span>(i[1]/1000))
+        <span class="magik-font-lock-keyword-loop">_endloop</span>
+        
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>

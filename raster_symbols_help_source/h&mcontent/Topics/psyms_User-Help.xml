@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">User Help</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Depending on your configuration, the only end user interface is the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw_Option_Toolbar" styleclass="Normal" translate="true">Options toolbar</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

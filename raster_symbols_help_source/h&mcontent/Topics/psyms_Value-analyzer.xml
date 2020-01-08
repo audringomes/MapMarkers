@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Value analyzer</title>
+  <body>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Analyse the database and start the GUI]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><image src="psyms_clip0061.png" scale="100.00%" styleclass="Image Caption"></image></para>
+          <para styleclass="Normal"><br/><text styleclass="Result sign" translate="true">»</text><text styleclass="Normal" translate="true"> The </text><text styleclass="User Interface Element" translate="true">Field Analyser</text><text styleclass="Normal" translate="true"> opens (this may take some while):</text></para>
+          <para styleclass="Normal"><image src="psyms_db_analysis_gui.png" scale="70.30%" width="489" height="405" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Sort and filter if you like]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">All fields can be sorted and filtered.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Double click on a field]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">A statistical engine is created and run. The results are created as a child of the selected row.</text><br/><text styleclass="Normal" translate="true">The row will be expanded automatically.</text></para>
+          <para styleclass="Normal"><text styleclass="Result sign" translate="true">»</text><text styleclass="Normal" translate="true"> The engine results for </text><text styleclass="Normal" style="font-weight:bold;" translate="true">ws_drain</text><text styleclass="Normal" translate="true">, field </text><text styleclass="Normal" style="font-weight:bold;" translate="true">quantity</text><text styleclass="Normal" translate="true">:</text></para>
+          <para styleclass="TableText"><image src="psyms_db_analysis_gui_with_result.png" scale="70.49%" width="485" height="406" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

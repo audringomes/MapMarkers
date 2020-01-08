@@ -1,0 +1,14 @@
+This Help&Manual skin is derived from a H%M classic frame template
+
+There are 3 major changes:
+1. Sync of toc is done better with messaging instead of cross-frame scripts
+2. Contains a drag button for the TOC/CONTENT
+3. Allows change of contextid param so it can work with GE SMallworld by the variable CSH_KEY
+
+NOTE: For 3 to work, the output have to be post-processed, i.e. the CSK keyword must be changed in the hmcontextids.js, which is generated on publishing. The script replace_csh_key.cmd can be used as post-event processing.
+
+See also:
+4. the custom builds in custom_build.txt
+5. the skin_variables.txt
+
+

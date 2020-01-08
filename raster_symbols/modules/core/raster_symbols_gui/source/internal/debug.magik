@@ -1,0 +1,35 @@
+#% text_encoding = iso8859_1
+
+_package sw
+
+_method in_place_value_editor.value << p_value
+	## 
+	## 
+	write(_self,".value<<",p_value)
+	_self.action(:value).set_value( p_value )
+	
+_endmethod
+$
+
+_method text_item.value << new_value
+	## 
+	## 
+#	write(_self,"text_item.value<<)",new_value)
+	_if new_value _is _unset
+	_then
+		new_value << ""
+	_else
+		_try _with p_cond
+			new_value << byte_character_vector.check_type(new_value)
+			
+		_when error
+			_global qq
+			qq << _self 
+			write(_self,"error ",p_cond.report_contents_string)
+#			!traceback!(!output!)
+			new_value << new_value.write_string
+		_endtry
+	_endif
+	_super(sw_text_item).value << new_value
+_endmethod
+$

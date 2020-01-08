@@ -1,0 +1,36 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package user
+
+_block
+	user:hotel.define_shared_constant(:type_symbols,
+					  hash_table.new_with(0,"hotel_type_unknow.png",
+							      1,"hotel_type_hotel.png",
+							      2,"hotel_type_guest_house.png",
+							      3,"hotel_type_b&b.png"),
+					  :public)
+_endblock
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method hotel.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+	## Generated method from Raster Symbols GUI
+	_local l_symname << _self.type_symbols[p_rwo_style.sub_code]
+	_if (l_sym << sw:raster_symbol_handler.get_symbol(l_symname)) _isnt _unset
+	_then l_sym.draw_on(p_context,p_geom,_false)
+	_endif
+	>> _true
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method hotel.rs_string
+	## 
+	## 
+	>> _self.name
+_endmethod
+$

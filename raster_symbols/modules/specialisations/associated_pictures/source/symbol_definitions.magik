@@ -1,0 +1,38 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_block
+	#
+	# This is the template from which properties are used when a
+	# new symbol is created.
+	# 
+	_local l_props << property_list.new()
+	l_props[:module_name] << :rs_associated_pictures
+	l_props[:filename] << "dummy.png"
+	l_props[:type] << :thumbnail
+	l_props[:pixel_offset] << pixel_coordinate.new(0,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:keygen_method] << "id"
+	l_props[:text_raster_justification] << :top_left
+	raster_symbol_handler.add_symbol_definition("cs_ref_template",l_props)
+_endblock
+$
+
+_block
+	#
+	# This is an example with a jpg file outside the resources of a module
+	# 
+	_local l_props << property_list.new()
+	l_props[:module_name] << :rs_associated_pictures
+	l_props[:filename] << system.pathname_from_components("dummy.jpg",sw_module_manager.module(:rs_associated_pictures).safe_full_directory)
+	l_props[:type] << :thumbnail
+	l_props[:pixel_offset] << pixel_coordinate.new(0,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:keygen_method] << "id"
+	l_props[:text_raster_justification] << :top_left
+	raster_symbol_handler.add_symbol_definition("dummy",l_props)
+_endblock
+$
+

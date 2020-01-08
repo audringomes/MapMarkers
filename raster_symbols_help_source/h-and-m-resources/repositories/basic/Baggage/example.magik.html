@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>example.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">#</span><span class="comment">% text_encoding = iso8859_1
+</span><span class="magik-font-lock-keyword-statements">_package</span> sw
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=advanced)</span>
+<span class="doc">## A datamodel implementer which will install a new job queue</span><span class="comment">
+</span><span class="doc">## when run:</span><span class="comment">
+</span><span class="doc">##</span><span class="comment">
+</span><span class="doc">## sw_module_manager.module(:sw_job_engine).install_database_changes()</span><span class="comment">
+</span><span class="type">def_slotted_exemplar</span>(<span class="magik-font-lock-symbol">:job_queue_implementer</span>, {}, {<span class="magik-font-lock-symbol">:datamodel_implementer</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 1 to check for legacy installation
+</span>job_queue_implementer.<span class="function-name">register</span>( <span class="magik-font-lock-symbol">:version</span>,                       1,
+                                <span class="magik-font-lock-symbol">:datamodel_name</span>,                <span class="string">"job_queue"</span>,
+                                <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_false</span>,
+                                <span class="magik-font-lock-symbol">:user_installed_check_met</span>hod, <span class="magik-font-lock-symbol">:|</span><span class="magik-font-lock-boolean">user_version_1_installed?</span><span class="magik-font-lock-symbol">()|</span>,
+                                <span class="magik-font-lock-symbol">:dataset_names</span>,               {<span class="magik-font-lock-symbol">:job</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 2 installer
+</span>job_queue_implementer.<span class="function-name">register</span>(<span class="magik-font-lock-symbol">:datamodel_name</span>,  <span class="string">"job_queue"</span>,
+                               <span class="magik-font-lock-symbol">:version</span>, 2,
+                               <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_false</span>,
+                               <span class="magik-font-lock-symbol">:create_database_method</span>, <span class="magik-font-lock-symbol">:job_queue_create_database_engine|()|</span>,
+                               <span class="magik-font-lock-symbol">:dataset_names</span>,{<span class="magik-font-lock-symbol">:job</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 1 -&gt; 2 upgrades
+</span>job_queue_implementer.<span class="function-name">register</span>( <span class="magik-font-lock-symbol">:version</span>,                       2,
+                                <span class="magik-font-lock-symbol">:datamodel_name</span>,                <span class="string">"job_queue"</span>,
+                                <span class="magik-font-lock-symbol">:implementer_comment</span> ,        <span class="string">"Upgrade name field's length"</span>,
+                                <span class="magik-font-lock-symbol">:sub_datamodel_name</span>,          <span class="string">"Upgrade_141585_1"</span>,
+                                <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_true</span>,
+                                <span class="magik-font-lock-symbol">:user_change_method</span>,            <span class="magik-font-lock-symbol">:|increase_name_field_length_to_64()|</span>,
+                                <span class="magik-font-lock-symbol">:dataset_names</span>,               {<span class="magik-font-lock-symbol">:job</span>})
+
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="function-name">job_queue_create_database_engine</span>(<span class="magik-font-lock-keyword-arguments">_optional</span> runtime_arguments)
+
+<span class="doc">        ## Create the job queue dataset.</span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span><span class="doc">        ## RUNTIME_ARGS will be scattered to the dataset_creator.new()</span><span class="comment">
+</span><span class="doc">        ## method.  To set it in the implementer set the</span><span class="comment">
+</span><span class="doc">        ## :runtime_arguments property before the implementer runs.</span><span class="comment">
+</span>
+        dc &lt;&lt; dataset_creator.<span class="function-name">new</span>(<span class="magik-font-lock-symbol">:type</span>, <span class="magik-font-lock-symbol">:job</span>, <span class="magik-font-lock-keyword-arguments">_scatter</span> runtime_arguments.<span class="function-name">default</span>({}))
+        &gt;&gt; create_database_engine.<span class="function-name">new</span>(<span class="magik-font-lock-symbol">:dataset_creators</span>, {dc}, <span class="magik-font-lock-boolean">:no_default_system?</span>, <span class="constant">_true</span>)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="magik-font-lock-boolean">user_version_1_installed?</span>(user_view) 
+<span class="doc">        ## Returns true if the sw_job object is installed in user_view </span><span class="comment">
+</span><span class="doc">        ## </span><span class="comment">
+</span>        &gt;&gt; user_view.<span class="function-name">collection</span>(<span class="magik-font-lock-symbol">:sw_job</span>) <span class="magik-font-lock-keyword-operators">_isnt</span> <span class="constant">_unset</span> 
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="function-name">increase_name_field_length_to_64</span>(db_view )
+<span class="doc">        ## Update the name field's length from 32 chars to 64 chars.</span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span>
+        db_view.<span class="function-name">commit</span>()
+        db_view.<span class="function-name">switch</span>(<span class="magik-font-lock-symbol">:readonly</span>)
+        db_view.<span class="function-name">modify_ds_table_fields</span>(<span class="magik-font-lock-symbol">:sw_job</span>,{{<span class="magik-font-lock-symbol">:name</span>, <span class="magik-font-lock-symbol">:ds_char16canon_vec</span>,64}})
+        db_view.<span class="function-name">switch</span>(<span class="magik-font-lock-symbol">:write</span>)
+        
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>

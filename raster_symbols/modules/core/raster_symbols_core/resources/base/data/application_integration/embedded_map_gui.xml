@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="yes"?>
+<gui>
+	<!-- TOOLBAR -->
+	<!-- START RASTER SYMBOLS -->
+	<toolbar name="rsy_full_toolbar">
+		<action source="application" name="raster_symbols.use_goto_raster_symbols"/>
+		<action source="application" name="raster_symbols.sticky_goto"/>
+		<action source="application" name="raster_symbols.goto_use_default"/>
+		<action source="application" name="raster_symbols.goto_skip_invisible"/>
+		<action source="application" name="raster_symbols.no_draw_labels?"/>
+		<action source="application" name="raster_symbols.no_draw_geoms?"/>
+		<action source="application" name="raster_symbols.tick"/>
+		<action source="application" name="raster_symbols.activate_management_interface"/>
+		<action source="application" name="raster_symbols.help"/>
+	</toolbar>
+	<!-- END RASTER SYMBOLS -->
+
+    <dock name="top">
+		<toolbar name="navigation"/>
+		<toolbar name="objects"/>
+		<!-- START RASTER SYMBOLS -->
+		<toolbar name="rsy_full_toolbar"/>
+		<!-- END RASTER SYMBOLS -->
+		<section/>
+		<toolbar name="interaction"/>
+		<toolbar name="map_modes"/>
+		<toolbar name="refresh"/>
+		<toolbar name="view"/>
+    </dock>
+
+    <dock name="bottom">
+		<toolbar name="trail"/>
+		<toolbar name="probes"/>
+		<toolbar name="trail_measurer"/>
+    </dock>
+
+    <work_area>
+		<paned_window dynamic="no" border="yes">
+			<self width="600" height="600" />
+		</paned_window>
+    </work_area>
+	
+</gui>

@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Creation of symbols</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Raster symbols can be created by:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Loading an xml-file with raster definitions (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_XML-configuration" styleclass="Normal" translate="true">XML Storage</link><text styleclass="Normal" translate="true">)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Realising raster definitions (in the UI and by</text><text styleclass="Code in text2" translate="true"> raster_symbol_handler.get_symbol()</text><text styleclass="Normal" translate="true">);</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Bulk loading all raster_images in from a module resource folder;</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Using the API, as described below</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[create_symbol()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The basic method to create a symbol:</text></para>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name">create_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name p_properties</span>
+
+        <span class="comment">## Creates and returns a raster_symbol with P_NAME and the
+</span>        <span class="comment">## properties in P_PROPERTIES.
+</span>        <span class="comment">## See raster_symbol.new_with_properties() for an explanation
+</span>        <span class="comment">## of the properties.
+</span><span class="function-name">
+</span>
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[copy_symbol()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name">copy_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+ <span class="variable-name">p_name </span><span class="cb-font-lock-optional">OPT p_module_name</span>
+
+        <span class="comment">## Copies the symbol with P_NAME. The name of the new symbol is
+</span>        <span class="comment">## P_NAME(Copy).
+</span>        <span class="comment">## If P_MODULE_NAME is passes as argument, the image file will
+</span>        <span class="comment">## be copied to this module and the copy created using this
+</span>        <span class="comment">## image as source.
+</span><span class="function-name">
+</span>
+
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[add_symbol_definition()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The basic method to add a symbol definition:</text></para>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name">add_symbol_definition()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name p_properties</span>
+
+        <span class="comment">## Create, cache and return a symbol definition.
+</span>        <span class="comment">## After validating the properties it stores P_PROPERTIES as
+</span>        <span class="comment">## symbol definition
+</span><span class="function-name">
+</span>
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[create_symbol_from_definition()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The method to create a raster symbol from a raster symbol definition:</text></para>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">create_symbol_from_definition()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## Creates, cache and return a new symbol from the properties in
+</span>        <span class="comment">## _self.symbol_definitions[p_name]
+</span><span class="function-name">
+</span>
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

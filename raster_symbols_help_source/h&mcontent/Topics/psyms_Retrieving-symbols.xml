@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Retrieving symbols</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">These are the basic methods for getting a raster symbol with a certain name:</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[get_symbol()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+    </style>
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">get_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## This method returns an existing symbol with P_NAME or it
+</span>        <span class="comment">## will create and return a symbol from the symbol definition
+</span>        <span class="comment">## with P_PNAME
+</span><span class="function-name">
+</span>
+
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[symbol()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+    </style>
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## Return the picture symbol with name P_NAME.
+</span>        <span class="comment">## If not found, return _unset
+</span><span class="function-name">
+</span>
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[thumbnail_symbol()]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+    </style>
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">thumbnail_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## Returns the thumbnail picture symbol for symbol with name
+</span>        <span class="comment">## P_NAME.
+</span>        <span class="comment">## If it does not exist, it is created with the default
+</span>        <span class="comment">## properties.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

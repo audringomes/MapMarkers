@@ -1,0 +1,110 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:test_case_1)
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+##
+def_slotted_exemplar( :test_case_1, {} , :test_case)
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.set_up()
+	## 
+	## 
+	_super.set_up()
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.test_assure_product()
+	## 
+	## 
+
+	l_p << sw_module_manager.module(_self.module_name).product
+	name << l_p.name
+	name << name.slice(1,name.size-5).as_symbol()
+	_self.assert_not_unset(smallworld_product.product(name),
+			       write_string("No product found with name ",name))
+
+	_self.assert_true(sw_module_manager.module(:raster_symbols_core).loaded?)
+	_self.assert_true(sw_module_manager.module(:raster_symbols).loaded?)
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.test_creation_raster_symbol()
+	## 
+	## This tests the creation of a new symbol of type raster,
+	## based on the defaults
+	##
+
+	_local l_props << raster_symbol_handler.defaults[:default_raster_symbol_properties]
+	l_props[:filename] << "Locator_Blue.png"
+	l_props[:module_name] << :raster_symbols
+
+	_local l_name << "UnitTest"
+	raster_symbol_handler.create_symbol(l_name,l_props)
+
+	_self.assert_not_unset(raster_symbol_handler.symbol(l_name))
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.test_default_symbol()
+	##
+	## Test existence and recreation of the default symbol
+	##
+
+	_local l_dname << raster_symbol_handler.defaults[:default_raster_symbol_name]
+	_local l_sym << raster_symbol_handler.symbol(l_dname)
+
+	_self.assert_not_unset(l_sym)
+
+	_self.assert_not_unset(raster_symbol_handler.default_raster_symbol())
+
+	_if (l_ssym << raster_symbol_handler.symbol("UnitTest")) _isnt _unset 
+	_then
+		_local l_dsym << raster_symbol_handler.set_default_raster_symbol_from(_unset,l_ssym)
+		_self.assert_not_unset(l_dsym)
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.test_creation_raster_symbol_from_definition()
+	## 
+	## This tests the creation of a new symbol of type raster,
+	## based on a new symbol definition
+	##
+
+	_local l_name << "Bar-RYG"
+	_local l_def << raster_symbol_handler.symbol_definition(l_name)
+	_self.assert_not_unset(l_def,write_string("Symbol definition ",
+			       l_name," present"))
+	
+	_local l_sym << raster_symbol_handler.create_symbol_from_definition(l_name)
+	_self.assert_not_unset(l_sym,write_string("Symbol from definition ",
+						  l_name," created"))
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_case_1.tear_down()
+	## 
+	## 
+	_super.tear_down()
+
+_endmethod
+$

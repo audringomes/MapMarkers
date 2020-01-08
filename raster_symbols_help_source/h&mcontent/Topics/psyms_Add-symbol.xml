@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Add symbol</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The function </text><image src="new.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><text styleclass="User Interface Element" translate="true">Add symbol</text><text styleclass="Normal" translate="true"> allows the creation of a raster Symbol from a selected raster image file.</text><br/></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="5" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A file dialog opens with the directory of the bitmap resources of te </text><text styleclass="TableText" style="font-style:italic;" translate="true">current module</text><text styleclass="TableText" translate="true"> (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Modules" styleclass="TableText" translate="true">Modules</link><text styleclass="TableText" translate="true">)</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Currently only png files can be selected.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">If you select a file in another folder, and the module isn&apos;t known to the handler yet, it will add the module to the list.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">If you select a file in another folder and this folder isn&apos;t a bitmap resource for a module, an error is raised.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A raster raster symbol will be created with defaults as described in </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Properties" styleclass="TableText" translate="true">Properties</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="TableText" translate="true">Symbol (definition) list</link><text styleclass="TableText" translate="true"> will be updated to show the new raster Symbol.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

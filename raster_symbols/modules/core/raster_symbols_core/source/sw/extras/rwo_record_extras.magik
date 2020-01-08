@@ -1,0 +1,23 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={subclassable,redefinable})
+_method rwo_record.rs_string
+	#
+	## Default string method for a raster_symbol that returns the
+	## value of method :tooltip_description or when not defined, the
+	## value of method :description()
+	## Modify and/or subclass
+	##
+	>> _if _self.responds_to?(:tooltip_description)
+	   _then >> _self.tooltip_description
+	   _else >> _self.description()
+	   _endif
+_endmethod
+$

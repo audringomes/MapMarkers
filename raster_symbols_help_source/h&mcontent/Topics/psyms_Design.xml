@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Design</title>
+  <keywords>
+    <keyword translate="true">thumbnail_raster_symbol</keyword>
+  </keywords>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The basic object is </text><text styleclass="Code in text2" translate="true">raster_symbol</text><text styleclass="Normal" translate="true">, which has two subclasses: </text><text styleclass="Code in text2" translate="true">grid_raster_symbol</text><text styleclass="Normal" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Thumbnail-Picture-Symbol" styleclass="Code in text2" translate="true">thumbnail_raster_symbol</link><text styleclass="Normal" translate="true">. The manipulation of all of them is done by the </text><text styleclass="Code in text2" translate="true">raster_symbol_handler</text><text styleclass="Normal" translate="true">. There exists only one instance of a particular symbol with a certain name. When properties are changed (e.g. style) a copy of that property is made.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In case of a raster type, the raster is loaded as a </text><text styleclass="Code in text" translate="true">raster_image</text><text styleclass="Normal" translate="true">. In case of type :grid, the raster is also loaded as a raster_image, but on top of that, a grid is created containing the values (including transparency) of the raster image.</text><br/><text styleclass="Normal" translate="true">When the source image is a 24bit raster with an alpha channel containing the transparency of every pixel, the alpha channel is extracted. This is done with ImageMagick, stored in a file and its values loaded as a grid in the hidden property </text><text styleclass="Code in text2" translate="true">.alpha_channel</text><text styleclass="Normal" translate="true">.</text><draft-comment width="29px" height="13px" modified="2017-07-30" styleclass="Comment"><![CDATA[?]]></draft-comment></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The object </text><text styleclass="Code in text2" translate="true">raster_symbol</text><text styleclass="Normal" translate="true"> has the following basic methods:</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 17 basic or debug methods defined on classes ending in `sw:^raster_symbol'.</span>
+
+<span class="function-name">default_goto_area_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_goto_line_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_highlight_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_highlight_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_measurement_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_text_parameters</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">draw_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">draw_with_properties()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">new_with_properties()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">properties</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">set_property()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">show_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">source_module_name</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">write_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">xml_properties</span>  IN  <span class="type">sw:raster_symbol</span>    B
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Symbols are cached with their </text><text styleclass="Normal" style="font-weight:bold;" translate="true">name</text><text styleclass="Normal" translate="true">, which is a string. The </text><text styleclass="Code in text2" translate="true">raster_symbol_handler</text><text styleclass="Normal" translate="true"> has the following basic methods:</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 20 basic or debug methods defined on classes containing the string `raster_symbol_hand'.</span>
+
+<span class="function-name">get_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">symbol_for_special_type()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">add_specialised_mapping()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">add_symbol_definition()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">an_element()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    DEBUG
+<span class="function-name">available_symbol_names</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">bulk_import_from_module()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">copy_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">create_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">create_thumbnail_symbol_for()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">default_goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">draw_default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">draw_default_raster_symbol_highlight()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">pretty_string_from_filename()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">specialised_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">remove_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">decache()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name"><span class="region">thumbnail_symbol()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol_handler</span></span><span class="region">    B
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">Symbols can be defined without realising. See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Definitions" styleclass="Normal" translate="true">Raster Symbol Definitions</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

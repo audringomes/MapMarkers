@@ -1,0 +1,9 @@
+rs_db_analysis 1
+description
+	Utilities for analysing values in the database
+end
+requires
+	raster_symbols_core
+end
+		
+	

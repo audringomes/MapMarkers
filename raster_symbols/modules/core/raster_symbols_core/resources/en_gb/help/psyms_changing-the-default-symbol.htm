@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+	<title>Changing the default symbol</title>
+	<meta name="generator" content="Help &amp; Manual" />
+	<meta name="keywords" content="" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link type="text/css" href="default.css" rel="stylesheet" />
+	<link type="text/css" href="custom.css" rel="stylesheet">
+	<style TYPE="text/css" media="screen"> 
+		html, body { margin:0; 
+		             padding:0; 
+			     overflow: hidden; 
+		} 
+		
+			html {overflow-x: auto; overflow-y: scroll;}
+		
+  
+  
+
+		div#printheader { display: none; }
+		#idheader { width:100%; 
+		            height:auto; 
+		            padding: 0; 
+		            margin: 0;
+                            background-color: #e4eaf0; 
+		} 
+		#idcontent { position:relative }                                               
+		#callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+		#callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+		#callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+		#callout-table a {text-decoration: none; color: blue;}
+		#callout-table a:visited {text-decoration: none; color: blue;}
+		#overview-table a {text-decoration: none; color: black;}
+		#overview-table a:visited {text-decoration: none; color: black;}
+		#callout-table a:hover, #overview-table a:hover {text-decoration: underline;}      
+		#switchtoggles { text-align: right; padding: 0 5px 0 0; font-size: 90%; margin: 0; }  
+                #header1
+                  {
+                  font-size: 21pt;
+                  color: #00508f;
+	          margin-top: 0px;
+	          margin-bottom: 10px;
+	          border-bottom: solid 1px #bfc2c5;
+                  margin-left: 10px;
+                  padding-top: 10px;
+                  margin-right: 5px;
+	          padding-bottom: 10px;
+	          background-image: url('MapMarkersPageIcon.png');
+	          background-repeat: no-repeat;
+	          background-position: right center;
+                  }
+
+ 		p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
+		.sync-toc { color: #ffffff; font-size: 8pt; font-weight: bold; display: none; }
+		.sync-toc a { color: #ffffff; text-decoration: none; font-weight: bold;}
+		.sync-toc a:visited { color: #ffffff; }
+		.sync-toc a:hover { text-decoration: underline; }
+                .p_Heading1 {background-image: url('MapMarkersPageIcon.png');}
+
+	</style>
+	<noscript>
+		<style type="text/css">
+			html, body { overflow: auto; }
+		</style> 
+	</noscript>
+	
+		<style type="text/css" media="print">
+			span.f_Heading1 { color: black; }
+			#idheader, #printheader img { display:none; }
+			#printheader { display: block; margin-top: 20px; }
+			#idcontent { margin-top: 10px; position:relative }
+		</style>
+	   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+   <script type="text/javascript" src="nsh.js"></script>
+   <script type="text/javascript" src="message-handler.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "psyms_changing-the-default-symbol.htm");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+	
+		<div id="header1">Changing the default symbol</div>
+	
+
+
+<div id="idcontent">
+<div id="innerdiv">
+
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">The default symbol and its properties is defined in Magik. It is created as soon as it is requested. This ensures that there is always a backdrop.</p>
+<p class="p_Normal">These are the ways to change the default symbol:</p>
+<p class="p_Heading3" style="page-break-inside: avoid; page-break-after: avoid;"><span class="f_Heading3">1. Edit the method raster_symbol_handler.set_defaults()</span></p>
+<p class="p_Normal">In this way you change the system default software wise.</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">1.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">make sure you add the raster image file to be used to the resources of the (raster_symbols_core) module</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">2.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">open the file raster_symbol_handler.magik in the module raster_symbols_core</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">3.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">Modify in the method set_defaults() the following section:</span></p>
+</td>
+</tr>
+<tr>
+<td colspan="2"  style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>raster_symbol_handler.magik</title>
+    <link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="region">        l_prop[</span><span class="magik-font-lock-symbol"><span class="region">:default_raster_symbol_properties</span></span><span class="region">,l_grp] &lt;&lt;
+                property_list.</span><span class="function-name"><span class="region">new_with</span></span><span class="region">(</span><span class="magik-font-lock-symbol"><span class="region">:name</span></span><span class="region">,l_prop[</span><span class="magik-font-lock-symbol"><span class="region">:default_raster_symbol_name</span></span><span class="region">,l_grp],
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:filename</span></span><span class="region">,</span><span class="string"><span class="region">"pushpin_yellow.png"</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:module_name</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:raster_symbols_core</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-boolean"><span class="region">:fixed_size?</span></span><span class="region">,</span><span class="constant"><span class="region">_true</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:pixel_offset</span></span><span class="region">,pixel_coordinate.</span><span class="function-name"><span class="region">new</span></span><span class="region">(-19,0),
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:text_scale_factor</span></span><span class="region">,1.0,
+                                       </span><span class="magik-font-lock-boolean"><span class="region">:draw_text_string?</span></span><span class="region">,</span><span class="constant"><span class="region">_true</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:highlight_text_style</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:derived</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:text_raster_justification</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:text_coordinate</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:text_coordinate</span></span><span class="region">,pixel_coordinate.</span><span class="function-name"><span class="region">new</span></span><span class="region">(47,66),
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:text_justification</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:bottom_left</span></span><span class="region">,
+                                       </span><span class="magik-font-lock-symbol"><span class="region">:string_selector</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:rs_string</span></span><span class="region">)                                </span></pre>
+  </body>
+</html></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Heading3" style="page-break-inside: avoid; page-break-after: avoid;"><span class="f_Heading3">2. Use the options panel</span></p>
+<p class="p_Normal">If you want to change the default symbol in your session, you can use the <a href="psyms_options-panel.htm" class="topiclink">Options Panel</a>.</p>
+<p class="p_Heading3" style="page-break-inside: avoid; page-break-after: avoid;"><span class="f_Heading3">3. Magik API 1</span></p>
+<p class="p_Normal"><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+    <link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name"><span class="region">set_default_raster_symbol_from()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol_handler</span></span><span class="region">    A style_system
+ </span><span class="variable-name"><span class="region">p_symbol_name </span></span><span class="cb-font-lock-optional"><span class="region">OPT p_sym</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## Returns a new raster_symbol "default" from the symbol with
+</span></span><span class="region">        </span><span class="comment"><span class="region">## name P_SYMBOL_NAME, which must exist.
+</span></span><span class="region">        </span><span class="comment"><span class="region">## Alternatively, a symbol may be passed as P_SYM
+</span></span></pre>
+  </body>
+</html></p>
+<p class="p_Normal"><span class="f_Heading3">4. Magik API 2</span></p>
+<p class="p_Normal">In this example, only the name of default symbol is changed.</p>
+<p class="p_Normal"><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    	<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+<span class="magik-font-lock-keyword-statements"><span class="region">_pragma</span></span><span class="magik-font-lock-pragma"><span class="region">(classify_level=advanced, topic={raster_symbols,test})</span></span><span class="region">
+</span><span class="function-name"><span class="region">_method</span></span><span class="region"> </span><span class="type"><span class="region">test_case_1</span></span><span class="region">.</span><span class="function-name"><span class="region">test_changing_default_symbol</span></span><span class="region">()
+</span><span class="doc"><span class="region">        ## </span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ## This test relies on a raster symbol definition "LocatorBlue"</span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ## and changes the name for the default symbol</span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ##</span></span><span class="comment"><span class="region">
+</span></span><span class="region">
+        </span><span class="magik-font-lock-keyword-variable"><span class="region">_local</span></span><span class="region"> l_sym &lt;&lt; raster_symbol_handler.</span><span class="function-name"><span class="region">get_symbol</span></span><span class="region">(</span><span class="string"><span class="region">"LocatorBlue"</span></span><span class="region">)
+
+        raster_symbol_handler.</span><span class="function-name"><span class="region">change_default</span></span><span class="region">(</span><span class="magik-font-lock-symbol"><span class="region">:default_raster_symbol_name</span></span><span class="region">,</span><span class="string"><span class="region">"LocatorBlue"</span></span><span class="region">)
+
+        </span><span class="magik-font-lock-keyword-variable"><span class="region">_local</span></span><span class="region"> (l_dsym,l_dname) &lt;&lt; rsh.default_raster_symbol
+
+        </span><span class="type"><span class="region">_self</span></span><span class="region">.assert</span><span class="constant"><span class="region">_true</span></span><span class="region">(l_sym </span><span class="magik-font-lock-keyword-operators"><span class="region">_is</span></span><span class="region"> l_dsym,</span><span class="string"><span class="region">"Default symbol is now LocatorBlue"</span></span><span class="region">) 
+        
+</span><span class="function-name"><span class="region">_endmethod</span></span><span class="region">
+$
+</span></pre>
+  </body>
+</html></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+
+</script>
+</body>
+</html>

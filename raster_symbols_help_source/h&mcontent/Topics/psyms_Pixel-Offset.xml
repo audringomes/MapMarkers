@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Pixel_offset</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><text styleclass="Normal" style="font-style:italic;" translate="true">pixel offset</text><text styleclass="Normal" translate="true"> is the translation (in pixel space) for positioning the (raster) images &apos;drawing point&apos; in world space. The coordinate is relative to the bottom left of the image.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When no value is given, the pixel coordinate </text><text styleclass="Code in text" translate="true">bottom_centre</text><text styleclass="Normal" translate="true"> is used.</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0007.png" scale="150.00%" width="150" height="150" styleclass="Image Caption"><caption translate="true"><![CDATA[Offset applied to pushpin]]></caption></image></para>
+  </body>
+</topic>

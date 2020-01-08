@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Raster Symbol Definitions</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Raster Symbols can be defined in a simple prototype object. Actually a property_list. Such a </text><text styleclass="Normal" style="font-style:italic;" translate="true">Symbol Definition</text><text styleclass="Normal" translate="true"> can be converted to a real Raster Symbol anytime. This enables realisation when needed.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Symbol Definitions are, like the realised Raster Symbols handled by the </text><text styleclass="Code in text" translate="true">raster_symbol_handler</text><text styleclass="Normal" translate="true">. </text><br/><text styleclass="Normal" translate="true">A Symbol Definition is created with the method </text><text styleclass="Code in text" translate="true">add_symbol_definition(&quot;name&quot;,properties)</text><text styleclass="Normal" translate="true">, and realised by the method </text><text styleclass="Code in text2" translate="true">create_symbol_from_definition(&quot;name&quot;)</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Symbol definitions can be stored in and retrieved from the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_XML-configuration" styleclass="Normal" translate="true">Raster Symbol Configuration files</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">They show up in the GUI with a coloured circle. An popup option can hide them.</text><br/><text styleclass="Normal" translate="true">The module </text><text styleclass="Normal" style="font-weight:bold;" translate="true">raster_symbols</text><text styleclass="Normal" translate="true"> constains a file in which a couple of definitions are created:</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+  	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="region">
+_block
+        _local l_props &lt;&lt; property_list.new()
+        l_props[</span><span class="builtin"><span class="region">:module_name</span></span><span class="region">] &lt;&lt; </span><span class="builtin"><span class="region">:raster_symbols</span></span><span class="region">
+        l_props[</span><span class="builtin"><span class="region">:filename</span></span><span class="region">] &lt;&lt; </span><span class="string"><span class="region">"house_orange.png"</span></span><span class="region">
+        l_props[</span><span class="builtin"><span class="region">:type</span></span><span class="region">] &lt;&lt; </span><span class="builtin"><span class="region">:raster</span></span><span class="region">
+        l_props[</span><span class="builtin"><span class="region">:pixel_offset</span></span><span class="region">] &lt;&lt; pixel_coordinate.new(-13,0)
+        l_props[</span><span class="builtin"><span class="region">:draw_text_string?</span></span><span class="region">] &lt;&lt; _true
+        l_props[</span><span class="builtin"><span class="region">:text_raster_justification</span></span><span class="region">] &lt;&lt; </span><span class="builtin"><span class="region">:top_centre</span></span><span class="region">
+        l_props[</span><span class="builtin"><span class="region">:text_justification</span></span><span class="region">] &lt;&lt; </span><span class="builtin"><span class="region">:bottom_centre</span></span><span class="region">
+        l_props[</span><span class="builtin"><span class="region">:string_selector</span></span><span class="region">] &lt;&lt; </span><span class="builtin"><span class="region">:rs_string</span></span><span class="region">
+        raster_symbol_handler.add_symbol_definition(</span><span class="string"><span class="region">"House"</span></span><span class="region">,l_props)
+_endblock
+$
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,75 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package user
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method cs_document_reference.key_for_raster_symbol()
+	## 
+	## Name of raster symbol ctreated and retrieved for self
+	##
+	>> write_string(_self.object_id)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method cs_document_reference.rs_string
+	## 
+	## Subclasses to show key, name and filename
+	##
+	(d,f) << system.pathname_components(_self.resolved_filename)
+	>> write_string(_self.key_for_raster_symbol(),%,,_self.object_name.default(""),%,,d)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method cs_document_reference.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+	# 
+	## This special drawing method draws a thumbnail of a photo in stead of a doc
+	## reference symbol. Select will display the image in the map.
+	##
+
+	#DEBUG	write(_self,"draw_raster_symbol(",p_context,p_geom,p_rwo_style,p_draw?,")")
+	
+	>> _if (l_sym << _self.thumbnail_raster_symbol()) _is _unset 
+	   _then >> _false
+	   _else >> l_sym.draw_on(p_context,p_geom,p_rwo_style.style_type="highlight")
+	   _endif
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method cs_document_reference.thumbnail_raster_symbol()
+	## 
+	## Returns raster_symbol on key _self.key_for_raster_symbol(). If
+	## not found, it will create the symbol based on the cs_ref_template
+	##
+
+	id << _self.key_for_raster_symbol()
+	rsh << raster_symbol_handler
+	
+	_if (rs << rsh.symbol(id)) _is _unset
+	_then
+		
+		_if (l_def << rsh.symbol_definition(:cs_ref_template)) _is _unset 
+		_then write(_self,"Cannot create thumbnail raster - missing template 'cs_ref_template'")
+		      _return 
+		_endif
+		
+		_local l_path << write_string(_self.resolved_filename)
+		_if _not system.file_exists?(l_path)
+		_then rs << rsh.missing_picture()
+		_else rs << rsh.create_thumbnail_symbol(id,l_path,l_def)
+		_endif
+
+	_endif
+	>> rs
+	
+_endmethod
+$

@@ -1,0 +1,455 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+#% text_encoding = iso8859_1
+
+_package sw
+
+remex(:statistics_engine)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## A very basic engine that enables calculation of the
+## measurement scale of a series of values. This value is hold
+## in
+##        .scale, that can be set 'manually' by
+##        .set_scale()
+##
+## Instances is created by the raster_symbol_handler
+## method:
+##        statistics_engine_for_sym(p_rwo_type,p_value_method)
+#
+def_slotted_exemplar(:statistics_engine,
+	{
+		{:rwo_type,_unset},
+		{:ds_name,_unset},
+		{:value_method,_unset},
+		{:value_list,_unset},
+		{:value_type,_unset},
+		{:number_of_objects,0},
+		{:non_responsive,0},
+		{:num_unset_values,_unset},
+		{:num_negative_values,_unset},
+		{:errors,_unset},
+		{:rwo_types,_unset},
+		{:min_value,_unset},
+		{:max_value,_unset},
+		{:range,_unset},
+		{:sum,_unset},
+		{:average,_unset},
+		{:scale,_unset},
+		{:user_scale?,_unset},
+		{:stopped?,_unset},
+		{:actual_value_manager,_unset}
+	}
+)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+statistics_engine.define_slot_access(:scale,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+statistics_engine.define_slot_access(:stopped?,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method statistics_engine.new(p_rwo_type,p_ds_name,p_value_method,_optional p_scale)
+	## 
+	## 
+	>> _clone.init(p_rwo_type,p_ds_name,p_value_method,p_scale)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method statistics_engine.init(p_rwo_type,p_ds_name,p_value_method,p_scale)
+	## 
+	##
+
+	.rwo_type << p_rwo_type
+	.ds_name << p_ds_name
+	.value_method << p_value_method
+	.value_list << equality_hash_table.new()
+	.non_responsive << 0
+	.rwo_types << set.new()
+	.number_of_objects << 0
+	.value_type << _unset
+	.num_negative_values << 0
+	.sum << _unset 
+	.average << _unset
+	.min_value << _unset
+	.max_value << _unset 
+	.errors << 0
+	.num_unset_values << 0
+	.scale << _if p_scale _isnt _unset 
+		  _then
+			  .user_scale? << _true 
+			  >> p_scale
+		  _else
+			  .user_scale? << _false
+		  _endif
+
+	>> _self
+
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.analyzed?
+	#
+	## true of .scale is set, either by calculation of user
+	## definition
+	#
+	>> .scale _isnt _unset
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.set_scale(p_value)
+	#
+	## Set the measurement scale to P_VALUE.
+	## Sets .user_scale? to true
+	#
+	.user_scale? << _true 
+	>> .scale << p_value
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.analyse_collection()
+	## Analyse and suggest a scale
+	##
+
+	_local l_ds << gis_program_manager.cached_dataset(.ds_name)
+	_if l_ds _is _unset 
+	_then condition.raise(:user_error,:string,write_string("Unknown dataset: ",.ds_name))
+	_endif
+	_local l_col << l_ds.collection(.rwo_type)
+	_if l_col _is _unset 
+	_then condition.raise(:user_error,:string,write_string("Unknown collection: ",.rwo_type))
+	_endif
+
+	_self.populate_table(l_col)
+	_self.analyse_values()
+	_self.suggest_scale()
+
+	>> .scale
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.analyse_values_for(p_geoms)
+	#
+	## Called from raster_symbol_plugin when analyzed? is _false
+	## P_GEOMS should be a geometry set
+	#
+
+	#DEBUG write(_self," analyse_values_for ",p_geoms)
+
+	_local l_rwo_set << p_geoms.rwo_set()
+
+	.value_list.empty()
+
+	_if _self.populate_table(l_rwo_set) _is _true
+	_then
+
+		_self.analyse_values()
+		
+		_if .user_scale? _is _false _orif (.scale - .max_value) < 0
+		_then _self.suggest_scale()
+		_endif
+
+	_endif
+
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#_private _method statistics_engine.populate_table(p_collection, _optional p_stop_on_error?)
+_method statistics_engine.populate_table(p_collection, _optional p_stop_on_error?)
+	## 
+	## Loop over the rwos in P_COLLECTION and populate the slot
+	## values for:
+	##
+	## .num_responsive?
+	## .num_unset_values
+	## .number_of_objects
+	## .value_list
+	## .rwo_types
+	## .errors
+	##
+	## When P_STOP_ON_ERROR? is true (default), the process is
+	## stopped when the first non responsive object is found
+	##
+
+	_local l_stop? << p_stop_on_error?.default(_true)
+	.stopped? << _false
+	
+	_local l_value_method << .value_method
+	_for i_rwo _over p_collection.fast_elements()
+	_loop
+		
+		_if _not i_rwo.responds_to?(l_value_method)
+		_then
+			.non_responsive +<< 1
+			_if l_stop? _is _true
+			_then .errors +<< 1
+			      .stopped? << _true
+			      _leave 
+			_else .errors +<< 1
+			      _continue
+			_endif
+		_endif
+		
+		_try _with p_cond
+			_local l_value << i_rwo.perform(l_value_method)
+			
+			_if l_value _is _unset 
+			_then
+				.num_unset_values +<< 1
+			_elif l_value.is_kind_of?(unit_value)
+			_then
+				.value_type << l_value.unit
+				l_value << l_value.value
+			_elif l_value.is_kind_of?("") _orif
+			      l_value.is_kind_of?(ds_char16_vector)
+			_then
+				.value_type << l_value.class_name
+				l_value << l_value.as_number()
+			_else
+				.value_type << l_value.class_name
+			_endif
+
+			#DEBUG write("Analysed ",i_rwo," Value ",l_value," Value type: ",l_value.class_name)
+			.number_of_objects +<< 1
+			.value_list[i_rwo] << l_value
+			.rwo_types.add(i_rwo.rwo_type)
+			
+		_when error
+			write(p_cond.report_contents_string)
+			_if l_stop? _is _true 
+			_then .stopped? << _true
+			      _leave
+			_endif
+			.errors +<< 1
+		_endtry
+		
+	_endloop
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method statistics_engine.analyse_values()
+	## 
+	##
+
+	_if .number_of_objects = 0
+	_then _return 
+	_endif
+
+	_if .number_of_objects = .num_unset_values
+	_then _return 
+	_endif
+
+	_local l_values << .value_list.elements
+	_local l_a_value <<
+		_for i_val _over l_values.fast_elements()
+	        _loop
+			_if i_val _isnt _unset 
+			_then _leave _with i_val
+			_endif
+		_endloop
+	
+	_local l_min << l_max << l_a_value
+	_local l_sum << 0
+	_for i_val _over l_values.fast_elements()
+	_loop
+		_if i_val _is _unset 
+		_then _continue 
+		_endif
+		_if i_val < 0
+		_then .num_negative_values +<< 1
+		_endif
+		l_min << l_min.min(i_val)
+		l_max << l_max.max(i_val)
+		l_sum +<< i_val
+	_endloop
+	.min_value << l_min
+	.max_value << l_max
+	.range << l_max - l_min
+	.sum << l_sum
+	.average << l_sum/.number_of_objects
+
+	.value_list.empty()
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method statistics_engine.suggest_scale(_optional p_simple?)
+	## 
+	## 
+	
+	_local l_simple? << _if .number_of_objects = 1
+			    _then >> _true 
+			    _else >> p_simple?.default(_false)
+			    _endif
+	>> _if l_simple?.default(_false)
+	   _then
+		   >> .scale << .max_value
+	   _else
+		   (l_min,l_max) << _self.optimal_scale_for(.min_value,.max_value)
+		   >> .scale << l_max
+	   _endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method statistics_engine.optimal_scale_for(p_min,p_max)
+	## 
+	## 
+
+	_local l_min,l_max
+
+	# Calculate Min
+	_if p_min.is_kind_of?(float)
+	_then
+		l_min << _self.rounded_for_scale(p_min.floor,_false)*1.0
+	_else
+		l_min << _self.rounded_for_scale(p_min,_false)
+	_endif
+
+	# Calculate Max
+	_if p_max.is_kind_of?(float)
+	_then
+		l_max << _self.rounded_for_scale(p_max.ceiling,_false)*1.0
+	_else
+		l_max << _self.rounded_for_scale(p_max,_true)
+	_endif
+
+	# Scale t 0 if min is less than 1/3 of the range
+	_if l_min > 0 _andif
+	    l_min <= (l_max - l_min)/3
+	_then l_min << 0
+	_endif
+	#DEBUG write("Result ",l_min," - ",l_max)
+
+	>> l_min,l_max
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_private _method statistics_engine.rounded_for_scale(p_num,p_up?)
+	## 
+	##
+
+	!traceback!(!output!)
+	#DEBUG write(_self,"rounded_for_scale(p_num,p_up?)",p_num,p_up?)
+	_if p_num = 0 
+	_then _return 0
+	_endif
+	_local l_neg? << p_num.negative?
+
+	_local l_num << _if l_neg?
+			_then >> p_num*-1
+			_else >> p_num
+			_endif
+	
+	#DEBUG	write("Test ",l_num)
+	_local l_base10 << (l_num.log10).ceiling-1
+	#DEBUG	write("NumDigits ",l_base10)
+	_local l_rounded << l_num.rounded_to_nearest(10.to_power(l_base10))
+	#DEBUG	write("Rounded(1) ",l_rounded)
+	
+	_if l_rounded > l_num _andif
+	    p_up? _is _false
+	_then
+		_local l_base5 << 5*(10**(l_base10-1)).truncated
+		l_rounded << l_rounded - l_base5
+
+	_elif l_rounded < l_num _andif
+	      (p_up? _is _true _orif l_neg? _is _true)
+	_then
+		_local (l_d,l_r) << l_num.div_mod(l_rounded)
+		write("div: ",l_d," mod:",l_r)
+		_local l_base5 << 5*(10**(l_base10-1)).truncated
+		l_rounded << l_rounded + l_base5
+	_endif
+
+	_local l_result << _if l_neg? 
+			   _then >> l_rounded * -1
+			   _else >> l_rounded
+			   _endif
+	#DEBUG	write("Result ",l_result)
+	>> l_result
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method statistics_engine.as_display_tree()
+	## 
+	##
+	_local l_props << _self.properties
+	_local l_tree << display_tree.new(_self)
+	_local l_colour << 
+		_if .number_of_objects = .num_unset_values
+		_then >> :red
+		_else >> :blue
+		_endif
+	_for i_prop,i_value _over l_props.fast_keys_and_elements()
+	_loop
+		l_pt << display_tree.new(i_prop,i_value)
+		l_pt.styled_string << {i_prop.write_string,:tab,l_colour,write_string(i_value)}
+		l_tree.add_child(l_pt)
+	_endloop
+	>> l_tree
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method statistics_engine.properties
+	## 
+	## 
+	>> property_list.new_with(:rwo_type,.rwo_type,
+				  :ds_name,.ds_name,
+				  :value_method,.value_method,
+				  :value_list,.value_list,
+				  :value_type,.value_type,
+				  :number_of_objects,.number_of_objects,
+				  :non_responsive,.non_responsive,
+				  :num_unset_values,.num_unset_values,
+				  :num_negative_values,.num_negative_values,
+				  :errors,.errors,
+				  :rwo_types,.rwo_types,
+				  :min_value,.min_value,
+				  :max_value,.max_value,
+				  :range,.range,
+				  :sum,.sum,
+				  :average,.average,
+				  :scale,.scale,
+				  :user_scale?,.user_scale?,
+				  :actual_value_manager,.actual_value_manager)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.write_on(a_stream)
+	a_stream.write(_self.class_name,"(",.rwo_type,%,,.value_method,%,,_self.analyzed?,")")
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method statistics_engine.show_on(a_stream)
+	>> _self.write_on(a_stream)
+_endmethod
+$

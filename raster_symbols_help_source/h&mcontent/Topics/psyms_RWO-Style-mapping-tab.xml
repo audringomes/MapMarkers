@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">RWO Style Mappings Tab</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The RWO Style Mappings tab allows attachment and detachment of the standard custom draw method.</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0089.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="Information-icon_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Custom-Symbol" styleclass="Normal" translate="true">Custom Draws</link><text styleclass="Normal" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Custom-Symbol" styleclass="Normal" translate="true">Auto generated draw methods</link><text styleclass="Normal" translate="true">.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

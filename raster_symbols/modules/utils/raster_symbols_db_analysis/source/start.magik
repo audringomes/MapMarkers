@@ -1,0 +1,14 @@
+_package sw
+
+
+_pragma(classify_level=advanced, topic={style_system}, usage={internal})
+## Start db_analysis on soc P_SOC_NAME
+_global start_db_analysis <<
+_proc @start_db_analysis(p_soc_name)
+	db_analysis.analyse_db(p_soc_name)
+	>> db_analysis_gui.open()
+_endproc
+$
+
+write("Start db_analysis with global proc sw:start_db_analysis()")
+$

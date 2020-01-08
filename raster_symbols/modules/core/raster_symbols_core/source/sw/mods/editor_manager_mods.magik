@@ -1,0 +1,44 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=restricted, topic={editor,raster_symbols})
+_method editor_manager.make_goto_request( data )
+	##
+	## CHANGE: make a goto_request as the method name suggests.
+	## DO not call goto_spatial_context() directly
+	##
+	##
+	## Passes the goto request to the application's map manager. 
+	##
+	## DATA - a simple_vector the first element is a
+	## spatial_context and then key/value pairs:
+	##
+	##   :new_window?, true or false. Defaults to false.
+	##   
+	##   When true, this creates a new map_view and displays it in
+	##   a floating window. When false, the map_view is displayed
+	##   as the current document.
+	##
+	
+	( a_spatial_object, _gather args ) << ( _scatter data )
+	mapman << _self.map_manager
+	_if mapman _is _unset
+	_then
+		condition.raise( :application_has_no_maps )
+	_else
+#START CHANGE
+		mapman.goto_spatial_context( a_spatial_object, _scatter args )
+		# We make the object available as post_render_sets.
+		# A goto_request will result in drawing twice
+		_self.databus_make_data_available(:post_render_sets,a_spatial_object)
+#END CHANGE
+	_endif
+		
+_endmethod
+$

@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Using statistical engines</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">To draw values (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value-Mapping2" styleclass="Normal" translate="true">Value mapping</link><text styleclass="Normal" translate="true">) a value scale has to be determined. This can be set manually or done automatically by a </text><text styleclass="Code in text" translate="true">statistics_engine</text><text styleclass="Normal" translate="true">.</text><br/></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="5" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A raster Symbol has the property </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_scale" styleclass="TableText" translate="true">value_scale</link><text styleclass="TableText" translate="true">. When this is set, the value of this property will be used to determine the scale.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Statistical engines are created and maintained by the </text><text styleclass="Code in text" translate="true">raster_symbol_handler</text><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A statistics engine can be created manually, and the value scale can be set &apos;manually&apos;. When a value scale is set manually, the engine will be set as being &apos;analyzed&apos; and will return this value scale without analysis of the data.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Currently only a numerical engine is available.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">When for a draw request (in all modes) a symbol is configured that has a value_selector and no value_scale is given, the rwo records </text><text styleclass="TableText" style="font-style:italic;" translate="true">of the geometries passed to to the plugin </text><text styleclass="TableText" translate="true">will be analyzed. This means that the value scale is only valid for the set, not the whole collection!</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Creation and caching]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">statistics_engine_for()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A style_system
+<span class="variable-name"> p_rwo_type p_ds_name p_value_method</span>
+
+        <span class="comment">## Create, cache / return cached statistics_engine for rwo type
+</span>        <span class="comment">## P_RWO_TYPE, in dataset P_DS_NAME and value method
+</span>        <span class="comment">## P_VALUE_METHOD.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="TableText"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Setting the value scale without analysis]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name"><span class="region">set_scale()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:statistics_engine</span></span><span class="region">    B style_system
+</span><span class="variable-name"><span class="region"> p_value</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## Set the measurement scale to P_VALUE.
+</span></span><span class="region">        </span><span class="comment"><span class="region">## Sets .user_scale? to true
+</span></span><span class="function-name"><span class="region">
+</span></span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="TableText"></para>
+  </body>
+</topic>

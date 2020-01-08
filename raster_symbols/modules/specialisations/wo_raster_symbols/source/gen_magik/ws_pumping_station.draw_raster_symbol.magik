@@ -1,0 +1,11 @@
+_package user
+_pragma(classify_level=advanced, topic={style_system,raster_symbols}, usage={external})
+_method ws_pumping_station.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+	## Generated method from Raster Symbols GUI that draws symbol Pump
+	#DEBUG write(_self,".draw_raster_symbol(",p_context,p_geom,p_rwo_style,p_draw?)
+	_if (l_sym << sw:raster_symbol_handler.get_symbol("Pump")) _isnt _unset
+	_then l_sym.draw_on(p_context,p_geom,p_rwo_style.style_type="highlight")
+	_endif
+	>> _false
+_endmethod
+$

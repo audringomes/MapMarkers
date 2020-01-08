@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Symbol Properties</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In this section, the external properties of raster symbols are described:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">A raster_symbol has the following properties:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="24" colcount="5" style="border-width:0px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#808080; border-style:solid; head-row-background-color:#d0d0d0; alt-row-background-color:none;">
+      <thead style="vertical-align:top">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">*)</text></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Draw?</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Name</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Default value</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Description</text></para>
+        </td>
+      </thead>
+      <tr style="vertical-align:top">
+        <td colspan="5">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-style:italic;" translate="true">raster Symbol</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Type" styleclass="TableText" translate="true">Type</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">:raster</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">{:raster,:grid,:thumbnail}</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Name" styleclass="TableText" translate="true">Name</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">For creation, after realisation internally used</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Pixel-Offset" styleclass="TableText" translate="true">Pixel Offset</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">:bottom_centre</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Offset to the point in pixel coordinates where the symbol should be drawn</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">filename</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Short file name of the file containing the raster image.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">module_name</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Name of the sw_module in which the filename is stored in the bitmap resources</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">width</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Width of raster_image in pixels</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">height</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Height of raster_image in pixels</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">nbits</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">bit depth of the created raster_image</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Fixed-Size_" styleclass="TableText" translate="true">Fixed Size?</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">_true</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Fixed-Size_" styleclass="TableText" translate="true">fixed_size?</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_String_selector" styleclass="TableText" translate="true">String_selector</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">name of method (or field) to be used to get a text string from the owning rwo of a geometry</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw_text_string_" styleclass="TableText" translate="true">Draw_text_string?</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">_true</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw_text_string_" styleclass="TableText" translate="true">draw_text_string?</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Picture-Justification" styleclass="TableText" translate="true">Text raster Justification</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">:top_right</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Picture-Justification" styleclass="TableText" translate="true">text_raster_justification</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Justification" styleclass="TableText" translate="true">Text Justification</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">:bottom_left</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Justification" styleclass="TableText" translate="true">text_justification</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text_coordinate" styleclass="TableText" translate="true">Text_coordinate</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text_coordinate" styleclass="TableText" translate="true">text_coordinate</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text_box" styleclass="TableText" translate="true">Text_box</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text_box" styleclass="TableText" translate="true">text_box</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Style" styleclass="TableText" translate="true">Text Style</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">raster_symbol.default_text_style</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default_Settings" styleclass="TableText" translate="true">Options/Configurations</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Highlight-Text-Style" styleclass="TableText" translate="true">Highlight Text Style</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">derived_highlight_text_style()</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">{</text><text styleclass="Code in text2" translate="true">:default</text><text styleclass="TableText" translate="true">, </text><text styleclass="Code in text2" translate="true">:derived</text><text styleclass="TableText" translate="true">, &lt;style&gt;} Derived means </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Style" styleclass="TableText" translate="true">Text Style</link><text styleclass="TableText" translate="true"> with the colour of the raster_symbol.higlight_style, which is derived from application highlight style.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw_size_mm" styleclass="TableText" translate="true">Draw_size_mm</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">100</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Value is used when Fixed Size? is _true</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_selector" styleclass="TableText" translate="true">Value_selector</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_selector" styleclass="TableText" translate="true">value_selector</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px; height:14px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px; height:14px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px; height:14px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_scale" styleclass="TableText" translate="true">Value_scale</link></para>
+        </td>
+        <td style="width:272px; height:14px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px; height:14px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_scale" styleclass="TableText" translate="true">value_scale</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto_line_style" styleclass="TableText" translate="true">Goto_line_style</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">raster_symbol.default_goto_line_style</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default_Settings" styleclass="TableText" translate="true">Options/Configurations</link></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">x</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto_area_style" styleclass="TableText" translate="true">Goto_area_style</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Code in text2"><text styleclass="Code in text2" translate="true">raster_symbol.default_goto_area_style</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default_Settings" styleclass="TableText" translate="true">Options/Configurations</link></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">*) Mandatory property</text></para>
+    <para styleclass="TableText"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

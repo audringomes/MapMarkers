@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Text_raster_justification</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The text_raster_justification specifies the position of the text </text><text styleclass="Normal" style="font-style:italic;" translate="true">relative to the raster</text><text styleclass="Normal" translate="true">. Besides the standard position values, there are two extra positioning possibilities: </text><text styleclass="Normal" style="font-weight:bold;" translate="true">:text_coordinate </text><text styleclass="Normal" translate="true">and </text><text styleclass="Normal" style="font-weight:bold;" translate="true">:text_box</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Below three examples, two for a pushpin with 64x64 pixels, and one for a Text Callout symbol.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="3" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:169px;">
+          <para styleclass="Normal" style="text-align:center;"><text styleclass="Image Caption" translate="true">Standard positions</text></para>
+          <para styleclass="Normal" style="text-align:center;"><image src="psyms_clip0008.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_right</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_right</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_right</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:169px;">
+          <para styleclass="Normal" style="text-align:center;"><text styleclass="Image Caption" translate="true">Text Coordinate</text></para>
+          <para styleclass="Normal" style="text-align:center;"><image src="psyms_clip0009.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="Normal"></para>
+          <para styleclass="Normal"></para>
+          <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">a </text><text styleclass="Code in text" translate="true">pixel_coordinate</text><text styleclass="Normal" translate="true">  (in this example pixel_coordinate.new(47,66))</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:169px; height:22px;">
+          <para styleclass="Normal"></para>
+          <para styleclass="Normal" style="text-align:center;"><image src="psyms_clip0011.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="height:22px;">
+          <para styleclass="Normal"></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">a</text><text styleclass="Code in text" translate="true"> pixel_bounding_box</text><text styleclass="Normal" translate="true"> (in this example with values: </text><text styleclass="TableText" translate="true">xmin:2, ymin:30, xmax:63, ymax:63)</text></para>
+          <para styleclass="Normal"><text styleclass="TableText" translate="true">Text will be drawn within the limit of this box.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

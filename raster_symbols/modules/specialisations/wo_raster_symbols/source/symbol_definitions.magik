@@ -1,0 +1,21 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_block
+	
+	_local l_props << property_list.new()
+
+	l_props[:module_name] << :wo_raster_symbols
+	l_props[:filename] << "wo_drop_50x50.png" 
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-25,0)
+	l_props[:string_selector] << :rs_string
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+
+	raster_symbol_handler.add_symbol_definition("WO Locator",l_props)
+
+_endblock
+$

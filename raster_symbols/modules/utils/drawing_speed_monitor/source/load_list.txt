@@ -1,0 +1,4 @@
+draw_sampler
+drawing_sampler_dialog
+sw_map_point_mods
+picture_symbol_plugin_extras

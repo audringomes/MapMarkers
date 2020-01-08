@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Load from prompt</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">To evaluate the software quickly, you can load the software and open the Configuration GUI in Smallworld with:</text><br/></para>
+    <para styleclass="Code in text"><tab /><text styleclass="Code in text" translate="true">MagikSF&gt; %rs_root%/load_raster_symbols.magik</text><br/><tab /><text styleclass="Code in text" translate="true">MagikSF&gt; !add_rsp!(app)</text><br/><tab /><text styleclass="Code in text" translate="true">MagikSF&gt; !smi!(app)</text></para>
+    <para styleclass="Code in text"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">where </text><text styleclass="Normal" style="font-weight:bold;" translate="true">%rs_root%</text><text styleclass="Normal" translate="true"> is the root of the raster symbols product and </text><text styleclass="Normal" style="font-weight:bold;" translate="true">app</text><text styleclass="Normal" translate="true"> an optional application to add the plugin.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

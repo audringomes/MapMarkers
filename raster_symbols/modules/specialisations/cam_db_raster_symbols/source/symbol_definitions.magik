@@ -1,0 +1,21 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :cam_db_raster_symbols
+	l_props[:filename] << "sw_target.png"
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-24,25)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	l_props[:string_selector] << :rs_string
+	raster_symbol_handler.create_symbol("SW",l_props)	
+_endblock
+$

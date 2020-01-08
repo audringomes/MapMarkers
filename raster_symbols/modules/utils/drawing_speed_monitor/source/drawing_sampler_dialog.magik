@@ -1,0 +1,302 @@
+#% text_encoding = iso8859_1
+##
+## File            : dpm.magik
+##
+## Copyright       : Realworld Systems
+##                   e-mail  : support@realworldwide.com
+##                   address : Venusstraat 17, 4105 JH Culemborg, The Netherlands
+##                   tel     : +31(0)345 614319
+##                   fax     : +31(0)345 614406
+##
+## Contains        : 
+##
+##
+## Date written    : Feb/2017
+## Date changed    : 
+##
+## Source contents (Starts with evt. Shared Cons/vars):
+##&&
+#
+
+_package sw
+
+remex(:drawing_sampler_dialog)
+$
+_pragma(classify_level=basic, topic={style_system})
+##
+def_slotted_exemplar(:drawing_sampler_dialog,
+	{
+		{:plugin,_unset},
+		{:list,rope.new()},
+		{:avg1,_unset},
+		{:avg2,_unset},
+		{:ui_items,property_list.new()}
+	},
+	:model)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+drawing_sampler_dialog.define_slot_access(:list,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method drawing_sampler_dialog.new(p_plugin)
+	## 
+	## 
+	>> _clone.init(p_plugin)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.init(p_plugin)
+	## 
+	##
+	.plugin << p_plugin
+	>> _super.init(p_plugin)
+_endmethod
+$
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.title
+	## 
+	## 
+	>> "Draw Speed Sampler" 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.activate_in(p_frame)
+	## 
+	##
+	_local l_container << rowcol.new(p_frame,2,1)
+	_self.build_gui(l_container)
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.on_activation()
+	## 
+	##
+	_self.sample_draw_on_off(_true)
+	.plugin.add_dependent(_self)
+	raster_symbol_handler.add_dependent(_self)
+	.ui_items[:symbol_selector].items << raster_symbol_handler.available_symbol_names
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.on_deactivation()
+	## 
+	##
+	_self.clear(_true)
+	.plugin.remove_dependent(_self)
+	_self.sample_draw_on_off(_false)	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.sample_draw_on_off(p_on?)
+	## 
+	##
+	
+	_local l_mod << sw_module_manager.module(_self.module_name)
+
+	_local l_path << _if p_on? = _true 
+			 _then
+				 >> system.pathname_from_components("source/sample_draw_on.magik",
+								    l_mod.safe_full_directory)
+			 _else
+				 >> system.pathname_from_components("source/sample_draw_off.magik",
+								    l_mod.safe_full_directory)
+			 _endif
+	load_file(l_path)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.list_objects(_optional p_clear?)
+	## 
+	##
+	
+	_local l_samples << draw_sampler.list
+	_self.build_nice_list(l_samples)
+	_if p_clear?.default(_false)
+	_then draw_sampler.clear()
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.build_gui(p_parent)
+	## 
+	##
+	_local l_rc << rowcol.new(p_parent,1)
+	l_rc.col_spacing << 5
+	
+	_local l_img << raster_image.new_from_file(system.canonicalise(smallworld_product.get_resource_file("refresh.png",:icons,:ui_resources)))
+	_local l_ref1 << .ui_items[:refresh] << image_button_item.new(l_rc,l_img,_self,:|refresh()|)
+	
+	l_img << raster_image.new_from_file(system.canonicalise(smallworld_product.get_resource_file("clear.png",:icons,:ui_resources)))
+	_local l_ref2 << .ui_items[:clear] << image_button_item.new(l_rc,l_img,_self,:|clear()|)
+	
+	l_label << .ui_items[:label2] << label_item.new(l_rc,"",:aspect,:tot_label,:model,_self)
+	l_label << .ui_items[:label3] << label_item.new(l_rc,"",:aspect,:avg_label,:model,_self)
+	l_label << .ui_items[:label4] << label_item.new(l_rc,"",:aspect,:avg2_label,:model,_self)
+	_local l_item << .ui_items[:toggle] << toggle_item.new(l_rc,"DrawPSP?",:model,_self,:change_selector,:|use_sps?_changed()|)
+	_local l_ss << .ui_items[:symbol_selector] << text_choice_item.new(l_rc,"",:model,_self,:change_selector,:|sym_changed()|)
+	l_ss.items << raster_symbol_handler.available_symbol_names
+	
+	_local l_list << .ui_items[:list] <<
+		tree_item.new(p_parent,
+			      :model,_self,
+			      :data_selector,:list,
+			      :aspect,:list,
+			      :height_in_chars,50,
+			      :column_widths,{80,120,150,80,85},
+			      :column_headings,{"Object","Geom","Style","Speed (ms)","SPS Speed (ms)"},
+			      :min_width,540,
+			      :min_height,400,
+			      :visible_rows,20,
+			      :resize_y?,_true,
+			      :allow_filtering?,_true
+			  )
+	l_list.row << 2
+	l_list.col << 1
+	
+	>> l_rc
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic=style_system)
+_method drawing_sampler_dialog.build_nice_list(p_list)
+	## 
+	## 
+	_local l_tot_speed << 0
+	_local l_tot_speed2 << 0
+	_local l_sym << raster_symbol_handler.symbol(.ui_items[:symbol_selector].value)
+	_local l_win << .plugin.framework.plugin(:maps).current_map_view.window
+
+	_local l_draw_symbol? << .ui_items[:toggle].value
+
+	_local l_rope << .list.empty()
+	_for i_geom,i_vec _over p_list.fast_keys_and_elements()
+	_loop
+		_local l_elem << display_tree.new(i_geom,property_list.new())
+		_local l_rwo << i_geom.rwo
+		_if l_rwo _is _unset 
+		_then _continue 
+		_endif
+		l_elem.value[:rwo] << l_rwo.external_name
+		l_elem.value[:geom] << l_rwo.field(i_geom.app_type).external_name
+		_local l_style << l_elem.value[:style] << i_vec[1]
+		l_elem.value[:style_string] << write_string(l_style.style_id,%(,l_style.symbol_name,%))
+		_local l_speed1 << l_elem.value[:speed] << (i_vec[2]*1000).rounded_to(2)
+		_local l_speed2 << l_elem.value[:speed2] << _unset 
+		l_tot_speed +<< l_speed1
+
+		_if l_draw_symbol?
+		_then 
+			_local l_t1 << system.elapsed_seconds()
+			l_sym.draw_on(l_win,i_geom,_false)#,write_string(l_rope.size))
+			_local l_t2 << system.elapsed_seconds()
+			_local l_time << ((l_t2-l_t1)*1000).rounded_to(2)
+			l_tot_speed2 +<< l_elem.value[:speed2] << l_time
+		_endif
+		
+		l_elem.styled_string << styled_string.new(:value,:rwo,:tab,
+							  :value,:geom,:tab,
+							  :value,:style_string,:tab,
+							  :value,:speed,:tab,
+							  :value,:speed2)
+		l_rope.add(l_elem)
+	_endloop
+	_self.changed(:tot_label)
+	.avg1 << l_tot_speed/l_rope.size
+	.avg2 << l_tot_speed2/l_rope.size
+	_self.changed(:avg_label)
+	_self.changed(:avg2_label)
+	.ui_items[:list].refresh(:renew)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.note_change(p_who,p_what,p_data)
+	## 
+	## 
+	#DEBUG write(_Self,p_who,p_what,p_data)
+	_if p_who _is .plugin _andif
+	    p_what _is :map_damage_notify
+	_then
+		_self.list_objects()
+	_endif
+	
+	_if p_who _is raster_symbol_handler _andif
+	    p_what _is :available_symbol_names
+	_then
+		write(" Update" ,raster_symbol_handler.available_symbol_names)
+		.ui_items[:symbol_selector].items << raster_symbol_handler.available_symbol_names
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.refresh()
+	## 
+	## 
+	.plugin.framework.plugin(:maps).current_map_view.render()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.sym_changed(p_value)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.tot_label
+	## 
+	## 
+	>> write_string("#Geoms: ",.list.size)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.avg_label
+	## 
+	## 
+	>> write_StrinG("Avg1(ms): ",.avg1.default(""))
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.avg2_label
+	## 
+	## 
+	>> write_StrinG("Avg2(ms): ",.avg2.default(""))
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.use_sps?_changed(p_value)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system}, usage={external})
+_method drawing_sampler_dialog.clear()
+	## 
+	##
+	#DEBUG write("Clear")
+	draw_sampler.clear()
+	.list.empty()
+	.ui_items[:list].refresh()
+_endmethod
+$

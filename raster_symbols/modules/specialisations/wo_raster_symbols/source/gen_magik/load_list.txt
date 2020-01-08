@@ -1,0 +1,1 @@
+load  #does load all magik files in current directory

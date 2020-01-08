@@ -1,0 +1,2327 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:raster_symbol_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## singleton that creates and draws image_symbols from files
+## and cache them in the slot .raster_symbols, using the
+## filename as key.
+#
+def_slotted_exemplar(:raster_symbol_handler,{
+	{:raster_symbols,equality_hash_table.new()},
+	{:symbol_definitions,equality_hash_table.new()},
+	{:goto_mappings,dual_key_a_table.new()},
+	{:specialised_mappings,property_list.new_with(:numerator,_unset)},
+	{:disabled_aspects,equality_set.new()},
+	{:module_list,property_list.new()},
+	{:options,property_list.new()},
+	{:defaults,property_list.new()},
+	{:generic_goto_mappings,property_list.new_with(:point,_unset,
+						       :linear,_unset,
+						       :area,_unset,
+						       :text,_unset)},
+	{:statistics_engines,dual_key_a_table.new()},
+	{:colourmaps,equality_property_list.new()}
+		     })
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Cached picture symbols
+#
+raster_symbol_handler.define_slot_access(:raster_symbols,
+	:read,:private)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Picture symbol definitions
+#
+raster_symbol_handler.define_slot_access(:symbol_definitions,
+	:read,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## List with all default values. Access by _self.get_default_for()
+#
+raster_symbol_handler.define_slot_access(:generic_goto_mappings,
+	:read,:private)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## All default settings. The slot contains a dual_key_a_table
+## for pairs of [key_name,type]. When the defaults are set, a
+## shared constant is made with the name :defaults, that
+## contains a single keyname value
+#
+raster_symbol_handler.define_slot_access(:defaults,
+	:read,:private)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+##
+## Which raster file formats can be handled?
+##
+raster_symbol_handler.define_shared_constant(:supported_formats,
+	equality_set.new_with("png"),
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.supported_file?(p_path)
+	## 
+	## Check against _self.supported_formats
+	##
+	
+	_local (l_name,l_dir) << system.pathname_components(p_path)
+	_local l_i << l_name.index_of(%.)
+	_if l_i _is _unset
+	_then _return _false 
+	_endif
+	>> _self.supported_formats.includes?(l_name.slice(l_i+1,l_name.size))
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.default_custom_draw_method_base
+	>> _self.defaults[:default_custom_draw_method].replace_all_instances_of("()","")
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.initialise_defaults()
+	## 
+	## Populates .defaults with default values. These are grouped
+	## in :system, :basic, :grid, :indexed, :goto_styles, :label,
+	## :highlight, :values
+	##
+	## Returns the grouped .defaults and a ungrouped simple 
+
+	_local l_prop << .defaults << dual_key_a_table.new()
+
+	#
+	# :system defaults
+	#
+	_local l_grp << :system
+	l_prop[:allow_overwrite_default_symbol?,l_grp] << _false
+	l_prop[:default_custom_draw_method,l_grp] << "draw_raster_symbol()"
+	l_prop[:default_raster_symbol_name,l_grp] << "default"
+	l_prop[:default_raster_symbol_properties,l_grp] <<
+		property_list.new_with(:name,l_prop[:default_raster_symbol_name,l_grp],
+				       :type,:raster,
+				       :filename,"Locator_Yellow.png",
+				       :module_name,:raster_symbols_core,
+				       :fixed_size?,_true,
+				       :pixel_offset,pixel_coordinate.new(-16,0),
+				       :text_scale_factor,1.0,
+				       :draw_text_string?,_true,
+				       :highlight_text_style,:derived,
+				       :text_raster_justification,:top_right,
+				       :text_justification,:bottom_left,
+				       :string_selector,:rs_string)				       
+	l_prop[:thumbnail_suffix,l_grp] << "_16x16_thumbnail"
+	l_prop[:data_file_name,l_grp] << "raster_symbols_configuration.xml"
+	l_prop[:tick_interval,l_grp] << 2000 #ms
+	
+	#
+	# Basic symbol properties
+	#
+	l_grp << :basic
+	l_prop[:default_type,l_grp] << :raster
+	l_prop[:fixed_size?,l_grp] << _true
+	l_prop[:string_selector,l_grp] << "rs_string"
+	l_prop[:draw_size_mm,l_grp] << 100
+	l_prop[:draw_background?,l_grp] << _false
+	l_prop[:background_fill_style,l_grp] <<
+		fill_style.new_with_properties(
+			:foreground_colour,colour.new_with_properties(:scale,255,:red,255,:green,252,:blue,65),
+			:outline_style,line_style.new_with_properties(
+					       :foreground_colour,colour.new_rgba(0,0,0,0.6),
+					       :width,3)
+			   )
+
+	
+
+	# Grid properties
+	l_grp << :grid
+	l_prop[:transparent_value,l_grp] << 0
+	l_prop[:show_transparency?,l_grp] << _true
+	
+	# 8bit properties
+	l_grp << :indexed
+	l_prop[:value_colour_scheme,l_grp] << :sym_colourmap
+	
+	# Goto defaults
+	l_grp << :goto_styles
+	l_prop[:goto_area_style,l_grp] <<
+		fill_style.new_with_properties(
+			:foreground_colour,colour.new_with_properties(:scale,255,:red,255,:green,252,:blue,65),
+			:outline_style,line_style.new_with_properties(
+					       :foreground_colour,colour.new_rgba(0,0,0,0.6),
+					       :width,3),
+			:wash_percent,60)
+	l_prop[:goto_line_style,l_grp] <<
+		line_style.new_with_properties(:foreground_colour,colour.new_rgba(0,0,0,0.6),
+					       :width,5,
+					       :cap_style,:round)
+	
+	# 
+	# Text properties
+	#
+	l_grp << :label
+	l_prop[:draw_text_string?,l_grp] << _true
+	l_prop[:string_selector,l_grp] << :rs_string
+	l_prop[:text_style,l_grp] <<
+		sw:text_style.new_with_properties(
+			   :font,font.new_with_properties(
+					 :type,:logical,
+					 :name,"Bold",
+					 :point_size,20),
+			   :colour,colour.new_rgb(1,1,1),
+			   :fixed_size?,_false,
+			   :multiline?,_true,
+			   :line_style,_unset,
+			   :fill_style,
+			   fill_style.new_with_properties(
+				   :foreground_colour,colour.new_rgba(0.5,0.5,0.5,0.4)
+				      ),
+			   :clear?,_false)
+	l_prop[:text_justification,l_grp] << :bottom_left
+	l_prop[:text_raster_justification,l_grp] << :top_right
+	l_prop[:text_scale_factor,l_grp] << 1.0
+
+	#
+	# Highlight
+	#
+	l_grp << :highlight
+	_local l_hc << l_prop[:highlight_colour,l_grp] << sw:application.highlight_colour
+	l_prop[:highlight_text_style,l_grp] <<
+		l_prop[:text_style,:label].copy_with_properties(:colour,l_hc)
+	l_prop[:highlight_line_style,l_grp] << line_style.new(l_hc)
+
+
+	#
+	# Values
+	#
+	l_grp << :values
+	l_prop[:value_selector,l_grp] << _unset
+	l_prop[:value_scale,l_grp] << _unset
+	l_prop[:draw_measurement_scale?,l_grp] << _true
+	l_prop[:measurement_text_style,l_grp] << 
+	       	sw:text_style.new_with_properties(
+			   :font,font.new_with_properties(
+					 :type,:logical,
+					 :name,"Bold",
+					 :point_size,12),
+			   :colour,colour.new_rgb(0,0,0),
+			   :fixed_size?,_false,
+			   :multiline?,_false,
+			   :line_style,_unset,
+			   :clear?,_true)
+
+	l_prop[:value_text_style,l_grp] <<
+		sw:text_style.new_with_properties(
+			   :font,font.new_with_properties(
+					 :type,:logical,
+					 :name,"Bold",
+					 :point_size,20),
+			   :colour,l_hc,
+			   :fixed_size?,_false,
+			   :multiline?,_false,
+			   :line_style,_unset,
+			   :fill_style,fill_style.new_with_properties(
+					       :foreground_colour,colour.new_rgba(0.5,0.5,0.5,0.4)
+						  ),
+			   :clear?,_false)
+	
+	l_prop[:value_fill_style,l_grp] <<
+		fill_style.new_with_properties(
+			:foreground_colour,colour.new_with_properties(:scale,255,:red,255,:green,252,:blue,65),
+			:outline_style,line_style.new_with_properties(
+					       :foreground_colour,colour.new_rgba(0,0,0,0.6),
+					       :width,3))
+
+	l_prop[:value_box_justification,l_grp] << :top_centre
+	l_prop[:value_text_justification,l_grp] << :bottom_centre
+	
+	l_prop[:value_method_box_justification,l_grp] << :top_centre
+	l_prop[:value_method_text_justification,l_grp] << :bottom_centre
+
+	l_prop[:value_scale_box_justification,l_grp] << :top_centre
+	l_prop[:value_scale_text_justification,l_grp] << :bottom_centre
+
+	# 
+	# Other properties
+	# 
+
+	_self.changed(:defaults,_self.defaults)
+	
+	>> .defaults,_self.defaults
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system})
+_method raster_symbol_handler.defaults
+	##
+	## Returns a simple ungrouped property list with default keys
+	## and values
+	##
+
+	_local l_prop << property_list.new()
+	_for i_key,i_val _over .defaults.fast_keys_and_elements()
+	_loop l_prop[i_key[1]] << i_val
+	_endloop
+
+	>> l_prop
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system})
+_method raster_symbol_handler.get_default_for(p_key)
+	## 
+	## Get default value for P_KEY. If there is none defined, it
+	## will return unset
+	##
+	>> _self.defaults[p_key]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system})
+_method raster_symbol_handler.grouped_defaults
+	## 
+	## 
+	>> .defaults
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system})
+_method raster_symbol_handler.change_default(p_key,p_value,_optional p_group)
+	## 
+	## Change the value of default P_KEY to P_VALUE. If P_GROUP
+	## isnt unset, direct access at .defaults is used.
+	## Raises a warning if the default P_KEY[,P_GROUP] could not be
+	## found 
+	##
+
+	#DEBUG write(_self,"change_default(",p_key,p_value,p_group)
+
+	_local l_new
+	_local l_defaults << .defaults
+	_if p_group _isnt _unset
+	_then
+		
+		_if l_defaults[p_key,p_group] _is _unset 
+		_then
+			condition.raise(:warning,:string,
+				write_string("Default '",p_key,"' in group '",p_group,"' not found"))
+		_else 
+			l_new << l_defaults[p_key,p_group] << p_value
+			_self.changed(:defaults,_self.defaults)
+		_endif
+		
+	_else
+		_for i_keys,i_val _over l_defaults.fast_keys_and_elements()
+		_loop
+			_if i_keys[1] = p_key
+			_then
+				l_new << l_defaults[p_key,i_keys[2]] << p_value
+				_leave 
+			_endif
+		_finally
+			condition.raise(:warning,:string,
+					write_string("Default '",p_key,"' not found"))
+		_endloop
+	_endif
+
+	>> l_new
+
+_endmethod
+$
+
+_block
+	raster_symbol_handler.initialise_defaults()
+_endblock
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.allow_overwrite_default_symbol?
+	## 
+	## 
+	>> _self.defaults[:allow_overwrite_default_symbol?]
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.new()
+	## returns init self (singleton)
+	>> _self.init()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.init()
+	## returns self
+	_self.initialise_defaults()
+	_self.populate_module_list()
+	_self.read_all_colourmaps()
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.thumbnail_suffix
+	>> _self.defaults[:thumbnail_suffix]
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_handler.populate_module_list()
+	## 
+	## Populate and return .module_list from realised and defined symbols
+	##
+	
+	_if (l_ms << .module_list).empty?
+	_then l_ms[:raster_symbols] << sw_module_manager.module(:raster_symbols)
+	_endif
+
+	# check customisation
+	_local l_list << smallworld_product.custom_modules_for(:raster_symbols,_true)
+	_for i_mod _over l_list.fast_elements()
+	_loop l_ms[i_mod.name+:_cust] << i_mod
+	_endloop
+
+	# Extract from actual symbols 
+	_for i_key,i_sym _over .raster_symbols.fast_keys_and_elements()
+	_loop
+		_if (m_name << i_sym.source_module_name) ~= :raster_symbols _andif
+		    (l_m << sw_module_manager.module(m_name,_unset,_true)) _isnt _unset _andif
+		    _not l_ms.includes?(l_m)
+		_then l_ms[m_name] << l_m
+		_endif
+	_endloop
+
+	# Extract from defined symbols
+	_for i_key,i_def _over .symbol_definitions.fast_keys_and_elements()
+	_loop 
+		_if (m_name << i_def[:module_name]) _isnt _unset _andif
+		    l_ms[m_name] _is _unset _andif
+		    (l_m << sw_module_manager.module(m_name,_unset,_true)) _isnt _unset _andif
+		    _not l_ms.includes?(l_m)
+		_then l_ms[m_name] << l_m
+		_endif
+	_endloop
+	
+	>> l_ms
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.default_raster_symbol
+	## 
+	## Return the symbol and _self.defaults[:default_raster_symbol_name]
+	##
+
+	_local l_name << _self.defaults[:default_raster_symbol_name]
+	>> _self.symbol(l_name),l_name
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.default_raster_symbol(_optional p_renew?)
+	# 
+	## Returns the raster_symbol with a name 
+	##   .defaults[:default_raster_symbol_name].
+	## The filename and other properties are derived from 
+	##   .defaults[:default_raster_symbol_properties]
+	## from the module resources of :raster_symbols_core.
+	## The symbol will be cached with name as configured in
+	## :default_raster_symbol_name 
+	## If P_RENEW? is _true, (default is _false), the symbol is
+	## recreated. 
+	#
+
+	_local l_name << _self.defaults[:default_raster_symbol_name]
+	_if p_renew?.default(_false) _is _true _andif
+	    _self.symbol(l_name) _isnt _unset 
+	_then _self.remove_symbol(l_name)
+	_endif
+
+	_if (l_sym << .raster_symbols[l_name]) _isnt _unset 
+	_then _return l_sym		
+	_endif
+
+	_self.update_module_list(:raster_symbols_core)
+
+	_local l_def << _self.defaults[:default_raster_symbol_properties]
+	_local l_new << .raster_symbols[l_name] <<
+		raster_symbol.new_with_properties(l_def[:filename],l_def)
+
+	_self.changed(:available_symbol_names)
+
+	>> l_new
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_default_raster_symbol_from(p_symbol_name, _optional p_sym)
+	# 
+	## Returns a new default raster_symbol from the symbol with
+	## name P_SYMBOL_NAME, which must exist.
+	## Alternatively, a symbol may be passed as P_SYM
+	#
+
+	_if (l_sym << p_sym) _is _unset _andif
+	    (l_sym << _self.symbol(p_symbol_name)) _is _unset
+	_then _return
+	_endif
+
+	_local l_name << _self.defaults[:default_raster_symbol_name]
+
+	_self.remove_symbol(l_name)
+	
+	.raster_symbols[l_name] << l_sym
+
+	_self.send_changed(:available_symbol_names)
+
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.add_symbol_definition(p_name,p_properties)
+	#
+	## Create, cache and return a symbol definition.
+	## After validating the properties it stores P_PROPERTIES as
+	## symbol definition
+	#
+
+	_local l_tpex << _self.raster_symbol_exemplar_for(p_properties[:type])
+	_if l_tpex _is _unset 
+	_then condition.raise(:invalid_symbol_type,
+			      :symbol,p_name,
+			      :type,p_properties[:type])
+	_endif
+
+	#DEBUG	write("Adding definition " ,p_name)
+	_if l_tpex.validate_properties(p_properties) _is _true
+	_then
+		_local l_def << .symbol_definitions[p_name] << p_properties
+		l_def[:name] << p_name
+		_self.send_changed(:available_symbol_names)
+		_self.update_module_list(p_properties[:module_name])
+		_return l_def
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.create_symbol_from_definition(p_name)
+	#
+	## Creates, cache and return a new symbol from the properties in
+	## _self.symbol_definitions[p_name]
+	# 
+
+	_local l_properties << .symbol_definitions[p_name]
+	>> _self.create_symbol(p_name,l_properties)
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.missing_raster_name
+	## 
+	## to be messaged
+	>> "Missing Picture"
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.missing_picture()
+	#
+	## Returns the picture symbol "Missing Picture".
+	## If it does not exist, it is created.
+	#
+	_local l_name << _self.missing_raster_name
+	_local l_sym << _self.symbol(l_name)
+	_if l_sym _is _unset 
+	_then
+		l_sym << .raster_symbols[l_name] <<
+			raster_symbol.new_with_properties(
+				"missing_picture.png",
+				property_list.new_with(
+					:name,l_name,
+					:module_name,:raster_symbols_core,
+					:fixed_size?,_true,
+					:pixel_offset,pixel_coordinate.new(-8,8),
+					:text_scale_factor,1.0,
+					:draw_text_string?,_true,
+					:highlight_text_style,:derived,
+					:text_raster_justification,:top_centre,
+					:text_justification,:bottom_centre,
+					:string_selector,:rs_string)
+				       )
+	_endif
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.thumbnail_symbol(p_name)
+	#
+	## Returns the thumbnail raster symbol for symbol with name
+	## P_NAME.
+	## If it does not exist, it is created with the default
+	## properties.
+	#
+	_local l_tname << _self.name_for_thumbnail_symbol(p_name)
+	_local l_sym << .raster_symbols[l_tname]
+	_if l_sym _is _unset 
+	_then
+		_local l_props << property_list.new()
+		l_sym << _self.create_thumbnail_symbol_for(p_name,l_props)
+	_endif
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.create_thumbnail_symbol(p_name,p_file_name,p_properties)
+	#
+
+	
+	p_properties[:type] << :thumbnail
+	p_properties[:filename] << p_file_name
+	
+	>> _self.create_symbol(p_name,p_properties)
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.path_for(p_filename,p_module_name)
+	## 
+	##
+	#DEBUG write("path_for(",p_filename,%,,p_module_name,%))
+	>> smallworld_product.get_resource_file(p_filename,:bitmaps,p_module_name)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.create_symbol(p_name,p_properties)
+	# 
+	## Creates and returns a raster_symbol with P_NAME and the
+	## properties in P_PROPERTIES.
+	## See raster_symbol.new_with_properties() for an explanation
+	## of the properties.
+	## when the symbol could not be created, the condition
+	## :creation_error is raised
+	#
+	#DEBUG write(_self,".create_symbol(",p_name,%,,p_properties,")")
+	
+	_local l_sym
+	_try _with p_cond
+		
+		_if p_name = _unset _orif p_name="" 
+		_then condition.raise(:creation_error_missing_name)
+		_endif
+		l_name << write_string(p_name)
+		
+		_local l_file_name << p_properties[:filename]
+
+		_if system.file_exists?(l_file_name) _is _false 
+		_then l_file_name << smallworld_product.get_resource_file(l_file_name,:bitmaps,
+									  p_properties[:module_name])
+			
+		_endif
+
+		_local l_image << raster_image.new_from_file(l_file_name)
+		_local l_tpex << _self.raster_symbol_exemplar_for(p_properties[:type],l_image)
+		#DEBUG write("Exemplar ",l_tpex," file ",l_file_name)
+
+		_if l_tpex _is _unset 
+		_then condition.raise(:creation_error,
+				      :symbol,l_name,
+				      :string,write_string("Could not determine symbol type from '",p_properties[:type],%'))
+		_endif
+		
+		l_sym << .raster_symbols[l_name] <<
+			l_tpex.new_with_properties(l_image,p_properties)
+		l_sym.int!set_name(l_name)
+
+		_if l_sym.responds_to?(:colourmap)
+		_then
+			_local l_cmap << l_sym.colourmap
+			_self.save_colourmap(l_cmap,l_name,l_cmap.size)
+			_self.add_colourmap(l_cmap,l_name)
+		_endif
+		
+		_self.send_changed(:available_symbol_names)
+		_self.update_module_list(l_sym.source_module_name)
+		
+	_when error
+		condition.raise(:creation_error,
+				:symbol,l_name,
+				:string,p_cond.report_contents_string)
+	_endtry
+
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.draw_default_raster_symbol(p_win,p_coord_or_geom)
+	# 
+	## Draw the default picture symbol at P_COORD_OR_GEOM on window
+	## P_WIN
+	#
+	_local l_image << _self.default_raster_symbol()
+	>> l_image.draw_on(p_win,p_coord_or_geom,_false)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.draw_default_raster_symbol_highlight(p_win,p_geom)
+	# 
+	## Draw the default picture symbol at P_COORD_OR_GEOM on window
+	## P_WIN with highlight properties
+	#
+	_local l_image << _self.default_raster_symbol()
+	>> l_image.draw_highlight_on(p_win,p_geom.coord,_true)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.decache(_optional p_name)
+	#
+	## Clears cached symbols or remove symbol with name P_NAME
+	#
+	_if .raster_symbols[p_name] _isnt _unset 
+	_then .raster_symbols.remove_key(p_name)
+	_else .raster_symbols.empty()
+	_endif
+
+	_self.changed(:available_symbol_names)
+
+	.statistics_engines.empty()
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.symbol(p_name)
+	# 
+	## Return the picture symbol with name P_NAME.
+	## If not found, return _unset
+	#
+	>> .raster_symbols[p_name]
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.symbol_definition(p_name)
+	# 
+	## Return the picture symbol with name P_NAME.
+	## If not found, return _unset
+	#
+	>> .symbol_definitions[p_name]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.get_symbol(p_name)
+	#
+	## This method returns an existing symbol with P_NAME or it
+	## will create and return a symbol from the symbol definition
+	## with P_PNAME 
+	#
+	
+	_local l_sym << _self.symbol(p_name)
+	_if l_sym _is _unset 
+	_then
+		_local l_def << .symbol_definitions[p_name]
+		_if l_def _isnt _unset
+		_then
+			_self.create_symbol_from_definition(p_name)
+			#DEBUG write("Created from def ",p_name)
+			l_sym << _self.symbol(p_name)
+		_endif
+	_endif
+	
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.note_change(p_who,p_what)
+	#
+	## Decache on system image_restore
+	#
+	_if p_who _is system _andif
+            p_what _is :image_restore
+	_then _self.decache()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_handler.an_element()
+	## returns a raster_symbol
+	>> .raster_symbols.an_element()
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.available_symbol_names
+	#
+	## returns the nanes of the current symbols as a sorted collection
+	#
+	
+	_self.default_raster_symbol()
+	>> sorted_collection.new_from(.raster_symbols.keys)
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.symbol_with_name_used?(p_name)
+	## Callback for GUI, checking use of raster_symbols with name
+	## P_NAME
+	## 
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.symbol_for_special_type(p_type)
+	## 
+	##
+	_local l_map << .specialised_mappings[p_type]
+	>> _if l_map _isnt _unset
+	   _then >> _self.symbol(l_map.symbol)
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.add_specialised_mapping(p_type,_optional p_symname)
+	#
+	## Add a new special type to the system. When P_SYMNAME is
+	## given, a mapping is created for it.
+	# 
+
+	_local l_new << .specialised_mappings[p_type] <<
+		goto_mapping.new_with_properties(
+			property_list.new_with(:type,p_type,:symbol,p_symname))
+
+	_self.send_changed(:goto_mapping)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.default_goto_mappings
+	## returns the generic type mappings
+	>> .generic_goto_mappings
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.goto_mappings
+	## resturns the specific mappings
+	>> .goto_mappings
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.specialised_mappings
+	## returns the specialised mappings
+	>> .specialised_mappings
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_specialised_mapping(p_type,p_name)
+	#
+	## Create a mapping for special type P_TYPE with symbol P_NAME
+	#
+
+	#DEBUG write(_self,"set_specialised_mapping" ,p_type,p_name)
+	_local l_prop << property_list.new_with(:type,p_type,
+						:symbol,p_name,
+						:use?,_true)
+	_local l_map << goto_mapping.new_with_properties(l_prop)
+	>> .specialised_mappings[p_type] << l_map
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_generic_goto_mapping(p_goto_mapping)
+	#
+	## Cache the P_GOTO_MAPPING for type P_GOTO_MAPPING.type
+	## Type is one of :point, :linear, :area, :text
+	#
+	#DEBUG write("set_generic_goto_mapping(",p_goto_mapping,")")
+	>> .generic_goto_mappings[p_goto_mapping.type]<<p_goto_mapping
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.clear_generic_goto_mapping(p_type,p_use?)
+	## 
+	## 
+	#DEBUG write(" raster_symbol_handler.clear_generic_goto_mapping(",p_type,%,,p_use?)
+	>> .generic_goto_mappings[p_type]<<_unset
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.clear_specialised_mapping(p_key)
+	## 
+	## 
+	#DEBUG write("clear_specialised_mapping ",p_key)
+	.specialised_mappings[p_key] << _unset
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.clear_rwo_goto_mapping(p_rwo_type,p_app_type,p_symbol)
+	## 
+	## 
+
+	_local l_sym << .goto_mappings[p_rwo_type,p_app_type]
+	#DEBUG write(" raster_symbol_handler.clear_rwo_goto_mapping(",p_rwo_type,p_app_type,p_symbol,l_sym)
+	_if l_sym _isnt _unset 
+	_then _return .goto_mappings.remove_key(p_rwo_type,p_app_type)
+	_else _return _unset 
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.goto_symbol_for(p_geom,p_use_default?)
+	#
+	## Get a symbol from a defined rwo_type/app_type mapping, or
+	## when not defined, a generic mapping based on
+	## P_GEOM.geom_category. If this isn't find, use the default symbol
+	## if P_USE_DEFAULT? is true.
+	## returns A_SYM,A_SYM_KEY
+	# 
+
+#	#DEBUG	write("psh.goto_symbol_for(",p_geom.rwo.rwo_type,%,,p_geom.app_type,%,,p_use_default?,%))
+
+			
+	_local l_app_type << p_geom.app_type
+	_local l_rwo_type << p_geom.rwo.rwo_type
+
+	# Check an :all geometry mapping
+	_local l_map << .goto_mappings[l_rwo_type,:all]
+
+	# Check the rwo_type, app_type mapping
+	_if l_map _is _unset 
+	_then l_map << .goto_mappings[l_rwo_type,l_app_type]
+	_endif
+	
+	# find goto mapping on the base geometry if p_geom is part of a
+	# geometry mapping
+	_local l_mapped_name
+	_try
+		l_mapped_name << p_geom.mapped_name
+	_when error 
+		l_mapped_name << _unset 
+	_endtry
+
+	_if l_map _is _unset _andif
+	    l_app_type ~= l_mapped_name 
+	_then
+		l_map << .goto_mappings[l_rwo_type,l_mapped_name]
+		_if l_map _is _unset _orif 
+		    l_map.mapped? _is _false 
+		_then l_map << _unset 
+		_endif
+	_endif
+
+	# Get the symbol if a mapping is found
+	_if l_map _isnt _unset _andif
+	    (l_sym << _self.symbol(l_map.symbol)) _isnt _unset 
+	_then
+		#DEBUG write(" GOTO SYMBOL - return rwo specific" )
+		_return l_sym,l_map	
+	_endif
+				 				 
+	_if (l_map << .generic_goto_mappings[p_geom.geom_category]) _isnt _unset _andif
+	    (l_sym << _self.symbol(l_map.symbol)) _isnt _unset 
+	_then
+		#DEBUG write(" GOTO SYMBOL - return generic " ,l_map)
+		_return l_sym,l_map
+	_endif
+	
+	_if p_use_default?
+	_then
+		_local l_name << _self.defaults[:default_raster_symbol_name]
+		#DEBUG write(" GOTO SYMBOL - return default")
+		_return _self.default_raster_symbol(),goto_mapping.new(:default,l_name,_false)
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.add_goto_mapping_for_collection(p_mapping)
+	## 
+	##
+	#DEBUG	write(" raster_symbol_handler.add_goto_mapping_for_collection" )
+	.goto_mappings[p_mapping.rwo_type,p_mapping.app_type] << p_mapping
+	_self.send_changed(:goto_mapping)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.disable_notification(p_aspect)
+	#
+	## Allows temporarily disabling of sending changed notification
+	## of aspect P_ASPECT to avoid the generation of refresh events
+	## while loading.
+	#
+	>> .disabled_aspects.add(p_aspect)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.enable_notification(p_aspect)
+	>> .disabled_aspects.remove(p_aspect)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_handler.send_changed(p_aspect)
+	## Sends _self.changed(p_aspect) if p_aspect isnt a key in
+	## .disabled_aspects.
+	## This is done for bulk import
+
+	_if _not .disabled_aspects.includes?(p_aspect)
+ 	_then _self.changed(p_aspect)		
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.data_file_name
+	## _self.defaults[:data_file_name] in base data of module
+	## :raster_symbols
+	## 
+	_local l_module << sw_module_manager.module(:raster_symbols)
+	_local l_fname << _self.defaults[:data_file_name]
+	_local l_path << l_module.resource_list_for(:data,_false)[:base]
+	_local l_pathname << system.pathname_from_components(l_fname,l_path)
+
+	>> l_pathname,l_path
+_endmethod
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.update_module_list(p_mod_name)
+	## 
+	##
+	#DEBUG write("Update module list with ",p_mod_name)
+	_if _not .module_list.includes_key?(p_mod_name)
+	_then .module_list[p_mod_name] << sw_module_manager.module(p_mod_name)
+	      _self.send_changed(:modules_for_pictures)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.modules_for_pictures
+	## 
+	## 
+	>> .module_list
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.copy_symbol(p_name,_optional p_module_name)
+	#
+	## Copies the symbol with P_NAME. The name of the new symbol is
+	## P_NAME(Copy).
+	## If P_MODULE_NAME is passes as argument, the image file will
+	## be copied to this module and the copy created using this
+	## image as source.
+	#
+	#
+	_local l_sym << .raster_symbols[p_name]
+	_local l_props << l_sym.properties
+	_local l_new_name << write_string(p_name,"(Copy)")
+	_local l_filename << l_props[:filename]
+	
+	_if p_module_name _isnt _unset 
+	_then 
+		_local l_file << sw_module_manager.module(l_props[:module_name]).get_resource_file(l_filename,:bitmaps)
+		_local l_prop << sw_module_manager.module(p_module_name).resource_list_for(:bitmaps)
+		_local l_new_path << l_prop[:base]
+		system.file_copy(system.canonicalise(l_file),
+				 system.canonicalise(l_filename,l_new_path))
+		l_props[:module_name] << p_module_name
+	_endif
+	
+	_local l_new << _self.create_symbol(l_new_name,l_props)
+	_self.send_changed(:available_symbol_names)
+	>> l_new
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.rename_symbol(p_old,p_new)
+	#
+	## Restricted: This might lead to inconsistencies and Must be
+	## followed up by fixing goto_mappings etc.
+	#
+
+	_if p_old = p_new
+	_then _return _false 
+	_endif
+
+	_local l_pss << .raster_symbols
+	_local l_sym << l_pss[p_old]
+
+	_if l_sym.readonly?
+	_then condition.raise(:symbol_readonly,
+			      :symbol,l_sym)
+		
+	_endif
+	
+	_if l_sym _is _unset 
+	_then _return _false 
+	_endif
+	
+	_if l_pss.includes_key?(p_new)
+	_then _self.send_changed(:available_symbol_names)
+	      condition.raise(:duplicate_symbol_with_name,
+			      :symbol,p_new)
+	_endif
+
+	l_sym.int!set_name(p_new)
+	l_pss[p_new] << l_sym
+	l_pss.remove_key(p_old)
+
+	_self.send_changed(:available_symbol_names)
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.rename_symbol_definition(p_old,p_new)
+	#
+	## Restricted: This might lead to inconsistencies and Must be
+	## followed up by fixing goto_mappings etc.
+	#
+	
+	_if p_old = p_new
+	_then _return _false 
+	_endif
+
+	_local l_pss << .symbol_definitions
+	_local l_sym << l_pss[p_old]
+	_if l_sym _is _unset 
+	_then _return _false
+	_endif
+
+	
+	_if l_pss.includes_key?(p_new)
+	_then _self.send_changed(:available_symbol_names)
+	      condition.raise(:duplicate_symbol_with_name,
+			      :symbol,p_new)
+	_endif
+
+	l_sym[:name] << p_new
+	l_pss[p_new] << l_sym
+	l_pss.remove_key(p_old)
+	
+	_self.send_changed(:available_symbol_names)
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.module_from_resource(p_pathname)
+	# 
+	## Get module name and module for resource P_PATHNAME
+	## 1. Get the module.def in the path and create a half baken
+	## definition, good enough to get the module name and version
+	## and retrieve the actual module
+	## 2. If not found, check if P_PATHNAME is part of a
+	## customisation product
+	#
+	#DEBUG write(_self,".module_from_resource(",p_pathname,")")
+	_local l_vec << p_pathname.split_by("resources")
+	_local l_dir << system.canonicalise(l_vec[1])
+	_local l_file << system.pathname_from_components("module.def",l_dir)
+	_local l_mod << sw_module.get_def(l_file,l_dir)
+	
+	_if l_mod _isnt _unset 
+	_then 	_local l_modname << l_mod.name
+		_local l_module << sw_module_manager.module(l_modname)
+		_return l_modname,l_module
+	_endif 
+
+	# check out customisations
+	(l_name,l_dir) << system.pathname_components(p_pathname)
+	l_mod << _unset 
+	_local l_list << smallworld_product.custom_modules_for(:raster_symbols,_true)
+	_for i_mod _over l_list.fast_elements()
+	_loop
+		_try _with p_cond
+			_if i_mod.get_resource_file(l_name,:bitmaps) _isnt _unset 
+			_then l_mod << i_mod
+			      _leave 
+			_endif
+		_when resource_not_found_in_module_error
+			_continue
+		_endtry
+	_endloop
+	
+	_if l_mod _is _unset 
+	_then condition.raise(:resource_not_in_module,
+			      :fname,p_pathname)
+	_endif
+	#DEBUG write(_self,".module_from_resource: ",l_mod,%,,l_mod.name)
+	>> l_mod.name,l_mod
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.remove_symbol(p_name)
+	## 
+	## Remove the symbol with P_NAME, when it is not readonly and
+	## not in use by a mapping
+	##
+
+	_if (l_sym << _self.symbol(p_name)).readonly?
+	_then condition.raise(:symbol_readonly,
+			      :symbol,l_sym)
+	_endif
+	
+	_self.check_use(p_name)
+	
+	.raster_symbols.remove_key(p_name)
+	
+	_self.send_changed(:available_symbol_names)
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.check_use(p_name)
+	#
+	## Check the use of symbol with name P_NAME.
+	## raises a resource_in_use condition if it is
+	#
+
+	_for i_key,i_map _over .generic_goto_mappings.fast_keys_and_elements()
+	_loop _if i_map _isnt _unset _andif
+		  i_map.symbol = p_name
+	      _then condition.raise(:resource_in_use,
+				    :symbol,p_name,
+				    :usage,i_map)
+	      _endif
+	_endloop
+
+	_for i_map _over .goto_mappings.fast_elements()
+	_loop _if i_map.symbol = p_name
+	      _then condition.raise(:resource_in_use,
+				    :symbol,p_name,
+				    :usage,i_map)
+	      _endif
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.remove_symbol_definition(p_name)
+	## 
+	## should be extended
+	.symbol_definitions.remove_key(p_name)
+	_self.send_changed(:available_symbol_names)
+_endmethod
+$
+
+# ---------------------------------
+# XML EXPORT/IMPORT
+# ---------------------------------
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.save(_optional p_options,p_file_name,p_module_name)
+	##
+	## This method writes the current configuration to
+	## P_FILE_NAME. If filename isn't passed the value of
+	## _self.data_file_name is used. P_OPTIONS can be derived 
+	## from sw:raster_symbol_manager_gui.options 
+	## 
+	#DEBUG write(_self,"Saving to ",p_file_name," for module ",p_module_name)
+	_local l_file_name << p_file_name.default(_self.data_file_name)
+	_local l_objects << rope.new()
+	_local l_config << sw:simple_xml_thing.new(:raster_symbols_configuration,l_objects,{"version",1})
+	
+
+	l_objects.add(_self.xml_raster_symbols(p_module_name))
+
+	l_objects.add(_self.xml_goto_mappings())
+
+	l_objects.add(_self.xml_options(p_options))
+
+	l_objects.add(_self.xml_defaults())
+	
+
+	simple_xml.write_element_file(l_file_name,l_config)
+
+	condition.raise(:data_file_saved,
+			:fname,l_file_name)
+	>> l_config
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.save_for_module_only(p_module_name, _optional p_options,p_file_name)
+	>> _self.save(p_options,p_file_name,p_module_name)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_raster_symbols(_optional p_module_name)
+	## 
+	## Return simple_xml with tag :raster_symbol_definitions with xml raster symbols
+	## and raster symbol definitions
+	##
+	
+	#DEBUG write("raster_symbol_handler.xml_raster_symbols(",p_module_name,%))
+	_local l_objects << rope.new()
+	_local l_picsyms << sw:simple_xml_thing.new(:raster_symbol_definitions,l_objects)
+
+	_for i_key,i_sym _over .raster_symbols.fast_keys_and_elements()
+	_loop
+		_if p_module_name _isnt _unset 
+		_then
+			_if i_sym.source_module_name _isnt p_module_name
+			_then _continue 
+			_endif
+		_endif
+		_local l_props << property_list.new_with(:key,write_string(i_key))
+		l_props.add_all(i_sym.xml_properties)
+		l_objects.add(_self.xml_raster_symbol_element(l_props,_true))
+	_endloop
+
+	_for i_key,i_symprop _over .symbol_definitions.fast_keys_and_elements()
+	_loop
+		_if p_module_name _isnt _unset 
+		_then
+			_if i_symprop[:module_name] _isnt p_module_name
+			_then _continue 
+			_endif
+		_endif
+		_local l_props << property_list.new_with(:key,write_string(i_key))
+		l_props.add_all(xml_handler.properties_without?(i_symprop))
+		#DEBUG print(l_props)
+		l_objects.add(_self.xml_raster_symbol_element(l_props,_false))
+	_endloop
+	
+	>> l_picsyms
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## methods for xml generation, keyed on class name
+raster_symbol_handler.define_shared_constant(:complex_property_methods,
+	property_list.new_with(:pixel_coordinate,:|xml_coordinate()|,
+			       :pixel_bounding_box,:|xml_pixel_bounding_box()|,
+			       :text_style,:|xml_text_style()|,
+			       :line_style,:|xml_line_style()|,
+			       :fill_style,:|xml_fill_style()|,
+			       :colour_map,:|xml_colourmap()|
+		      ),
+	:private)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.complex_property_method_for(p_property)
+	>> _self.complex_property_methods[p_property.class_name]
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_coordinate(p_value,p_key)
+	>> xml_handler.xml_coordinate(p_value,p_key)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_pixel_bounding_box(p_value,p_tag)
+	
+	_if p_value _is _unset 
+	_then _return sw:simple_xml_thing.new(p_tag)
+	_endif
+
+	_local p_props << {:xmin,:ymin,:xmax,:ymax}
+
+	_local l_rope << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(p_tag,l_rope)
+	
+	_for i_num,i_prop _over p_props.fast_keys_and_elements()
+	_loop l_rope.add(sw:simple_xml_thing.new(i_prop,
+						 write_string(p_value.perform(i_prop))))
+	_endloop
+	
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_text_style(p_value, _optional p_tag)
+	## 
+	## 
+	>> xml_handler.xml_text_style(p_value,p_tag)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_line_style(p_value,p_key)
+	## 
+	##	
+	>> xml_handler.xml_line_style(p_value,p_key)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_fill_style(p_value,p_key)
+	## 
+	## 
+	_if p_value _is _unset
+	_then _return sw:simple_xml_thing.new(p_key)
+	_endif
+
+	_local l_rope << rope.new()
+	_local l_xmlls << sw:simple_xml_thing.new(p_key,l_rope)	
+
+	l_rope.add(xml_handler.xml_fill_style(p_value))
+	
+	>> l_xmlls
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_colourmap(p_value,p_key)
+	## 
+	## A noop for now
+	>> sw:simple_xml_thing.new(p_key)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_defaults()
+	## 
+	## 
+
+	_local l_values << rope.new()
+	_for i_key,i_value _over _self.defaults.fast_keys_and_elements()
+	_loop
+
+		_local (l_key,l_changed?) << xml_handler.?_as_p(i_key)
+		
+		_local l_xml_thing
+		_if (l_method << _self.complex_property_method_for(i_value)) _isnt _unset 
+		_then
+			l_xml_thing << _self.perform(l_method,i_value,l_key)
+		_else
+			_local l_value << write_string(i_value.default(""))
+			l_xml_thing << sw:simple_xml_thing.new(l_key,l_value)
+		_endif
+		
+		l_values.add(l_xml_thing)
+	_endloop
+	
+	_local l_xml << sw:simple_xml_thing.new(:defaults,l_values)
+	>> l_xml
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_raster_symbol_element(p_props,p_realised?)
+	# 
+	## returns an xml representation <raster_symbol> from the
+	## xml_properties P_PROPS of a picture symbol.
+	## When P_REALISED? is true, it will set the atttribute :realised
+	#
+	
+	_local l_values << rope.new()
+	_for i_key,i_value _over p_props.fast_keys_and_elements()
+	_loop
+		#DEBUG write("xml_raster_symbol_element",i_key," ",i_value)
+		_local l_xml_thing
+		_if (l_method << _self.complex_property_method_for(i_value)) _isnt _unset 
+		_then
+			l_xml_thing << _self.perform(l_method,i_value,i_key)
+		_else
+			_local l_value << write_string(i_value.default(""))
+			l_xml_thing << sw:simple_xml_thing.new(i_key,l_value)
+		_endif
+		
+		l_values.add(l_xml_thing)
+		
+	_endloop
+	_local l_xml << sw:simple_xml_thing.new(
+				   :raster_symbol,l_values,
+				   property_list.new_with(:realised,p_realised?,
+							  :type,p_props[:type]))
+	>> l_xml
+_endmethod
+$
+
+##################
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_goto_mappings()
+	## 
+	##
+	
+	_local l_values << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:goto_mappings,l_values)
+
+	l_values.add(_self.xml_generic_mappings())
+	l_values.add(_self.xml_specialised_mappings())
+	l_values.add(_self.xml_specific_mappings())
+
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_generic_mappings()
+	## 
+	##
+	
+	_local l_values << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:generic,l_values)
+	_for i_type,i_mapping _over .generic_goto_mappings.fast_keys_and_elements()
+	_loop
+		_if i_mapping _is _unset _orif i_mapping = ""
+		_then _continue 
+		_endif
+		l_values.add(i_mapping.as_xml())
+	_endloop
+	>> l_xml
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_specialised_mappings()
+	## 
+	## 
+
+	_local l_values << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:specialised,l_values)
+	_for i_type,i_mapping _over .specialised_mappings.fast_keys_and_elements()
+	_loop
+		_if i_mapping _is _unset _orif i_mapping = ""
+		_then _continue 
+		_endif
+		l_values.add(i_mapping.as_xml())
+	_endloop
+	>> l_xml
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_specific_mappings()
+	## 
+	## 
+
+	_local l_values << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:specific,l_values)
+
+	_for i_key,i_map _over .goto_mappings.fast_keys_and_elements()
+	_loop l_values.add(i_map.as_xml())
+	_endloop
+	>> l_xml
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.xml_options(p_options)
+	## 
+	## 
+
+	_local l_values << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:options,l_values)
+
+	_if p_options _isnt _unset 
+	_then
+		_for i_key,i_val _over p_options.keys_and_elements()
+		_loop
+			_local l_rope << rope.new()
+			_local l_opt << sw:simple_xml_thing.new(xml_handler.?_as_p(i_key),l_rope)
+			l_values.add(l_opt)
+			_for i_key2,i_val2 _over i_val.fast_keys_and_elements()
+			_loop
+				#DEBUG	write("Option ",i_key,%,,i_key2,%,,i_val2)
+				_local l_key << xml_handler.?_as_p(i_key2)
+				l_rope.add(sw:simple_xml_thing.new(l_key,write_string(i_val2)))
+			_endloop
+		_endloop
+	_endif
+	
+	>> l_xml
+_endmethod
+$
+
+###################################
+
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.read_xml_data(p_file, _optional p_overwrite?)
+	#
+	## Read configuration from XML file P_FILE.
+	## The default name is _self.data_file_name
+	## If the option p_overwrite? is true, everything will be
+	## overwritten. This is the default.
+	#
+	
+	_local l_file << p_file.default(_self.data_file_name)
+	_if _not system.file_exists?(l_file)
+	_then condition.raise(:xml_file_does_not_exists,
+			      :fname,l_file)
+	_endif
+	_local l_overwrite? << p_overwrite?.default(_true)
+	
+	_protect
+		_self.disable_notification(:available_symbol_names)
+		_self.int!read_xml_data(l_file,l_overwrite?)	
+	_protection
+		_self.enable_notification(:available_symbol_names)		
+	_endprotect
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_private _method raster_symbol_handler.int!read_xml_data(p_file,p_overwrite?)
+	## Read Raster Symbols, Raster Symbol Definitions, Mappings
+	## and options from xml in file P_FILE
+
+	_try _with p_cond
+		_local l_xml << simple_xml.read_element_file(p_file)
+		_if l_xml.type = :raster_symbols_configuration
+		_then
+			_for i_elem _over l_xml.xml_elements.fast_elements()
+			_loop _if (l_type << i_elem.type) = :raster_symbol_definitions
+			      _then _self.read_definitions_from_xml(i_elem,p_overwrite?)
+			      _elif l_type = :goto_mappings
+			      _then _self.read_goto_mappings_from_xml(i_elem,p_overwrite?)
+			      _elif l_type = :options
+			      _then _self.read_options_from_xml(i_elem,p_overwrite?)
+			      _endif
+			_endloop
+		_else
+			condition.raise(:xml_read_error,:string,
+					"File does not contain element <raster_symbols_configuration>")
+		_endif
+	_when error
+		condition.raise(:xml_read_error,
+				:string,p_cond.report_contents_string)
+		#DEBUG !traceback!(!output!)
+		_return _false
+	_endtry 
+	>> _true 
+	 
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.read_definitions_from_xml(p_xml,p_overwrite?)
+	## 
+	## 
+	#DEBUG write(_self,"read_definitions_from_xml(",p_xml)
+	_for i_elem _over p_xml.xml_elements.fast_elements()
+	_loop
+		_if _not (i_elem.type = :raster_symbol)
+		_then _return
+		_endif
+		
+		_if (l_atts << i_elem.attributes) _isnt _unset _andif
+		    (l_realised? << l_atts["realised"] = "True")
+		_then _self.raster_symbol_from_xml(i_elem,p_overwrite?)
+		_elif l_realised? = _false
+		_then _self.raster_definition_from_xml(i_elem,p_overwrite?)
+		_endif
+	_endloop
+	_self.changed(:available_symbol_names)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.properties_from_xml(p_xml)
+	## 
+	## Return key and properties from raster xml P_XML
+	##
+
+	_local l_rkey
+	_local l_type << p_xml.attributes[:type]
+	_local l_tpex << _self.raster_symbol_exemplar_for(l_type)
+	_local l_valid_props << l_tpex.valid_data_types
+
+	_local l_prop << property_list.new()
+	_for i_elem _over p_xml.elements.fast_elements()
+	_loop
+
+		_local l_key << i_elem.type
+		_local l_value << i_elem.elements		
+		_if l_key = "key"
+		_then
+			l_rkey << l_value.first
+			#DEBUG write("key is ",l_rkey)
+			_continue
+		_endif
+		_if l_value.is_kind_of?(rope) 
+		_then
+			_if l_value.empty?
+			_then _continue 
+			_endif
+			l_value << l_value.first
+		_endif
+		
+		# revert the slot names "<>_p" in the xml to "<>?"
+		(l_key,l_changed?) << xml_handler.p_as_?(l_key)
+		_if l_changed? 
+		_then l_value << l_value = "True"
+		_endif
+
+		_if l_value.is_kind_of?(simple_xml_thing)
+		_then
+			l_value << _self.complex_value_from_xml(i_elem)
+		_else
+			_local l_2value << 
+				_if (l_prop_type << l_valid_props[l_key]).is_kind_of?({})
+				_then >> l_prop_type.first
+				_else >> l_prop_type
+				_endif
+			#DEBUG write("xml value ",l_value," for ",l_key," type= ",l_2value," ",l_2value.class_name)
+			_if l_2value.is_kind_of?(:symbol)
+			_then l_value << l_value.as_symbol()
+			_elif l_2value.is_kind_of?("")
+			_then l_value << l_value.write_string
+			_elif l_2value.is_kind_of?(integer)
+			_then l_value << l_value.as_number()
+			_elif l_2value.is_kind_of?(float)
+			_then l_value << l_value.as_number()
+			_elif l_value = ""
+			_then l_value << _unset
+			_endif
+		_endif
+
+		l_prop[l_key] << l_value
+	_endloop
+
+	_if l_rkey _is _unset 
+	_then l_rkey << l_prop[:name]
+	_endif
+	
+	>> l_rkey,l_prop
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.raster_symbol_from_xml(p_xml,_optional p_overwrite?)
+	## 
+	## Create a raster symbol from the XML representation in P_XML
+	## When P_OVERWRITE? is true (default: false) it will replace
+	## the existing symbol
+	##
+
+	_local (l_key,l_props) << _self.properties_from_xml(p_xml)
+
+	#DEBUG write("symbol_from_xml ",l_key," ",p_overwrite?)
+	# skip the default symbol
+	_if p_overwrite?.default(_true) _is _true _andif 
+	    l_key = _self.defaults[:default_raster_symbol_name] _andif
+	    _self.allow_overwrite_default_symbol? _isnt _true
+	_then
+		condition.raise(:information,:string,write_string("Skipped reading default raster symbol '",l_key,"'"))
+		_return _self.default_raster_symbol()
+	_endif
+
+	_if p_overwrite?.default(_false) _is _false _andif
+	    .raster_symbols.includes_key?(l_key)
+	_then
+		#DEBUG write(_self," skipped overwriting ",l_key)
+		_return _unset 
+	_endif
+	
+	# Create symbol. Errors will be warnings
+	_local l_sym
+	_try _with p_cond
+		l_sym << _self.create_symbol(l_key,l_props)
+	_when error 
+		condition.raise(:xml_create_sym_error,
+				:string,p_cond.report_contents_string)
+	_endtry
+	
+	>> l_sym
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.raster_definition_from_xml(p_xml,p_overwrite?)
+	## 
+	## 
+	_local (l_key,l_props) << _self.properties_from_xml(p_xml)
+	_self.add_symbol_definition(l_key,l_props)
+_endmethod
+$
+
+raster_symbol_handler.define_shared_constant(:complex_values_from_xml,
+	property_list.new_with(:pixel_offset,:|offset_from_xml()|,
+			       :text_coordinate,:|text_coordinate_from_xml()|,
+			       :text_box,:|text_box_from_xml()|,
+			       :text_style,:|text_style_from_xml()|,
+			       :goto_line_style,:|goto_line_style_from_xml()|,
+			       :goto_area_style,:|goto_area_style_from_xml()|
+		      ),_true)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.complex_value_from_xml(p_xml)
+	## 
+	##
+	
+	_local l_type << p_xml.type
+	_local l_value
+	_if (l_method << _self.complex_values_from_xml[l_type]) _isnt _unset
+	_then l_value << _self.perform(l_method,p_xml)
+	_endif
+	
+	>> l_value
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.offset_from_xml(p_xml)
+	## 
+	##
+	>> xml_handler.coordinate_from_xml(p_xml)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.text_coordinate_from_xml(p_xml)
+	## 
+	##
+	>> xml_handler.coordinate_from_xml(p_xml)	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.text_box_from_xml(p_xml)
+	## 
+	##
+
+	_local l_elems << p_xml.elements
+	>> _if l_elems.size > 0
+	   _then
+		   _local l_vals << rope.new()
+		   _for i_elem _over l_elems.fast_elements()
+		   _loop l_vals.add(i_elem.elements[1].as_number())
+		   _endloop
+		   >> pixel_bounding_box.new(l_vals[1],l_vals[2],l_vals[3],l_vals[4])
+	  _endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.text_style_from_xml(p_xml)
+	## 
+	##
+	>> xml_handler.text_style_from_xml(p_xml)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.goto_line_style_from_xml(p_xml)
+	## 
+	## 
+	>> xml_handler.line_style_from_xml(p_xml)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.goto_area_style_from_xml(p_xml)
+	## 
+	##
+	
+	_local l_elements << p_xml.xml_elements
+	_if l_elements.size = 0
+	_then _return _unset 
+	_endif
+
+	_if (l_elem << l_elements.first).type = :colour
+	_then _return xml_handler.colour_from_xml(l_elem)
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.read_goto_mappings_from_xml(p_xml,p_overwrite?)
+	## 
+	## 
+	#DEBUG write(_self,"read_goto_mappings_from_xml(",p_xml)
+
+	_local l_elements << p_xml.elements
+	_if l_elements.size = 0
+	_then _return 
+	_endif
+
+	_for i_elem _over l_elements.fast_elements()
+	_loop _if (l_type << i_elem.type) = :generic
+	      _then _self.generic_mappings_from_xml(i_elem)
+	      _elif l_type = :specific
+	      _then _self.specific_mappings_from_xml(i_elem)
+	      _elif l_type = :specialised
+	      _then _self.specialised_mapping_from_xml(i_elem)
+	      _endif
+	_endloop
+
+	_self.changed(:goto_mapping)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.generic_mappings_from_xml(p_xml)
+	## 
+	##
+	
+	_local l_mappings << p_xml.elements
+	_if l_mappings.size = 0
+	_then _return 
+	_endif
+
+	_for i_mapping _over l_mappings.fast_elements()
+	_loop _self.set_goto_mapping_from_xml(i_mapping)
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_goto_mapping_from_xml(p_xml)
+	## 
+	##
+
+	_local l_geomcat << p_xml.type
+	_local l_props << property_list.new_with(:type,l_geomcat)
+	_for i_elem _over p_xml.elements.fast_elements()
+	_loop _if (l_val<<i_elem.elements).is_kind_of?(rope) _andif
+		  l_val.size > 0
+	      _then l_val << l_val.first
+	      _endif
+	      _if (l_valtype << i_elem.type) = :use
+	      _then l_props[:use?] << l_val = "True"
+	      _else l_props[l_valtype] << l_val.write_string
+	      _endif
+	_endloop
+
+	_local l_goto_mapping << goto_mapping.new_with_properties(l_props)
+
+	_self.set_generic_goto_mapping(l_goto_mapping)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.specific_mappings_from_xml(p_xml)
+	## 
+	## 
+	
+	_local l_mappings << p_xml.elements
+	_if l_mappings.size = 0
+	_then _return 
+	_endif
+
+	_for i_rwo_mapping _over l_mappings.fast_elements()
+	_loop _self.set_rwo_goto_mapping_from_xml(i_rwo_mapping)
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_rwo_goto_mapping_from_xml(p_xml)
+	## 
+	##
+	_local l_props << property_list.new()
+	_for i_elem _over p_xml.elements.fast_elements()
+	_loop
+		_local l_type << i_elem.type
+		_local l_val << i_elem.elements
+		_if l_val.is_kind_of?(rope)_andif
+		    l_val.size > 0
+ 		_then l_val << l_val.first
+		_else _continue 
+		_endif
+		_if l_type = :use
+		_then l_props[:use?] << l_val = "True"
+		_elif l_type = :mapped
+		_then l_props[:mapped?] << l_val = "True"
+		_elif l_type = :rwo_type _orif l_type = :app_type
+		_then l_props[l_type] << l_val.as_symbol()
+		_else l_props[l_type] << l_val.write_string
+		_endif
+	_endloop
+	
+	_local l_mapping << rwo_goto_mapping.new_with_properties(l_props)
+	>> _self.add_goto_mapping_for_collection(l_mapping)
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.specialised_mapping_from_xml(p_xml)
+	## 
+	## 
+	
+	_local l_mappings << p_xml.elements
+	_if l_mappings.size = 0
+	_then _return 
+	_endif
+
+	_for i_type _over l_mappings.fast_elements()
+	_loop _self.set_special_mapping_from_xml(i_type)
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.set_special_mapping_from_xml(p_map)
+	## 
+	##
+
+	_local l_type << p_map.type.as_symbol()
+	_local l_name
+
+	_for i _over p_map.xml_elements.fast_elements()
+	_loop _if i.type = :symbol
+	      _then l_name << i.elements.first
+		    _leave 
+	      _endif
+	_endloop
+	
+	_if l_name _is _unset
+	_then _return 
+	_endif
+
+	_if (l_map << _self.specialised_mappings[l_type]) _isnt _unset 
+	_then
+		_self.set_specialised_mapping(l_type,l_name)
+#		write("Update")
+	_else
+		_self.set_specialised_mapping(l_type,l_name)
+#		write("Create")
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.read_options_from_xml(p_xml,p_overwrite?)
+	## 
+	## 
+	#DEBUG write(_self,"read_options_from_xml(",p_xml)	
+_endmethod
+$
+
+
+_block
+	# for cache and decache.
+	system.add_dependent(raster_symbol_handler)
+_endblock
+$
+
+_block
+	# make sure that the default picture symbol is there
+	raster_symbol_handler.default_raster_symbol()
+_endblock
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.test
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_handler.raster_symbol_exemplar_for(p_type,_optional p_image)
+	## 
+	## P_IMAGE must be a realised raster_image if p_type is :grid
+	##
+
+	>> _if p_type = :grid _andif
+	       p_image _is _unset 
+	   _then
+		   >> !current_package![:grid_raster_symbol]
+
+	   _elif p_type _is :grid _andif
+		 p_image _isnt _unset
+	   _then 
+		   _local l_props << (_allresults p_image.size())
+		   
+		   >> _if l_props[3] <= 8
+		      _then >> !current_package![:byte_grid_raster_symbol]
+		      _else >> !current_package![:grid_raster_symbol]
+		      _endif
+
+	   _elif p_type = :raster
+	   _then >> !current_package![:raster_symbol]
+	   _elif p_type = :thumbnail
+	   _then >> !current_package![:thumbnail_raster_symbol]
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.statistics_engine_for(p_rwo_type,p_ds_name,p_value_method)
+	#
+	## Create, cache / return cached statistics_engine for rwo type
+	## P_RWO_TYPE, in dataset P_DS_NAME and value method
+	## P_VALUE_METHOD.
+	#
+	#DEBUG write("Statistics engine for " ,p_rwo_type,%,,p_value_method)
+	_if (l_ob << .statistics_engines[p_rwo_type,p_value_method]) _is _unset 
+	_then l_ob << .statistics_engines[p_rwo_type,p_value_method] <<
+	      statistics_engine.new(p_rwo_type,p_ds_name,p_value_method)
+	_endif
+	>> l_ob
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.bulk_import_from_module(p_module_name,_optional p_wildcard)
+	## 
+	## Loop over the resource files in P_MODULE_NAME using
+	## optionally the wildcard P_WILDCARD and create a symbol with
+	## a naming from _self.pretty_string_from_filename()
+	## thumbnails are excluded. wildcard is used case sensitive
+	## this is possible without loading the module
+	##
+
+	_local l_props << property_list.new_with(:type,:raster)
+	_local l_mod << sw_module_manager.module(p_module_name)
+	_local l_suff << _self.thumbnail_suffix
+	_local l_res << l_mod.resource_files(:bitmaps,_true,_false)
+	_for i_fname _over l_res.fast_elements()
+	_loop
+		_if i_fname.index_of_seq("Thumbs.db") _isnt _unset _orif
+		    i_fname.index_of_seq(l_suff) _isnt _unset
+		_then 
+			#DEBUG write(" ... Ignore ", i_fname)
+			_continue
+		_endif
+		
+		_local (l_name,l_dir) << system.pathname_components(i_fname)
+		#DEBUG write(l_name," matches? ",p_wildcard)
+		_if p_wildcard _isnt _unset _andif
+		    l_name.matches?(p_wildcard) _isnt _true 
+		_then 
+			_continue 
+		_endif
+
+		#DEBUG write("Processing ",i_fname)
+		l_props[:filename] << i_fname
+		l_props[:module_name] << p_module_name
+		_protect
+			_self.disable_notification(:available_symbol_names)
+			_local l_sname << _self.pretty_string_from_filename(l_name)
+			_self.create_symbol(l_sname,l_props)
+		_protection
+			_self.enable_notification(:available_symbol_names)
+		_endprotect
+	_endloop
+	
+	_self.send_changed(:available_symbol_names)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.pretty_string_from_filename(p_fname)
+	## 
+	## Strips .png, substitutes _ to space and titlecase P_FNAME
+	## This is used to get a name when a user selects a file from
+	## the UI or the bulk import
+	## 
+	>> p_fname.default("").substitute_string(".png","").substitute_character(%_,% ).titlecase
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.colourmap(p_name)
+	## 
+	## 
+	>> .colourmaps[p_name]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.read_all_colourmaps()
+	## 
+	##
+	
+	_local l_chan << directory_channel.new(_self.colourmap_folder,"*.xml")
+	_loop
+		_if (l_file << l_chan.get_full()) _is _unset 
+		_then _leave 
+		_endif
+		_local (l_map,l_name) << _self.colourmap_from_xml(l_file)
+		_self.add_colourmap(l_map,l_name)
+	_endloop
+	>> .colourmaps
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.colourmap_folder
+	## 
+	## 
+
+	_local l_module << sw_module_manager.module(_self.module_name)
+	_local l_path << l_module.resource_list_for(:colourmaps,_false)[:base]
+
+	>> l_path
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.colourmap_from_symbol(p_name)
+	## 
+	##
+	
+	>> _if (l_sym << _self.symbol(p_name)) _isnt _unset _andif
+	       l_sym.responds_to?(:non_transparent_colourmap)
+	   _then >> l_sym.non_transparent_colourmap
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.save_colourmap_from_symbol(p_sym_name,_optional p_name)
+	## 
+	## 
+
+	_if (l_map << _self.colourmap_from_symbol(p_sym_name)) _isnt _unset 
+	_then
+		_local l_name << p_name.default(p_sym_name)
+		_self.save_colourmap(l_map,l_name,l_map.size)
+		_self.add_colourmap(l_map,l_name)
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.save_colourmap(p_map,p_name,p_num_layers)
+	## 
+	##
+	_try _with p_cond
+		_local l_xml << p_map.as_xml(p_name,p_num_layers)
+		_local l_path << _self.colourmap_folder
+		_local l_pathname << system.pathname_from_components(write_string(p_name,".xml"),l_path)
+		simple_xml.write_element_file(l_pathname,l_xml)
+		write("Wrote colourmap ",l_pathname)
+	_when error
+		write("Colourmap ",p_name," num_layers ",p_num_layers," save error ",p_cond.report_contents_string)
+	_endtry
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.colourmap_from_xml(p_filename)
+	## 
+	##
+	#DEBUG	write("Colourmap from ",p_filename)
+	_local l_map,l_name
+	_try _with p_cond
+		_local l_xml << simple_xml.read_element_file(p_filename)
+		_if l_xml.type ~= :colour_map
+		_then _return
+		_endif
+		l_name << l_xml.attribute("name")
+		_local l_num_layers << l_xml.attribute("num_layers").as_number()
+		_local l_origin << l_xml.attribute("origin").as_number()
+		l_map << colour_map.new_from_xml(l_xml,l_origin,l_num_layers)
+	_when error
+		write(p_cond.report_contents_string)
+	_endtry 
+
+	#DEBUG write("Colourmap from ",p_filename," > ",l_name,%[,l_map,%])
+	
+	>> l_map,l_name
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_handler.available_colourmaps
+	## 
+	## 
+	>> .colourmaps
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_handler.add_colourmap(p_map,p_name)
+	## 
+	## Add or update colourmap P_MAP with name P_NAME
+	##
+	
+	_local l_m << .colourmaps[p_name] << p_map
+	_self.changed(:available_colourmaps)
+	>> l_m
+_endmethod
+$
+
+_block
+	raster_symbol_handler.init()
+_endblock
+$

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Flash mapping</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Particularly useful for value mapping with high volatile data is the Flash Mapping feature.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Its execution is the responsibility of the </text><text styleclass="Normal" style="font-weight:bold;" translate="true">raster_symbol_plugin.</text><text styleclass="Normal" translate="true"> The interval is specified as part of the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default_Settings" styleclass="Normal" translate="true">Default Settings</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw_Option_Toolbar" styleclass="Normal" translate="true">Options Toolbar</link><text styleclass="Normal" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Development-GUI" styleclass="Normal" translate="true">Configuration GUI</link><text styleclass="Normal" translate="true">&#32;</text><text styleclass="Normal" translate="true">contains the action buttons to Start and Stop the flashing.</text><br/></para>
+  </body>
+</topic>

@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<map xmlns:xsi="http://www.w3.org/2001/XInclude" defaulttopic="psyms_Picture-Symbols">
+  <topicref type="topic" id="427689367633706" build="ALL" modified="2019-12-12T21:25:21.763Z" icon="0" href="psyms_Picture-Symbols">
+    <caption translate="true">MapMarkers</caption>
+    <topicref type="topic" id="427683614672790" build="ALL" modified="2017-02-02T12:50:12.673Z" icon="0" href="psyms_Features">
+      <caption translate="true">Features</caption>
+    </topicref>
+    <topicref type="topic" id="433444613558694" build="ALL" modified="2018-09-01T15:32:12.040Z" icon="0" href="psyms_User-Help">
+      <caption translate="true">User Help</caption>
+      <topicref type="topic" id="429395678021007" build="ALL" modified="2019-01-23T20:49:37.604Z" icon="0" href="psyms_Draw_Option_Toolbar">
+        <caption translate="true">Options Toolbar</caption>
+      </topicref>
+      <topicref type="topic" id="434888667086772" build="ALL" modified="2019-01-23T20:49:41.002Z" icon="0" href="psyms_Options-panel">
+        <caption translate="true">Options Panel</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="43357608189234" build="ALL" modified="2018-09-12T20:26:45.928Z" icon="0" href="psyms_Design">
+      <caption translate="true">Design</caption>
+      <topicref type="topic" id="427823106791606" build="ALL" modified="2018-09-01T16:48:31.306Z" icon="0" href="psyms_Definitions">
+        <caption translate="true">Raster Symbol Definitions</caption>
+      </topicref>
+      <topicref type="topic" id="429158495876989" build="ALL" modified="2018-09-12T21:56:26.829Z" icon="0" href="psyms_Colour">
+        <caption translate="true">Alpha Colour Editor</caption>
+      </topicref>
+      <topicref type="topic" id="427824697267710" build="ALL" modified="2017-09-05T14:09:45.729Z" icon="0" href="psyms_Properties">
+        <caption translate="true">Symbol Properties</caption>
+        <topicref type="topic" id="427825263554744" build="ALL" modified="2018-09-13T08:12:49.947Z" icon="0" href="psyms_Type">
+          <caption translate="true">Type</caption>
+        </topicref>
+        <topicref type="topic" id="428684491362048" build="ALL" modified="2018-09-13T08:12:53.481Z" icon="0" href="psyms_Name">
+          <caption translate="true">Name</caption>
+        </topicref>
+        <topicref type="topic" id="428908212871350" build="ALL" modified="2018-09-13T08:15:30.073Z" icon="0" href="psyms_Pixel-Offset">
+          <caption translate="true">Pixel_offset</caption>
+        </topicref>
+        <topicref type="topic" id="428974372313983" build="ALL" modified="2018-09-13T08:18:51.703Z" icon="0" href="psyms_Fixed-Size_">
+          <caption translate="true">Fixed_size?</caption>
+        </topicref>
+        <topicref type="topic" id="429115079118878" build="ALL" modified="2018-09-13T08:19:04.371Z" icon="0" href="psyms_Draw_size_mm">
+          <caption translate="true">Draw_size_mm</caption>
+        </topicref>
+        <topicref type="topic" id="429118869362784" build="ALL" modified="2018-09-13T08:19:18.665Z" icon="0" href="psyms_String_selector">
+          <caption translate="true">String_selector</caption>
+        </topicref>
+        <topicref type="topic" id="429115620170082" build="ALL" modified="2017-06-26T08:19:45.848Z" icon="0">
+          <caption translate="true">Text Parameters</caption>
+          <topicref type="topic" id="429118978489894" build="ALL" modified="2018-09-13T08:26:05.315Z" icon="0" href="psyms_Draw_text_string_">
+            <caption translate="true">Draw_text_string?</caption>
+          </topicref>
+          <topicref type="topic" id="428906326400283" build="ALL" modified="2018-09-13T08:26:45.882Z" icon="0" href="psyms_Text-Picture-Justification">
+            <caption translate="true">Text_raster_justification</caption>
+          </topicref>
+          <topicref type="topic" id="42889871172329" build="ALL" modified="2018-09-13T08:27:54.859Z" icon="0" href="psyms_Text-Justification">
+            <caption translate="true">Text_justification</caption>
+          </topicref>
+          <topicref type="topic" id="429117425935745" build="ALL" modified="2018-09-13T08:28:01.247Z" icon="0" href="psyms_Text_coordinate">
+            <caption translate="true">Text_coordinate</caption>
+          </topicref>
+          <topicref type="topic" id="429118284207916" build="ALL" modified="2018-09-13T08:28:06.383Z" icon="0" href="psyms_Text_box">
+            <caption translate="true">Text_box</caption>
+          </topicref>
+          <topicref type="topic" id="429116933766509" build="ALL" modified="2018-09-13T08:28:12.510Z" icon="0" href="psyms_Text_scale_factor">
+            <caption translate="true">Text_scale_factor</caption>
+          </topicref>
+          <topicref type="topic" id="428906963451593" build="ALL" modified="2018-09-13T08:28:21.904Z" icon="0" href="psyms_Text-Style">
+            <caption translate="true">Text_style</caption>
+          </topicref>
+          <topicref type="topic" id="428906598881343" build="ALL" modified="2018-09-13T08:28:26.746Z" icon="0" href="psyms_Highlight-Text-Style">
+            <caption translate="true">Highlight_text_style</caption>
+          </topicref>
+        </topicref>
+        <topicref type="topic" id="429118722693166" build="ALL" modified="2018-09-13T08:33:06.325Z" icon="0" href="psyms_Value_selector">
+          <caption translate="true">Value_selector</caption>
+        </topicref>
+        <topicref type="topic" id="42910358974486" build="ALL" modified="2018-09-13T08:33:09.973Z" icon="0" href="psyms_Value_scale">
+          <caption translate="true">Value_scale</caption>
+        </topicref>
+        <topicref type="topic" id="429117065835614" build="ALL" modified="2018-09-13T08:33:54.030Z" icon="0" href="psyms_Goto_line_style">
+          <caption translate="true">Goto_line_style</caption>
+        </topicref>
+        <topicref type="topic" id="429117551900431" build="ALL" modified="2018-09-13T08:33:58.773Z" icon="0" href="psyms_Goto_area_style">
+          <caption translate="true">Goto_area_style</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="427823016013173" build="ALL" modified="2018-09-12T22:25:43.310Z" icon="0" href="psyms_Raster--Grid">
+        <caption translate="true">Grid Raster Symbols</caption>
+        <topicref type="topic" id="42922495668096" build="ALL" modified="2018-09-13T08:32:19.439Z" icon="0" href="psyms_Colourmap">
+          <caption translate="true">Colourmap</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="42893506233132" build="ALL" modified="2018-09-04T15:11:32.638Z" icon="0" href="psyms_Thumbnail-Picture-Symbol">
+        <caption translate="true">Thumbnail Raster Symbol</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="433447902835613" build="ALL" modified="2018-09-01T15:33:31.596Z" icon="0" href="psyms_Administration">
+      <caption translate="true">Administration</caption>
+      <topicref type="topic" id="428867878086506" build="ALL" modified="2018-09-12T20:24:45.803Z" icon="0" href="psyms_Organisation">
+        <caption translate="true">The modules</caption>
+      </topicref>
+      <topicref type="topic" id="43346622982287" build="ALL" modified="2018-09-01T15:41:43.818Z" icon="0" href="psyms_Installation">
+        <caption translate="true">Installation</caption>
+      </topicref>
+      <topicref type="topic" id="43349524779668" build="ALL" modified="2018-09-04T15:19:41.156Z" icon="0" href="psyms_Authorisation">
+        <caption translate="true">Authorisation</caption>
+      </topicref>
+      <topicref type="topic" id="429154024680819" build="ALL" modified="2017-06-29T08:51:46.402Z" icon="0" href="psyms_Image-Magick">
+        <caption translate="true">Image Magick</caption>
+      </topicref>
+      <topicref type="topic" id="438134740285907" build="ALL" modified="2019-12-14T08:15:37.687Z" icon="0" href="psyms_Load-from-prompt">
+        <caption translate="true">Load from prompt</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="433445763906618" build="ALL" modified="2018-09-01T15:33:20.323Z" icon="0" href="psyms_Configuration">
+      <caption translate="true">Configuration</caption>
+      <topicref type="topic" id="433476529808230" build="ALL" modified="2019-12-14T09:21:20.331Z" icon="0" href="psyms_Plugin-configuration">
+        <caption translate="true">Plugin Configuration</caption>
+      </topicref>
+      <topicref type="topic" id="42766981000067" build="ALL" modified="2018-09-12T20:36:35.624Z" icon="0" href="psyms_Default_Settings">
+        <caption translate="true">Default Settings</caption>
+      </topicref>
+      <topicref type="topic" id="427823828301003" build="ALL" modified="2018-09-04T11:50:26.980Z" icon="0" href="psyms_Default-symbol">
+        <caption translate="true">Default Symbol</caption>
+      </topicref>
+      <topicref type="topic" id="433458286093081" build="ALL" modified="2018-09-02T20:48:06.001Z" icon="0" href="psyms_Mappings">
+        <caption translate="true">Geometry Mappings</caption>
+        <topicref type="topic" id="427825783017917" build="ALL" modified="2018-09-01T17:00:32.630Z" icon="0" href="psyms_Custom-Symbol">
+          <caption translate="true">Auto generated draw methods</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="427826619967304" build="ALL" modified="2017-06-27T10:05:56.780Z" icon="0" href="psyms_The-NONE-symbol">
+        <caption translate="true">The NOTHING symbol</caption>
+      </topicref>
+      <topicref type="topic" id="42781299857082" build="ALL" modified="2018-09-12T20:46:20.172Z" icon="0" href="psyms_XML-configuration">
+        <caption translate="true">Configuration files</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="427685583681965" build="ALL" modified="2018-09-01T15:34:18.836Z" icon="0" href="psyms_Development-GUI">
+      <caption translate="true">Configuration GUI</caption>
+      <topicref type="topic" id="428869563019595" build="ALL" modified="2017-05-31T22:04:51.331Z" icon="0" href="psyms_Modules">
+        <caption translate="true">Modules</caption>
+      </topicref>
+      <topicref type="topic" id="428870209506837" build="ALL" modified="2017-05-31T22:05:33.119Z" icon="0" href="psyms_Symbol-(definition)-list">
+        <caption translate="true">Symbol (definition) list</caption>
+      </topicref>
+      <topicref type="topic" id="42781384217252" build="ALL" modified="2017-02-16T13:32:31.970Z" icon="0" href="psyms_Preview-canvas">
+        <caption translate="true">Preview canvas</caption>
+      </topicref>
+      <topicref type="topic" id="428979340437914" build="ALL" modified="2018-09-13T09:50:13.476Z" icon="0" href="psyms_Picture-Symbol-Properties">
+        <caption translate="true">Symbol Properties</caption>
+      </topicref>
+      <topicref type="topic" id="429159773453729" build="ALL" modified="2018-09-13T10:07:13.443Z" icon="0" href="psyms_Goto-Mapping-tab">
+        <caption translate="true">Goto Mappings Tab</caption>
+      </topicref>
+      <topicref type="topic" id="429157855286149" build="ALL" modified="2018-09-13T10:07:07.767Z" icon="0" href="psyms_RWO-Style-mapping-tab">
+        <caption translate="true">RWO Style Mappings Tab</caption>
+      </topicref>
+      <topicref type="topic" id="438135736663342" build="ALL" modified="2019-12-14T09:16:26.777Z" icon="0" href="psyms_Default-Settings-Tab">
+        <caption translate="true">Default Settings Tab</caption>
+      </topicref>
+      <topicref type="topic" id="428927172186917" build="ALL" modified="2017-06-06T12:48:38.075Z" icon="0" href="psyms_Draw">
+        <caption translate="true">Draw</caption>
+      </topicref>
+      <topicref type="topic" id="428905299686829" build="ALL" modified="2017-06-04T15:49:14.539Z" icon="0" href="psyms_Highlight_">
+        <caption translate="true">Highlight?</caption>
+      </topicref>
+      <topicref type="topic" id="427823713684316" build="ALL" modified="2017-06-13T11:20:27.482Z" icon="0" href="psyms_Speed">
+        <caption translate="true">Drawing speed label</caption>
+      </topicref>
+      <topicref type="topic" id="429232873027742" build="ALL" modified="2017-07-07T07:21:16.779Z" icon="0" href="psyms_Add-symbol">
+        <caption translate="true">Add symbol</caption>
+      </topicref>
+      <topicref type="topic" id="429234240216443" build="ALL" modified="2017-07-07T07:22:46.363Z" icon="0" href="psyms_Realise">
+        <caption translate="true">Realise</caption>
+      </topicref>
+      <topicref type="topic" id="429233103595996" build="ALL" modified="2017-07-07T07:22:00.079Z" icon="0" href="psyms_Delete-symbol-(definition)">
+        <caption translate="true">Delete symbol (definition)</caption>
+      </topicref>
+      <topicref type="topic" id="429392899429687" build="ALL" modified="2017-07-23T10:48:18.973Z" icon="0" href="psyms_Follow-selection">
+        <caption translate="true">Follow selection</caption>
+      </topicref>
+      <topicref type="topic" id="429395482989210" build="ALL" modified="2017-07-23T10:39:04.497Z" icon="0" href="psyms_Refresh">
+        <caption translate="true">Refresh</caption>
+      </topicref>
+      <topicref type="topic" id="429392489472323" build="ALL" modified="2017-07-23T10:35:00.978Z" icon="0" href="psyms_Style-versions">
+        <caption translate="true">Style versions</caption>
+      </topicref>
+      <topicref type="topic" id="428916398714143" build="ALL" modified="2017-06-05T13:30:33.181Z" icon="0" href="psyms_Save">
+        <caption translate="true">Save</caption>
+      </topicref>
+      <topicref type="topic" id="433565594624880" build="ALL" modified="2018-09-13T10:11:05.574Z" icon="0" href="psyms_Save-As">
+        <caption translate="true">Save As</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="429797021875112" build="ALL" modified="2017-09-01T15:22:05.871Z" icon="0" href="psyms_Usage">
+      <caption translate="true">Usage</caption>
+      <topicref type="topic" id="428907356871834" build="ALL" modified="2017-06-04T21:11:13.209Z" icon="0" href="psyms_Operating-Mode">
+        <caption translate="true">Operating Mode</caption>
+      </topicref>
+      <topicref type="topic" id="429437411659839" build="ALL" modified="2017-09-01T15:15:50.330Z" icon="0">
+        <caption translate="true">Common Office Specials</caption>
+      </topicref>
+      <topicref type="topic" id="429236035605305" build="ALL" modified="2018-09-13T10:27:58.148Z" icon="0">
+        <caption translate="true">Water Office Specials</caption>
+        <topicref type="topic" id="429246927231111" build="ALL" modified="2017-07-08T13:45:15.717Z" icon="0" href="psyms_Route-Manager">
+          <caption translate="true">Route Manager</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="433504122528670" build="ALL" modified="2018-09-07T07:22:27.060Z" icon="0" href="psyms_Value-Mapping2">
+        <caption translate="true">Value Mapping</caption>
+      </topicref>
+      <topicref type="topic" id="438157914566761" build="ALL" modified="2019-12-16T22:34:46.574Z" icon="0" href="psyms_Changing-the-default-symbol">
+        <caption translate="true">Changing the default symbol</caption>
+      </topicref>
+      <topicref type="topic" id="43832033995398" build="ALL" modified="2020-01-02T12:27:31.097Z" icon="0" href="psyms_Flash-mapping">
+        <caption translate="true">Flash mapping</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="427686137408016" build="ALL" modified="2017-02-16T12:08:32.899Z" icon="0" href="psyms_Custom-Styles_2">
+      <caption translate="true">Thematics</caption>
+    </topicref>
+    <topicref type="topic" id="428683514708325" build="ALL" modified="2018-09-01T15:35:46.096Z" icon="0" href="psyms_API">
+      <caption translate="true">Development</caption>
+      <topicref type="topic" id="6063337649" build="ALL" modified="2018-09-13T10:46:44.566Z" icon="0">
+        <caption translate="true">Magik API</caption>
+        <topicref type="topic" id="428925542206907" build="ALL" modified="2017-06-13T11:35:58.056Z" icon="0" href="psyms_Drawing">
+          <caption translate="true">Drawing of symbols</caption>
+        </topicref>
+        <topicref type="topic" id="429015339839156" build="ALL" modified="2017-06-15T11:52:00.461Z" icon="0" href="psyms_Retrieving-symbols">
+          <caption translate="true">Retrieving symbols</caption>
+        </topicref>
+        <topicref type="topic" id="428918728671081" build="ALL" modified="2017-06-13T11:35:45.532Z" icon="0" href="psyms_Creation">
+          <caption translate="true">Creation of symbols</caption>
+        </topicref>
+        <topicref type="topic" id="428996373827422" build="ALL" modified="2017-06-27T09:04:04.871Z" icon="0" href="psyms_Handling-mappings">
+          <caption translate="true">Handling of mappings</caption>
+        </topicref>
+        <topicref type="topic" id="428995269928137" build="ALL" modified="2017-06-13T11:36:52.239Z" icon="0" href="psyms_Using-statistical-engines">
+          <caption translate="true">Using statistical engines</caption>
+        </topicref>
+        <topicref type="topic" id="433562033687105" build="ALL" modified="2018-09-13T09:18:53.844Z" icon="0" href="psyms_Processing-configuration-files">
+          <caption translate="true">Processing configuration files</caption>
+        </topicref>
+        <topicref type="topic" id="6085235438" build="ALL" modified="2019-01-25T11:54:24.489Z" icon="0" href="psyms_New-topic">
+          <caption translate="true">Selection symbols</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="427684249194221" build="ALL" modified="2017-02-02T12:51:09.019Z" icon="0" href="psyms_Design-considerations">
+        <caption translate="true">Design considerations</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="438236091017657" build="ALL" modified="2019-12-24T17:00:30.102Z" icon="0" href="psyms_Product-Tests">
+      <caption translate="true">Product Tests &amp; Demos</caption>
+      <topicref type="topic" id="438204473728536" build="ALL" modified="2019-12-21T12:12:45.837Z" icon="0" href="psyms_Unit-tests">
+        <caption translate="true">Unit tests</caption>
+      </topicref>
+      <topicref type="topic" id="438238439432507" build="ALL" modified="2019-12-24T17:00:02.779Z" icon="0" href="psyms_Demos">
+        <caption translate="true">Demo's</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="433447901962381" build="ALL" modified="2018-09-01T15:38:54.221Z" icon="0" href="psyms_Tools">
+      <caption translate="true">Tools</caption>
+      <topicref type="topic" id="428682410538641" build="ALL" modified="2017-05-13T10:32:12.162Z" icon="0" href="psyms_Drawing-Speed-Monitor">
+        <caption translate="true">Drawing Speed Monitor</caption>
+        <topicref type="topic" id="428685941395944" build="ALL" modified="2017-05-13T10:49:49.327Z" icon="0" href="psyms_Draw-symbols">
+          <caption translate="true">Operation</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="429154375320693" build="ALL" modified="2017-06-29T14:29:36.954Z" icon="0" href="psyms_Value-analyzer">
+        <caption translate="true">Value analyzer</caption>
+        <topicref type="topic" id="429156983338061" build="ALL" modified="2017-06-29T15:02:38.959Z" icon="0" href="psyms_Properties2">
+          <caption translate="true">Properties</caption>
+        </topicref>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="429238656382260" build="ALL" modified="2017-07-07T22:37:05.127Z" icon="0" href="psyms_Warnings">
+      <caption translate="true">Warning</caption>
+    </topicref>
+    <topicref type="topic" id="430116632116323" build="ALL" modified="2017-10-03T12:33:54.074Z" icon="0" href="psyms_TEST2">
+      <caption translate="true">Document conventions</caption>
+    </topicref>
+    <topicref type="topic" id="43357397544957" build="ALL" modified="2019-12-12T21:20:01.019Z" icon="0" href="mms_About">
+      <caption translate="true">About</caption>
+    </topicref>
+  </topicref>
+</map>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Thumbnail Raster Symbol</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">A special kind of raster Symbol is the Thumbnail raster Symbol. It&apos;s type is </text><text styleclass="Code in text" translate="true">:thumbnail</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">It is a symbol of class </text><text styleclass="Code in text" translate="true">thumbnail_raster_symbol</text><text styleclass="Normal" translate="true"> and is related to another symbol. It draws the thumbnail and the raster_image (or grid) of another raster. The value of the extra property for this type of symbol </text><text styleclass="Normal" style="font-weight:bold;" translate="true">source_symbol_name</text><text styleclass="Normal" translate="true"> should be the name of the parent raster.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When the raster with name </text><text styleclass="Normal" style="font-weight:bold;" translate="true">source_symbol_name</text><text styleclass="Normal" style="font-style:italic;" translate="true"> </text><text styleclass="Normal" translate="true">does not exist, it will raise an error.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Document-References" styleclass="Normal" translate="true">Document References</link><text styleclass="Normal" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Associated-Documents" styleclass="Normal" translate="true">Associated Pictures</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

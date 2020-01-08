@@ -1,0 +1,19 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_block
+	_local (l_n,l_p) << system.pathname_components(!source_file!)
+	_local l_chan << directory_channel.new(l_p,"*.magik")
+	_loop
+		_local l_fo << l_chan.get()
+		_if l_fo = "load.magik"
+		_then _continue
+		_elif l_fo = _unset
+		_then _leave 
+		_endif
+		load_file(system.pathname_from_components(l_fo,l_p))
+	_endloop
+_endblock
+$

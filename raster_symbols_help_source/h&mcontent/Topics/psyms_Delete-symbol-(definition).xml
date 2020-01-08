@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Delete symbol (definition)</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The function </text><image src="delete_object.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><text styleclass="User Interface Element" translate="true">Delete</text><text styleclass="Normal" translate="true"> deletes the selected raster Symbol or raster Symbol definition.</text><br/></para>
+  </body>
+</topic>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Value_scale</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The value scale is a numeric value for the scale the values are drawn.</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">If the value scale is unset, and the raster symbol has a </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_selector" styleclass="TableText" translate="true">value_selector</link><text styleclass="TableText" translate="true">, the range is identified by a statistics_engine (See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Using-statistical-engines" styleclass="TableText" translate="true">Using statistical engines</link><text styleclass="TableText" translate="true">)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The value scale is drawn at the top of the graph.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

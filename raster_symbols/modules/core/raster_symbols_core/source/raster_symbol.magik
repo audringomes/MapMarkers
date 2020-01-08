@@ -1,0 +1,2208 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:raster_symbol)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Holds data to draw a bitmap as a point symbol.
+## The bitmap is loaded as raster_image.
+##
+## The singleton RASTER_SYMBOL_HANDLER is responsable for the
+## creation, caching and managing of the raster_symbols.
+## 
+## Raster Symbols must be organised a resource of a module.
+## Usage:
+##  new_with_properties()
+##  draw_on()
+##  draw_value_on()
+##
+## Subclasses should implement
+##  valid_data_types, and
+##  valid_unset_properties
+##
+#
+def_slotted_exemplar(:raster_symbol,{
+	{:type,_unset},
+	{:name,_unset},
+	{:filename,_unset},
+	{:module_name,_unset},
+	{:raster_image,_unset},
+	{:thumbnail,_unset},
+	{:width,_unset},
+	{:height,_unset},
+	{:raster_bounds,_unset},# bb in pixels
+	{:pixel_offset,_unset},
+	{:fixed_size?,_false},
+	{:draw_size_mm,_unset},
+	# Object methods
+	{:string_selector,_unset},
+	# Text parameters
+	{:draw_text_string?,_false},
+	{:text_raster_justification,_unset},
+	{:text_scale_factor,_unset},
+	{:text_justification,_unset},
+	{:text_coordinate,_unset},
+	{:text_box,_unset},
+	{:text_style,_unset},
+	{:highlight_text_style,_unset},
+	# Goto drawing styles
+	{:goto_line_style,_unset},
+	{:goto_area_style,_unset},
+	# Value definition
+	{:value_selector,_unset},
+	{:value_scale,_unset},
+	# Value drawing
+	{:draw_background?,_unset},
+	{:draw_measurement_scale?,_unset},
+	{:draw_value_txt?,_unset},
+	{:value_colour_scheme,_unset},
+	{:background_fill_style,_unset},
+	{:value_fill_style,_unset},
+	{:value_text_style,_unset},
+	{:value_text_justification,_unset},
+	{:value_box_justification,_unset},
+	{:value_format,_unset},
+	{:measurement_text_style,_unset},
+	{:instance_params,_unset}
+		     })
+$
+
+
+### 
+### SLOT ACCESS DEFINITIONS ----------------------------------
+### 
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#
+## type :raster or :grid. Cannot be changed
+#
+raster_symbol.define_slot_access(:type,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#
+## NAME should match the key on which it is stored by the
+## raster_symbol_handler! It is only for convienence stored in
+## the symbol too.
+#
+raster_symbol.define_slot_access(:name,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#
+## FILENAME contains the full path to the picture file. When it
+## is saved, only the name is written.
+#
+raster_symbol.define_slot_access(:filename,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#
+## holds the raster image created from the thumbnail, that is 
+## created and when outdated updated by Image Magick
+#
+raster_symbol.define_slot_access(:thumbnail,:read,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## pixel_bounding_box of picture, this is stored when the
+## picture symbol is created.
+#
+raster_symbol.define_slot_access(:raster_bounds,:read,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## width in pixels of raster image
+# 
+raster_symbol.define_slot_access(:width,:read,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## height in pixels of raster image
+# 
+raster_symbol.define_slot_access(:height,:read,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## pixel_coordinate for adjusting the picture pixel point to
+## the drawm world coordinate
+# 
+raster_symbol.define_slot_access(:pixel_offset,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## When FIXED_SIZE? is true (the default), the picture image
+## will be drawn with a fixed size on the screen.
+## When FIXED_SIZE? is false, the raster_symbol is drawn with
+## the width defined in DRAW_SIZE_MM
+# 
+raster_symbol.define_slot_access(:fixed_size?,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## draw size in world units mm when fixed_size? is false
+# 
+raster_symbol.define_slot_access(:draw_size_mm,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+##  name of the method to invoke on rwo to get text string for
+##  drawing text. For subclassing and unified interface, the
+##  default method :ss_string is used and defined on rwo_record_mixin
+#
+raster_symbol.define_slot_access(:string_selector,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## name of the method to invoke on rwo to get the value for drawing
+## on a chart
+#
+raster_symbol.define_slot_access(:value_selector,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Scale (max) for drawing values, must be a number
+#
+raster_symbol.define_slot_access(:value_scale,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Which colours should be used in Value Mapping.
+##   :colour          -  a colour derived from VALUE_FILL_STYLE
+##   Sublasses have more possibilities:
+##   :sym_colourmap   -  use the colourmap of the symbol
+##   :named_colourmap -  use the colourmap witgh the name in
+##                       the property :named_colourmap
+raster_symbol.define_slot_access(:value_colour_scheme,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Colour to be used when drawing values
+#
+raster_symbol.define_slot_access(:value_fill_style,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Draw a backgound with background_fill_style?
+#
+raster_symbol.define_slot_access(:draw_background?,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## background_fill_style
+#
+raster_symbol.define_slot_access(:background_fill_style,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## A format for the value label
+#
+raster_symbol.define_slot_access(:value_format,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Draw a measurement scale?
+#
+raster_symbol.define_slot_access(:draw_measurement_scale?,:write,:public)
+$
+
+###
+### Text properties
+###
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## If false, rendering of a text string is skipped
+# 
+raster_symbol.define_slot_access(:draw_text_string?,:write,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## :text_raster_justification holds the justification of the text
+##     related to the pixel_bounds of the image.
+##     Its value is one of:
+##
+##   [:valid_bbox_justification]
+##     A position specified as method name of bounding_box points, like
+##     :bottom_left, :center_centre etc. See
+##     _self.valid_justifications for the allowed values.
+##
+##   :text_coordinate,
+##     A coordinate (in pixel space) {x,y}. values may be float. 
+##
+##   :text_box,
+##     A pixel_bounding_box in which space the text must be drawn.
+##     
+## NOTE:
+##     :text_box and :text_coordinate are mutually exlusive.
+##     When :raster_coordinate or :text_box are defined, 
+##     the value of :text_raster_justification is ignored.
+##
+raster_symbol.define_slot_access(:text_raster_justification,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Scale to be applied to non fixed size fonts
+# 
+raster_symbol.define_slot_access(:text_scale_factor,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## text-justification to be used. Value should be coordinated
+## with the value of :text_raster_justification.
+# 
+raster_symbol.define_slot_access(:text_justification,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## (optional) pixel_coordinate for drawing text
+# 
+raster_symbol.define_slot_access(:text_coordinate,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## (option) pixel_bounding_box for drawing text. Will by used
+## when _self.text_raster_justification = :text_box
+## 
+raster_symbol.define_slot_access(:text_box,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## text-style to be used for text drawing
+# 
+raster_symbol.define_slot_access(:text_style,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## text-style to be used for highlight text drawing
+# 
+raster_symbol.define_slot_access(:highlight_text_style,:write,:read_only)
+$
+
+###
+### Goto styles
+###
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Line style used to draw linear features 
+# 
+raster_symbol.define_slot_access(:goto_line_style,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Area style used to render goto areas.
+## Is implemented as a colour
+#
+raster_symbol.define_slot_access(:goto_area_style,:write,:read_only)
+$
+
+###
+### Value styles and text properties
+###
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Area style used to render goto areas.
+## Is implemented as a colour
+#
+raster_symbol.define_slot_access(:value_text_style,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Text justification for value label
+#
+raster_symbol.define_slot_access(:value_text_justification,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Relative orientation of value label to the value box
+#
+raster_symbol.define_slot_access(:value_box_justification,:write,:read_only)
+$
+
+_pragma(classify_level=advanced, topic={style_system}, usage={redefinable, subclassable})
+_method raster_symbol.hidden?
+	## If true, it will not show up in the list
+	>> _false 
+_endmethod
+$
+
+### 
+### DEFINITION OF DEFAULT SHORTCUTS
+### 
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.default_highlight_line_style
+	>> raster_symbol_handler.defaults[:highlight_line_style]
+_endmethod
+$
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.default_highlight_colour
+	>> raster_symbol_handler.defaults[:highlight_colour]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_text_parameters
+	## The default value for text parameters
+	##   :text_justification
+	##   :text_raster_justification
+	##   :text_scale_factor
+	_local l_def << raster_symbol_handler.defaults
+	_local l_prop << property_list.new()
+	_for i_key _over {:text_justification,:text_raster_justification,:text_scale_factor}.fast_elements()
+	_loop l_prop[i_key] << l_def[i_key]
+	_endloop
+	>> l_prop
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_value_text_justification
+	>> raster_symbol_handler.defaults[:value_text_justification]	
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_value_box_justification
+	>> raster_symbol_handler.defaults[:value_box_justification]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_measurement_text_style
+	>> raster_symbol_handler.defaults[:measurement_text_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_text_style
+	>> raster_symbol_handler.defaults[:text_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_highlight_text_style
+	>> raster_symbol_handler.defaults[:highlight_text_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_value_text_style
+	>> raster_symbol_handler.defaults[:value_text_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_goto_area_style
+	>> raster_symbol_handler.defaults[:goto_area_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_value_fill_style
+	>> raster_symbol_handler.defaults[:value_fill_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_background_fill_style
+	>> raster_symbol_handler.defaults[:background_fill_style]
+_endmethod
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.default_goto_line_style
+	>> raster_symbol_handler.defaults[:goto_line_style]
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## for the properties list in the GUI
+#
+raster_symbol.define_shared_constant(:readonly_properties,
+	property_list.new_with(:name,_true,
+			       :type,_true,
+			       :filename,_true,
+			       :module_name,_true,
+			       :width,_true,
+			       :height,_true,
+			       :nbits,_true,
+			       :fixed_size?,_false,
+			       :pixel_offset,_false,
+			       :draw_size_mm,_false,
+			       :string_selector,_false,
+			       :value_selector,_false,
+			       :draw_text_string?,_false,
+			       :text_style,_false,
+			       :highlight_text_style,_false,
+			       :text_scale_factor,_false,
+			       :text_raster_justification,_false,
+			       :text_justification,_false,
+			       :text_box,_false,
+			       :text_coordinate,_false,
+			       :goto_line_style,_false,
+			       :goto_area_style,_false),
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Justifications for a bbox
+#
+raster_symbol.define_shared_constant(:valid_bbox_justifications,
+	{:top_left,
+	 :top_centre,
+	 :top_right,
+	 :centre_left,
+	 :centre,
+	 :centre_right,
+	 :bottom_left,
+	 :bottom_centre,
+	 :bottom_right,
+	 :text_coordinate,
+	 :text_box},
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Justifications for a text
+#
+raster_symbol.define_shared_constant(:valid_text_justifications,
+	{:top_left,
+	 :top_centre,
+	 :top_right,
+	 :centre_left,
+	 :centre_centre,
+	 :centre_right,
+	 :bottom_left,
+	 :bottom_centre,
+	 :bottom_right},
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Contains the datatype for every property.
+#
+raster_symbol.define_shared_constant(:data_types,
+	property_list.new_with(:name,"",
+			       :type,{:raster,:grid,:thumbnail},
+			       :filename,"",
+			       :module_name,:symbol,
+			       :width,integer,
+			       :height,integer,
+			       :nbits,integer,
+			       :fixed_size?,_false,
+			       :pixel_offset,pixel_coordinate,
+			       :draw_size_mm,integer,
+			       :string_selector,:symbol,
+			       :draw_background?,_false,
+			       :value_selector,:symbol,
+			       :value_scale,{integer,float},
+			       :draw_measurement_scale?,_true,
+			       :value_colour_scheme,{:colour},
+			       :value_fill_style,fill_style,
+			       :value_text_style,text_style,
+			       :text_raster_justification,raster_symbol.valid_bbox_justifications,
+			       :text_justification,raster_symbol.valid_text_justifications,
+			       :value_text_justification,raster_symbol.valid_text_justifications,
+			       :value_box_justification,raster_symbol.valid_bbox_justifications,
+			       :background_fill_style,fill_style,
+			       :draw_text_string?,_false,
+			       :text_style,text_style,
+			       :highlight_text_style,{text_style,"default","derived"},
+			       :text_scale_factor,float,
+			       :text_box,pixel_bounding_box,
+			       :text_coordinate,pixel_coordinate,
+			       :goto_line_style,line_style,
+			       :goto_area_style,fill_style,
+			       :raster_image,raster_image),
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Specifies whether a property may be unset, because it has a
+## default value, or it is required only by the value of
+## another property
+#
+raster_symbol.define_shared_constant(:valid_unset_properties,
+	{:name, # is filled automatically and not needed for definitions
+	 :pixel_offset,
+	 :draw_size_mm,
+	 :string_selector,
+	 :draw_background?,
+	 :value_selector,
+	 :value_scale,
+	 :value_colour_scheme,
+	 :value_fill_style,
+	 :value_text_style,
+	 :value_text_justification,
+	 :value_box_justification,
+	 :background_fill_style,
+	 :text_style,
+	 :highlight_text_style,
+	 :text_scale_factor,
+	 :text_raster_justification,
+	 :text_justification,
+	 :text_box,
+	 :text_coordinate,
+	 :goto_line_style,
+	 :goto_area_style,
+	 :raster_image},
+	:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system}, usage={subclassable})
+#
+## defines the properties that can be set to modify the drawing
+## of _self, either by _self.draw_with_properties() or in the
+## databus request :draw_raster_symbols
+#
+raster_symbol.define_shared_constant(:drawing_properties,
+	{:fixed_size?,
+	 :pixel_offset,
+	 :draw_size_mm,
+	 :string_selector,
+	 :value_selector,
+	 :value_scale,
+	 :value_fill_style,
+	 :value_text_style,
+	 :draw_background?,
+	 :background_fill_style,
+	 :draw_measurement_scale?,
+	 :measurement_text_style,
+	 :draw_text_string?,
+	 :text_style,
+	 :highlight_text_style,
+	 :text_scale_factor,
+	 :text_raster_justification,
+	 :text_justification,
+	 :text_box,
+	 :text_coordinate,
+	 :goto_line_style,
+	 :goto_area_style},
+	:public)
+$
+
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.valid_data_types
+	## 
+	## Just return my data types (subclasses can do more)
+	_self.define_shared_constant(:valid_data_types,_self.data_types,:public)
+	>> _self.data_types
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.valid_justifications
+	## Valid text justifications (compat method)
+	>> _self.valid_data_types[:text_justification]
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.path_to_im_convert()
+	#
+	## Path to ImageMagikc convert.exe.
+	## Change to another path when needed
+	#
+	>> smallworld_product.get_resource_file("convert.exe",:bin,:raster_symbols_core)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.readonly?
+	##
+	## This method can be used to disable operations like renaming
+	## a symbol. The default implementation restricts renaming of
+	## raster_symbols in the module raster_symbols_core
+	## but omit this test if the current user has the system_admin
+	## group 
+
+	_local l_groups << gis_program_manager.authorisation_view.current_groups
+	_local l_admin? << _for i_grp _over l_groups.fast_elements()
+	_loop _if i_grp.name="system_admin"
+	      _then _leave _with _true 
+	      _endif
+	_endloop.default(_false)
+
+	>> _not l_admin? _andif (_self.source_module_name _is :raster_symbols_core)
+	
+_endmethod
+$
+
+
+### 
+### RASTER_SYMBOL METHODS  ----------------------------------
+### 
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.new_with_properties(p_file,p_properties)	
+	#
+	## Creates a raster_symbol from P_FILE.
+	## This can be a raster_image or a file name.
+	## If it isn't a full pathname, module resources from p_properties[:module_name]
+	## or _self.module_name is used.
+	##
+	## P_PROPERTIES: property_list with property/value: (see slot
+	##                     documentation for details)
+	##
+	##    :type - :raster (default) or :grid
+	##    :module_name - where to locate the resource
+	##                 (see comments in _self.file())
+	##    :pixel_offset - pixel_coordinate (Defaults to {-1/2*width, 0})
+	##    :fixed_size? - Boolean (default true)
+	##    :draw_size_mm - Obligatory when :fixed_size? is false
+	##    :draw_text_string? - Boolean (default True)
+	##    :text_scale_factor - float for text magnification
+	##    :text_style - a text_style (default _self.default_text_style)
+	##    :highlight_text_style a text_style (default _self.default_text_style)
+	##    :text_raster_justification - position of text on raster_bounds,
+	##        either 1) a valid justification string or:
+	##               2) :text_box
+	##               3) :text_coordinate
+	##    :text_justification
+	##    :goto_line_style (optional) 
+	##    :goto_area_style (optional) 
+	#	
+	>> _clone.init(p_file,p_properties)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.init(p_file,p_properties)
+	#
+	## Stores parameters and loads P_FILENAME as raster_image and
+	## if p_type = :grid loads it as a grid
+	#
+
+	_self.validate_properties(p_properties)
+
+	#DEBUG write(_self," INIT ",p_file," " ,p_properties)
+
+	_local l_defs << raster_symbol_handler.defaults
+	.name << p_properties[:name]
+	.module_name << p_properties[:module_name]	
+	.filename << _if p_file.is_kind_of?(raster_image)
+		     _then >> p_file.path_name
+		     _else >> _self.file(p_file,.module_name)
+		     _endif
+	#DEBUG write("Filename set to ",.filename)
+	
+	_local l_type << .type << p_properties[:type].default(l_defs[:default_type])
+
+	_self.thumbnail()
+
+	_local l_rasim << _self.load_as_raster_image(p_file)
+	_local l_size << _allresults l_rasim.size()
+	.width << l_size[1]
+	.height << l_size[2]
+	.raster_bounds << bounding_box.new(0,0,.width,.height)
+	.pixel_offset << _if ( lo << p_properties[:pixel_offset]) _isnt _unset 
+			 _then >> lo
+			 _else >> pixel_coordinate.new(-(l_size[1]/2.0).truncated,0)
+			 _endif	
+
+	.fixed_size? << p_properties[:fixed_size?].default(l_defs[:fixed_size?])
+	.draw_size_mm << p_properties[:draw_size_mm].default(l_defs[:draw_size_mm])
+	.string_selector << p_properties[:string_selector]
+	.value_selector << p_properties[:value_selector]
+	.value_scale << p_properties[:value_scale]
+	.draw_text_string? << p_properties[:draw_text_string?].default(_true)
+	.goto_line_style << p_properties[:goto_line_style].default(_self.default_goto_line_style)
+	.goto_area_style << p_properties[:goto_area_style].default(_self.default_goto_area_style)
+	.value_fill_style << p_properties[:value_fill_style].default(_self.default_value_fill_style)
+	.value_text_style << p_properties[:value_text_style].default(_self.default_value_text_style)
+	.value_text_justification << p_properties[:value_text_justification].default(_self.default_value_text_justification)
+	.value_box_justification << p_properties[:value_box_justification].default(_self.default_value_box_justification)
+	.draw_background? << p_properties[:draw_background?].default(_false)
+	.background_fill_style << p_properties[:background_fill_style].default(_self.default_background_fill_style)
+	.draw_measurement_scale? << p_properties[:draw_measurement_scale?].default(_true)
+	
+	_self.set_text_properties(p_properties)
+	
+	_self.validate_properties()
+	
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.load_as_raster_image(p_image)
+	## 
+	## Loads the file as a raster_image object and stores it. When
+	## P_IMAGE isnt unset and a raster_image, just put it in the slot
+	##
+	#DEBUG write("raster_symbol.load_as_raster_image(",p_image,")")
+	_if p_image.is_kind_of?(raster_image)
+	_then
+		#DEBUG write(_self," storing raster image ",p_image.path_name)
+		.raster_image << p_image
+	_else
+		#DEBUG write(_self," Load raster_image from ",.filename)
+		.raster_image << raster_image.new_from_file(.filename)
+	_endif
+	
+	>> .raster_image
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.set_text_properties(p_props)
+	## Set text properties from P_PROPS
+	## All of these values may be unset, in which case
+	## defaults are used  and is used
+	##
+	## :text_style                   _self.default_text_style
+	## :highlight_text_style         "derived","default" or text_style
+	## :text_scale_factor            _self.default_text_parameters[]
+	## :text_raster_justification   _self.default_text_parameters[]
+	## :text_justification           _self.default_text_parameters[]
+	## :text_coordinate
+	## :text_box
+	##
+
+	#DEBUG write(_self,".set_text_properties(",p_props,")")
+	#	_local l_defprops << _self.default_text_parameters
+	_local l_defprops << raster_symbol_handler.defaults
+	
+	.text_style << p_props[:text_style].default(_self.default_text_style)
+	
+	_if (l_hs << p_props[:highlight_text_style]) _is _unset _orif
+	    l_hs.write_string = "derived"
+	_then .highlight_text_style << _self.derived_highlight_text_style()
+	_elif l_hs.write_string = "default"
+	_then .highlight_text_style << _self.default_highlight_text_style
+	_else .highlight_text_style << l_hs
+	_endif
+	
+	.text_scale_factor << p_props[:text_scale_factor].default(l_defprops[:text_scale_factor])	
+	.text_raster_justification << p_props[:text_raster_justification].default(l_defprops[:text_raster_justification])
+	.text_justification << p_props[:text_justification].default(l_defprops[:text_justification])
+	_if (l_coord << p_props[:text_coordinate]) _isnt _unset 
+	_then .text_coordinate << pixel_coordinate.new(l_coord[1],l_coord[2])
+	_endif
+		
+	_if (l_bbx << p_props[:text_box]) _isnt _unset
+	_then .text_box << l_bbx
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.validate_properties(_optional p_properties)
+	# 
+	## Check for valid values in P_PROPERTIES or (after
+	## realisation) (combination of) values of self.
+	#
+
+	_if p_properties _isnt _unset 
+	_then
+		#DEBUG write(_self," validating properties")
+		# Validate the arguments and return
+		_for i_key,i_val _over p_properties.fast_keys_and_elements()
+		_loop _self.check_property_type(i_key,i_val)
+		_endloop
+		_return _true
+	_else
+		# validate slot values
+		#DEBUG write(_self," validating _self.properties")
+		_for i_key,i_val _over _self.properties.fast_keys_and_elements()
+		_loop _self.check_property_type(i_key,i_val)
+		_endloop
+	_endif	
+	
+	_if .draw_text_string?
+	_then _self.validate_text_raster_justification()
+	_endif
+
+	_self.validate_fixed_size_properties()
+
+	_self.validate_selector_methods()
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={subclassable})
+_method raster_symbol.validate_drawing_properties(p_props)
+	# 
+	## Check keys in P_PROPS against _self.drawing_properties and
+	## raise a warning condition if it contains an unknown property
+	#
+	
+	_local l_allowed << _self.drawing_properties
+	_for i_key,i_value _over p_props.fast_keys_and_elements()
+	_loop _if _not l_allowed.includes?(i_key)
+	      _then condition.raise(:invalid_drawing_property,:value,i_key)
+	      _endif
+	_endloop
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.check_property_type(p_prop_key,p_value)
+	## Check if the type of P_VALUE is suitable for symbol property
+	## P_PROP_KEY 
+	## 
+
+	_local l_valid_data << _self.valid_data_types
+	#DEBUG write("Checking property ",p_prop_key,%,,p_value)
+
+	# Unknown property
+	_if (l_type << l_valid_data[p_prop_key]) _is _unset 
+	_then condition.raise(:unknown_property,:symbol,_self,:value,p_prop_key)
+	      _return _false 
+	_endif
+	
+	_try _with p_cond
+
+		# Check unset value
+		_if p_value _is _unset _andif
+		    _self.valid_unset_properties.includes?(p_prop_key)
+		_then _return _true 
+		_endif
+
+		# Check multiple values
+		_if l_type.is_kind_of?({})
+		_then
+			# First check simple values
+			_for i_elem _over l_type.fast_elements()
+			_loop _if p_value = i_elem
+			      _then _return _true
+			      _endif
+			_endloop
+
+			# We did not find a match, try class
+			_local l_match? << _false
+			(l_match?,l_type) << _for i_elem _over l_type.fast_elements()
+			_loop _if p_value.is_kind_of?(i_elem)
+			      _then _leave _with _true,i_elem
+			      _endif
+			_endloop
+		_endif
+
+#DEBUG		write(l_type," check ",p_value," (" ,l_type.class_name,%,,p_value.class_name,%))
+		l_type.check_type(p_value)
+			
+	_when error
+		condition.raise(:invalid_symbol_property,
+				:property,p_prop_key,
+				:value,p_value,
+				:symbol,_self)
+	_endtry
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.validate_fixed_size_properties()
+
+	_if .fixed_size? _is _false _andif
+	    .draw_size_mm _is _unset 
+	_then condition.raise(:inconsistent_values,
+			      :key1,:draw_size_mm,
+			      :key2,:fixed_size?,
+			      :value,.fixed_size?,
+			      :symbol,_self)
+	_endif
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.validate_text_raster_justification()
+	## 
+	##
+	
+	_local l_value << .text_raster_justification
+	
+	_if l_value = :text_box
+	_then
+		_if _not .text_box.is_kind_of?(pixel_bounding_box)
+		_then condition.raise(:inconsistent_values,
+				      :symbol,_self,
+				      :key1,:text_box,
+				      :key2,:text_raster_justification,
+				      :value,:text_box)
+		_endif
+		
+	_elif l_value = :text_coordinate 
+	      
+	_then
+		_if _not .text_coordinate.is_kind_of?(pixel_coordinate)
+		_then condition.raise(:inconsistent_values,
+				      :symbol,_self,
+				      :key1,:text_coordinate,
+				      :key2,:text_raster_justification,
+				      :value,:text_coordinate)
+		_endif
+
+	_else
+		_if _not _self.valid_bbox_justifications.includes?(l_value)
+		_then condition.raise(:invalid_symbol_property,
+				      :property,:text_raster_justification,
+				      :value,l_value,
+				      :symbol,_self)
+		_endif
+	_endif
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.validate_selector_methods()
+	## 
+	## 
+
+	_if .string_selector = :||
+	_then .string_selector << _unset 
+	_endif
+	
+	_if .value_selector = :||
+	_then .value_selector << _unset 
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.properties
+	#
+	## returns a property_list for display in the gui
+	#
+	
+	_local l_prop << property_list.new()
+	l_prop[:name] << .name
+	l_prop[:type] << .type
+	(l_prop[:filename],l_dir) << system.pathname_components(.filename)
+	l_prop[:module_name]<<.module_name
+	l_prop[:width] << .width
+	l_prop[:height] << .height
+	l_prop[:nbits] << (_allresults .raster_image.size())[3]
+	l_prop[:pixel_offset] << .pixel_offset
+	l_prop[:fixed_size?] << .fixed_size?
+	l_prop[:draw_size_mm] << .draw_size_mm
+	l_prop[:string_selector] << .string_selector
+	l_prop[:draw_text_string?] << .draw_text_string?
+	l_prop[:text_scale_factor] << .text_scale_factor
+	l_prop[:text_raster_justification] << .text_raster_justification
+	l_prop[:text_justification] << .text_justification
+	l_prop[:text_box] << .text_box
+	l_prop[:text_coordinate] << .text_coordinate
+	l_prop[:text_style] << .text_style
+	l_prop[:highlight_text_style] << .highlight_text_style
+	l_prop[:goto_line_style] << .goto_line_style
+	l_prop[:goto_area_style] << .goto_area_style
+	l_prop[:value_selector] << .value_selector
+	l_prop[:value_scale] << .value_scale
+	l_prop[:value_colour_scheme ] << .value_colour_scheme
+	l_prop[:value_fill_style] << .value_fill_style
+	l_prop[:value_text_style] << .value_text_style
+	l_prop[:value_text_justification] << .value_text_justification
+	l_prop[:value_box_justification] << .value_box_justification
+	l_prop[:draw_measurement_scale?] << .draw_measurement_scale?
+	l_prop[:draw_background?] << .draw_background?
+	l_prop[:background_fill_style] << .background_fill_style
+	>> l_prop
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.set_property(p_key,p_value)
+	## 
+	##
+	
+	_local l_meth << p_key.with_chevron
+	_if _self.responds_to?(l_meth,_true)
+	_then
+		#DEBUG write("Updating symbol value ",p_key,% ,p_value)
+		_self.perform_private(l_meth,p_value)
+	_else
+		write(_self," does not respond to ",l_meth,p_value)
+		_return 
+	_endif
+
+	_self.validate_properties()
+
+	>> _self.perform(p_key)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol.int!set_name(p_name)
+	## for convience used in the create_symmbol() interface 
+	>> .name << p_name
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_sytem}, usage={external})
+_private _method raster_symbol.file(p_name,p_module_name)
+	#
+	## Get picture file. If it exists, return p_name.
+	## Else look in bitmaps resources from P_MODULE_NAME.
+	## If P_MODULE_NAME is unset, use _self.module_name
+	#
+	#DEBUG write(_self,".file(",p_name,%,,p_module_name,%))
+	_if system.file_exists?(p_name)
+	_then _return p_name		
+	_endif
+
+	_local l_module_name << p_module_name.default(_self.module_name)
+	_local l_file << sw_module_manager.module(l_module_name).get_resource_file(p_name,:bitmaps)
+	
+	>> l_file
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.thumbnail_folder
+	## 
+	## Returns the name of the folder where the thumbnails are
+	## stored. If the folder does not exists, it is created
+	##
+
+	# We use the same folder because the image definition in styled
+	# strings isn't that flexible
+	_local (l_file,l_dir) << system.pathname_components(.filename)
+	_return l_dir
+	
+	# Separate folder
+	_local l_module << sw_module_manager.module(_self.source_module_name)
+	_local l_res << l_module.resource_list_for(:thumbnails)
+	_local l_tdir << l_res[:base]
+	_if l_tdir _is _unset 
+	_then 
+		l_dir << l_module.resource_list_for(:bitmaps)[:base]
+		_if l_dir _isnt _unset 
+		_then _local l_up << system.pathname_up(l_dir)
+		      l_tdir << system.pathname_from_components("thumbnails",l_up)
+		      _if _not system.file_exists?(l_tdir)
+		      _then
+			      system.mkdir(l_tdir)
+			      write(_self," - Created thumbnail dir ",l_tdir)	      
+		      _endif
+		_endif
+	_endif
+	>> l_tdir
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.thumbnail_filename
+	## 
+	## The path and name of the thumbnail file, derived from .filename
+
+	_local (l_file,l_dir) << system.pathname_components(.filename)
+	_local (l_rest,l_extension) << system.split_filename(l_file)
+	_local l_name << write_string(l_rest,
+				      raster_symbol_handler.thumbnail_suffix,
+				      %.,
+				      l_extension)
+	_local l_thumbname << system.pathname_from_components(l_name,_self.thumbnail_folder)
+
+	>> l_thumbname,l_name
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.thumbnail()
+	## 
+	## Looks at *_16x16_thumbnail.png (where picture file is
+	## loaded. If it does not exist, or is outdated, it is created.
+	## returns:
+	##  NAME       filename without path
+	##  FILENAME   full path of thumbnail file
+	##  THUMBNAIL  raster_image object of thumbnail
+
+	_local (l_thumbname,l_name) << _self.thumbnail_filename
+
+	#DEBUG write("Verify thumbnail ",l_thumbname)
+	_local l_create? << _false
+	
+	_if system.file_exists?(l_thumbname)
+	_then
+		#DEBUG Write("Checking thumbnail ",l_thumbname)
+		# Update if necessary
+		_try _with p_cond
+			
+			_local l_thumb_status << file_status.new(l_thumbname)
+			_local l_file_status << file_status.new(.filename)
+			
+			_if l_file_status.modify_time > l_thumb_status.modify_time
+			_then
+				#DEBUG write("Refresh Thumbnail ",l_thumbname)
+				smallworld_product.uncache_bitmap(_self.source_module_name,l_name.as_symbol())
+				.thumbnail << _unset 
+				l_create? << _true
+			_else
+				l_create? << _false
+				_if .thumbnail _is _unset 
+				_then .thumbnail << raster_image.new_from_file(l_thumbname)
+				_endif
+			_endif
+		_when error
+			condition.raise(:thumbnail_refresh_failed,
+					:sym,l_name,
+					:string,p_cond.report_contents_string)
+		_endtry
+	_else l_create? << _true 
+	_endif
+	
+	_if l_create? _andif system.file_creatable?(l_thumbname)
+	_then
+		#DEBUG write("Creating new thumbnail ",l_thumbname)
+		_local l_exe << _self.path_to_im_convert()
+		_local l_command << write_string(l_exe," ",
+						 .filename,
+						 " -resize 16x16 -size 16x16 xc:white +swap -gravity center -composite ",
+						 l_thumbname)
+		#DEBUG write(l_command)
+		_try
+			system.do_command(l_command,system.temp_directory_name)
+			.thumbnail << raster_image.new_from_file(l_thumbname)
+		_when error
+			
+		_endtry
+	_endif
+	>> l_name,l_thumbname,.thumbnail
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.world_transform(p_window,p_coord)
+	#
+	## Returns the transform to be applied to draw self at
+	## P_COORD on P_WINDOW for both fixed_size? and not
+	#
+
+	_dynamic !current_unit_factor!
+	_if !current_unit_factor! _is _unset 
+	_then
+		_try
+			!current_unit_factor! << p_window.properties[:user_data].world.unit_factor
+		_when error
+			!current_unit_factor! << 1.0
+		_endtry
+	_endif
+	
+	_local l_magnification 
+	_if .fixed_size? _is _true
+	_then
+		l_magnification << 1.0/p_window.transform.nominal_scale
+	_else
+		l_magnification << (_self.draw_size_mm/_self.width).as_float
+	_endif
+	
+	#DEBUG write("world_transform magnification: ",l_magnification)
+	_local l_offs << .pixel_offset
+	_local l_transform << transform.new().
+			      scale(l_magnification).
+			      translate(p_coord.x + l_offs.x * l_magnification,
+					p_coord.y + l_offs.y * l_magnification)
+#					p_coord.y + l_offs.y * l_magnification)
+
+	>> l_transform
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.transformed_bounds(p_window,p_coord)
+	#
+	## returns the pixel bounding box for _self drawing at P_COORD
+	## using world_transform ic of a fixed size symbol and for a scaled
+	## raster using _self.draw_size_mm
+	#
+	
+	_local l_pixel_bounds,l_factor
+	_if .fixed_size?
+	_then
+
+		_local l_transform << _self.world_transform(p_window,p_coord)
+		l_pixel_bounds << _self.raster_bounds.transformed(l_transform)
+		l_factor << l_transform.nominal_scale
+
+	_else
+		
+		# World and Pixel bounds
+		l_factor << (_self.draw_size_mm/.width).as_float
+		_local l_x << p_coord.x + .pixel_offset.x * l_factor
+		_local l_y << p_coord.y + .pixel_offset.y * l_factor
+		_local l_world_bounds << bounding_box.new(l_x,l_y,
+							  l_x+_self.draw_size_mm,
+							  l_y+l_factor*.height)
+		l_pixel_bounds << p_window.pixel_bounds_for(l_world_bounds)
+	_endif
+
+	>> l_pixel_bounds,l_factor
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.text_magnification(p_window,p_font,p_scale)
+	# 
+	## Calculate and return the text maginification to be used when drawing
+	## P_FONT on P_WINDOW.
+	#
+	
+	_local l_scale
+	_if .fixed_size? _is _true 
+	_then
+		l_scale << .text_scale_factor/p_window.transform.nominal_scale
+	_else
+		l_scale << p_scale
+	_endif
+
+	#DEBUG write(_Self,".text_magnification(",p_window,p_font,l_scale)
+
+	>> l_scale
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.draw_text_transform(p_window,p_coord,p_string,p_highlight?)
+	#
+	## Draws the string P_STRING in normal or highlight style.
+	## Positioning is based on two text parameters:
+	##  :text_raster_justification and
+	##  :text_justification
+	## Both should be values as listed in _self.valid_justifications
+	##
+	#
+	
+	_local l_style << _self.text_style(p_highlight?)
+	#DEBUG Write("draw_text_transform ",p_window,p_coord,p_string,p_highlight?,l_style)
+
+	_local l_wtransform << _self.world_transform(p_window,p_coord)
+	_local (l_draw_bounds,l_factor) << _self.transformed_bounds(p_window,p_coord)
+
+	_local l_fixed_size? << .fixed_size?
+	_try _with p_cond
+
+		_local l_pjust << .text_raster_justification
+		_local l_draw_coord
+
+		_if l_pjust = :text_coordinate
+		_then
+			_if l_fixed_size? 
+			_then
+				l_draw_coord << .text_coordinate.transformed(l_wtransform)
+			_else
+				_local l_sc << l_draw_bounds.width/_self.width
+				_local l_dx << l_draw_bounds.xmin+(.text_coordinate.x*l_sc).rounded
+				_local l_dy << l_draw_bounds.ymax-(.text_coordinate.y*l_sc).rounded
+				l_pix << pixel_coordinate.new(l_dx,l_dy)
+				l_draw_coord << l_pix.transformed(p_window.transform.inverse())
+			_endif
+
+			
+		_elif _self.valid_justifications.includes?(l_pjust)
+		_then
+			_if l_fixed_size? 
+			_then
+				l_draw_coord <<	.raster_bounds.perform(l_pjust).transformed(l_wtransform)
+			_else
+				l_draw_coord << l_draw_bounds.perform(l_pjust).transformed(p_window.transform.inverse())
+			_endif
+				
+		_elif l_pjust = :text_box
+		_then
+			_local l_draw_text_bounds
+			_if l_fixed_size?
+			_then
+				l_draw_text_bounds << .text_box.transformed(l_wtransform).bounds
+			_else
+				_local l_scale << (l_draw_bounds.width/_self.width).as_float
+				_local l_txtbx << .text_box
+				_local xmin << (l_draw_bounds.xmin + (l_txtbx.xmin*l_scale).rounded)
+				_local ymin << (l_draw_bounds.ymin + (l_txtbx.ymin*l_scale).rounded)
+				_local xmax << (l_draw_bounds.xmin + (l_txtbx.xmax*l_scale).rounded)
+				_local ymax << (l_draw_bounds.ymin + (l_txtbx.ymax*l_scale).rounded)
+				l_draw_text_bounds << pixel_bounding_box.new(xmin,ymin,xmax,ymax).transformed(p_window.transform.inverse()).bounds
+			_endif
+			l_style.draw_sample(p_window,l_draw_text_bounds,
+					    :sample_string,p_string)
+		_endif
+
+		#DEBUG write("TEXT Coordinate",l_draw_coord)
+		_if l_draw_coord _isnt _unset
+		_then
+			
+			l_drawb << p_window.draw_vtext_transform(
+					   l_style,
+					   l_draw_coord.x,l_draw_coord.y,
+					   p_string,
+					   _unset,_unset,
+					   _self.text_magnification(p_window,l_style.font,l_factor),
+					   _unset,
+					   .text_justification)
+		_endif
+			
+	_when error
+		write(write_string(_self," Error drawing text: ",p_cond.report_contents_string))
+	_endtry
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.point_for_geom(p_spatial)
+	## 
+	## 
+
+	_local l_coord
+	_if (l_type << p_spatial.geom_type) = :coord
+	_then l_coord << p_spatial
+	_elif p_spatial.responds_to?(:coord)
+	_then l_coord << p_spatial.coord
+	_elif p_spatial.responds_to?(:rs_midpoint)
+	_then l_coord << p_spatial.rs_midpoint
+	_elif p_spatial.responds_to?(:|an_internal_point()|)
+	_then l_coord << p_spatial.an_internal_point()
+	_else write(_self," unsupported argument type " ,l_type," ",p_spatial)
+	      _return _unset 
+	_endif
+	
+	>> l_coord
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.draw_on(p_window,p_spatial,p_highlight?,_optional p_text_string,p_value)
+	# 
+	## Draw _self on window P_WINDOW (or graphics_context), using
+	## the world coordinate P_SPATIAL, or a coordinate
+	## derived from the geom P_SPATIAL depending on the
+	## geom_type (.coord, .cs_midpoint or .an_internal_point())
+	##
+	## If P_HIGHLIGHT? is true, draw self in default_highlight_style.
+	##
+	## If P_TEXT_STRING is not unset, this string is drawn at a
+	## position and with style as configured by the text
+	## parameters for this particular symbol.
+	##
+	## If P_VALUE is not unset, it will draw a graph for this
+	## value, else it will look for a value_selector to draw the
+	## graph.
+	##
+	## returns _true if drawing was succesfull, otherwise _false
+	##
+	#
+
+	#DEBUG write(_self,"raster_symbol.draw_on()" ,p_window,p_spatial,p_highlight?,p_text_string)
+
+	_if (l_coord << _self.point_for_geom(p_spatial)) _is _unset 
+	_then _return _false 
+	_endif
+	
+	# Draw image
+	_local l_drawn? << _self.draw_image(p_window,l_coord)
+	_local l_suppressed_drawing? << l_drawn? _is _false 
+
+	_if l_suppressed_drawing? _is _true 
+	_then
+		#DEBUG write(_self," WARNING - drawing suppressed - too small")
+		_return _false 
+	_endif
+
+	# Draw highlight
+	_local l_highlight? << p_highlight?.default(_false)
+	_if l_highlight?
+	_then
+		_self.draw_highlight(p_window,l_coord)
+	_endif
+
+	# Get the providing object
+	_local l_rwo << _self.rwo_from_spatial(p_spatial)
+	
+	# Draw label
+	_if _self.draw_text? _is _true
+	_then
+		_self.draw_label(p_window,l_coord,l_rwo,p_text_string,l_highlight?)
+	_endif
+
+	# Draw value
+	_if p_value _isnt _unset
+	_then
+		# Draw passed value
+		_self.draw_graph(p_window,l_coord,l_rwo,:value_argument,p_value)
+	_elif (l_meth << .value_selector) _isnt _unset
+	_then
+		# Use the value selector for a value
+		_self.draw_graph(p_window,l_coord,l_rwo,l_meth)
+	_endif
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.draw_value_on(p_window,p_spatial,p_highlight?,p_value,_optional p_text_string)
+	##
+	## This calls draw_on() with P_VALUE
+	##
+	>> _self.draw_on(p_window,p_spatial,p_highlight?,p_text_string,p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.draw_with_properties(p_ctx,p_spatial,p_props,p_highlight?,_optional p_string)
+	#
+	## Draw _self on context P_CTX, at spatial element P_SPATIAL
+	## with P_PROPS as drawing properties.
+	## P_PROPS are validated against _self.drawing_properties.
+	## Properties P_PROPS are set before drawing and reset after
+	## drawing.
+	#
+	#DEBUG write(_self," draw_with_properties ")
+	_local l_cur_props << _self.properties
+	_if _self.validate_drawing_properties(p_props) _is _true 
+	_then
+		_protect
+			_for i_key,i_value _over p_props.fast_keys_and_elements()
+			_loop _self.set_property(i_key,i_value)
+			_endloop
+			_self.draw_on(p_ctx,p_spatial,p_highlight?,p_string)
+		_protection
+			_for i_key _over p_props.keys()
+			_loop _self.set_property(i_key,l_cur_props[i_key])
+			_endloop
+		_endprotect
+	_else
+		_self.draw_on(p_ctx,p_spatial,p_highlight?,p_string)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.draw_background(p_window,p_pbbx)
+	## 
+	## Draw pixel_bounding_box P_PBBX on P_WINDOW with
+	## _self.background_fill_style
+	##
+	
+	#DEBUG write(_self,"raster_symbol.draw_background(",p_window,p_pbbx,%))
+	p_pbbx.fill_on(p_window,_self.background_fill_style)
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.draw_label(p_window,p_coord,p_rwo,p_text_string,p_highlight?)
+	## 
+	## 
+	#DEBUG write(_self,"raster_symbol.draw_label(",p_window,p_coord,p_rwo,p_text_string,p_highlight?)
+	# If P_TEXT_STRING isnt unset, draw this text
+	
+	_if p_text_string _isnt _unset
+	_then _return _self.int!draw_label(p_window,p_coord,p_text_string,p_highlight?)
+	_endif
+
+	# Get string from selector
+	_local l_string
+	_if .string_selector _isnt _unset _andif
+	    p_rwo _isnt _unset 
+	_then
+		_try _with p_cond
+			l_string << p_rwo.perform(.string_selector)
+		_when error
+			l_string << write_string("ERROR")
+			write(_self,"String Selector ERROR  - ",p_cond.report_contents_string)
+		_endtry
+	_endif
+	
+	_if l_string _isnt _unset _andif
+	    l_string.size > 0
+	_then _return _self.int!draw_label(p_window,p_coord,l_string,p_highlight?)
+	_endif
+
+	>> _false 
+	
+_endmethod
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.int!draw_label(p_window,p_coord,p_text_string,p_highlight?)
+	##
+	## Actual draw P_TEXT_STRING on P_WINDOW using world coordinate P_COORD
+	## 
+
+	_local (l_pxcoord,l_pxbox) << _self.text_coordinate_for(p_coord,p_window)
+	_if l_pxbox _isnt _unset 
+	_then
+		_local l_style << _self.text_style(p_highlight?)
+		l_style.draw_sample(p_window,l_pxbox,
+				    :sample_string,p_text_string)
+		
+	_else 
+		p_window.draw_text(_self.text_style(p_highlight?),
+				   l_pxcoord.x,
+				   l_pxcoord.y,
+				   p_text_string,
+				   _unset,_unset,
+				   .text_justification)
+	_endif
+	>> _true 
+_endmethod
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol.pixel_bounds_on(p_window,p_coord)
+	## 
+	## Same as _self.transformed_bounds, except for the way it is
+	## calculated
+	##
+
+	_local l_pxcoord << p_window.pixel_for(p_coord)
+	_local l_bounds
+	
+	_if _self.fixed_size?
+	_then
+		_local l_x << l_pxcoord.x + .pixel_offset.x
+		_local l_y << l_pxcoord.y - .height + .pixel_offset.y
+		l_bounds << pixel_bounding_box.new_with_size(l_x,l_y,
+							     .width,
+							     .height)
+	_else
+		_local l_factor << (_self.draw_size_mm/.width).as_float
+		_local l_x << p_coord.x + .pixel_offset.x * l_factor
+		_local l_y << p_coord.y + .pixel_offset.y * l_factor
+		_local l_world_bounds << bounding_box.new(l_x,l_y,
+							  l_x+_self.draw_size_mm,
+							  l_y+l_factor*.height)
+		l_bounds << p_window.pixel_bounds_for(l_world_bounds)
+	_endif
+
+#	#DEBUG l_bounds.draw_on(p_window,_self.default_highlight_line_style)
+	
+	>> l_bounds
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.text_coordinate_for(p_coord,p_window)
+	## 
+	##
+
+	#DEBUG write(_self,".text_coordinate_for(",p_coord,p_window)
+
+	_local l_draw_bounds << _self.pixel_bounds_on(p_window,p_coord)
+	
+	_local l_pjust << .text_raster_justification
+	_local l_draw_coord
+	_local l_draw_text_bounds
+	
+	_if l_pjust = :text_coordinate
+	_then
+		
+		_if _self.fixed_size?
+		_then
+			l_draw_coord << pixel_coordinate.new(l_draw_bounds.xmin + .text_coordinate.x,
+							     l_draw_bounds.ymax - .text_coordinate.y)
+			
+		_else
+			_local l_sc << l_draw_bounds.width/_self.width
+			_local l_dx << l_draw_bounds.xmin+(.text_coordinate.x*l_sc).rounded
+			_local l_dy << l_draw_bounds.ymax-(.text_coordinate.y*l_sc).rounded
+			l_draw_coord << pixel_coordinate.new(l_dx,l_dy)
+		_endif
+			
+	_elif _self.valid_justifications.includes?(l_pjust)
+	_then
+		
+		l_draw_coord << l_draw_bounds.perform(l_pjust)
+#		#DEBUG l_draw_coord.draw_mark_on(p_window,_self.goto_line_style)
+		
+	_elif l_pjust = :text_box
+	_then
+		
+		_local l_wtransform << _self.world_transform(p_window,p_coord)
+		l_draw_text_bounds << .text_box.transformed(l_wtransform).bounds
+
+	_endif
+
+	>> l_draw_coord,l_draw_text_bounds
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.get_value_from(p_rwo,p_value_method)
+	## 
+	## 
+
+	_local l_rwo_value
+	_try _with p_cond
+		l_rwo_value << p_rwo.perform(p_value_method)
+	_when error
+		condition.raise(:rwo_value_error,
+				:rwo,p_rwo,
+				:value_method,p_value_method,
+				:message,p_cond.report_contents_string)
+		_return
+	_endtry
+
+	>> l_rwo_value
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.draw_graph(p_window,p_coord,p_rwo,p_value_method, _optional p_value)
+	#
+	## This draws the value retrieved by P_VALUE_METHOD on P_RWO on
+	## window P_WINDOW
+	#
+
+	#DEBUG write(_self,"raster_symbol.draw_graph",p_rwo," value_method ",p_value_method,p_value)
+	_local l_rwo_value << _if p_value_method _is :value_argument
+			      _then >> p_value
+			      _else >> _self.get_value_from(p_rwo,p_value_method)	
+			      _endif
+	
+	_if l_rwo_value _is _unset 
+	_then _return _false 
+	_endif
+	
+	# Draw the value
+	_local l_vscale << _self.get_value_scale(p_rwo,p_value_method)
+	_local l_draw_bounds << _self.pixel_bounds_on(p_window,p_coord)
+	_local l_value_bounds << _self.draw_value(p_window,l_draw_bounds,l_rwo_value,l_vscale)
+
+	# Draw value string
+	_local l_value_string << _self.value_string_from_value(l_rwo_value)
+	_self.draw_value_string(p_window,l_value_bounds,l_value_string)
+
+	# Draw measurement scale and method
+	_if l_vscale _isnt _unset _andif
+	    .draw_measurement_scale? _is _true
+	_then _self.draw_measurement_text(p_window,l_value_bounds,l_vscale,p_value_method)
+	_endif
+	
+	>> _true 
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.get_value_scale(p_rwo,p_value_method)
+	##
+	## Either from .value_scale or a statistical engine
+	## 
+
+	_if .value_scale _isnt _unset 
+	_then _return .value_scale
+	_endif
+	
+	_local l_sta << raster_symbol_handler.statistics_engine_for(p_rwo.rwo_type,
+								    p_rwo.dataset.name,
+								    p_value_method)
+	>> _if l_sta.analyzed?
+	   _then >> l_sta.scale
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.value_string_from_value(p_value)
+	##
+	## Get a string for P_VALUE. Use .value_format if defined
+	## 
+
+	#DEBUG write(_self,".value_string_from_value(",p_value,")")
+	_local l_value_string
+	_local l_format << .value_format
+	
+	_if p_value.is_kind_of?(unit_value)
+	_then
+		_if l_format.is_kind_of?(unit_format)
+		_then
+			l_value_string << l_format.format(p_value)
+		_else
+			l_value_string << p_value.write_string
+		_endif
+	_else
+		l_value_string <<
+			_if l_format _isnt _unset
+			_then >> l_format.format(p_value)
+			_else >> p_value.default("?").write_string  
+			_endif
+	_endif
+
+	>> l_value_string
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.draw_measurement_text(p_window,p_bbx,p_vscale,p_method)
+	##
+	## Draw the name of the value method P_METHOD as well as the
+	## value scale P_VSCALE.
+	## Style for both is _self.default_measurement_text_style, and the
+	## justification is resp:
+	##
+	## METHOD:
+	##   :value_method_text_justification
+	##   :value_method_box_justification
+	## VALUE_SCALE:
+	##   :value_scale_text_justification
+	##   :value_scale_box_justification
+	##
+	
+	#DEBUG write(_self,".draw_measurement_text(",p_window,%,,p_bbx,%,,p_vscale,%,,p_method,%))
+	_local l_defs << raster_symbol_handler.defaults
+
+	#
+	# Draw the name of the value method P_METHOD
+	#
+	_local l_string << p_method.write_string.make_non_escape_string_pretty()
+	_local l_coord << p_bbx.perform(l_defs[:value_method_box_justification])
+	p_window.draw_text(_self.default_measurement_text_style,
+			   l_coord.x,
+			   l_coord.y,
+			   l_string,
+			   _unset,_unset,
+			   l_defs[:value_method_text_justification])
+
+	#
+	# Draw the value scale
+	#
+	l_string << p_vscale.write_string
+	l_coord << p_bbx.perform(l_defs[:value_scale_box_justification])
+	p_window.draw_text(_self.default_measurement_text_style,
+			   l_coord.x,
+			   l_coord.y,
+			   l_string,
+			   _unset,_unset,
+			   l_defs[:value_scale_text_justification])
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.draw_value(p_window,p_bbox,p_value,p_vscale)
+	## 
+	## Draws the actual graph, for this class it is a fill style
+	## Returns pixel_bounding_box that is filled accoring to
+	## P_VALUE relative to P_VSCALE
+	## 
+	#DEBUG write(_self,"raster_symbol.draw_value(",p_window,p_bbox,p_value,p_vscale)
+
+	_if p_value.is_kind_of?(unit_value)
+	_then p_value << p_value.value
+	_endif
+	
+	_local l_value_height <<
+		_if p_vscale _isnt _unset _andif
+		    p_vscale _isnt 0
+		_then >> ((p_value/p_vscale)*p_bbox.height).rounded
+		_else >> (p_value/p_bbox.height).rounded
+		_endif
+
+	#DEBUG write(_self," value:",p_value," height:",l_value_height," scale:",p_vscale)
+	_local l_bb << pixel_bounding_box.new_with_size(p_bbox.xmin,
+							p_bbox.ymax+1,
+							p_bbox.width,
+							-l_value_height)
+	#DEBUG print(l_bb)
+	# Draw the fill
+	l_bb.fill_on(p_window,.value_fill_style)
+	
+	>> l_bb
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.draw_value_string(p_window,p_bbox,p_value_string)
+	##
+	## draw P_VALUE_STRING with a small offset relative to the
+	## pixel_bounding_box P_BBOX, using the outline style width
+	## from .value_fill_style
+	##
+
+	#DEBUG write(_self,"raster_symbol.draw_value_string()",p_value_string)
+
+	_local l_vcoord << p_bbox.perform(.value_box_justification)
+	
+	_local l_width << _if (l_o<<.value_fill_style.outline_style) _isnt _unset 
+			  _then >> l_o.width + 1
+			  _else >> 0
+			  _endif
+	_local l_offs << _if l_width = 0
+			 _then >> 0
+			 _else >> _self.offset_matrix(.value_box_justification,.value_text_justification)
+			 _endif
+	
+	p_window.draw_text(.value_text_style,
+			   l_vcoord.x+l_offs,l_vcoord.y+l_offs,
+			   p_value_string,
+			   _unset,_unset,
+			   .value_text_justification)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.draw_image(p_window,p_coord)
+	#
+	## Draws the .raster_image on P_WINDOW at P_COORD
+	## If background fill is true, this will be drawn
+	## Returns boolean if drawn.
+	#
+	
+	>> _if .fixed_size? _is _true 
+	   _then >> _self.draw_plain_raster_on(p_window,p_coord)
+	   _else >> _self.draw_scaled_raster_on(p_window,p_coord)
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.draw_plain_raster_on(p_window,p_coord)
+	#
+	## Draws the .raster_image 1:1 on p_window
+	#
+	
+	_local l_width << .width
+	_local l_height << .height
+	_local l_pxcoord << p_window.pixel_for(p_coord)
+
+	# Calculate pixel coord. raster_image coords are relative to
+	# top left. Adjust using the offset positions as identified by
+	# the user.
+	_local l_x << l_pxcoord.x+.pixel_offset.x
+	_local l_y << l_pxcoord.y-l_height+.pixel_offset.y
+
+	_if _self.draw_background?
+	_then
+		_local l_bb << pixel_bounding_box.new_with_size(l_x,l_y,l_width,l_height)
+		_self.draw_background(p_window,l_bb)
+	_endif
+	
+	#DEBUG write(_self," render plain raster at ",l_x,%,,l_y)
+	p_window.render_raster(.raster_image,l_x,l_y,_true,_unset,l_width,l_height)
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.draw_scaled_raster_on(p_window,p_coord)
+	#
+	## Draws .raster_image if it is non fixed_size on P_WINDOW
+	#
+
+	_local l_pixel_bounds << _self.transformed_bounds(p_window,p_coord)
+	
+	# Get scaled width and height
+	_local l_scaled_width << l_pixel_bounds.width
+	_local l_scaled_height << l_pixel_bounds.height
+
+	# Suppress drawing below 1 pixel
+	_if (l_scaled_width <= 1 _orif l_scaled_height <= 1)
+	_then _return _false 
+	_endif
+
+	_if _self.draw_background?
+	_then _self.draw_background(p_window,l_pixel_bounds)
+	_endif
+	
+	p_window.render_raster(.raster_image,
+			       l_pixel_bounds.xmin,
+			       l_pixel_bounds.ymin,
+			       _true,
+			       _unset,
+			       l_scaled_width,
+			       l_scaled_height)
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.draw_preview_on(p_window)
+	## 
+	##
+	_local l_cwidth << p_window.width
+	_local l_cheight << p_window.height
+	_local l_x << (l_cwidth/2.0 - _self.width/2.0).rounded
+	_local l_y << (l_cheight/2.0 - _self.height/2.0).rounded
+	#DEBUG write(_self," render preview raster at ",l_x,%,,l_y )
+	p_window.render_raster(.raster_image,l_x,l_y,_true)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.rwo_from_spatial(p_spatial)
+	## 
+	## Get the real rwo or a pseudo_rwo
+	##
+	
+	_local l_rwo << _if p_spatial.responds_to?(:rwo)
+			_then >> p_spatial.rwo
+			_else >> pseudo_rwo.new(_self)
+			_endif
+	>> l_rwo
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.text_style(p_highlight?)
+	#
+	## returns the text_style for drawing the text
+	## highlight style is automatically created when not yet
+	## defined.
+	#
+
+	_local l_style
+	_if p_highlight? _is _true 
+	_then
+		# Create if not yet defined
+		_if (l_style << .highlight_text_style) _is _unset 
+		_then l_style << .highlight_text_style << _self.derived_highlight_text_style()
+		_endif
+	_else
+		l_style << .text_style
+	_endif
+	>> l_style
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.derived_highlight_text_style()
+	#
+	## copy .text_style with colour eq to application highlight
+	## style, cache and return this new style
+	#
+	>> .text_style.copy_with_properties(:colour,_self.default_highlight_colour)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.draw_highlight(p_window,p_coord)
+	#  
+	## Draws bbox around raster_image in .higlight_style on P_WINDOW
+	#
+
+	#DEBUg write(_self,".draw_highlight_on(",p_window,p_coord,")")
+	
+	_local l_bb << _self.pixel_bounds_on(p_window,p_coord)
+	l_bb.draw_on(p_window,_self.default_highlight_line_style,3)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol.convert_wash_to_alpha(p_wash)
+	## 
+	## .washmap entries are grey levels 0 - 255
+	#
+	>> _if p_wash < 0
+	   _then >> 0.0
+	   _elif p_wash >= 255
+	   _then >> 1.0
+	   _else >> (p_wash/255.0)
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={swift})
+_method raster_symbol.gray_level( a_colour )
+	# 
+	## Returns the greyscale luminance of the colour A_COLOUR
+	#	
+	>> a_colour.red * 0.2126 + a_colour.green * 0.7152 + a_colour.blue * 0.0722
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.draw_text?
+	# 
+	## Check .draw_text_string? and validity of text parameters and
+	## return true is everything is ok to draw text
+	#
+	_if .draw_text_string? _is _true 
+	_then
+		_local l_ok? << _false 
+		_try _with p_cond
+			l_ok? << _self.validate_text_raster_justification()
+		_when error
+			write(_self," Error " ,p_cond.report_contents_string)
+			l_ok? << _false 
+		_endtry
+		_return l_ok?
+	_else
+		_return _false 
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.xml_properties
+	# 
+	## returns _self.properties, but with keys ending in ? relaced
+	## with "_p"
+	#
+	_local l_props << _self.properties
+	>> xml_handler.properties_without?(l_props)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.source_module_name
+	#
+	## The module containing the picture
+	#
+	>> .module_name
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.write_on(a_stream)
+	a_stream.write(_self.class_name,"(",.name,")")
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol.show_on(a_stream)
+	_self.write_on(a_stream)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.centre_multiline_text(p_string)
+	# 
+	## Not successfull aligning mukti_line text in centre
+	#
+	_local l_parts << p_string.split_by(newline_char)
+	_local l_max << 0
+	_for i_part _over l_parts.fast_elements()
+	_loop _if i_part.size > l_max
+	      _then l_max << i_part.size
+	      _endif
+	_endloop
+#DEBUG	write(" Max is " ,l_max)
+	_local l_new << ""
+	_for i_part _over l_parts.fast_elements()
+	_loop
+		_local l_numextra << l_max - i_part.size
+		_if l_numextra > 0 
+		_then
+			_if l_numextra.even?
+			_then
+				l_new << write_string(l_new,
+						      ((l_numextra/2))*space_char,
+						      i_part,
+#						      l_numextra/2*space_char,
+						      newline_char)
+			_else
+				_local l_ns << (l_numextra/2.0).rounded
+				l_new << write_string(l_new,
+						      l_ns*space_char,
+						      i_part,
+#						      (l_numextra-l_ns)*space_char,
+						      newline_char)
+			_endif
+		_else
+			l_new << write_string(l_new,i_part)
+		_endif
+	_endloop
+	#DEBUG write("Centered text:",newline_char,l_new)
+	>> l_new
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.value_colour
+	## 
+	## 
+	>> _self.value_fill_style.colour
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol.offset_matrix(p_box_just,p_txt_just)
+	## 
+	##
+	_return 1
+#	{:top_left,
+#	 :top_centre,
+#	 :top_right,
+#	 :centre_left,
+#	 :centre,
+#	 :centre_right,
+#	 :bottom_left,
+#	 :bottom_centre,
+#	 :bottom_right} 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol.set_properties(p_props)
+	## 
+	## Sets properties from P_PROPS
+
+	_for i_key,i_value _over p_props.fast_keys_and_elements()
+	_loop _self.set_property(i_key,i_value)
+	_endloop
+	
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol.clone_with_properties(p_props)
+	##
+	## Clone and change the properties to the values in P_PROPS,
+	## which should contain valid symbol properties
+	## 
+
+	_local l_clone << _self.sys!clone()
+	_for i_key,i_value _over p_props.fast_keys_and_elements()
+	_loop l_clone.set_property(i_key,i_value)
+	_endloop
+
+	>> l_clone
+_endmethod
+$

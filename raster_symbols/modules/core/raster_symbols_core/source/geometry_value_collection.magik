@@ -1,0 +1,332 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:geometry_value_collection)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## a class that offers flexible storage of a geom and a value.
+## Two procs define the way a value and a geom should be
+## retrieved from the collection that is stored.
+## The iterator :geoms_and_values() returns the geom and value
+## pair
+##
+## The geom_proc and value_proc are executed with an element
+## from the collection as argument}, like:
+##
+## .geom_proc.invoke(element)
+##
+## The default geom proc returns element[1]
+## The default value proc returns element[2]
+##
+## The collection can be passed on creation or set by
+## .collection << a_collection
+##
+## To facilitate a geometry_set as collection, the following
+## procs are defined and can be used:
+##
+## _self.element_proc that simply returns the element, and
+## _self.rwo_value_proc(p_value_method) that performs the method
+## P_VALUE_METHOD on the rwo of the element
+##
+def_slotted_exemplar(:geometry_value_collection,
+	{
+		{:collection,_unset},
+		{:value_type,_unset},
+		{:value_scale,_unset},
+		{:value_format,_unset},
+		{:value_name,_unset},
+		{:properties,_unset},
+		{:geom_proc,
+		 _proc @get_geom(element)
+			 >> element[1]
+		 _endproc},
+		{:value_proc,
+		 _proc @get_value(element)
+			 >> element[2]
+		 _endproc}
+	},:object)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## A collection of geoms (and values) in which each element's
+## geom can be retrieved by .geom_proc(element) and
+## value by .value_proc(element)
+##
+geometry_value_collection.define_slot_access(:collection,:write,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## The type of value. This can be anything, e.g. simple float
+## or a unit_value
+##
+geometry_value_collection.define_slot_access(:value_type,:read,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## This is the scale of the values, e.g. 10.00
+##
+geometry_value_collection.define_slot_access(:value_scale,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## A procedure that returns the geometry from an element in
+## _self.collection
+##
+geometry_value_collection.define_slot_access(:geom_proc,:read,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## A procedure that returns the value from an element in
+## _self.collection
+##
+geometry_value_collection.define_slot_access(:value_proc,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## A format for value strings
+##
+geometry_value_collection.define_slot_access(:value_format,:read,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## The name of the value ( a string )
+##
+geometry_value_collection.define_slot_access(:value_name,:read,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.new(p_type,p_collection,_optional p_properties)
+	## 
+	## properties are:
+	##  :geom_proc
+	##  :value_proc
+	##  :value_scale
+	##  :value_format
+	##  :value_name
+	##
+	>> _clone.init(p_type,p_collection,p_properties)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.init(p_type,p_collection,p_properties)
+	## 
+	## 
+
+	.value_type << p_type
+	.collection <<  p_collection
+	.value_scale << p_properties[:value_scale]
+	.value_format << p_properties[:value_format]
+	.geom_proc << p_properties[:geom_proc].default(.geom_proc)
+	.value_proc << p_properties[:value_proc].default(.value_proc)
+	.value_name << p_properties[:value_name].default("value")
+
+	_if .value_scale _is _unset
+	_then _self.set_value_scale()
+	_endif
+	
+	>> _self 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.element_proc
+	## 
+	## A proc that simply returns the element
+	##
+	>> _proc @element(element)
+		   >> element
+	   _endproc
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.rwo_value_proc(p_value_method)
+	## 
+	## A proc that performs the method P_VALUE_METHOD on the rwo of
+	## the element in the collection
+	##
+	_local l_m << p_value_method
+	>> _proc @rwo_value(element)
+		   _import l_m
+		   _if (l_rwo << element.rwo) _isnt _unset 
+		   _then _return l_rwo.perform(l_m)
+		   _endif
+	   _endproc
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_iter _method geometry_value_collection.fast_elements()
+	## 
+	## returns the elements from the collection
+	##
+
+	_for i_elem _over .collection.fast_elements()
+	_loop _loopbody (i_elem)
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_iter _method geometry_value_collection.fast_geoms()
+	## 
+	## Only returns the geometries
+	##
+
+	_local l_gproc << .geom_proc
+	_for i_elem _over .collection.fast_elements()
+	_loop
+		l_geom << l_gproc.invoke(i_elem)
+		_if _not l_geom.inherits_from?(geometry_mixin)
+		_then condition.raise(:warning,:string,write_string(l_geom," is not a kind of geometry"))
+		      _continue 
+		_endif
+		_loopbody (l_geom)
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_iter _method geometry_value_collection.fast_values()
+	## 
+	##
+
+	_local l_v << .value_proc
+	_for i_elem _over .collection.fast_elements()
+	_loop _loopbody (l_v.invoke(i_elem))
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_iter _method geometry_value_collection.fast_geoms_and_values()
+	## 
+	##
+	
+	_local l_gproc << .geom_proc
+	_local l_vproc << .value_proc
+	_local l_vtype << .value_type
+	_for i_elem _over .collection.fast_elements()
+	_loop
+		_local l_geom,l_value
+
+		_try _with p_cond
+			
+			l_geom << l_gproc.invoke(i_elem)
+			_if _not l_geom.inherits_from?(geometry_mixin)
+			_then condition.raise(:warning,:string,write_string(l_geom," is not a kind of geometry"))
+			      _continue 
+			_endif
+
+			l_value << l_vproc.invoke(i_elem)
+			_if _not l_value.is_kind_of?(l_vtype)
+			_then condition.raise(:warning,:string,write_string(l_value," is not a kind of ",l_vtype))
+			      _continue 
+			_endif
+			
+		_when error
+			write(p_cond)
+		_endtry
+		
+		_loopbody (l_geom,l_value)
+	_endloop
+
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.set_value_scale()
+	## 
+	##
+	_local (l_min,l_max) << _self.get_value_scale()
+	#DEBUG write(_Self,"set_value_scale(",l_min,%,,l_max,%))
+	>> .value_scale << {l_min,l_max}
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.get_value_scale()
+	## 
+	## 
+	_local l_min,l_max
+	_for i_val _over _self.fast_values()
+	_loop _if l_min _is _unset 
+	      _then l_min << i_val
+	      _else l_min << i_val.min(l_min)
+	      _endif
+	      _if l_max _is _unset 
+	      _then l_max << i_val
+	      _else l_max << i_val.max(l_max)
+	      _endif
+	_endloop
+	>> l_min,l_max	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.empty?
+	## 
+	## 
+	>> .collection _is _unset _orif
+		.collection.empty?
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.show_on(a_stream)
+	## 
+	## 
+	a_stream.write(_self.class_name,%(,.collection,%,,.value_type,%,,.value_scale,%))
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.an_element()
+	## 
+	## 
+	>> .collection.an_element()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.size
+	## 
+	## 
+	>> .collection.size
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.value_definition()
+	## 
+	## return a value definition from itself
+	##
+	>> value_definition.new(.value_type,
+				.value_scale,
+				.value_format,
+				.value_name)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method geometry_value_collection.value_scale
+	## 
+	## RETURN MAX UNTILL SCALE RANGE IS FULLY ADOPTED
+	>> .value_scale.default({_unset,_unset})[2]
+_endmethod
+$

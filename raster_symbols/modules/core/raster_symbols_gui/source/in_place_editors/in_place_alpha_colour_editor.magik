@@ -1,0 +1,129 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:in_place_alpha_colour_editor)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## Subclass that allows editing the alpha value of a colour.
+##
+def_slotted_exemplar(:in_place_alpha_colour_editor,{
+	{:alpha_editor,_unset}},
+		     :in_place_colour_editor)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+in_place_alpha_colour_editor.define_shared_constant(:value_manager_class_name,
+	:alpha_colour_value_manager,
+	:private)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.init(_gather p_args)
+	## 
+	##
+	
+	.alpha_editor << alpha_colour_popup_model.new_dialog(_self,
+							     :lost_focus_notifier,_self.lost_focus_handler)
+	.extra_actions << {sw_edit_action.new(:alpha_subdialog,
+					      :engine,_self,
+					      :image, { :transparency, :raster_symbols_gui},
+					      :action_message,{:|activate_sub_dialog()|,:alpha},
+					      :toolbar_control,:image_button_item)}
+	>> _super.init(_scatter p_args)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.activate_sub_dialog(_optional p_key)
+	## 
+	##
+	#DEBUG write(_self,".activate_sub_dialog(",p_key,%))
+	_if p_key _is :alpha
+	_then
+		_return _self.activate_alpha_dialog()
+	_else 
+		_return _super.activate_sub_dialog()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.activate_alpha_dialog()
+	## 
+	## 
+
+	_local (l_text_item,l_b) << (_scatter _self.edit_manager.current_controls)
+	
+	(x_y, right?, down?) << _self.popup_position( l_b)
+	
+	.alpha_editor.activate_relative_to( _unset, l_b, x_y[1]-150,x_y[2])
+	.value_holder_for_popup << .value_holder
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.alpha_value_changed(p_value)
+	## 
+	## 
+
+	#DEBUG write(_self,".alpha_value_changed(",p_value)
+	_self.action(:alpha_subdialog).value << p_value
+
+	_self.value_changed(_self.value)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.value_changed(p_colour)
+	## 
+	## 
+	#DEBUG write(_self," value_changed",% ,p_colour)
+	_local l_alpha << _self.action(:alpha_subdialog).value.default(1.0)
+	_if p_colour _isnt _unset 
+	_then p_colour.set_alpha(l_alpha)
+	_endif
+	>> _super.value_changed(p_colour)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.alpha_value
+	## 
+	## 
+	>> _self.value.alpha
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.lost_focus_handler
+	## 
+	## 
+	>> handler.new(_self,:|alpha_dialog_lost_focus()|)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.alpha_dialog_lost_focus(p_frame)
+	## 
+	## 
+	write(" Lost focus")
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_alpha_colour_editor.help_wanted()
+	## 
+	##
+	write("Help")
+	>> _super.help_wanted(40301)
+_endmethod
+$

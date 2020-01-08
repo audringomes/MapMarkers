@@ -1,0 +1,240 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:raster_symbols_test_plugin)
+$
+
+_pragma(classify_level=basic, topic=style_system)
+##
+## contains examples of different methods of drawing
+## raster_symbols.
+## plugin should be added to an application (can be done
+## dynamically by the procedure !add_rstp!
+##
+def_slotted_exemplar(:raster_symbols_test_plugin,{},:plugin)
+$
+
+_pragma(classify_level=advanced, topic=style_system)
+raster_symbols_test_plugin.define_shared_constant(
+	:databus_producer_data_types,
+	{:draw_raster_symbols,:post_render_sets},
+	:public)
+$
+
+_pragma(classify_level=advanced, topic=style_system)
+_method raster_symbols_test_plugin.post_init_plugins()
+	_self.register_self_on_app_databus()
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic=style_system)
+_private _method raster_symbols_test_plugin.register_self_on_app_databus()
+	_self.application.databus.add_producer(_self,_scatter _self.databus_producer_data_types)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic=style_system)
+_private _method raster_symbols_test_plugin.map_manager
+	>> _self.application.plugin(:maps)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic=style_system)
+_method raster_symbols_test_plugin.int!get_selection_candidates(_optional p_ordered?)
+	## 
+	## Get selection candidates from current map view. Raises a
+	## warning when there are more than 100 geometries
+	##
+
+	_local l_view << _self.map_manager.current_map_view
+	_local l_set << l_view.get_selection_candidates(:within,l_view.current_view_bounds,p_ordered?.default(_false))
+	
+	_if (l_s << l_set.size) > 100
+	_then condition.raise(:warning,:string,write_string("Selection candidates contain ",l_s," elements"))
+	_elif l_s = 0
+	_then condition.raise(:warning,:string,write_string("No selection candidates!"))
+	_endif
+	
+	>> l_set
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.coords_to_test
+	## 
+	## Should return a collection of world coordinates.
+	## 
+
+	_local coords << _self.map_manager.current_map_view.trail.coords
+	_if coords.empty?
+	_then write("No trail coordinates found for test!")
+	      _return 
+	_endif
+	>> coords
+	
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.draw_selection_candidates(_optional p_symname)
+	## 
+	## This method draws the symbol P_SYMNAME (default "Dot_Red")
+	## for all selection candidates using the databus request
+	## :draw_raster_symbols 
+	## Note that the goto data isn't changed
+	##
+	
+	_local l_view << _self.map_manager.current_map_view
+	_local l_props << property_list.new()
+	l_props[:graphics_context] << l_view.window.create_graphics_context()
+	l_props[:geometry_set] << _self.int!get_selection_candidates()
+	l_props[:symbol] << p_symname.default("Dot_Red")
+	l_props[:one_shot?] << _true 
+	_self.application.databus.make_data_available(:draw_raster_symbols,l_props)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.draw_ordered_selection_candidates(_optional p_symname)
+	## 
+	## This method draws the symbol P_SYMNAME (default "Dot Red")
+	## for every selection candidate using the ordered result, and passes the distance 
+	## as label text in raster_symbol.draw_on()
+	##
+
+	_local l_data << _self.int!get_selection_candidates(_true )
+	_local l_view << _self.map_manager.current_map_view
+	_local l_gc << l_view.window.create_graphics_context()
+	_local l_symname << p_symname.default("Dot_Red")
+	_local l_sym << raster_symbol_handler.get_symbol(l_symname)
+	_local l_format << float_format.new_with_properties(:float_decimal_places,0)
+
+	_for i _over l_data.fast_elements()
+	_loop l_sym.draw_on(l_gc,i[2],_false,l_format.format(i[1]/1000))
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.draw_values(_optional p_symname)
+	## 
+	## Draw a bar with height based on distance.
+	## It creates a geometry_value_collection from the
+	## ordered selection candidates, and sends this in a databus
+	## request of type :draw_raster_symbols
+	## It passes raster symbol drawing properties to suppress the
+	## draw of a measurement_scale and text label
+	##
+
+	_local l_symname << p_symname.default("Bar-Grey")
+	_local l_data << _self.int!get_selection_candidates(_true )
+	_local l_view << _self.map_manager.current_map_view
+	_local l_gc << l_view.window.create_graphics_context()
+	
+	_local l_set_props << property_list.new_with(
+				      :geom_proc,_proc @getg(elem) >> elem[2] _endproc,
+				      :value_proc,_proc @getv(elem) >> elem[1] _endproc,
+				      :value_format,float_format.new_with_properties(:float_decimal_places,0))
+
+	_local l_gvc << geometry_value_collection.new(float,l_data,l_set_props)
+	
+	l_request_data << property_list.new()
+	l_request_data[:symbol] << l_symname
+	
+	l_request_data[:graphics_context] << l_gc
+	l_request_data[:geometry_set] << l_gvc
+#	l_request_data[:one_shot?] << _true
+	l_request_data[:sym_properties] << property_list.new_with(:draw_measurement_scale?,_false,
+								  :draw_text_string?,_false)
+
+	_self.application.databus.make_data_available(:draw_raster_symbols,l_request_data)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.draw_dummy_values(_optional p_symname)
+	## 
+	## This method needs a set of coordinates to draw a symbol
+	## with a value. As there is no rwo, a pseudo_rwo is used that
+	## generates a random value within the specified value_scale
+	##
+
+	_local l_symname << p_symname.default("Bar-RYG")
+	_local mapv << _self.map_manager.current_map_view
+	_local coords << _self.coords_to_test
+	_local l_sym << raster_symbol_handler.get_symbol(l_symname)
+
+	_local l_props << property_list.new_with(
+				  :value_selector,:|a_value()|,
+				  :value_scale,100,
+				  :draw_text_string?,_false,
+				  :draw_measurement_scale?,_false)
+
+	l_sym.set_properties(l_props)
+	
+	_for i_coord _over coords.fast_elements()
+	_loop l_sym.draw_on(mapv.window,i_coord,_false)
+	_endloop
+
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic=style_system)
+_method raster_symbols_test_plugin.draw_dummy_values_properly(_optional p_symname)
+	## 
+	## This is the same as draw_dummy_values(), but without
+	## changing the symbol properties, i.e. using draw_with_properties()
+	##
+
+	_local l_symname << p_symname.default("Bar-RYG")
+	_local mapv << _self.map_manager.current_map_view
+	_local coords << _self.coords_to_test
+	_local l_sym << raster_symbol_handler.get_symbol(l_symname)
+
+	_local l_props << property_list.new_with(
+				  :value_selector,:|a_value()|,
+				  :value_scale,100,
+				  :draw_text_string?,_true,
+				  :draw_measurement_scale?,_false)
+	
+	_for i_coord _over coords.fast_elements()
+	_loop l_sym.draw_with_properties(mapv.window,i_coord,l_props,_false,"draw_value")
+	_endloop
+
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+_global !add_rstp! <<
+_proc @add_plugin(_optional papp)
+	## ON THE FLY TEST ONLY
+	_global app,!rstp!
+	app << papp.default(smallworld_product.applications.an_element())
+	_if app _isnt _unset 
+	_then
+		app.add_plugin(:raster_symbols_test_plugin,
+			       :raster_symbols_test_plugin,
+			       _unset )
+		!rstp! << app.plugin(:raster_symbols_test_plugin)
+		!rstp!.post_init_plugins()
+	_endif
+	!setv!()
+	write("!rstp! contains ",!rstp!," in ",app)
+	>> app.plugin(:raster_symbols_test_plugin)
+_endproc
+$
+
+_block
+	write("Use !add_rstp!() to add the test_plugin to an application")
+_endblock
+$

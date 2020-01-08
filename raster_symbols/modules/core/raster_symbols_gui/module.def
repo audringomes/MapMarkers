@@ -1,0 +1,9 @@
+raster_symbols_gui 1
+description
+	Magik UI for managing Raster Symbols
+end
+requires
+	raster_symbols_core
+	style_symbol_magik_gui
+end
+	

@@ -1,0 +1,241 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=restricted, topic={grids,style_system,raster_symbols})
+_method grid_mixin.draw_cells_with_transparency_on(win,trans,transp_value,_optional wash_density)
+	#
+	## Draw cells of self on window WIN.
+	## If value is TRANSP_VALUE, it is treated as transparent and
+	## will be be skipped. 
+	## Note that this implementation is significant slower than
+	## _self.draw_24bit_cells_on() 
+	##
+	##   WIN           window to draw to
+	##   TRANS         transform from pixel space to world space
+	##   TRANSP_VALUE  Value for transparency
+	##   WASH_DENSITY  default 100
+	#
+
+	#DEBUG write("draw_cells_with_transparency_on" )
+	
+	# Get bouding box of visible pixels
+	rect << _self.visible_rect(win,trans)
+
+	# Check for nothing to draw
+	_if (rect _is _unset) _then
+		_return
+	_endif
+
+	# Deal with defaults
+	wash_density << wash_density.default(100)
+	
+	# Draw cells
+	# ----------
+	# Buffer pixels (for speed)
+	_protect
+		_self.buffering_on()
+		
+		# For each cell that might be visible ..
+		_for x,y _over _self.pixels(rect)
+		_loop
+		
+			# Get pixel value
+			val << _self[x,y]
+
+			# Check for transparency
+			_if val = transp_value
+			_then _continue		
+			_endif
+			
+			col << _self.colour_from_24bit_val(val)
+			
+			val_style << fill_style.new_wash( col,wash_density)
+			pixel_space_outline << bounding_box.new(x,y,
+								x+1,y+1).outline
+			outline << trans.convert_all(pixel_space_outline)
+			
+			outline.fill_on(win,val_style)
+			
+		_endloop
+
+	# Remove buffering
+	_protection
+		_self.buffering_off()
+	_endprotect	
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={grids,style_system,raster_symbols})
+_method grid_mixin.draw_cells_with_index_transparency_on(win,trans,p_colourmap,_optional wash_density)
+	##
+	## Draw cells of self on window WIN, using P_COLOURMAP for colour.
+	##   If used for bitmaps, use bitmap_symbol.draw_rle_encoded()
+	##
+	##   WIN           window to draw to
+	##   TRANS         transform from pixel space to world space
+	##   P_COLOURMAP   a colourmap
+	##   WASH_DENSITY  default 100
+
+	#DEBUG write("draw_cells_with_index_transparency_on" )
+
+
+	# Get extent of data we need to draw
+	# ----------------------------------
+	# Get bouding box of visible pixels
+	rect << _self.visible_rect(win,trans)
+
+	# Check for nothing to draw
+	_if (rect _is _unset) _then
+		_return
+	_endif
+
+	# Deal with defaults
+	wash_density << wash_density.default(100)
+	
+	# Draw cells
+	# ----------
+	# Buffer pixels (for speed)
+	_protect
+		_self.buffering_on()
+		
+		# For each cell that might be visible ..
+		_for x,y _over _self.pixels(rect)
+		_loop
+		
+			# Get pixel value
+			val << _self[x,y]
+			
+			# Get colour to draw in
+			col << p_colourmap[val]
+
+			# Unless cell is transparent .. draw in
+			_if (col _isnt _unset) _then 
+
+				# Select fill style
+				val_style << fill_style.new_wash( col,wash_density)
+		
+				# Construct cell outline in pixel space
+				pixel_space_outline << bounding_box.new(x-1,y-1,
+									x,y).outline
+
+				# Transform outline to world space
+				outline << trans.convert_all(pixel_space_outline)
+			
+				# Draw cell on window
+				outline.fill_on(win,val_style)
+			_endif
+		
+		_endloop
+
+	# Remove buffering
+	_protection
+		_self.buffering_off()
+	_endprotect	
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={grids,style_system,raster_symbols})
+_method grid_mixin.draw_cells_with_alfa_transparency_on(win,trans,wash_map,_optional wash_density)
+	#
+	## Draw cells of self on window WIN, using WASH_MAP to get transparency for every pixel.
+	##
+	##   WIN           window to draw to
+	##   TRANS         transform from pixel space to world space
+	##   WASH_MAP      equal sized byte grid with transparency
+	##                 values as grey with 255 being fully transparent
+	##   This method is a workaround for sw not be able to deal with png bitmaps 
+	##   with an alpha channel for the transparency
+	#
+	
+	#DEBUG write("draw_cells_with_alfa_transparency_on")
+
+	# Get bouding box of visible pixels
+	rect << _self.visible_rect(win,trans)
+
+	# Check for nothing to draw
+	_if (rect _is _unset) _then
+		_return
+	_endif
+
+	# Deal with defaults
+	wash_density << wash_density.default(100)
+	
+	# Draw cells
+	# ----------
+	# Buffer pixels (for speed)
+	_protect
+		_self.buffering_on()
+		
+		# For each cell that might be visible ..
+		_for x,y _over _self.pixels(rect)
+		_loop
+		
+			# Get pixel value
+			val << _self[x,y]
+			
+			# Get colour to draw in
+			col << _self.colour_from_24bit_val(val)
+
+			# Get mask value
+			msk << wash_map[x,y]
+			
+			# Unless cell is transparent .. draw in
+			_if (msk _isnt 0) _then 
+
+				_if msk=100
+				_then col.sys!slot(:alpha) << 1.0
+				_else col.sys!slot(:alpha) << msk/100.0
+				_endif
+				
+				# Select fill style
+#				val_style << fill_style.new_wash( col,msk)
+		
+				# Construct cell outline in pixel space
+				pixel_space_outline << bounding_box.new(x-1,y,
+									x+1,y+1).transform(trans)#.outline
+				
+				# Transform outline to world space
+				#outline << trans.convert_all(pixel_space_outline)
+			
+				# Draw cell on window
+				#				outline.fill_on(win,val_style)
+				col.draw_sample(win,pixel_space_outline)
+			_endif
+		
+		_endloop
+
+	# Remove buffering
+	_protection
+		_self.buffering_off()
+	_endprotect	
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={grids,style_system,raster_symbols})
+_method grid_mixin.contains_value?(p_val)
+	## 
+	## 
+	_local l_has? << _false 
+	_protect
+		_self.buffering_on()
+		_for x,y _over _self.pixels()
+		_loop
+			_if (val << _self[x,y]) = p_val
+			_then l_has? << _true
+			_endif
+		_endloop
+	_protection
+		_self.buffering_off()
+	_endprotect
+	>> l_has?
+_endmethod
+$

@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Goto Mappings Tab</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><text styleclass="User Interface Element" translate="true">Goto Mapping tab</text><text styleclass="Normal" translate="true"> is used to create and modify </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Mappings" styleclass="Normal" translate="true">Goto Mappings</link><text styleclass="Normal" translate="true"> for three different types: Generic, Specialised and Specific.</text></para>
+    <para styleclass="TableText"></para>
+    <para styleclass="Normal"><image src="sps_management_interface_goto_mappings.ipp" scale="100.00%" styleclass="Normal"></image></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Create Generic mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><table styleclass="Default" rowcount="6" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the tab </text><text styleclass="User Interface Element" translate="true">Goto Mappings.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select a Symbol in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="TableText" translate="true">Symbol (definition) list</link><text styleclass="TableText" translate="true">.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the line with the geom type you want to configure.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Press </text><text styleclass="User Interface Element" translate="true">Set</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">5.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Set the option to use the goto_style from the selected Symbol.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td colspan="2" style="vertical-align:middle;">
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">» </text><text styleclass="TableText" translate="true">All point geometries in a goto request will use the selected symbol.</text></para>
+              </td>
+            </tr>
+          </table></para>
+          <para styleclass="TableText"><table styleclass="Default" rowcount="1" colcount="2" style="page-break-inside:avoid;">
+            <tr style="vertical-align:top">
+              <td style="vertical-align:top; width:17px; height:17px;">
+                <para styleclass="TableText"><image src="Information-icon_16px.png" scale="100.00%" styleclass="TableText"></image></para>
+              </td>
+              <td style="vertical-align:middle;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Setting the option </text><text styleclass="User Interface Element" translate="true">use_style?</text><text styleclass="TableText" translate="true"> has no effect for geometries of type :point and :text</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Create Specialised mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><table styleclass="Default" rowcount="5" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the tab </text><text styleclass="User Interface Element" translate="true">Goto Mappings.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select a Symbol in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="TableText" translate="true">Symbol (definition) list</link><text styleclass="TableText" translate="true">.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the line with the special type (e.g. </text><text styleclass="TableText" style="font-weight:bold;" translate="true">Numerator</text><text styleclass="TableText" translate="true">) you want to confiure</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Press </text><text styleclass="User Interface Element" translate="true">Set</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td colspan="2" style="vertical-align:middle;">
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">» </text><text styleclass="TableText" translate="true">If the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">Numerator</text><text styleclass="TableText" translate="true"> is selected, all goto requests with an ordered_geometry_set are drawn with the selected symbol.</text></para>
+              </td>
+            </tr>
+          </table></para>
+          <para styleclass="TableText"><table styleclass="Default" rowcount="1" colcount="2" style="page-break-inside:avoid;">
+            <tr style="vertical-align:top">
+              <td style="vertical-align:top; width:17px; height:17px;">
+                <para styleclass="TableText"><image src="Information-icon_16px.png" scale="100.00%" styleclass="TableText"></image></para>
+              </td>
+              <td style="vertical-align:middle;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Other types may have different behaviour, depending on your configuration. (See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Handling-mappings" styleclass="Normal" translate="true">Handling of mappings</link><text styleclass="Normal" translate="true">.)</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Create Specific mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Specific mappings are mappings for specific geometries.</text><br/></para>
+          <para styleclass="TableText"><table styleclass="Default" rowcount="8" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the tab </text><text styleclass="User Interface Element" translate="true">Goto Mappings.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select a Symbol in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="TableText" translate="true">Symbol (definition) list</link><text styleclass="TableText" translate="true">.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the heading </text><text styleclass="User Interface Element" translate="true">Specific</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select in the </text><text styleclass="User Interface Element" translate="true">rwo hierarchy list </text><text styleclass="TableText" translate="true">the element you want to configure with the selected symbol. The selection can be one or more geometries or a collection. If you specify a collection, the mapping will show </text><text styleclass="TableText" style="font-weight:bold;" translate="true">all</text><text styleclass="TableText" translate="true">, meaning all geometries of the collection should be drawn with the selected raster Symbol.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">5.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Press </text><text styleclass="User Interface Element" translate="true">Set</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"></para>
+              </td>
+              <td>
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">» </text><text styleclass="TableText" translate="true">A new mapping is created for the selection.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">6.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">(optional) Set in the mapping the option </text><text styleclass="User Interface Element" translate="true">use?</text><text styleclass="TableText" translate="true"> to use the goto_style from the selected Symbol.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">7.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">(optional) Set in the mapping the option </text><text styleclass="User Interface Element" translate="true">mapped geometries?</text><text styleclass="TableText" translate="true"> to map all mapped geometries to use this goto mapping. If the parent geometry field of a mapped geometry is selected, this is filled in automatically with </text><text styleclass="TableText" style="font-weight:bold;" translate="true">True</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Modify Generic Mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><table styleclass="Default" rowcount="5" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the raster symbol you want to use</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select beneath the heading </text><text styleclass="User Interface Element" translate="true">Generic?</text><text styleclass="TableText" translate="true"> the line with the mapping you want to modify</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Press </text><text styleclass="User Interface Element" translate="true">Set</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Set the option </text><text styleclass="User Interface Element" translate="true">use?</text><text styleclass="TableText" translate="true"> the goto_style from the selected Symbol.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">»</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">The mapping is changed</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Modify Specialised mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><table styleclass="Default" rowcount="4" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select the raster symbol you want to use</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Select beneath the heading </text><text styleclass="User Interface Element" translate="true">Specialised? </text><text styleclass="TableText" translate="true">the line with the mapping you want to change</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Press </text><text styleclass="User Interface Element" translate="true">Set</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">»</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">The mapping is changed</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"></para>
+  </body>
+</topic>

@@ -1,0 +1,9 @@
+rs_associated_pictures 1
+description
+	Module for associated_pictures
+end
+requires
+	raster_symbols_core
+	cs_base_model
+end
+	

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Default Symbol</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There is one symbol, named &quot;default&quot;, that is automatically created and cannot be deleted. It acts as a backstop in several functions.</text><br/><text styleclass="Normal" translate="true">The default symbol can only be changed in Magik. See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Changing-the-default-symbol" styleclass="Normal" translate="true">Changing the default symbol</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Appearance and properties of the Default Symbol]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><image src="properties_of_default_symbol.png" scale="70.72%" width="584" height="413" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[API methods on the Default Symbol]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*&lt;2&gt;</title>
+   <link type="text/css" href="magik.css" rel="stylesheet" />
+  </head>
+  <body>
+    <pre>
+<span class="function-name">default_raster_name</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">
+</span>
+        <span class="comment">## The filename for the default symbol, using the module
+</span>        <span class="comment">## :raster_symbols_core.
+</span>        <span class="comment">## The default filename is "pushpin_yellow.png"
+</span><span class="function-name">
+</span>
+<span class="function-name">default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A
+ <span class="cb-font-lock-optional">OPT p_renew?</span>
+
+        <span class="comment">## Returns the raster_symbol "default" from the file
+</span>        <span class="comment">## with the name _self.default_raster_symbol_name from the
+</span>        <span class="comment">## module resources of :raster_symbols_core.
+</span>        <span class="comment">## The symbol will be cached with name "default".
+</span>        <span class="comment">## If P_RENEW? is _true, the symbol is recreated.
+</span><span class="function-name">
+</span>
+<span class="function-name">default_raster_symbol_from()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A
+<span class="variable-name"> p_symbol_name</span>
+
+        <span class="comment">## Returns a new raster_symbol "default" from the symbol with
+</span>        <span class="comment">## name P_SYMBOL_NAME
+</span><span class="function-name">
+</span>
+<span class="function-name">default_raster_symbol_name</span>  IN  <span class="type">sw:raster_symbol_handler</span>   RESTRICTED!
+<span class="function-name">
+<span class="function-name">draw_default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_win p_coord_or_geom</span>
+
+        <span class="comment">## Draw the default picture symbol at P_COORD_OR_GEOM on window
+</span>        <span class="comment">## P_WIN
+</span><span class="function-name">
+</span>
+<span class="function-name">draw_default_raster_symbol_highlight()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_win p_geom</span>
+
+        <span class="comment">## Draw the default picture symbol at P_COORD_OR_GEOM on window
+</span>        <span class="comment">## P_WIN with highlight properties
+</span><span class="function-name">
+</span>
+<span class="function-name">set_default_raster_symbol_from()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A
+<span class="variable-name"> p_symbol_name</span>
+
+        <span class="comment">## Returns a new raster_symbol "default" from the symbol with
+</span>        <span class="comment">## name P_SYMBOL_NAME, which must exist.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

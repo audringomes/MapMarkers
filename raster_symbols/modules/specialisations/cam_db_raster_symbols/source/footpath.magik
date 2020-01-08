@@ -1,0 +1,18 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_pragma(classify_level=basic, topic={raster_sybols})
+_method footpath.rs_string
+	## 
+	## Subclass that returns Length string
+	##
+	_local l_val << _self.length
+	_local l_str << l_val.floating_point_form.rounded
+	_local l_units << l_val.unit.write_string
+	>> write_string(l_str,l_units)
+_endmethod
+$

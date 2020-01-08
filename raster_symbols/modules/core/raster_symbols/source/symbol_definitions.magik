@@ -1,0 +1,80 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+_block
+	_local l_props << raster_symbol_handler.defaults[:default_raster_symbol_properties]
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Locator_Blue.png"
+	raster_symbol_handler.add_symbol_definition("LocatorBlue",l_props)
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Bar(Grey).png"
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-10,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	raster_symbol_handler.add_symbol_definition("Bar-Grey",l_props)
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Bar(Blue-Red-Map).png"
+	l_props[:type] << :grid
+	l_props[:pixel_offset] << pixel_coordinate.new(-10,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	raster_symbol_handler.add_symbol_definition("Bar-BlueRed",l_props)
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Bar(Green-Yellow-Red-Map).png"
+	l_props[:type] << :grid
+	l_props[:pixel_offset] << pixel_coordinate.new(-10,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	raster_symbol_handler.add_symbol_definition("Bar-GYR",l_props)
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Bar(Red-Yellow-Green-Map).png"
+	l_props[:type] << :grid
+	l_props[:pixel_offset] << pixel_coordinate.new(-10,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	raster_symbol_handler.add_symbol_definition("Bar-RYG",l_props)
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Bar(Green-Yellow-Red-Map).png"
+	l_props[:type] << :grid
+	l_props[:pixel_offset] << pixel_coordinate.new(-10,0)
+	l_props[:draw_text_string?] << _true
+	l_props[:text_raster_justification] << :top_centre
+	l_props[:text_justification] << :bottom_centre
+	raster_symbol_handler.add_symbol_definition("Bar-GYR",l_props)
+_endblock
+$

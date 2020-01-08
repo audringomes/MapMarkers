@@ -1,0 +1,5 @@
+symbol_definitions
+gen_magik/
+footpath
+hotel
+road_works

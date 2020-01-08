@@ -1,0 +1,71 @@
+#% text_encoding = iso8859_1
+_package sw
+
+_pragma(classify_level=advanced)
+## A datamodel implementer which will install a new job queue
+## when run:
+##
+## sw_module_manager.module(:sw_job_engine).install_database_changes()
+def_slotted_exemplar(:job_queue_implementer, {}, {:datamodel_implementer})
+$
+
+# Version 1 to check for legacy installation
+job_queue_implementer.register(	:version,			1,
+				:datamodel_name,		"job_queue",
+				:upgrade?,                    _false,
+				:user_installed_check_method, :|user_version_1_installed?()|,
+				:dataset_names,               {:job})
+$
+
+# Version 2 installer
+job_queue_implementer.register(:datamodel_name,  "job_queue",
+			       :version, 2,
+			       :upgrade?,                    _false,
+			       :create_database_method, :job_queue_create_database_engine|()|,
+			       :dataset_names,{:job})
+$
+
+# Version 1 -> 2 upgrades
+job_queue_implementer.register(	:version,			2,
+				:datamodel_name,		"job_queue",
+				:implementer_comment ,        "Upgrade name field's length",
+				:sub_datamodel_name,          "Upgrade_141585_1",
+				:upgrade?,                    _true,
+				:user_change_method, 		:|increase_name_field_length_to_64()|,
+				:dataset_names,               {:job})
+
+
+_pragma(classify_level=restricted)
+_method job_queue_implementer.job_queue_create_database_engine(_optional runtime_arguments)
+
+	## Create the job queue dataset.
+	##
+	## RUNTIME_ARGS will be scattered to the dataset_creator.new()
+	## method.  To set it in the implementer set the
+	## :runtime_arguments property before the implementer runs.
+
+	dc << dataset_creator.new(:type, :job, _scatter runtime_arguments.default({}))
+	>> create_database_engine.new(:dataset_creators, {dc}, :no_default_system?, _true)
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_method job_queue_implementer.user_version_1_installed?(user_view) 
+	## Returns true if the sw_job object is installed in user_view 
+	## 
+	>> user_view.collection(:sw_job) _isnt _unset 
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_method job_queue_implementer.increase_name_field_length_to_64(db_view )
+	## Update the name field's length from 32 chars to 64 chars.
+	##
+
+        db_view.commit()
+        db_view.switch(:readonly)
+        db_view.modify_ds_table_fields(:sw_job,{{:name, :ds_char16canon_vec,64}})
+        db_view.switch(:write)
+	
+_endmethod
+$

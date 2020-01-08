@@ -1,0 +1,24 @@
+<toolbars>
+  
+  <!-- START RASTER SYMBOLS -->  
+  <toolbar name="rsy_conf_toolbar">
+    <action name="raster_symbols.activate_management_interface"/>
+  </toolbar>
+  <toolbar name="rsy_user_toolbar">
+    <action name="raster_symbols.use_goto_raster_symbols"/>
+    <action name="raster_symbols.sticky_goto"/>
+    <action name="raster_symbols.goto_skip_invisible"/>
+    <action name="raster_symbols.goto_use_default"/>
+    <action name="raster_symbols.help"/>
+  </toolbar>
+  <toolbar name="rsy_full_toolbar">
+    <action name="raster_symbols.use_goto_raster_symbols"/>
+    <action name="raster_symbols.sticky_goto"/>
+    <action name="raster_symbols.goto_skip_invisible"/>
+    <action name="raster_symbols.goto_use_default"/>
+    <action name="raster_symbols.activate_management_interface"/>
+    <action name="raster_symbols.help"/>
+  </toolbar>
+  <!-- END RASTER SYMBOLS -->
+
+</toolbars>

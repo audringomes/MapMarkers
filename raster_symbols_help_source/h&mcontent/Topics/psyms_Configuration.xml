@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Configuration</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There are multiple ways to customize </text><var styleclass="Normal">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true">. You probably will need some well designed png-files for use in your application. There are multiple facilities to import icons into Raster Symbols.</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="6" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Plugin-configuration" styleclass="TableText" translate="true">Plugin configuration</link><text styleclass="TableText" translate="true"> standard and extended.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Defaults for symbol creation (</text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default_Settings" styleclass="Normal" translate="true">Default settings</link><text styleclass="Normal" translate="true">) </text><text styleclass="TableText" translate="true">and the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default-symbol" styleclass="TableText" translate="true">Default Symbol</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Mappings" styleclass="TableText" translate="true">Geometry Mappings</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_XML-configuration" styleclass="TableText" translate="true">Raster Symbol Configuration files</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Powerfull Magik API to manage and draw symbols.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Development-GUI" styleclass="TableText" translate="true">Configuration GUI</link><text styleclass="TableText" translate="true"> that gives you an interface to all features.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

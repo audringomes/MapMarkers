@@ -1,0 +1,115 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:test_coordinator)
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+##
+## A thing that knows about modules and can set an appropriate
+## out dir and have run()
+##
+def_slotted_exemplar(:test_coordinator,{})
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_coordinator.my_module_name
+	## 
+	##  In case self is evaluated inline
+	##
+	>> _if (n << _self.module_name) _isnt _unset 
+	   _then >> n
+	   _else >> :raster_symbols_core_test	   
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_coordinator.set_output_dir()
+	## 
+	## If MUNIT_OUTPUT_DIR isnt set, set it to the <product>/results
+	##
+	
+	_try _with cond
+		
+		_if (d << system.getenv("MUNIT_OUTPUT_DIR")) _is _unset 
+		_then
+			l << smallworld_product.product(:raster_symbols_test).directory
+			d << system.pathname_from_components("results",l)
+							     
+			system.putenv("MUNIT_OUTPUT_DIR",d)
+			write("MUNIT_OUTPUT_DIR set to ",d)
+		_else
+			write("Output dir from %MUNIT_OUTPUT_DIR% ",d)
+		_endif
+		
+	_when error warning
+		write("Output dir could not be set - ")#, cond.report_contents_string)
+	_endtry
+
+	>> d.default(system.temp_directory_name)
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_coordinator.run(_optional p_outdir)
+	## 
+	## 
+
+	l_od << p_outdir.default(_self.set_output_dir())
+	
+	_local l_ts << sw:test_suite.new_from_product( :raster_symbols_test )
+	
+	_local l_tr << sw:xml_test_runner.new( _unset, :output_dir, l_od )
+	_local l_st << l_tr.new_stream( l_ts )
+	
+	l_tr.stream << l_st
+	_protect
+		l_tr.run( l_ts )
+		l_st.flush()
+	_protection
+		l_st.close()
+	_endprotect
+
+	r << l_tr.test_result
+	_self.print_munit_test_result(r)
+
+	>> r
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols,test})
+_method test_coordinator.print_munit_test_result( p_test_result )
+	## 
+	## 
+
+	_local l_ac, l_ec, l_fc, l_rc
+	l_ac << p_test_result.assert_count()
+	l_ec << p_test_result.error_count()
+	l_fc << p_test_result.failure_count()
+	l_rc << p_test_result.run_count()
+
+	write( l_rc, " tests have been run (", l_ac, " assertions). ", l_fc, " failures and ", l_ec, " errors were encountered." )
+
+	_if p_test_result.was_successful?()
+	_then
+		write( "successful" )
+	_else
+		write( "MELTDOWN" )
+	_endif
+	
+_endmethod
+$
+
+_block
+	test_coordinator.run()
+_endblock
+$

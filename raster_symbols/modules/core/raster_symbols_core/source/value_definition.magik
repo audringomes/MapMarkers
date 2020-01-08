@@ -1,0 +1,62 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:value_definition)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## holds all meta info of a value. It is used to pass
+## information about the values to the draw value methods
+##
+def_slotted_exemplar(:value_definition,
+	{
+		{:type,_unset},
+		{:scale,_unset},
+		{:format,_unset},
+		{:name,_unset}
+	},:object)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## the type, which can be anything, from float to unit
+value_definition.define_slot_access(:type,:write,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## the particular value scale
+value_definition.define_slot_access(:scale,:write,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## the format to be used to write value as string
+value_definition.define_slot_access(:format,:write,:public)
+$
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## the name of the value (as string)
+value_definition.define_slot_access(:name,:write,:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method value_definition.new(p_type,p_vscale,p_format,p_name)
+	>> _clone.init(p_type,p_vscale,p_format,p_name)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method value_definition.init(p_type,p_vscale,p_format,p_name)
+	.type << p_type
+	.scale << p_vscale
+	.format << p_format
+	.name << p_name
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method value_definition.show_on(a_stream)
+	a_stream.write(_self.class_name,%(,.type,%,,.scale,%,,.format,%,,.name,%))	
+_endmethod
+$

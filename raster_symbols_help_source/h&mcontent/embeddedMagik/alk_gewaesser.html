@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>alk_gewaesser.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=advanced, topic={style_system,sps}, usage={external})</span>
+<span class="function-name">_method</span> <span class="type">alk_gewaesser</span>.<span class="function-name">draw_raster_symbol</span>(p_context,p_geom,p_rwo_style,<span class="magik-font-lock-boolean">p_draw?</span>)
+<span class="doc">        ## Generated method from Picture Symbols GUI</span><span class="comment">
+</span>        
+        <span class="magik-font-lock-keyword-variable">_local</span> l_name &lt;&lt; <span class="type">_self</span>.gewaessername.write_string
+        <span class="magik-font-lock-keyword-statements">_if</span> l_name <span class="magik-font-lock-keyword-operators">_isnt</span> <span class="constant">_unset</span> <span class="magik-font-lock-keyword-operators">_andif</span>
+            (l_sym &lt;&lt; raster_symbol_handler.<span class="function-name">symbol</span>(l_name)) <span class="magik-font-lock-keyword-operators">_isnt</span> <span class="constant">_unset</span>
+        <span class="magik-font-lock-keyword-statements">_then</span>
+                <span class="magik-font-lock-keyword-variable">_local</span> l_geom &lt;&lt; <span class="magik-font-lock-keyword-statements">_if</span> p_rwo_style.style_type=<span class="string">"highlight"</span>
+                                 <span class="magik-font-lock-keyword-statements">_then</span> &gt;&gt; <span class="type">_self</span>.flaeche.bounds.top_centre
+                                 <span class="magik-font-lock-keyword-statements">_else</span> &gt;&gt; p_geom
+                                 <span class="magik-font-lock-keyword-statements">_endif</span>
+                l_sym.<span class="function-name">draw_on</span>(p_context,l_geom,p_rwo_style.style_type=<span class="string">"highlight"</span>,l_name)
+        <span class="magik-font-lock-keyword-statements">_endif</span>
+        &gt;&gt; <span class="constant">_false</span>
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>

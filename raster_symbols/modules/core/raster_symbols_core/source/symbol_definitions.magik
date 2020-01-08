@@ -1,0 +1,43 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols_core
+	l_props[:filename] << "nothing.png"
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-8,8)
+	l_props[:draw_text_string?] << _false
+	raster_symbol_handler.create_symbol("NOTHING",l_props)	
+_endblock
+$
+
+_block
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "numerator_blue.png"
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-14,0)
+	l_props[:text_raster_justification] << :text_box	
+	l_props[:text_box] << pixel_bounding_box.new(1,6,29,29)
+	l_props[:text_justification] << :centre_centre
+	l_props[:text_style] <<
+		sw:text_style.new_with_properties(
+			   :font,font.new_with_properties(:type,:usage,
+							  :name,"swift_bold",
+							  :point_size, 12),
+			   :colour,colour.new_rgb(1,1,1),
+			   :fixed_size?,_false,
+			   :multiline?,_false,
+			   :line_style,_unset,
+			   :fill_style,_unset,
+			   :clear?,_false)
+	raster_symbol_handler.create_symbol("Numerator",l_props)
+_endblock
+$

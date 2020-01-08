@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+<link type="text/css" href="magik.css" rel="stylesheet">
+    </style>
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">copy_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+ <span class="variable-name">p_name </span><span class="cb-font-lock-optional">OPT p_module_name</span>
+
+        <span class="comment">## Copies the symbol with P_NAME. The name of the new symbol is
+</span>        <span class="comment">## P_NAME(Copy).
+</span>        <span class="comment">## If P_MODULE_NAME is passes as argument, the image file will
+</span>        <span class="comment">## be copied to this module and the copy created using this
+</span>        <span class="comment">## image as source.
+</span><span class="function-name">
+</span>
+<span class="function-name">create_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name p_properties</span>
+
+        <span class="comment">## Creates and returns a raster_symbol with P_NAME and the
+</span>        <span class="comment">## properties in P_PROPERTIES.
+</span>        <span class="comment">## See raster_symbol.new_with_properties() for an explanation
+</span>        <span class="comment">## of the properties.
+</span><span class="function-name">
+</span>
+<span class="function-name">default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A
+ <span class="cb-font-lock-optional">OPT p_renew?</span>
+
+        <span class="comment">## Returns the raster_symbol "default" from the file
+</span>        <span class="comment">## with the name _self.default_raster_symbol_name from the
+</span>        <span class="comment">## module resources of :raster_symbols_core.
+</span>        <span class="comment">## The symbol will be cached with name "default".
+</span>        <span class="comment">## If P_RENEW? is _true, the symbol is recreated.
+</span><span class="function-name">
+</span>
+<span class="function-name">draw_default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_win p_coord_or_geom</span>
+
+        <span class="comment">## Draw the default picture symbol at P_COORD_OR_GEOM on window
+</span>        <span class="comment">## P_WIN
+</span><span class="function-name">
+</span>
+<span class="function-name">get_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## This method returns an existing symbol with P_NAME or it
+</span>        <span class="comment">## will create and return a symbol from the symbol definition
+</span>        <span class="comment">## with P_PNAME
+</span><span class="function-name">
+</span>
+<span class="function-name">name_for_thumbnail_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>   RESTRICTED!
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## returns a name derived from P_NAME, the symbol for which a
+</span>        <span class="comment">## subclass is created
+</span><span class="function-name">
+</span>
+<span class="function-name">remove_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## 
+</span>        <span class="comment">## 
+</span><span class="function-name">
+</span>
+<span class="function-name">rename_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>   RESTRICTED!
+<span class="variable-name"> p_old p_new</span>
+
+        <span class="comment">## Restricted: This might lead to inconsistencies and Must be
+</span>        <span class="comment">## followed up by fixing goto_mappings etc.
+</span><span class="function-name">
+</span>
+<span class="function-name">symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## Return the picture symbol with name P_NAME.
+</span>        <span class="comment">## If not found, return _unset
+</span><span class="function-name">
+</span>
+<span class="function-name">thumbnail_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="variable-name"> p_name</span>
+
+        <span class="comment">## Returns the thumbnail picture symbol for symbol with name
+</span>        <span class="comment">## P_NAME.
+</span>        <span class="comment">## If it does not exist, it is created with the default
+</span>        <span class="comment">## properties.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>

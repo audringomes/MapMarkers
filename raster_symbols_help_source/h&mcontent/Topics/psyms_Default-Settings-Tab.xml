@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd" status="Under Construction">
+  <title translate="true">Default Settings Tab</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The Tab </text><text styleclass="User Interface Element" translate="true">Default Settings</text><text styleclass="Normal" translate="true"> contains the list of all default settings.</text><br/><text styleclass="Normal" translate="true">At the moment of writing all these values are readonly.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

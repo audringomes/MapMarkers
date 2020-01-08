@@ -1,0 +1,899 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../helpproject.xsd">
+  <title translate="true">tables_for_formatting</title>
+  <body>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Tables_for_formatting (Heading 2)</text></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Heading 3</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Inline icons</text><text styleclass="Inline_Icon" translate="true">&#32;</text><image src="example.png" scale="100.00%" styleclass="Inline_Icon"></image><text styleclass="Inline_Icon" translate="true">&#32;</text><text styleclass="Normal" translate="true">must get style Inline icon and should have a maximum height of 20px. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bullets and numbers:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">First column </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">width</text><text styleclass="TableText" translate="true">: 30px</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Cellpadding: 2</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Cellspacing: 1</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px; height:17px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+        </td>
+        <td style="height:17px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Style: Tabletext</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">5.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Vertical alignment: Top</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">6.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Last column width: No preferred width!</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">7.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Table positioning: Size table to fit on page</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">8.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">9.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">10.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Result sign" translate="true">»</text><text styleclass="Normal" translate="true"> (result sign)</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><image src="result_sign.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px; height:13px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="height:13px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="6" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="4" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><image src="procedure.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px; height:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px; height:11px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td style="width:22px; height:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px; height:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:22px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:1149px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:33px;">
+        </td>
+        <td style="width:1124px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">This is an example of an collapsed piece of text/images inline, styled with the </text><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="true" translate="true" styleclass="Inline Toggle"><caption translate="true"><![CDATA[inline toggle]]></caption></toggle><text styleclass="Normal" translate="true">, it needs a table, just like their big brothers</text></para>
+          <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+            <tr style="vertical-align:top">
+              <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+              </td>
+              <td style="width:970px; border:none;">
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">This is the text or image that is toggled.</text></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:33px;">
+        </td>
+        <td style="width:1124px;">
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="Information-icon_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Additional Information single line max size 500px</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="Information-icon_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td rowspan="2" style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Additional Information</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">multiple lines max size 500px</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Warning single line</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td rowspan="2" style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Warning</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">multiple lines</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="ref_book.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><text styleclass="TableText" style="font-style:italic;" translate="true">manual</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="TopicReference.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><text styleclass="TableText" style="font-style:italic;" translate="true">referenced topic</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="Weblink1616.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See </text><text styleclass="TableText" style="font-style:italic;" translate="true">Internet link</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Table Toggle]]></caption></toggle><text styleclass="Toggle" translate="true"> (double click to edit)</text></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The text to be toggled</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="3" style="width:100%; cell-padding:0px; cell-spacing:0px; border-width:1px; border-spacing:0px; cell-border-width:1px; border-color:#d0d0d0; border-style:raised-color;">
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"><text styleclass="Normal" style="font-weight:bold;" translate="true">Item</text></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Name</text></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Description</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The first one</text></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Chocolate</text></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Foody</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:206px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:281px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:565px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Code examples are formatted by the style Code Example</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The syntax highlighting button </text><text styleclass="User Interface Element" translate="true">Format &gt; Syntax Highlighting </text><text styleclass="Normal" translate="true">enables formatting </text><text styleclass="User Interface Element" translate="true">the code in more than 50 languages.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This is the xml code syntax highlighting: (All code examples are best within a table with table style CodeExample)</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Code Example"><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">gui</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">menu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">menubar</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">type</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">menubar</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">file</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">file_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">action</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">exit</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">exit_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">tools</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">tools_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">action</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">options.activate_options_dialog</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">options_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">help</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">help_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">action</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">help_contents_and_index</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">contents_and_index_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">separator</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">action</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">about_application</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">mnemonic_id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">about_application_m</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">submenu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">menu</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">work_area</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">paned_window</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">side_by_side</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">no</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">dynamic</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">yes</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">plugin</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">plugin_name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">control_panel</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">width</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">650</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">height</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">= &quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">650</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160; &#160; &#160; </text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">paned_window</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">work_area</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">statusbar</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">name</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">default</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">pane</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">id</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">status_info</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">style</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">innie</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">width</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">200</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#000000;" translate="true">&#32;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#800000;" translate="true">springy</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">=&quot;</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000080;" translate="true">true</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&quot;/&gt;</text><br/><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#000000;" translate="true"> &#160; &#160;</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">statusbar</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text><br/><br/><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&lt;/</text><text styleclass="Code Example" style="font-weight:bold; font-style:normal; color:#800000;" translate="true">gui</text><text styleclass="Code Example" style="font-weight:normal; font-style:normal; color:#0000ff;" translate="true">&gt;</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Code Example"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">As we have not yet a user defined syntax highlighting for magik in H&amp;M, the best practice is to &apos;htmlize&apos; the code in Emacs and add the code here as HTML Code object: This will preserve all formatting. You can strip the inline css if magik.css is part of your project. Replace the &lt;style&gt; section with &lt;link type=&quot;text/css&quot; href=&quot;magik.css&quot; rel=&quot;stylesheet&quot;&gt;, as is done in the following example:</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>example.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">#</span><span class="comment">% text_encoding = iso8859_1
+</span><span class="magik-font-lock-keyword-statements">_package</span> sw
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=advanced)</span>
+<span class="doc">## A datamodel implementer which will install a new job queue</span><span class="comment">
+</span><span class="doc">## when run:</span><span class="comment">
+</span><span class="doc">##</span><span class="comment">
+</span><span class="doc">## sw_module_manager.module(:sw_job_engine).install_database_changes()</span><span class="comment">
+</span><span class="type">def_slotted_exemplar</span>(<span class="magik-font-lock-symbol">:job_queue_implementer</span>, {}, {<span class="magik-font-lock-symbol">:datamodel_implementer</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 1 to check for legacy installation
+</span>job_queue_implementer.<span class="function-name">register</span>( <span class="magik-font-lock-symbol">:version</span>,                       1,
+                                <span class="magik-font-lock-symbol">:datamodel_name</span>,                <span class="string">"job_queue"</span>,
+                                <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_false</span>,
+                                <span class="magik-font-lock-symbol">:user_installed_check_met</span>hod, <span class="magik-font-lock-symbol">:|</span><span class="magik-font-lock-boolean">user_version_1_installed?</span><span class="magik-font-lock-symbol">()|</span>,
+                                <span class="magik-font-lock-symbol">:dataset_names</span>,               {<span class="magik-font-lock-symbol">:job</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 2 installer
+</span>job_queue_implementer.<span class="function-name">register</span>(<span class="magik-font-lock-symbol">:datamodel_name</span>,  <span class="string">"job_queue"</span>,
+                               <span class="magik-font-lock-symbol">:version</span>, 2,
+                               <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_false</span>,
+                               <span class="magik-font-lock-symbol">:create_database_method</span>, <span class="magik-font-lock-symbol">:job_queue_create_database_engine|()|</span>,
+                               <span class="magik-font-lock-symbol">:dataset_names</span>,{<span class="magik-font-lock-symbol">:job</span>})
+$
+
+<span class="comment-delimiter"># </span><span class="comment">Version 1 -&gt; 2 upgrades
+</span>job_queue_implementer.<span class="function-name">register</span>( <span class="magik-font-lock-symbol">:version</span>,                       2,
+                                <span class="magik-font-lock-symbol">:datamodel_name</span>,                <span class="string">"job_queue"</span>,
+                                <span class="magik-font-lock-symbol">:implementer_comment</span> ,        <span class="string">"Upgrade name field's length"</span>,
+                                <span class="magik-font-lock-symbol">:sub_datamodel_name</span>,          <span class="string">"Upgrade_141585_1"</span>,
+                                <span class="magik-font-lock-boolean">:upgrade?</span>,                    <span class="constant">_true</span>,
+                                <span class="magik-font-lock-symbol">:user_change_method</span>,            <span class="magik-font-lock-symbol">:|increase_name_field_length_to_64()|</span>,
+                                <span class="magik-font-lock-symbol">:dataset_names</span>,               {<span class="magik-font-lock-symbol">:job</span>})
+
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="function-name">job_queue_create_database_engine</span>(<span class="magik-font-lock-keyword-arguments">_optional</span> runtime_arguments)
+
+<span class="doc">        ## Create the job queue dataset.</span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span><span class="doc">        ## RUNTIME_ARGS will be scattered to the dataset_creator.new()</span><span class="comment">
+</span><span class="doc">        ## method.  To set it in the implementer set the</span><span class="comment">
+</span><span class="doc">        ## :runtime_arguments property before the implementer runs.</span><span class="comment">
+</span>
+        dc &lt;&lt; dataset_creator.<span class="function-name">new</span>(<span class="magik-font-lock-symbol">:type</span>, <span class="magik-font-lock-symbol">:job</span>, <span class="magik-font-lock-keyword-arguments">_scatter</span> runtime_arguments.<span class="function-name">default</span>({}))
+        &gt;&gt; create_database_engine.<span class="function-name">new</span>(<span class="magik-font-lock-symbol">:dataset_creators</span>, {dc}, <span class="magik-font-lock-boolean">:no_default_system?</span>, <span class="constant">_true</span>)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="magik-font-lock-boolean">user_version_1_installed?</span>(user_view) 
+<span class="doc">        ## Returns true if the sw_job object is installed in user_view </span><span class="comment">
+</span><span class="doc">        ## </span><span class="comment">
+</span>        &gt;&gt; user_view.<span class="function-name">collection</span>(<span class="magik-font-lock-symbol">:sw_job</span>) <span class="magik-font-lock-keyword-operators">_isnt</span> <span class="constant">_unset</span> 
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted)</span>
+<span class="function-name">_method</span> <span class="type">job_queue_implementer</span>.<span class="function-name">increase_name_field_length_to_64</span>(db_view )
+<span class="doc">        ## Update the name field's length from 32 chars to 64 chars.</span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span>
+        db_view.<span class="function-name">commit</span>()
+        db_view.<span class="function-name">switch</span>(<span class="magik-font-lock-symbol">:readonly</span>)
+        db_view.<span class="function-name">modify_ds_table_fields</span>(<span class="magik-font-lock-symbol">:sw_job</span>,{{<span class="magik-font-lock-symbol">:name</span>, <span class="magik-font-lock-symbol">:ds_char16canon_vec</span>,64}})
+        db_view.<span class="function-name">switch</span>(<span class="magik-font-lock-symbol">:write</span>)
+        
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="Information-icon_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td rowspan="2" style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">If you add it as a html snippet, the result is not ok. H&amp;M treat it as a code example and throws styles around each element:</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

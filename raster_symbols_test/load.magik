@@ -1,0 +1,29 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_global !load_rst! <<
+_proc @load_raster_symbols_tests()
+
+	sw:smallworld_product.add_product("E:\REPOS\munit")
+
+	_local (l_name,l_root) << system.pathname_components(!source_file!)
+	sw:smallworld_product.add_product(l_root)
+	sw_module_manager.load_module(:raster_symbols_core_test)
+
+	_if sw_module_manager.module(:raster_symbols_gui).loaded?
+	_then sw_module_manager.load_module(:raster_symbols_test)
+	_endif
+	
+_endproc
+$
+
+_block
+	!load_rst!()
+_endblock
+$

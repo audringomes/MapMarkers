@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Default Settings</title>
+  <keywords>
+    <keyword translate="true">Default Settings</keyword>
+  </keywords>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When symbols are created, and the value for some properties isn&apos;t provided, the following methods for default values are used.</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+  	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+</span><span class="function-name"><span class="region">default_goto_area_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default GOTO area style. A fill_style that is created
+</span></span><span class="region">        </span><span class="comment"><span class="region">## the first time the method is called. The method will be
+</span></span><span class="region">        </span><span class="comment"><span class="region">## converted automatically in a shared_constant
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_goto_line_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default GOTO line style. Build and cached as a shared
+</span></span><span class="region">        </span><span class="comment"><span class="region">## constant with the same name
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_highlight_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The highlight linestyle. A line style with colour derived from
+</span></span><span class="region">        </span><span class="comment"><span class="region">## application.highlight_colour.
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_highlight_text_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default sw:text_style for drawing text in highlight
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_measurement_text_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default sw:text_style for drawing the used value scale and
+</span></span><span class="region">        </span><span class="comment"><span class="region">## value method when drawing values.
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_text_parameters</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default value for text parameters
+</span></span><span class="region">        </span><span class="comment"><span class="region">## :text_justification            (:bottom_left)
+</span></span><span class="region">        </span><span class="comment"><span class="region">## :text_raster_justification    (:top_right)
+</span></span><span class="region">        </span><span class="comment"><span class="region">## :text_scale_factor             (1.0)
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">default_text_style</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    B
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## The default sw:text_style for drawing text
+</span></span><span class="function-name"><span class="region">
+
+</span></span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">All default values are shown in the tab </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default-Settings-Tab" styleclass="User Interface Element" translate="true">Default Settings</link><text styleclass="Normal" translate="true"> of the Configuration GUI.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

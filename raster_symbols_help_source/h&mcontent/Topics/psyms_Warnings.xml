@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Warning</title>
+  <body>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="5" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The following warnings apply to this product.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">To make it possible that raster symbols react on goto requests from the editor_manager, the existing code is changed to actually send a goto_request after the normal goto action is performed.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See comments in </text><text styleclass="Code in text" translate="true">editor_manager.make_goto_request( data )</text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">This might change the behaviour in your application. Check your application for databus consumers of type :goto_request </text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A known issue is the missing post_mortem() method on </text><text styleclass="Code in text" translate="true">externally_grid_input_stream</text><text styleclass="TableText" translate="true">. The non destructive error that is raised can be ignored.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">3.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See the warning in the (optional) module for the Drawing Speed Monitor. See (</text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw-symbols" styleclass="TableText" translate="true">Drawing Speed Monitor &gt; Operation</link><text styleclass="TableText" translate="true">)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">4.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">As this is an experimental module, no proper config, gui and toolbar exports are yet defined. </text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">See in the root of </text><text styleclass="TableText" style="font-weight:bold;" translate="true">rsp_raster_symbols</text><text styleclass="TableText" translate="true"> the two methods that load and starts the raster Symbol Software:</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- </text><text styleclass="TableText" style="font-weight:bold;" translate="true">load_raster_symbols.magik</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- </text><text styleclass="TableText" style="font-weight:bold;" translate="true">load_raster_symbols_core.magik</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

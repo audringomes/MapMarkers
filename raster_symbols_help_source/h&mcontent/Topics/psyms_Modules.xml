@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Modules</title>
+  <body>
+    <para styleclass="Normal"><image src="psyms_clip0088.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This contents of this list is populated by the raster_symbol_handler. When a symbol is created from a module not yet in the list, the list is updated.</text><br/></para>
+    <para styleclass="Normal"><text styleclass="Heading 2" translate="true">Lock</text><br/><text styleclass="Normal" translate="true">When the </text><text styleclass="User Interface Element" translate="true">Lock symbol</text><text styleclass="Normal" translate="true"> is pressed, the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="Normal" translate="true">Symbol (definition) list</link><text styleclass="Normal" translate="true"> lists only symbols from the selected module.</text><br/><text styleclass="Normal" translate="true">Otherwise the list shows all available raster symbols and raster Symbol Definitions.</text></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Current module used in:</text></para>
+    <para styleclass="Normal"><text styleclass="Heading 3" translate="true">Copy </text><text styleclass="Normal" translate="true">When a Copy is initiated, and the module from the raster (definition) is different from the current module, the user is asked if he wants to copy the raster (definition) to the resources of the current module.</text><br/><text styleclass="Normal" translate="true">The associated raster will be copied to. The default name of the new symbol is &quot;&lt;NAME&gt;(Copy)&quot;.</text><br/><br/><text styleclass="Heading 3" translate="true">Add symbol </text><text styleclass="Normal" translate="true">When the button Add is pressed, the file dialog will open with the bitmap resource directory of the current module.</text><br/><text styleclass="Normal" translate="true">You can select any other folder, as long as it is within a Smallworld module.</text></para>
+    <para styleclass="Normal"><text styleclass="Heading 3" translate="true">Folder</text><text styleclass="Normal" translate="true"> for loading configuration file.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:17px;">
+          <para styleclass="TableText"><image src="Information-icon_16px.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">When a module is added to the list, it does not mean that the module is loaded</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

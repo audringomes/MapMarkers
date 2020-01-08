@@ -1,0 +1,111 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:test_case_xml)
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+def_slotted_exemplar(:test_case_xml,{},
+	:test_case)
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.set_up()
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.test_xml_font()
+	## 
+	## 
+	_local l_font << font.new_with_properties(:type,:logical,
+						  :name,"bold",
+						  :point_size,14,
+						  :oriientation,:left_right)
+	_local l_xml << xml_handler.xml_font(l_font)
+	_local l_from << xml_handler.font_from_xml(l_xml)
+	
+	>> _self.assert(l_from, :|is_kind_of?()|, font)
+	
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.test_xml_text_style()
+	## 
+	##
+
+	_local l_sym << raster_symbol_handler.symbol("default")
+	_local l_xml << raster_symbol_handler.xml_text_style(l_sym.text_style)
+	_local l_style << raster_symbol_handler.text_style_from_xml(l_xml)
+
+	>> _self.assert(l_style, :|is_kind_of?()|, text_style)
+	
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.test_colour()
+	## 
+	## 
+
+	_local l_col << colour.new_with_properties(:red,0.5,:green,0.5,:blue,0.5)
+	_local l_xml << xml_handler.xml_colour(l_col)
+	_local l_res << xml_handler.colour_from_xml(l_xml)
+	
+	>> _self.assert(l_res, :|is_kind_of?()|, colour)
+	
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.test_symbol_from_xml()
+	## 
+	## Serialise the default symbol, create a new from the xml from
+	## this symbol and compare the results. 
+	##
+
+	_local l_new_name << "default2"
+
+	_local l_sym1 << raster_symbol_handler.default_raster_symbol()
+	_local l_props1 << l_sym1.xml_properties
+	l_props1[:name] << l_new_name
+
+	_local l_xml << raster_symbol_handler.xml_raster_symbol_element(l_props1,_true)
+	
+	_local l_sym2 << raster_symbol_handler.raster_symbol_from_xml(l_xml,_true)
+	
+	_self.assert_not_unset(l_sym2,write_string("Symbol from xml ",
+						   l_new_name," created"))
+
+	# Compare
+	_for i_key,i_value _over l_sym1.properties.fast_keys_and_elements()
+	_loop
+		_try _with p_cond
+
+			_if (l_value << l_sym2.perform(i_key)) ~= i_value
+			_then write("Comparison mismatch: ",i_key," differs ",i_value," ",l_value)
+			_endif
+			
+		_when error
+			write("Comparison Error ",p_cond.report_contents_string)
+		_endtry
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system}, usage={external})
+_method test_case_xml.tear_down()
+	## 
+	## 
+	
+_endmethod
+$

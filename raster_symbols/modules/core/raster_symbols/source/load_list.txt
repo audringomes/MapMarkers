@@ -1,0 +1,3 @@
+symbol_definitions
+gen_magik/
+

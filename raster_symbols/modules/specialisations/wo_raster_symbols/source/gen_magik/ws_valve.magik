@@ -1,0 +1,22 @@
+_package user
+
+_method ws_valve.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+	## Generated method from Picture Symbols GUI
+
+	_if sw:!draw_raster_symbols?! _is _false
+	_then _return _false 
+	_endif
+
+#	# Get symbol name from list
+#	_local l_state << _self.opening_state
+#	_local l_sym << _self.raster_symbol_mapping[l_state.default("")]
+#	##DEBUG write(_self,"draw_raster_symbol(",l_state,% ,l_sym)
+#
+#	# Draw the symbol. Note that this call relies on the fact that
+#	# the symbol is realised!
+#	raster_symbol_handler.symbol(l_sym).draw_on(p_context,p_geom,p_rwo_style.style_type="highlight")
+#	>> _true
+	>> _false 
+_endmethod
+$
+

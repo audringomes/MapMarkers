@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+   <title>MapMarkers</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+   <!-- This line includes the general project style sheet (not required) -->
+   <link type="text/css" href="default.css" rel="stylesheet" />
+
+   <!-- This block defines the styles of the TOC headings, change them as needed -->
+   <style type="text/css">
+       body { }
+       .heading1 { font-size: 10pt; color: #000000; text-decoration: none; }
+       .heading2 { font-size: 10pt; color: #000000; text-decoration: none; }
+       .heading3 { font-size: 10pt; color: #000000; text-decoration: none; }
+       .heading4 { font-size: 10pt; color: #000000; text-decoration: none; }
+       .heading5 { font-size: 10pt; color: #000000; text-decoration: none; }
+       .heading6 { font-size: 10pt; color: #000000; text-decoration: none; }
+
+       .hilight1 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+       .hilight2 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+       .hilight3 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+       .hilight4 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+       .hilight5 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+       .hilight6 { font-size: 10pt; color: #FFFFFF; background: #194E84; text-decoration: none; }
+
+       /* TOC LIST CSS */
+         #toc    { padding:0; margin:0 }
+         #toc li { margin-bottom:1px; margin-left:0;}
+         #toc ul { padding-left:0; margin-left:0px }       
+       /* TOC LIST CSS */
+   </style>
+    <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript">
+     var parentScope = (parent.hmNavigationFrame);
+     if (!parentScope) {
+		      var s = document.createElement("script");
+		      s.setAttribute("type","text/javascript");
+		      s.setAttribute("src", "helpman_navigation.js");
+		      document.getElementsByTagName("head")[0].appendChild(s);
+	    }
+     else {
+       if (initialtocstate != "expandall") parent.hmAddCss(document, "#toc li ul { display: none }");
+     }
+     function loadicons() { var icons = new Array(); for (i=0; i<arguments.length; i++) { icons[i] = new Image(); icons[i].src = arguments[i]; } }
+     function loadtoc() { if (parentScope) parent.loadstate(document.getElementById("toc")); else loadstate(document.getElementById("toc")); }
+     function savetoc() { if (parentScope) parent.savestate(document.getElementById("toc")); else savestate(document.getElementById("toc")); }
+     function clicked(node, event) { deselect(); if (parentScope) parent.hmNodeClicked(node, event); else hmNodeClicked(node, event); }
+     function dblclicked(node) { if (parentScope) parent.hmNodeDblclicked(node); else hmNodeDblclicked(node); }
+     function deselect() { if (window.getSelection) window.getSelection().removeAllRanges(); else if (document.selection) document.selection.empty(); }
+     $(document).ready(function(){
+       loadtoc();
+       $(window).onunload = savetoc;
+     });
+   </script>
+</head>
+<body>
+<script type="text/javascript">
+   $(document).ready(function(){
+   var Dtoc=parent.DelayedToc;
+   if (Dtoc != "")
+      {console.log( "TOC document loaded "+Dtoc);
+       parent.lazysync(Dtoc);
+       }})
+</script>
+<ul id="toc" style="list-style-type:none;display:block;padding-left:0">
+<li class="heading1" id="i1" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading1" id="a1" href="psyms_picture-symbols.htm" target="hmcontent"><span class="heading1" id="s1" ondblclick="return dblclicked(this)">MapMarkers</span></a>
+<ul id="ul1" style="list-style-type:none">
+<li class="heading2" id="i1.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.1" href="psyms_features.htm" target="hmcontent"><span class="heading2" id="s1.1">Features</span></a>
+</li>
+<li class="heading2" id="i1.2" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.2" href="psyms_user-help.htm" target="hmcontent"><span class="heading2" id="s1.2" ondblclick="return dblclicked(this)">User Help</span></a>
+<ul id="ul1.2" style="list-style-type:none">
+<li class="heading3" id="i1.2.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.2.1" href="psyms_draw_option_toolbar.htm" target="hmcontent"><span class="heading3" id="s1.2.1">Options Toolbar</span></a>
+</li>
+<li class="heading3" id="i1.2.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.2.2" href="psyms_options-panel.htm" target="hmcontent"><span class="heading3" id="s1.2.2">Options Panel</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.3" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.3" href="psyms_design.htm" target="hmcontent"><span class="heading2" id="s1.3" ondblclick="return dblclicked(this)">Design</span></a>
+<ul id="ul1.3" style="list-style-type:none">
+<li class="heading3" id="i1.3.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.3.1" href="psyms_definitions.htm" target="hmcontent"><span class="heading3" id="s1.3.1">Raster Symbol Definitions</span></a>
+</li>
+<li class="heading3" id="i1.3.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.3.2" href="psyms_colour.htm" target="hmcontent"><span class="heading3" id="s1.3.2">Alpha Colour Editor</span></a>
+</li>
+<li class="heading3" id="i1.3.3" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.3.3" href="psyms_properties.htm" target="hmcontent"><span class="heading3" id="s1.3.3" ondblclick="return dblclicked(this)">Symbol Properties</span></a>
+<ul id="ul1.3.3" style="list-style-type:none">
+<li class="heading4" id="i1.3.3.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.1" href="psyms_type.htm" target="hmcontent"><span class="heading4" id="s1.3.3.1">Type</span></a>
+</li>
+<li class="heading4" id="i1.3.3.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.2" href="psyms_name.htm" target="hmcontent"><span class="heading4" id="s1.3.3.2">Name</span></a>
+</li>
+<li class="heading4" id="i1.3.3.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.3" href="psyms_pixel-offset.htm" target="hmcontent"><span class="heading4" id="s1.3.3.3">Pixel_offset</span></a>
+</li>
+<li class="heading4" id="i1.3.3.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.4" href="psyms_fixed-size_.htm" target="hmcontent"><span class="heading4" id="s1.3.3.4">Fixed_size?</span></a>
+</li>
+<li class="heading4" id="i1.3.3.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.5" href="psyms_draw_size_mm.htm" target="hmcontent"><span class="heading4" id="s1.3.3.5">Draw_size_mm</span></a>
+</li>
+<li class="heading4" id="i1.3.3.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.6" href="psyms_string_selector.htm" target="hmcontent"><span class="heading4" id="s1.3.3.6">String_selector</span></a>
+</li>
+<li class="heading4" id="i1.3.3.7" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.7" href=javascript:void(0);><span class="heading4" id="s1.3.3.7" ondblclick="return dblclicked(this)">Text Parameters</span></a>
+<ul id="ul1.3.3.7" style="list-style-type:none">
+<li class="heading5" id="i1.3.3.7.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.1" href="psyms_draw_text_string_.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.1">Draw_text_string?</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.2" href="psyms_text-picture-justification.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.2">Text_raster_justification</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.3" href="psyms_text-justification.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.3">Text_justification</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.4" href="psyms_text_coordinate.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.4">Text_coordinate</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.5" href="psyms_text_box.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.5">Text_box</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.6" href="psyms_text_scale_factor.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.6">Text_scale_factor</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.7" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.7" href="psyms_text-style.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.7">Text_style</span></a>
+</li>
+<li class="heading5" id="i1.3.3.7.8" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading5" id="a1.3.3.7.8" href="psyms_highlight-text-style.htm" target="hmcontent"><span class="heading5" id="s1.3.3.7.8">Highlight_text_style</span></a>
+</li>
+</ul>
+</li>
+<li class="heading4" id="i1.3.3.8" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.8" href="psyms_value_selector.htm" target="hmcontent"><span class="heading4" id="s1.3.3.8">Value_selector</span></a>
+</li>
+<li class="heading4" id="i1.3.3.9" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.9" href="psyms_value_scale.htm" target="hmcontent"><span class="heading4" id="s1.3.3.9">Value_scale</span></a>
+</li>
+<li class="heading4" id="i1.3.3.10" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.10" href="psyms_goto_line_style.htm" target="hmcontent"><span class="heading4" id="s1.3.3.10">Goto_line_style</span></a>
+</li>
+<li class="heading4" id="i1.3.3.11" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.3.11" href="psyms_goto_area_style.htm" target="hmcontent"><span class="heading4" id="s1.3.3.11">Goto_area_style</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.3.4" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.3.4" href="psyms_raster--grid.htm" target="hmcontent"><span class="heading3" id="s1.3.4" ondblclick="return dblclicked(this)">Grid Raster Symbols</span></a>
+<ul id="ul1.3.4" style="list-style-type:none">
+<li class="heading4" id="i1.3.4.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.3.4.1" href="psyms_colourmap.htm" target="hmcontent"><span class="heading4" id="s1.3.4.1">Colourmap</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.3.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.3.5" href="psyms_thumbnail-picture-symbol.htm" target="hmcontent"><span class="heading3" id="s1.3.5">Thumbnail Raster Symbol</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.4" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.4" href="psyms_administration.htm" target="hmcontent"><span class="heading2" id="s1.4" ondblclick="return dblclicked(this)">Administration</span></a>
+<ul id="ul1.4" style="list-style-type:none">
+<li class="heading3" id="i1.4.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.4.1" href="psyms_organisation.htm" target="hmcontent"><span class="heading3" id="s1.4.1">The modules</span></a>
+</li>
+<li class="heading3" id="i1.4.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.4.2" href="psyms_installation.htm" target="hmcontent"><span class="heading3" id="s1.4.2">Installation</span></a>
+</li>
+<li class="heading3" id="i1.4.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.4.3" href="psyms_authorisation.htm" target="hmcontent"><span class="heading3" id="s1.4.3">Authorisation</span></a>
+</li>
+<li class="heading3" id="i1.4.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.4.4" href="psyms_image-magick.htm" target="hmcontent"><span class="heading3" id="s1.4.4">Image Magick</span></a>
+</li>
+<li class="heading3" id="i1.4.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.4.5" href="psyms_load-from-prompt.htm" target="hmcontent"><span class="heading3" id="s1.4.5">Load from prompt</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.5" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.5" href="psyms_configuration.htm" target="hmcontent"><span class="heading2" id="s1.5" ondblclick="return dblclicked(this)">Configuration</span></a>
+<ul id="ul1.5" style="list-style-type:none">
+<li class="heading3" id="i1.5.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.1" href="psyms_plugin-configuration.htm" target="hmcontent"><span class="heading3" id="s1.5.1">Plugin Configuration</span></a>
+</li>
+<li class="heading3" id="i1.5.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.2" href="psyms_default_settings.htm" target="hmcontent"><span class="heading3" id="s1.5.2">Default Settings</span></a>
+</li>
+<li class="heading3" id="i1.5.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.3" href="psyms_default-symbol.htm" target="hmcontent"><span class="heading3" id="s1.5.3">Default Symbol</span></a>
+</li>
+<li class="heading3" id="i1.5.4" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.4" href="psyms_mappings.htm" target="hmcontent"><span class="heading3" id="s1.5.4" ondblclick="return dblclicked(this)">Geometry Mappings</span></a>
+<ul id="ul1.5.4" style="list-style-type:none">
+<li class="heading4" id="i1.5.4.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.5.4.1" href="psyms_custom-symbol.htm" target="hmcontent"><span class="heading4" id="s1.5.4.1">Auto generated draw methods</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.5.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.5" href="psyms_the-none-symbol.htm" target="hmcontent"><span class="heading3" id="s1.5.5">The NOTHING symbol</span></a>
+</li>
+<li class="heading3" id="i1.5.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.5.6" href="psyms_xml-configuration.htm" target="hmcontent"><span class="heading3" id="s1.5.6">Configuration files</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.6" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.6" href="psyms_development-gui.htm" target="hmcontent"><span class="heading2" id="s1.6" ondblclick="return dblclicked(this)">Configuration GUI</span></a>
+<ul id="ul1.6" style="list-style-type:none">
+<li class="heading3" id="i1.6.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.1" href="psyms_modules.htm" target="hmcontent"><span class="heading3" id="s1.6.1">Modules</span></a>
+</li>
+<li class="heading3" id="i1.6.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.2" href="psyms_symbol-(definition)-list.htm" target="hmcontent"><span class="heading3" id="s1.6.2">Symbol (definition) list</span></a>
+</li>
+<li class="heading3" id="i1.6.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.3" href="psyms_preview-canvas.htm" target="hmcontent"><span class="heading3" id="s1.6.3">Preview canvas</span></a>
+</li>
+<li class="heading3" id="i1.6.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.4" href="psyms_picture-symbol-properties.htm" target="hmcontent"><span class="heading3" id="s1.6.4">Symbol Properties</span></a>
+</li>
+<li class="heading3" id="i1.6.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.5" href="psyms_goto-mapping-tab.htm" target="hmcontent"><span class="heading3" id="s1.6.5">Goto Mappings Tab</span></a>
+</li>
+<li class="heading3" id="i1.6.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.6" href="psyms_rwo-style-mapping-tab.htm" target="hmcontent"><span class="heading3" id="s1.6.6">RWO Style Mappings Tab</span></a>
+</li>
+<li class="heading3" id="i1.6.7" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.7" href="psyms_default-settings-tab.htm" target="hmcontent"><span class="heading3" id="s1.6.7">Default Settings Tab</span></a>
+</li>
+<li class="heading3" id="i1.6.8" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.8" href="psyms_draw.htm" target="hmcontent"><span class="heading3" id="s1.6.8">Draw</span></a>
+</li>
+<li class="heading3" id="i1.6.9" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.9" href="psyms_highlight_.htm" target="hmcontent"><span class="heading3" id="s1.6.9">Highlight?</span></a>
+</li>
+<li class="heading3" id="i1.6.10" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.10" href="psyms_speed.htm" target="hmcontent"><span class="heading3" id="s1.6.10">Drawing speed label</span></a>
+</li>
+<li class="heading3" id="i1.6.11" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.11" href="psyms_add-symbol.htm" target="hmcontent"><span class="heading3" id="s1.6.11">Add symbol</span></a>
+</li>
+<li class="heading3" id="i1.6.12" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.12" href="psyms_realise.htm" target="hmcontent"><span class="heading3" id="s1.6.12">Realise</span></a>
+</li>
+<li class="heading3" id="i1.6.13" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.13" href="psyms_delete-symbol-(definition).htm" target="hmcontent"><span class="heading3" id="s1.6.13">Delete symbol (definition)</span></a>
+</li>
+<li class="heading3" id="i1.6.14" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.14" href="psyms_follow-selection.htm" target="hmcontent"><span class="heading3" id="s1.6.14">Follow selection</span></a>
+</li>
+<li class="heading3" id="i1.6.15" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.15" href="psyms_refresh.htm" target="hmcontent"><span class="heading3" id="s1.6.15">Refresh</span></a>
+</li>
+<li class="heading3" id="i1.6.16" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.16" href="psyms_style-versions.htm" target="hmcontent"><span class="heading3" id="s1.6.16">Style versions</span></a>
+</li>
+<li class="heading3" id="i1.6.17" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.17" href="psyms_save.htm" target="hmcontent"><span class="heading3" id="s1.6.17">Save</span></a>
+</li>
+<li class="heading3" id="i1.6.18" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.6.18" href="psyms_save-as.htm" target="hmcontent"><span class="heading3" id="s1.6.18">Save As</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.7" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.7" href="psyms_usage.htm" target="hmcontent"><span class="heading2" id="s1.7" ondblclick="return dblclicked(this)">Usage</span></a>
+<ul id="ul1.7" style="list-style-type:none">
+<li class="heading3" id="i1.7.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.1" href="psyms_operating-mode.htm" target="hmcontent"><span class="heading3" id="s1.7.1">Operating Mode</span></a>
+</li>
+<li class="heading3" id="i1.7.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.2" href=javascript:void(0);><span class="heading3" id="s1.7.2">Common Office Specials</span></a>
+</li>
+<li class="heading3" id="i1.7.3" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.3" href=javascript:void(0);><span class="heading3" id="s1.7.3" ondblclick="return dblclicked(this)">Water Office Specials</span></a>
+<ul id="ul1.7.3" style="list-style-type:none">
+<li class="heading4" id="i1.7.3.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.7.3.1" href="psyms_route-manager.htm" target="hmcontent"><span class="heading4" id="s1.7.3.1">Route Manager</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.7.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.4" href="psyms_value-mapping2.htm" target="hmcontent"><span class="heading3" id="s1.7.4">Value Mapping</span></a>
+</li>
+<li class="heading3" id="i1.7.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.5" href="psyms_changing-the-default-symbol.htm" target="hmcontent"><span class="heading3" id="s1.7.5">Changing the default symbol</span></a>
+</li>
+<li class="heading3" id="i1.7.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.7.6" href="psyms_flash-mapping.htm" target="hmcontent"><span class="heading3" id="s1.7.6">Flash mapping</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.8" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.8" href="psyms_custom-styles_2.htm" target="hmcontent"><span class="heading2" id="s1.8">Thematics</span></a>
+</li>
+<li class="heading2" id="i1.9" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.9" href="psyms_api.htm" target="hmcontent"><span class="heading2" id="s1.9" ondblclick="return dblclicked(this)">Development</span></a>
+<ul id="ul1.9" style="list-style-type:none">
+<li class="heading3" id="i1.9.1" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.9.1" href=javascript:void(0);><span class="heading3" id="s1.9.1" ondblclick="return dblclicked(this)">Magik API</span></a>
+<ul id="ul1.9.1" style="list-style-type:none">
+<li class="heading4" id="i1.9.1.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.1" href="psyms_drawing.htm" target="hmcontent"><span class="heading4" id="s1.9.1.1">Drawing of symbols</span></a>
+</li>
+<li class="heading4" id="i1.9.1.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.2" href="psyms_retrieving-symbols.htm" target="hmcontent"><span class="heading4" id="s1.9.1.2">Retrieving symbols</span></a>
+</li>
+<li class="heading4" id="i1.9.1.3" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.3" href="psyms_creation.htm" target="hmcontent"><span class="heading4" id="s1.9.1.3">Creation of symbols</span></a>
+</li>
+<li class="heading4" id="i1.9.1.4" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.4" href="psyms_handling-mappings.htm" target="hmcontent"><span class="heading4" id="s1.9.1.4">Handling of mappings</span></a>
+</li>
+<li class="heading4" id="i1.9.1.5" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.5" href="psyms_using-statistical-engines.htm" target="hmcontent"><span class="heading4" id="s1.9.1.5">Using statistical engines</span></a>
+</li>
+<li class="heading4" id="i1.9.1.6" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.6" href="psyms_processing-configuration-files.htm" target="hmcontent"><span class="heading4" id="s1.9.1.6">Processing configuration files</span></a>
+</li>
+<li class="heading4" id="i1.9.1.7" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.9.1.7" href="psyms_new-topic.htm" target="hmcontent"><span class="heading4" id="s1.9.1.7">Selection symbols</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.9.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.9.2" href="psyms_design-considerations.htm" target="hmcontent"><span class="heading3" id="s1.9.2">Design considerations</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.10" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.10" href="psyms_product-tests.htm" target="hmcontent"><span class="heading2" id="s1.10" ondblclick="return dblclicked(this)">Product Tests &amp; Demos</span></a>
+<ul id="ul1.10" style="list-style-type:none">
+<li class="heading3" id="i1.10.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.10.1" href="psyms_unit-tests.htm" target="hmcontent"><span class="heading3" id="s1.10.1">Unit tests</span></a>
+</li>
+<li class="heading3" id="i1.10.2" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.10.2" href="psyms_demos.htm" target="hmcontent"><span class="heading3" id="s1.10.2">Demo's</span></a>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.11" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.11" href="psyms_tools.htm" target="hmcontent"><span class="heading2" id="s1.11" ondblclick="return dblclicked(this)">Tools</span></a>
+<ul id="ul1.11" style="list-style-type:none">
+<li class="heading3" id="i1.11.1" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.11.1" href="psyms_drawing-speed-monitor.htm" target="hmcontent"><span class="heading3" id="s1.11.1" ondblclick="return dblclicked(this)">Drawing Speed Monitor</span></a>
+<ul id="ul1.11.1" style="list-style-type:none">
+<li class="heading4" id="i1.11.1.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.11.1.1" href="psyms_draw-symbols.htm" target="hmcontent"><span class="heading4" id="s1.11.1.1">Operation</span></a>
+</li>
+</ul>
+</li>
+<li class="heading3" id="i1.11.2" data-bg="cicon1.png;cicon2.png" style="background:url(cicon2.png) no-repeat;cursor:pointer;padding-left:20px" onclick="return clicked(this,event)"><a class="heading3" id="a1.11.2" href="psyms_value-analyzer.htm" target="hmcontent"><span class="heading3" id="s1.11.2" ondblclick="return dblclicked(this)">Value analyzer</span></a>
+<ul id="ul1.11.2" style="list-style-type:none">
+<li class="heading4" id="i1.11.2.1" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading4" id="a1.11.2.1" href="psyms_properties2.htm" target="hmcontent"><span class="heading4" id="s1.11.2.1">Properties</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="heading2" id="i1.12" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.12" href="psyms_warnings.htm" target="hmcontent"><span class="heading2" id="s1.12">Warning</span></a>
+</li>
+<li class="heading2" id="i1.13" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.13" href="psyms_test2.htm" target="hmcontent"><span class="heading2" id="s1.13">Document conventions</span></a>
+</li>
+<li class="heading2" id="i1.14" style="background:url(cicon9.png) no-repeat;padding-left:20px" onclick="return clicked(this,event)"><a class="heading2" id="a1.14" href="mms_about.htm" target="hmcontent"><span class="heading2" id="s1.14">About</span></a>
+</li>
+</ul>
+</li>
+</ul>
+<script type="text/javascript">loadicons('cicon2.png','cicon1.png','cicon9.png');</script>
+</body>
+</html>

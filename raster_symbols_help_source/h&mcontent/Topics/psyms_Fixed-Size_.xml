@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Fixed_size?</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The property </text><text styleclass="Normal" style="font-style:italic;" translate="true">fixed_size?</text><text styleclass="Normal" translate="true"> determines if a raster symbol is drawn fixed size on the screen (value = &quot;Yes&quot;), or with a fixed width relative to the geographic world. When </text><text styleclass="Normal" style="font-style:italic;" translate="true">fixed_size?</text><text styleclass="Normal" translate="true"> is &quot;No&quot;, the value of </text><text styleclass="Normal" style="font-style:italic;" translate="true">draw_size_mm</text><text styleclass="Normal" translate="true"> is used and should be present.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><text styleclass="Normal" style="font-style:italic;" translate="true">draw_size_mm</text><text styleclass="Field Name" translate="true"> </text><text styleclass="Normal" translate="true">should be specified in world units (mm).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td colspan="2">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Fixed Size = fixed pixel size at screen:</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:331px;">
+          <para styleclass="Normal"><image src="psyms_clip0016.png" scale="75.00%" width="342" height="326" styleclass="Image Caption"><caption translate="true"><![CDATA[1:1000]]></caption></image></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><image src="psyms_clip0017.png" scale="75.00%" width="342" height="326" styleclass="Image Caption"><caption translate="true"><![CDATA[1:2400]]></caption></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td colspan="2">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Not fixed size = fixed size in world units:</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:331px;">
+          <para styleclass="Normal"><image src="psyms_clip0019.png" scale="75.00%" width="342" height="326" styleclass="Image Caption"><caption translate="true"><![CDATA[1:1000]]></caption></image></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><image src="psyms_clip0020.png" scale="75.00%" width="342" height="326" styleclass="Image Caption"><caption translate="true"><![CDATA[1:2400]]></caption></image></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

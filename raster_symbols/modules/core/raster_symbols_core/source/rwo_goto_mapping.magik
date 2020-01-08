@@ -1,0 +1,104 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:rwo_goto_mapping)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## holds goto parameters, managed by raster_symbol_handler
+def_slotted_exemplar(:rwo_goto_mapping,
+	{{:mapped?,_false},
+	 {:rwo_type,_unset},
+	 {:app_type,_unset},
+	 {:external_rwo_name,_unset},
+	 {:external_app_name,_unset}
+	},
+	:goto_mapping)
+$
+
+rwo_goto_mapping.define_slot_access(:mapped?,:write,:public)
+$
+rwo_goto_mapping.define_slot_access(:rwo_type,:write,:public)
+$
+rwo_goto_mapping.define_slot_access(:app_type,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.new_with_properties(p_properties)
+	## 
+	##
+	>> _self.new(p_properties)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.new(p_properties)
+	## 
+	## 
+	>> _clone.init(p_properties)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.init(p_properties)
+	## 
+	##
+	_super.init(:rwo_goto_mapping,
+		    p_properties[:symbol],
+		    p_properties[:use?])
+	.rwo_type << p_properties[:rwo_type]
+	.app_type << p_properties[:app_type]
+	.mapped? << p_properties[:mapped?]
+	.external_rwo_name << p_properties[:external_rwo_name].default(.rwo_type)
+	.external_app_name << p_properties[:external_app_name].default(.app_type)
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.as_xml()
+	## 
+	## 
+	_local l_rope << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(_self.type,l_rope)
+	l_rope.add(sw:simple_xml_thing.new(:rwo_type,.rwo_type.write_string))
+	l_rope.add(sw:simple_xml_thing.new(:app_type,.app_type.write_string))
+	l_rope.add(sw:simple_xml_thing.new(:external_rwo_name,.external_rwo_name))
+	l_rope.add(sw:simple_xml_thing.new(:external_app_name,.external_app_name))
+	l_rope.add(sw:simple_xml_thing.new(:symbol,_self.symbol))
+	l_rope.add(sw:simple_xml_thing.new(:use,write_string(_self.use?)))
+	l_rope.add(sw:simple_xml_thing.new(:mapped,write_string(_self.mapped?)))
+	_if _self.params _is _unset 
+	_then l_rope.add(sw:simple_xml_thing.new(:params))
+	_endif
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.properties
+	## 
+	## 
+	>> property_list.new_with(:rwo_type,.rwo_type,
+				  :app_type,.app_type,
+				  :external_rwo_name,.external_rwo_name,
+				  :external_app_name,.external_app_name,
+				  :symbol,_self.symbol,
+				  :use?,_self.use?,
+				  :mapped?,_self.mapped?)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method rwo_goto_mapping.write_on(p_stream)
+	## 
+	## 
+	p_stream.write(_self.class_name,"(",.rwo_type,%,,.app_type,%,,_self.symbol,%))
+_endmethod
+$

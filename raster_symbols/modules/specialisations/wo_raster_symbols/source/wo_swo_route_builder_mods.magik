@@ -1,0 +1,73 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_pragma(classify_level=advanced, topic={Route_Manager})
+_method wo_swo_route_builder.goto_object()
+	#
+	## Goto the bound of the object on map
+	##
+	## MOD: for RASTER SYMBOLS to return a route by the new method
+	##      _self.ordered_geoms_for_route()
+	#
+ 
+
+	g_set << rwo_set.new()
+	_for s _over .items[:routes].selection.fast_elements()
+	_loop
+		_if s.level = 2
+		_then # it is a route
+
+			#START MOD
+			# g_set.add_all(.routes_and_objects[s.key][:objects])
+			g_set << _self.ordered_geoms_for_route(s.key)
+			#END MOD
+			
+		_else # is an object
+			col_name << .routes_and_objects[s.parent.key][:type]
+			obj_col << _self.framework.get_object_collection(col_name.as_symbol())	
+			_if obj_col _isnt _unset 
+			_then
+				g_set.add(obj_col.at(s.key))
+			_endif
+		_endif 
+			
+	_endloop
+
+	_self.application.databus.make_data_available(:goto_request, {g_set})	
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={Route_Manager})
+_method wo_swo_route_builder.ordered_geoms_for_route(p_route_name)
+	#
+	## returns an ordered_geometry_set for the geoms in route
+	## P_ROUTE_NAME 
+	# 
+	_local l_route << .routes_and_objects[p_route_name]
+	_local l_objects << l_route[:objects]
+	_local l_orders << l_route[:orders]
+	_local l_hash << hash_table.new()
+	_local l_set << ordered_geometry_set.new()
+
+	_for i_key,i_seq _over l_orders.fast_keys_and_elements()
+	_loop l_hash[i_seq] << write_string(i_key).as_number()
+	_endloop
+
+	_for i_seq,i_key _over l_hash.fast_keys_and_elements()
+	_loop
+		_local l_obj << l_objects.select(predicate.eq(:id,i_key)).result.an_element()
+		_if l_obj _is _unset 
+		_then write("Error in route ",p_route_name," object with id ",i_key," not found")
+		      _continue 
+		_endif
+		_if i_seq  = 0
+		_then l_set.add_first(l_obj.location)
+		_else l_set.add_last(l_obj.location)
+		_endif
+	_endloop
+	>> l_set
+_endmethod
+$

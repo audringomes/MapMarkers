@@ -1,0 +1,21 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method options_dialog.panel_for_class(p_class)
+	## 
+	## quick way to get panel for class P_CLASS
+	##
+	_for i,i2 _over .panels.fast_keys_and_elements()
+	_loop _if i2[:panel].is_kind_of?(raster_symbol_option_panel)
+	      _then _return i2[:panel]
+	      _endif
+	_endloop
+_endmethod
+$

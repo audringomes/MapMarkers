@@ -1,0 +1,1 @@
+raster_symbols_test_plugin

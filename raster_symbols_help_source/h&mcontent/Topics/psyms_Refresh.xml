@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Refresh</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This refreshes the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Symbol-(definition)-list" styleclass="Normal" translate="true">Symbol (definition) list</link><text styleclass="Normal" translate="true">, the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Picture-Symbol-Properties" styleclass="Normal" translate="true">Symbol Property List</link><text styleclass="Normal" translate="true">, the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto-Mapping-tab" styleclass="Normal" translate="true">Goto Mapping tab</link><text styleclass="Normal" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_RWO-Style-mapping-tab" styleclass="Normal" translate="true">RWO Style mapping tab</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Operating Mode</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There are two operating modes, handled by the </text><text styleclass="Code in text" translate="true">raster_symbol_plugin.</text><br/></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Goto draw]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">In </text><text styleclass="Code in text" translate="true">transient_drawer</text><text styleclass="TableText" translate="true"> mode, the plugin handles a </text><text styleclass="Code in text2" translate="true">:goto_request</text><text styleclass="TableText" translate="true"> or </text><text styleclass="Code in text2" translate="true">:post_render_sets</text><text styleclass="TableText" translate="true"> &apos;s from the application databus. It uses the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Mappings" styleclass="TableText" translate="true">Goto Mappings</link><text styleclass="TableText" translate="true"> to determine what and how to draw.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Draw raster symbols]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">In the </text><text styleclass="Code in text" translate="true">draw_raster_symbols</text><text styleclass="TableText" translate="true"> mode, a single raster symbol is drawn for a set of geometries. It offers the possibility to modify the drawing properties of the selected symbol.</text><br/><text styleclass="TableText" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Drawing" styleclass="TableText" translate="true">Drawing of symbols</link><text styleclass="TableText" translate="true"> for more details.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

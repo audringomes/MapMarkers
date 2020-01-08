@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Authorisation</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Manipulation of Raster Symbols is restricted to symbols other than the ones in the raster_symbols_core module. An exception is made for users that are member of the authorisation group system_admin.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This is implemented in the method </text><text styleclass="Code in text2" translate="true">raster_symbol.readonly?</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

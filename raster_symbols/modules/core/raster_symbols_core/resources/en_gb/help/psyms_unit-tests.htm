@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+	<title>Unit tests</title>
+	<meta name="generator" content="Help &amp; Manual" />
+	<meta name="keywords" content="" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link type="text/css" href="default.css" rel="stylesheet" />
+	<link type="text/css" href="custom.css" rel="stylesheet">
+	<style TYPE="text/css" media="screen"> 
+		html, body { margin:0; 
+		             padding:0; 
+			     overflow: hidden; 
+		} 
+		
+			html {overflow-x: auto; overflow-y: scroll;}
+		
+  
+  
+
+		div#printheader { display: none; }
+		#idheader { width:100%; 
+		            height:auto; 
+		            padding: 0; 
+		            margin: 0;
+                            background-color: #e4eaf0; 
+		} 
+		#idcontent { position:relative }                                               
+		#callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+		#callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+		#callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+		#callout-table a {text-decoration: none; color: blue;}
+		#callout-table a:visited {text-decoration: none; color: blue;}
+		#overview-table a {text-decoration: none; color: black;}
+		#overview-table a:visited {text-decoration: none; color: black;}
+		#callout-table a:hover, #overview-table a:hover {text-decoration: underline;}      
+		#switchtoggles { text-align: right; padding: 0 5px 0 0; font-size: 90%; margin: 0; }  
+                #header1
+                  {
+                  font-size: 21pt;
+                  color: #00508f;
+	          margin-top: 0px;
+	          margin-bottom: 10px;
+	          border-bottom: solid 1px #bfc2c5;
+                  margin-left: 10px;
+                  padding-top: 10px;
+                  margin-right: 5px;
+	          padding-bottom: 10px;
+	          background-image: url('MapMarkersPageIcon.png');
+	          background-repeat: no-repeat;
+	          background-position: right center;
+                  }
+
+ 		p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
+		.sync-toc { color: #ffffff; font-size: 8pt; font-weight: bold; display: none; }
+		.sync-toc a { color: #ffffff; text-decoration: none; font-weight: bold;}
+		.sync-toc a:visited { color: #ffffff; }
+		.sync-toc a:hover { text-decoration: underline; }
+                .p_Heading1 {background-image: url('MapMarkersPageIcon.png');}
+
+	</style>
+	<noscript>
+		<style type="text/css">
+			html, body { overflow: auto; }
+		</style> 
+	</noscript>
+	
+		<style type="text/css" media="print">
+			span.f_Heading1 { color: black; }
+			#idheader, #printheader img { display:none; }
+			#printheader { display: block; margin-top: 20px; }
+			#idcontent { margin-top: 10px; position:relative }
+		</style>
+	   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+   <script type="text/javascript" src="nsh.js"></script>
+   <script type="text/javascript" src="message-handler.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "psyms_unit-tests.htm");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+	
+		<div id="header1">Unit tests</div>
+	
+
+
+<div id="idcontent">
+<div id="innerdiv">
+
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">The munit tests for the raster_symbols software is organised in a separate product <span style="font-weight: bold;">raster_symbols_test</span>.</p>
+<p class="p_Normal">To run all tests, follow the steps below:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 8px 0;"><table style="width:100%; border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span style="font-size: 9pt; font-family: Verdana,Geneva,Arial,sans-serif;">1.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">Add the product </span><span class="f_TableText" style="font-weight: bold;">munit</span><span class="f_TableText"> to your session;</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span style="font-size: 9pt; font-family: Verdana,Geneva,Arial,sans-serif;">2.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">Add the product </span><span style="font-weight: bold;">raster_symbols_test</span> to your session<span class="f_TableText">;</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span style="font-size: 9pt; font-family: Verdana,Geneva,Arial,sans-serif;">3.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">Load the test modules, either with the file </span><span class="f_Filepath">load.magik</span><span class="f_Filepath" style="font-weight: normal;"> </span><span class="f_TableText">in the product directory</span><span class="f_Filepath" style="font-weight: normal;"> </span><span class="f_TableText">or by selecting and loading of the module </span><span class="f_TableText" style="font-weight: bold;">raster_symbols_test</span><span class="f_TableText"> in the Smallworld Module Manager;</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:20px; padding:2px; border:none"><p class="p_TableText"><span style="font-size: 9pt; font-family: Verdana,Geneva,Arial,sans-serif;">4.</span></p>
+</td>
+<td style="vertical-align:top; padding:2px; border:none"><p class="p_TableText"><span class="f_TableText">Run the tests by loading the file </span><span class="f_Filepath">run.magik</span><span class="f_TableText"> in the product directory.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">The results will be written to the directory specified in the environment variable <span style="font-weight: bold;">MUNIT_OUTPUT_DIR</span>, and when not defined, the folder <span style="font-weight: bold;">results</span> in the test product.</p>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Normal">The following tests are defined:</p>
+<p class="p_Heading3" style="page-break-inside: avoid; page-break-after: avoid;"><span class="f_Heading3">1. Creation basics</span></p>
+<p class="p_Normal">1a. Creation of a new symbol<br />
+1b. Creation of a symbol from a definition<br />
+1c. Modifying the default symbol</p>
+<p class="p_Normal">&nbsp;<br />
+<span class="f_Heading3">2. XML manipulations</span></p>
+<p class="p_Normal">2a. Create XML representations of symbols and symbol properties<br />
+&nbsp;</p>
+<p class="p_Normal"><span class="f_Heading3">3. Drawing Tests</span><br />
+These tests are defined on the <span style="font-weight: bold;">raster_symbols_test_plugin</span><br />
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name"><span class="region">draw_dummy_values()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbols_test_plugin</span></span><span class="region">    B
+ </span><span class="cb-font-lock-optional"><span class="region">OPT p_symname</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## This method needs a set of coordinates to draw a symbol
+</span></span><span class="region">        </span><span class="comment"><span class="region">## with a value. As there is no rwo, a pseudo_rwo is used that
+</span></span><span class="region">        </span><span class="comment"><span class="region">## generates a random value within the specified value_scale
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">draw_dummy_values_properly()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbols_test_plugin</span></span><span class="region">    B
+ </span><span class="cb-font-lock-optional"><span class="region">OPT p_symname</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## This is the same as draw_dummy_values(), but without
+</span></span><span class="region">        </span><span class="comment"><span class="region">## changing the symbol properties, i.e. using draw_with_properties()
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">draw_ordered_selection_candidates()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbols_test_plugin</span></span><span class="region">    B
+ </span><span class="cb-font-lock-optional"><span class="region">OPT p_symname</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## This method draws the symbol P_SYMNAME (default "Dot Red")
+</span></span><span class="region">        </span><span class="comment"><span class="region">## for every selection candidate using the ordered result, and passes the distance
+</span></span><span class="region">        </span><span class="comment"><span class="region">## as label text in raster_symbol.draw_on()
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">draw_selection_candidates()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbols_test_plugin</span></span><span class="region">    B
+ </span><span class="cb-font-lock-optional"><span class="region">OPT p_symname</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## This method draws the symbol P_SYMNAME (default "Dot_Red")
+</span></span><span class="region">        </span><span class="comment"><span class="region">## for all selection candidates using the databus request
+</span></span><span class="region">        </span><span class="comment"><span class="region">## :draw_raster_symbols
+</span></span><span class="region">        </span><span class="comment"><span class="region">## Note that the goto data isn't changed
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span><span class="function-name"><span class="region">
+</span></span><span class="region">
+</span><span class="function-name"><span class="region">draw_values()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbols_test_plugin</span></span><span class="region">    B
+ </span><span class="cb-font-lock-optional"><span class="region">OPT p_symname</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## Draw a bar with height based on distance.
+</span></span><span class="region">        </span><span class="comment"><span class="region">## It creates a geometry_value_collection from the
+</span></span><span class="region">        </span><span class="comment"><span class="region">## ordered selection candidates, and sends this in a databus
+</span></span><span class="region">        </span><span class="comment"><span class="region">## request of type :draw_raster_symbols
+</span></span><span class="region">        </span><span class="comment"><span class="region">## It passes raster symbol drawing properties to suppress the
+</span></span><span class="region">        </span><span class="comment"><span class="region">## draw of a measurement_scale and text label
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span></pre>
+  </body>
+</html></p>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Normal"><span class="f_Heading3">3. Customisations</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+
+</script>
+</body>
+</html>

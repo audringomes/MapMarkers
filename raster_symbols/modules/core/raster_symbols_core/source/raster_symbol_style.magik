@@ -1,0 +1,24 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:raster_symbol_style)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+def_slotted_exemplar(:raster_symbol_style,{},:cs_thematic_point_style)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_style.actual_custom_style_method
+	## 
+	## 
+	>> :|draw_raster_symbol()|
+_endmethod
+$

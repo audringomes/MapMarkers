@@ -1,0 +1,538 @@
+/* Text Styles */
+hr { color: #000000 }
+body, table, tr, th /* Normal */
+{
+ font-size: 10pt;
+ font-family: Tahoma,Geneva,Verdana,sans-serif;
+ font-style: normal;
+ font-weight: normal;
+ color: #000000;
+ text-decoration: none;
+}
+span.f_Callout /* Callout */
+{
+ font-family: Verdana,Geneva,Arial,sans-serif;
+ letter-spacing: -1px;
+}
+span.f_Code /* Code */
+{
+ font-family: 'Courier New',Courier,monospace;
+ font-weight: bold;
+ letter-spacing: -1px;
+}
+span.f_CodeExample /* Code Example */
+{
+ font-size: 8pt;
+ font-weight: bold;
+ color: #008000;
+}
+span.f_Codeintext /* Code in text */
+{
+ font-weight: bold;
+ color: #008000;
+}
+span.f_Codeintext2 /* Code in text2 */
+{
+ font-weight: bold;
+ color: #008000;
+}
+span.f_Comment /* Comment */
+{
+}
+span.f_ComponentName /* Component Name */
+{
+ font-style: italic;
+}
+span.f_CourierFixed /* Courier Fixed */
+{
+ font-size: 9pt;
+ font-family: 'Courier New',Courier,monospace;
+}
+span.f_Definition /* Definition */
+{
+ font-weight: bold;
+ color: #008000;
+}
+span.f_Errordescription /* Error description */
+{
+}
+span.f_Errormessage /* Error message */
+{
+ font-style: italic;
+ font-weight: bold;
+}
+span.f_FieldName /* Field Name */
+{
+ font-style: italic;
+ font-weight: bold;
+ color: #020b75;
+}
+span.f_Filepath /* Filepath */
+{
+ font-size: 8pt;
+ font-weight: bold;
+}
+span.f_Header /* Header */
+{
+ font-size: 14pt;
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+ color: #000080;
+}
+span.f_HeaderHowToToggle /* Header HowTo Toggle */
+{
+ font-size: 13pt;
+ font-family: Verdana,Geneva,Arial,sans-serif;
+ letter-spacing: -1px;
+}
+span.f_HeaderUL /* HeaderUL */
+{
+ font-size: 14pt;
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+ color: #000080;
+}
+span.f_Heading2 /* Heading 2 */
+{
+ font-size: 14pt;
+ color: #004080;
+}
+span.f_Heading3 /* Heading 3 */
+{
+ font-size: 11pt;
+ color: #00518f;
+}
+span.f_HeadingHowTo /* Heading HowTo */
+{
+ font-size: 13pt;
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+}
+span.f_Heading1 /* Heading1 */
+{
+ font-size: 15pt;
+ font-weight: bold;
+ color: #00518f;
+}
+span.f_HowToBody /* HowTo Body */
+{
+}
+span.f_HowToNumbered /* HowTo Numbered */
+{
+}
+span.f_HowToHeader /* HowToHeader */
+{
+ font-size: 12pt;
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+ color: #000080;
+}
+span.f_ImageCaption /* Image Caption */
+{
+ font-size: 9pt;
+ font-weight: bold;
+ color: #00518f;
+ background-color: #eaeaea;
+}
+span.f_IndentList3 /* IndentList3 */
+{
+}
+span.f_InlineToggle /* Inline Toggle */
+{
+ color: #004080;
+ background-color: #e4eaf0;
+}
+span.f_Inline_Icon /* Inline_Icon */
+{
+}
+span.f_MetaText /* Meta Text */
+{
+ color: #ffffff;
+ background-color: #000000;
+}
+span.f_NormalHead /* Normal Head */
+{
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+}
+span.f_Notes /* Notes */
+{
+}
+span.f_ProductName /* Product Name */
+{
+ font-style: italic;
+}
+span.f_Resultsign /* Result sign */
+{
+ font-size: 12pt;
+ font-weight: bold;
+}
+span.f_Screentoggle /* Screen toggle */
+{
+}
+span.f_Subheader /* Subheader */
+{
+ font-size: 12pt;
+ font-family: 'Segoe UI Semibold',Tahoma,Verdana,Arial,sans-serif;
+ color: #000080;
+}
+span.f_TableName /* Table Name */
+{
+ font-weight: bold;
+ color: #020b75;
+}
+span.f_TableText /* TableText */
+{
+}
+span.f_Toggle /* Toggle */
+{
+ font-size: 12pt;
+ color: #004080;
+}
+span.f_Toggle2 /* Toggle2 */
+{
+ font-size: 12pt;
+ color: #004080;
+}
+span.f_UserInterfaceElement /* User Interface Element */
+{
+ font-family: Arial,Helvetica,sans-serif;
+ font-weight: bold;
+}
+/* Paragraph styles */
+p, p.p_Normal, div.p_Normal, li.p_Normal /* Normal */
+{
+ text-align: left;
+ text-indent: 0;
+ padding: 0 0 0 0;
+ margin: 0 0 8px 0;
+}
+.p_Callout /* Callout */
+{
+ font-size: 10pt;
+ text-indent: -23px;
+ margin: 0 100px 8px 83px;
+}
+.p_Code /* Code */
+{
+ font-size: 10pt;
+ margin: 0 0 0 0;
+}
+.p_CodeExample /* Code Example */
+{
+ font-size: 8pt;
+ margin: 0 0 0 10px;
+}
+.p_Codeintext /* Code in text */
+{
+ font-size: 10pt;
+}
+.p_Codeintext2 /* Code in text2 */
+{
+ font-size: 10pt;
+ margin: 0 0 0 0;
+}
+.p_Comment /* Comment */
+{
+ font-size: 10pt;
+}
+.p_ComponentName /* Component Name */
+{
+ font-size: 10pt;
+}
+.p_Definition /* Definition */
+{
+ font-size: 10pt;
+}
+.p_Errordescription /* Error description */
+{
+ font-size: 10pt;
+ margin: 0 0 8px 38px;
+}
+.p_Errormessage /* Error message */
+{
+ font-size: 10pt;
+ margin: 14px 0 8px 8px;
+}
+.p_FieldName /* Field Name */
+{
+ font-size: 10pt;
+}
+.p_Filepath /* Filepath */
+{
+ font-size: 8pt;
+ margin: 0 0 8px 10px;
+}
+.p_Header /* Header */
+{
+ font-size: 14pt;
+ page-break-after: avoid;
+ border-color: #c0c0c0;
+ border-style: solid;
+ border-width: thin;
+ border-top: none;
+ border-right: none;
+ border-left: none;
+ padding: 1px 1px 1px 1px;
+ margin: 14px 0 7px 0;
+}
+.p_HeaderHowToToggle /* Header HowTo Toggle */
+{
+ font-size: 13pt;
+ text-indent: -20px;
+ page-break-after: avoid;
+ border-color: #c0c0c0;
+ border-style: solid;
+ border-width: thin;
+ background: #f0f0f0;
+ padding: 3px 3px 3px 3px;
+ margin: 17px 0 12px 17px;
+}
+.p_HeaderUL /* HeaderUL */
+{
+ font-size: 14pt;
+ page-break-after: avoid;
+ border-color: #999999;
+ border-style: solid;
+ border-width: thin;
+ border-top: none;
+ border-right: none;
+ border-left: none;
+ padding: 1px 1px 1px 1px;
+ margin: 14px 0 7px 0;
+}
+.p_Heading2 /* Heading 2 */
+{
+ font-size: 14pt;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ margin: 16px 0 8px 0;
+}
+.p_Heading3 /* Heading 3 */
+{
+ font-size: 11pt;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ margin: 4px 0 4px 0;
+}
+.p_HeadingHowTo /* Heading HowTo */
+{
+ font-size: 13pt;
+ page-break-after: avoid;
+ border-color: #cdfefd;
+ border-style: solid;
+ border-width: 5px;
+ background: #cdfefd;
+ margin: 20px 0 15px 0;
+}
+.p_Heading1 /* Heading1 */
+{
+ font-size: 100%;
+ font-weight: normal;
+ text-align: left;
+ text-indent: 0;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ padding: 0 0 0 0;
+ margin: 0 0 0 0;
+}
+.p_HowToBody /* HowTo Body */
+{
+ font-size: 10pt;
+ margin: 0 0 8px 24px;
+}
+.p_HowToNumbered /* HowTo Numbered */
+{
+ font-size: 10pt;
+ text-indent: -24px;
+ margin: 0 0 8px 48px;
+}
+.p_HowToHeader /* HowToHeader */
+{
+ font-size: 12pt;
+ page-break-after: avoid;
+ margin: 5px 0 5px 24px;
+}
+.p_ImageCaption /* Image Caption */
+{
+ font-size: 9pt;
+ margin: 8px 0 0 0;
+}
+.p_IndentList3 /* IndentList3 */
+{
+ font-size: 10pt;
+ margin: 0 0 8px 60px;
+}
+.p_InlineToggle /* Inline Toggle */
+{
+ font-size: 10pt;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ margin: 8px 0 8px 0;
+}
+.p_Inline_Icon /* Inline_Icon */
+{
+ font-size: 10pt;
+ margin: 0 0 0 0;
+}
+.p_MetaText /* Meta Text */
+{
+ font-size: 10pt;
+}
+.p_NormalHead /* Normal Head */
+{
+ font-size: 10pt;
+ page-break-after: avoid;
+ margin: 5px 0 5px 0;
+}
+.p_Notes /* Notes */
+{
+ font-size: 10pt;
+ background: #ffe6cc;
+ margin: 13px 0 8px 0;
+}
+.p_ProductName /* Product Name */
+{
+ font-size: 10pt;
+}
+.p_Resultsign /* Result sign */
+{
+ font-size: 12pt;
+ margin: 0 0 0 0;
+}
+.p_Screentoggle /* Screen toggle */
+{
+ font-size: 10pt;
+}
+.p_Subheader /* Subheader */
+{
+ font-size: 12pt;
+ page-break-after: avoid;
+ margin: 5px 0 8px 0;
+}
+.p_TableName /* Table Name */
+{
+ font-size: 10pt;
+}
+.p_TableText /* TableText */
+{
+ font-size: 10pt;
+ margin: 0 0 0 0;
+}
+.p_Toggle /* Toggle */
+{
+ font-size: 12pt;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ margin: 8px 0 8px 0;
+}
+.p_Toggle2 /* Toggle2 */
+{
+ font-size: 12pt;
+ page-break-inside: avoid;
+ page-break-after: avoid;
+ margin: 8px 0 8px 0;
+}
+.p_UserInterfaceElement /* User Interface Element */
+{
+ font-size: 10pt;
+}
+/* Table styles */
+table.Table_Toggle {
+width: 100%;
+border: none;
+border-spacing: 0;
+border-collapse: collapse;
+}
+table.Table_Toggle tr.Table_Toggle {
+text-align: left;
+}
+table.Table_Toggle th.Table_Toggle, table.Table_Toggle td.Table_Toggle {
+vertical-align: top;
+padding: 3px;
+border: solid thin #4B93BE;
+}
+table.WarningAndAttention {
+width: 100%;
+background-color: #F2F2F2;
+border: none;
+border-spacing: 0;
+}
+table.WarningAndAttention tr.WarningAndAttention {
+text-align: left;
+}
+table.WarningAndAttention th.WarningAndAttention, table.WarningAndAttention td.WarningAndAttention {
+vertical-align: top;
+padding: 1px;
+border: none;
+}
+table.Info_Etc {
+width: 500px;
+background-color: #F2F2F2;
+border: none;
+border-spacing: 0;
+}
+table.Info_Etc tr.Info_Etc {
+text-align: left;
+}
+table.Info_Etc th.Info_Etc, table.Info_Etc td.Info_Etc {
+vertical-align: top;
+padding: 1px;
+border: none;
+}
+table.CodeExampleTable {
+background-color: #F2F2F2;
+border: none;
+border-spacing: 0;
+}
+table.CodeExampleTable tr.CodeExampleTable {
+text-align: left;
+}
+table.CodeExampleTable th.CodeExampleTable, table.CodeExampleTable td.CodeExampleTable {
+vertical-align: top;
+padding: 0;
+border: none;
+}
+div.hmrotate90  { display:inline-block; -webkit-writing-mode: vertical-rl; -ms-writing-mode: tb-rl; writing-mode: vertical-rl; }
+div.hmrotate270 { display:inline-block; -webkit-writing-mode: vertical-rl; -ms-writing-mode: tb-rl; writing-mode: vertical-rl; transform: rotate(180deg); }
+
+
+
+#hmpopupdiv /* used for javascript text popups */
+{
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background-color: #FFFFFF;
+  padding: 3px;
+  border:1px solid #FF0000;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #888;
+}
+
+#hmlightbox /* image lightbox */
+{
+  border: none;
+  padding: 8px;
+  background: #FFF;
+  font-size: 110%;
+  font-weight: bold;
+  color: #777;
+  box-shadow: 5px 5px 5px #888;
+}
+
+a.dropdown-toggle /* dropdown toggle caption */
+{
+  cursor: pointer;
+}
+a.inline-toggle /* inline toggle caption */
+{
+  cursor: pointer;
+}
+img.dropdown-toggle-icon /* toggle icon */
+{
+  cursor: pointer;
+}
+/* CSS for responsive image maps */
+
+.hmImageMap a.hmHotspotRect { display:block; position:absolute; border: 1px solid transparent; background:#000; opacity:0.01; filter:alpha(opacity=1)  }
+.hmImageMap a.hmHotspotEllipse { display:block; position:absolute; border-radius:50%; border: 1px solid transparent; background:#000; opacity:0.01; filter:alpha(opacity=1) }
+.hmImageMap:hover a.hmHotspotRect {opacity:0.3; filter:alpha(opacity=30); }
+.hmImageMap:hover a.hmHotspotEllipse { opacity:0.3; filter:alpha(opacity=30); }
+a.hmHotspotRect:hover { border:1px solid #000; background:#FFF; opacity:0.3; filter:alpha(opacity=30) }
+a.hmHotspotEllipse:hover { border:1px solid #000; background:#FFF; opacity:0.3; filter:alpha(opacity=30) }

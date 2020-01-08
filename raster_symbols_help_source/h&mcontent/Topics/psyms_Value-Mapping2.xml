@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Value Mapping</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Each raster Symbol has a property </text><text styleclass="Code in text" translate="true">value_selector</text><text styleclass="Normal" translate="true">. This will be used to retrieve a value from the rwo record belonging to the geometry that is drawn. At the moment this is restricted to numerical values only.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There is only one implementation and no subclasses. The Smart raster Symbol uses the pixel space of the raster_image to draw a vertical bar at a size relative to a maximum scale. This scale is calculated over all the unique rwo_records that are in the geometry set passed to the plugin. This can be set manually, in which case no calculations are done.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The module </text><text styleclass="Normal" style="font-weight:bold;" translate="true">raster_symbols</text><text styleclass="Normal" translate="true"> contains a raster image with the name &quot;bar2.png&quot;. Its a half transparent 20x100 pixels. The raster definition DIAGRAM-BAR can be used as an example.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="3" style="width:auto; cell-padding:0px; cell-spacing:2px;">
+      <tr style="vertical-align:top">
+        <td style="width:85px; height:125px;">
+          <para styleclass="TableText"><image src="psyms_clip0015.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:13px; height:125px;">
+        </td>
+        <td style="width:913px; height:125px;">
+          <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">The </text><text styleclass="TableText" style="font-style:italic;" translate="true">style for the vertical bar</text><text styleclass="TableText" translate="true"> representing is the fill style of the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">goto_area_style</text><text styleclass="TableText" translate="true"> property.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">The </text><text styleclass="TableText" style="font-style:italic;" translate="true">value</text><text styleclass="TableText" translate="true"> of an instance (rwo_record) is </text><text styleclass="TableText" style="font-style:italic;" translate="true">drawn at the top right of the vertical bar</text><text styleclass="TableText" translate="true">. The text style used for this text is the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">highlight_text_style.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">If the value of the property </text><text styleclass="TableText" style="font-weight:bold;" translate="true">draw_text_string?</text><text styleclass="TableText" translate="true"> is </text><text styleclass="TableText" style="font-weight:bold;" translate="true">True</text><text styleclass="TableText" translate="true">, it will draw the external name and the name of the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">value_selector</text><text styleclass="TableText" translate="true"> at the position as specified in the symbol. In case this is a field with a defined unit, the unit string is drawn between brackets.</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">If the value scale is set, either in the symbol, or at the statistical engine, this value is shown at the top of the raster Symbol.</text></para>
+              </td>
+            </tr>
+          </table></para>
+          <para styleclass="Normal"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">In the screen recording below, you can see how it works. With the Smallworld Explorer all Leaks are retrieved from the database. They all are selected and the button </text><image src="goto_object.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Image Caption" translate="true"> Goto</text><text styleclass="Normal" translate="true"> is</text><text styleclass="Image Caption" translate="true"> </text><text styleclass="Normal" translate="true">pressed. It shows the default Goto mapping for a Water Office object (with the value for :rs_string). </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The location of the leak is added to the Specific Mappings, mapped to the symbol DIAGRAM-BAR. On redraw, it appears that the default symbol is still drawn. This is because the browser sends a goto request with all geometries. In The RWO Hierarchy list, all other geometries than Location are selected and mapped to the NOTHING symbol. A refresh shows the bar2.png.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Then the </text><text styleclass="Normal" style="font-style:italic;" translate="true">value_selector</text><text styleclass="Normal" translate="true"> </text><text styleclass="Normal" style="font-weight:bold;" translate="true">volume</text><text styleclass="Normal" translate="true"> is added and the value of </text><text styleclass="Normal" style="font-style:italic;" translate="true">draw_text_string?</text><text styleclass="Normal" translate="true"> set to Yes. The next refresh of the screen shows the final result.</text><br/><br/><link displaytype="image" src="webm.png" type="weblink" href="ValueMappingExample.webm"><title translate="true">Example of Value Mapping</title></link></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

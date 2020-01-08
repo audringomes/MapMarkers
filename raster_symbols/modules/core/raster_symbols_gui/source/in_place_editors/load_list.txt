@@ -1,0 +1,9 @@
+alpha_colour_value_manager
+alpha_value_popup_model
+in_place_alpha_colour_editor
+simple_magik_value_manager
+symbol_value_manager
+in_place_magik_object_editor
+colourmap_editor
+in_place_colourmap_editor
+colourmap_value_manager

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Image Magick</title>
+  <body>
+    <para styleclass="Normal"><var styleclass="Normal">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true"> uses </text><link displaytype="text" defaultstyle="true" type="weblink" href="https://www.imagemagick.org/script/index.php" target="_blank" styleclass="Normal" translate="true">ImageMagick</link><link displaytype="text" defaultstyle="true" type="weblink" href="https://www.imagemagick.org/script/index.php" target="_blank" styleclass="Normal" style="font-size:7pt; vertical-align:super;" translate="true">®</link><text styleclass="Normal" translate="true"> to:</text></para>
+    <para styleclass="TableText"><table styleclass="Default" rowcount="2" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">1.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Create thumbnails</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">2.</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Extract Alpha channels from raster files</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">If you have your own installation of ImageMagick, you can use that by modifying the following method:</text></para>
+    <para styleclass="Normal"><table styleclass="CodeExampleTable" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+  	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="function-name"><span class="region">path_to_im_convert()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol</span></span><span class="region">    A style_system
+</span><span class="function-name"><span class="region">
+</span></span><span class="region">
+        </span><span class="comment"><span class="region">## Path to ImageMagikc convert.exe.
+</span></span><span class="region">        </span><span class="comment"><span class="region">## Change to another path when needed
+</span></span><span class="function-name"><span class="region">
+</span></span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_IM" styleclass="Normal" translate="true">ImageMagick</link><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_IM" styleclass="Normal" style="font-size:7pt; vertical-align:super;" translate="true">®</link><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_IM" styleclass="Normal" translate="true"> License</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

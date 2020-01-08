@@ -1,0 +1,21 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={subclassable,redefinable})
+_method rwo_record_mixin.draw_raster_symbol(p_win,p_geom,p_style,p_draw?)
+	#
+	## THis is a dummy custom draw implementation. It writes the
+	## following text to the console:
+	## "Default implementation of draw_raster_symbol() used - "
+	## followed by the value of the parameters
+	# 
+	write("Warning - Default implementation of draw_raster_symbol() used - ",_self,%,,p_win,%,,p_geom,%,,p_style,%,,p_draw?)
+	>> _false
+_endmethod
+$

@@ -1,0 +1,49 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:pseudo_rwo)
+$
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+##
+## This exemplar is a placeholder for all non-rwo (value)
+## drawing, e.g. when only coordinates are passed to the draw()
+## functions.
+## It responds to rs_string, the default string_selector and
+## the method a_value() returns a random number
+##
+def_slotted_exemplar(:pseudo_rwo,{})
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+pseudo_rwo.define_shared_variable(:seeder,
+	random.new(100),
+	:private)
+$
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method pseudo_rwo.new(_gather args)
+	>> _clone.init(_scatter args)
+_endmethod
+$
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method pseudo_rwo.init(_gather args)
+	>> _self
+_endmethod
+$
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method pseudo_rwo.rs_string
+	>> write_string(_self)
+_endmethod
+$
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method pseudo_rwo.a_value()
+	_local l_num << _self.seeder.get()
+	#DEBUG write(_self,".a_value() ",l_num)
+	>> l_num
+_endmethod
+$

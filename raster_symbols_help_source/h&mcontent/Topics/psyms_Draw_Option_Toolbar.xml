@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" status="Needs Review" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Draw options toolbar</title>
+  <keywords>
+    <keyword translate="true">line</keyword>
+  </keywords>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Options toolbar</text></para>
+    <para styleclass="Normal"><image src="full_toolbar.png" scale="100.00%" styleclass="Normal"></image><br/></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="9" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px; background-color:none;">
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="on.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Stop drawing Raster Symbols on Goto actions.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="yellow_pin_iso.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Draw the default symbol when no </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Mappings" styleclass="TableText" translate="true">mapping</link><text styleclass="TableText" translate="true"> is defined for geometries. See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Default-symbol" styleclass="TableText" translate="true">Default Symbol</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="sticky_goto_on.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Stay drawing Raster Symbols from a Goto untill a new Goto is issued.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="visible_field.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Do not draw Raster Symbols for invisible geometries.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="no_draw_text.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Suppress drawing labels for Raster Symbols</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="draw_geoms.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Do not use geometry style from Raster Symbols. (Raster Symbols can be configured with </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto_line_style" styleclass="TableText" translate="true">line_style</link><text styleclass="TableText" translate="true"> and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto_area_style" styleclass="TableText" translate="true">area_style</link><text styleclass="TableText" translate="true">.)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="tick_refresh_black.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Refresh the current symbols (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Flash-mapping" styleclass="TableText" translate="true">Flash mapping</link><text styleclass="TableText" translate="true">)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="configuration.png" scale="100.00%" styleclass="Normal"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Open the Configuration Interface.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:20px;">
+          <para styleclass="TableText" style="text-align:center;"><image src="help.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:11px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:799px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Opens this help page.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:top; width:16px; height:16px;">
+          <para styleclass="Inline_Icon" style="page-break-inside:avoid;"><image src="Information-icon_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- The &quot;Skip Invisible&quot; option may slow down drawing.</text><br/><text styleclass="TableText" translate="true">- Whether configured area and line styles are drawn, depends also on the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Mappings" styleclass="TableText" translate="true">Mappings</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Plugin-configuration" styleclass="Normal" translate="true">Plugin configuration</link><text styleclass="Normal" translate="true"> for the configuration.</text></para>
+  </body>
+</topic>

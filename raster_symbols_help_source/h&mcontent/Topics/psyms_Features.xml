@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Features</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">These are the major features of </text><var styleclass="Normal">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true">:</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Use of png files and full transparency]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2" style="background-color:none;">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The object </text><text styleclass="Code in text" translate="true">colour</text><text styleclass="Normal" translate="true"> in Smallworld 5 has an additional value </text><text styleclass="Normal" style="font-weight:bold;" translate="true">alpha</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> for specifying transparency. This allow </text><text styleclass="Normal" translate="true">the use of transparency. Because it uses alpha channel transparency, there is no limit on the design or the creation of raster symbols.</text></para>
+          <para styleclass="Normal"><text styleclass="TableText" translate="true">Raster symbols are created from common raster format files. The full support for partial or alpha channel transparency allows endless possibilities in the design of the symbols. I also supports the handling of photographs or grid files. See some examples below.</text></para>
+          <para styleclass="TableText"></para>
+          <para styleclass="TableText"><table styleclass="Default" rowcount="6" colcount="1" style="background-color:none; background-image:url('an_iconpack.png');">
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" style="font-family:Tahoma; font-size:10pt; font-weight:bold; font-style:normal; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Icons</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="Normal" style="margin-left:13px;"><image src="Advantage_50_Blue.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><image src="warning_sign.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><image src="warning.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><image src="house_orange.png" scale="100.00%" styleclass="Normal"></image></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" style="font-family:Tahoma; font-size:10pt; font-weight:bold; font-style:normal; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Photographs</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="Normal" style="margin-left:13px;"><image src="water_reservoir_1.jpg" scale="12.08%" width="259" height="172" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><image src="water_reservoir_2.jpg" scale="66.02%" width="128" height="171" styleclass="TableText"></image></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="TableText"><text styleclass="Normal" style="font-weight:bold;" translate="true">Map grids</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td>
+                <para styleclass="Normal" style="margin-left:13px;"><image src="dank-rivm_087_20170415_gm_boomhoogte_1px_grid.png" scale="42.54%" width="234" height="171" styleclass="TableText"></image></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Enhanced GOTO]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The </text><var styleclass="TableText">&lt;%PRODUCTNAME%&gt;</var><text styleclass="TableText" translate="true"> can be configured to be used for &apos;GOTO symbols&apos;. The system will draw a symbol with (optional) text, that identifies the object clearly.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- An mapping can be defined generic on geometry category (</text><text styleclass="TableText" style="font-weight:bold;" translate="true">:point</text><text styleclass="TableText" translate="true">, </text><text styleclass="TableText" style="font-weight:bold;" translate="true">:linear</text><text styleclass="TableText" translate="true">, </text><text styleclass="TableText" style="font-weight:bold;" translate="true">:text</text><text styleclass="TableText" translate="true">, </text><text styleclass="TableText" style="font-weight:bold;" translate="true">:area</text><text styleclass="TableText" translate="true">) or for specific geometries.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- When at the symbol level goto styles (:area and :line) are define, they can be used to draw the geometries. This is optional.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">- A &apos;sticky mode&apos; will keep on drawing, allowing the user to zoom and keep the object in sight.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Fixed size]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The usual drawing is absolute, relative to the screen. In case of raster symbols this is &quot;Fixed size&quot;. When the symbol is drawn not fixed size, the raster symbol object should contain a value of width in world mm. In this case the symbol will be visually enlarged when zoomed in, and vanish when zoomed out.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Useful in Thematic Mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Raster symbols can be used in the style definitions of the Thematic Mapping plugin.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Text drawing]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">All raster symbols can draw a text on a specified location relative to the pixel area. When a geometry of type text is drawn, it will draw it&apos;s value. The </text><text styleclass="Code in text" translate="true">:string_selector</text><text styleclass="TableText" translate="true"> property specifies what text should be drawn. A default implementation of the method </text><text styleclass="Code in text" translate="true">:rs_string</text><text styleclass="TableText" translate="true"> is provided and can be subclassed.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">For every raster symbol, a text style can be defined.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Values and graphs]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">When a </text><text styleclass="Code in text" translate="true">:value_selector</text><text styleclass="TableText" translate="true"> is defined, a raster symbol can display this value as a graph. A basic statistical engine calculates range and scale, which can be superseded by passing the valuescale as an argument.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Configuration Interface]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">To ease the deployment of Raster Symbols, a GUI is provided that allows the creation, modification and usage of the Raster Symbols. But </text><var styleclass="TableText">&lt;%PRODUCTNAME%&gt;</var><text styleclass="TableText" translate="true"> does not need this interface to work.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Highly configurable (XML)]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">This version of the </text><var styleclass="TableText">&lt;%PRODUCTNAME%&gt;</var><text styleclass="TableText" translate="true"> does not store data in a (Smallworld) database. Storage is in xml and/or Magik. The design is such that every object can be mapped to a table. For example, the GOTO mappings are stored as (subclasses) of the object </text><text styleclass="Code in text" translate="true">goto_mapping</text><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Fast]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The speed of drawing of pure raster type symbols is high. When carefully designed, raster symbols can be used without loss of drawing speed. (See also </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Speed" styleclass="TableText" translate="true">Speed)</link><br/><text styleclass="TableText" translate="true">To test drawing speed you can use the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Drawing-Speed-Monitor" styleclass="TableText" translate="true">Drawing Speed Monitor</link><text styleclass="TableText" translate="true">.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

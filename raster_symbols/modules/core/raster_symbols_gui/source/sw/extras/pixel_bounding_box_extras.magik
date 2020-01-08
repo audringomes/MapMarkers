@@ -1,0 +1,20 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method pixel_bounding_box.value_write_string
+	# 
+	## return a string that includes values
+	#
+	>> write_string(_self.class_name,":(",
+			_self.xmin,%,,
+			_self.ymin,%,,
+			_self.xmax,%,,
+			_self.ymax,%))
+_endmethod
+$

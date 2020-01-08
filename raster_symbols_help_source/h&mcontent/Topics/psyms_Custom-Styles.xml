@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Multi layered Locator Mappings</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There are three different GOTO mappings:</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Generic Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">When required, a symbol can be assigned to a geometry type, which means that all goto actions of a geometry with that type will use the selected Picture Symbol as locator.</text></para>
+          <para styleclass="Normal"><image src="psyms_clip0005.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Specialized Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Currently there is only one specialized mapping; the </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Numerator</text><text styleclass="Normal" translate="true">.</text><br/><text styleclass="Normal" translate="true">When this is defined, any goto request with data of class </text><text styleclass="Code in text" translate="true">ordered_geometry_set </text><text styleclass="Normal" translate="true">is handled by the raster_symbol_plugin as follows: It draws the configured symbol in the order of the set. The symbol draws itself and as text the sequence number of the geometry.</text><br/><text styleclass="TableText" translate="true">New specialized mappings can be defined by the API user.</text></para>
+          <para styleclass="TableText"><link displaytype="image" src="webm.png" type="weblink" href="Numerator.webm"><title translate="true">See how this works</title></link></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[RWO Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The third category is </text><text styleclass="Normal" style="font-style:italic;" translate="true">specific .</text><text styleclass="Normal" translate="true"> It means that what is being drawn can be configured for individual or groups of geometries.</text></para>
+          <para styleclass="TableText"><image src="psyms_rwo_mapping.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

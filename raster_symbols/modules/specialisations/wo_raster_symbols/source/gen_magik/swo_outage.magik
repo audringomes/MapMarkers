@@ -1,0 +1,12 @@
+#_package user
+#
+#_pragma(classify_level=advanced, topic={style_system,sps}, usage={external})
+#_method swo_outage.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+#	## Generated method from Picture Symbols GUI
+#	
+#	_if (l_sym << raster_symbol_handler.symbol("drop_red_bg.png")) _isnt _unset
+#	_then l_sym.draw_on(p_context,p_geom,p_rwo_style.style_type="highlight")
+#	_endif
+#	>> _true
+#_endmethod
+#$

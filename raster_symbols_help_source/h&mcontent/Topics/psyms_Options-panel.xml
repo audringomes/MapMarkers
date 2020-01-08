@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Options Panel</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When configured (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Plugin-configuration" styleclass="Normal" translate="true">Plugin configuration</link><text styleclass="Normal" translate="true">), the following options can be set in the Smallworld Options Dialog:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Changing the default symbol has only effect in the current session.</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0014.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

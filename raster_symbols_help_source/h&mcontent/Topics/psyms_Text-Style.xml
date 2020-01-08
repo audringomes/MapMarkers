@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Text_style</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">These are the text_style properties in the GUI:</text></para>
+    <para styleclass="Normal"><image src="psyms_text_style.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The default text style is created as:</text></para>
+    <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>raster_symbol.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="magik-font-lock-keyword-statements"><span class="region">_pragma</span></span><span class="magik-font-lock-pragma"><span class="region">(classify_level=basic, topic={style_system}, usage={external})</span></span><span class="region">
+</span><span class="comment-delimiter"><span class="region">#</span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">## The default sw:text_style for drawing text</span></span><span class="comment"><span class="region">
+</span></span><span class="comment-delimiter"><span class="region">#</span></span><span class="comment"><span class="region">
+</span></span><span class="type"><span class="region">raster</span></span><span class="region">_symbol.define_shared</span><span class="constant"><span class="region">_constant</span></span><span class="region">(</span><span class="magik-font-lock-symbol"><span class="region">:default_text_style</span></span><span class="region">,
+        sw:text_style.</span><span class="function-name"><span class="region">new_with_properties</span></span><span class="region">(
+                   </span><span class="magik-font-lock-symbol"><span class="region">:font</span></span><span class="region">,font.</span><span class="function-name"><span class="region">new_with_properties</span></span><span class="region">(
+                                 </span><span class="magik-font-lock-symbol"><span class="region">:type</span></span><span class="region">,</span><span class="magik-font-lock-symbol"><span class="region">:logical</span></span><span class="region">,
+                                 </span><span class="magik-font-lock-symbol"><span class="region">:name</span></span><span class="region">,</span><span class="string"><span class="region">"Bold"</span></span><span class="region">,
+                                 </span><span class="magik-font-lock-symbol"><span class="region">:point_size</span></span><span class="region">,20),
+                   </span><span class="magik-font-lock-symbol"><span class="region">:colour</span></span><span class="region">,colour.</span><span class="function-name"><span class="region">new_rgb</span></span><span class="region">(1,1,1),
+                   </span><span class="magik-font-lock-boolean"><span class="region">:fixed_size?</span></span><span class="region">,</span><span class="constant"><span class="region">_false</span></span><span class="region">,
+                   </span><span class="magik-font-lock-boolean"><span class="region">:multiline?</span></span><span class="region">,</span><span class="constant"><span class="region">_true</span></span><span class="region">,
+                   </span><span class="magik-font-lock-symbol"><span class="region">:line_style</span></span><span class="region">,</span><span class="constant"><span class="region">_unset</span></span><span class="region">,
+                   </span><span class="magik-font-lock-symbol"><span class="region">:fill_style</span></span><span class="region">,
+                   fill_style.</span><span class="function-name"><span class="region">new_with_properties</span></span><span class="region">(
+                           </span><span class="magik-font-lock-symbol"><span class="region">:foreground_colour</span></span><span class="region">,colour.</span><span class="function-name"><span class="region">new_rgba</span></span><span class="region">(0.5,0.5,0.5,0.4)
+                              ),
+                   </span><span class="magik-font-lock-boolean"><span class="region">:clear?</span></span><span class="region">,</span><span class="constant"><span class="region">_false</span></span><span class="region">),
+        </span><span class="magik-font-lock-symbol"><span class="region">:public</span></span><span class="region">)
+$
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,228 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:raster_symbol_option_panel)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+##
+## Panel with Raster Symbol options for the options plugin
+##
+def_slotted_exemplar(:raster_symbol_option_panel,
+	{
+		{:handler,_unset},
+		{:plugin,_unset},
+		{:parent,_unset},
+		{:new_default,_unset}
+	},
+	:options_panel)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+##
+## Defines the default html help id if none is supplied for
+## the Group's tab_box.
+##
+raster_symbol_option_panel.define_shared_constant(
+	:default_html_help_id,
+	40303,
+	_true )
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.init(p_plugin)
+	## 
+	## 
+	_super.init()
+	.plugin << p_plugin
+	.handler << raster_symbol_handler
+	>> _self 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.activate_in(p_parent)
+	## 
+	##
+
+	.parent << p_parent
+	rc << rowcol.new(p_parent,_unset,4,:pixel,
+			 :style,:group_box,
+			 :resize?,_true,
+			 :model,_self,
+			 :help_id,_self.default_html_help_id)
+
+	_local l_def << .handler.default_raster_symbol()
+	.items[:default_symbol_name] << text_item.new(rc,"Default symbol: ",
+						      :value,_self.default_symbol_name,
+						      :aspect,_self.default_symbol_name,
+						      :model,_self,
+						      :enabled?,_false)
+	.items[:default_symbol_image] << image_button_item.new(rc,l_def.thumbnail,_self,:|selected_image()|,:enabled?,_false)
+
+	.items[:default_symbol_selector] << button_item.new(rc,"Change",_self,:|activate_symbol_selector()|)
+
+	.items[:default] << button_item.new(rc,"Default",_self,:|reset_default_symbol()|)
+		
+	# Toggles
+	_local (l_names,l_signatures) << .plugin.options
+	rc2 << rowcol.new(rc,l_names.size,1)
+	_for i_key,i_sig _over l_signatures.fast_keys_and_elements()
+	_loop
+		.items[i_key] << toggle_item.new(rc2,_self.message(i_key),
+						 :identifier,i_key)
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.on_activation()
+	## 
+	## make sure values are correct
+	##
+
+	#DEBUG write(_self,".on_activation()")
+	.new_default << _unset
+	.items[:default_symbol_name].value << _self.default_symbol_name
+	
+	_local (l1,l2) << .plugin.options
+	_for i_key,i_val _over l1.fast_keys_and_elements()
+	_loop .items[i_key].value << i_val
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.caption
+	## 
+	## message :caption
+	>> _self.message(:caption)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.check()
+	## 
+	## invoked when the user clicks OK in the Options dialog box
+	## but before invoking apply() for any panel;
+	##
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.apply()
+	## 
+	## invoked when the user clicks OK in the Options dialog box,
+	## after invoking check() for every panel
+	##
+
+	
+	_if .new_default _isnt _unset 
+	_then .handler.set_default_raster_symbol_from(.new_default.name,.new_default)
+	_endif
+	.plugin.set_options(.items)
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.help_wanted(_optional p_id)
+	## 
+	## Pass to the plugin
+	##
+	.plugin.help_wanted(p_id.default(_self.default_html_help_id))
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.default_symbol_name
+	## 
+	## returns string for text item with default symbol
+	## If the user selected another it is shown between *
+	##
+
+	_local (l_sym,l_name) << .handler.default_raster_symbol
+	>> _if (l_new << .new_default) _isnt _unset 
+	   _then >> write_string(%*,l_name,%(,l_new.name,")*")
+	   _else >> write_string(l_name,%(,l_sym.name,%))
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.activate_symbol_selector()
+	## 
+	## Opens the symbol selector and returns it
+	##
+
+	_if (s<<!current_package![:raster_symbol_selector]) _is _unset
+	_then .parent.show_message("This feature is not available in this session")
+	      _return 
+	_endif
+	
+	# Open a new or cached selector
+	_if (d << .items[:selector]) _is _unset 
+	_then
+		d << .items[:selector] << s.new_dialog(_self,:ok_selector,:|set_default()|)
+		d.activate_relative_to(_self.message(:sel_title),
+				       .items[:default_symbol_image],
+				       250,20)
+	_else d.reactivate()
+	_endif
+	>> d
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.top_frame
+	## 
+	## 
+	>> .parent.top_frame
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.reset_default_symbol()
+	## 
+	##
+
+	_local l_name << .handler.get_default_for(:default_raster_symbol_name)
+	_local l_props << .handler.get_default_for(:default_raster_symbol_properties)
+	_local l_sym << raster_symbol.new_with_properties(l_props[:filename],l_props)
+	_self.set_default(l_sym)
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.set_default(p_sym)
+	## 
+	## This is the method send by the symbol selector
+	## It Sets the default symbol to P_SYM, which must be a
+	## raster_symbol. It is stored in .new_default
+	##
+	#DEBUG write(_self,".set_default()",p_sym)
+
+	.new_default << p_sym
+	.items[:default_symbol_name].value << _self.default_symbol_name
+	.items[:default_symbol_image].image << p_sym.thumbnail
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_option_panel.note_change(p_who,p_what,p_data)
+	## 
+	## 
+	#DEBUG write(_self,"notes",p_who,p_what,p_data)
+_endmethod
+$

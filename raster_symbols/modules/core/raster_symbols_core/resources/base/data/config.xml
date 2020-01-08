@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-10646-UCS-2" standalone="yes"?>
+<config>
+  <configuration name="raster_symbols" autoload="false" overwrite="true">
+    <module name="raster_symbols"/>
+    <file name="raster_symbols_configuration.xml"/>
+  </configuration>
+</config>

@@ -1,0 +1,189 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+####
+#### USER ERRORS
+####
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Condition raised when the :property of a raster Symbol is
+## invalid
+#
+condition.define_condition(:invalid_symbol_property,:user_error,
+	{:property,:value,:symbol},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Condition raised when the :type property of a Picture Symbol
+## is invalid
+#
+condition.define_condition(:invalid_symbol_type,:user_error,
+	{:symbol,:type},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Inconsistent value for a parameter
+#    #4 - Inconsistent Values:
+#    Property '#1' should have a value when property '#2' has value '#3' 
+#
+condition.define_condition(:inconsistent_values,:user_error,
+	{:key1,:key2,:value,:symbol},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Missing 'parent' symbol for thumbnail symbol
+#
+condition.define_condition(:missing_parent,:user_error,
+	{:name},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Missing value for name of symbol
+#
+condition.define_condition(:creation_error_missing_name,:user_error,
+	{},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Any kind of error in the creation of a symbol
+#
+condition.define_condition(:creation_error,:user_error,
+	{:symbol,:string},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## No suitable stream found for reading data into grid
+#
+condition.define_condition(:no_suitable_stream,:user_error,
+	{:symbol,:fname},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Open file error xml input
+#
+condition.define_condition(:xml_file_does_not_exists,:user_error,
+	{:fname},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Error reading xml file
+#
+condition.define_condition(:xml_read_error,:user_error,
+	{:string},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Operation failed because Symbol is readonly
+#
+condition.define_condition(:symbol_readonly,:user_error,
+	{:symbol},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Selected resource is not in a sw module
+#
+condition.define_condition(:resource_not_in_module,:user_error,
+	{:fname},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Operation failed because raster symbol is used
+#
+condition.define_condition(:resource_in_use,:user_error,
+	{:symbol,:usage},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## rename symbol error
+#
+condition.define_condition(:duplicate_symbol_with_name,:user_error,
+	{:symbol},_unset,:cond_message_handler)
+$
+
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Error in refresh of thumbnail
+#
+condition.define_condition(:thumbnail_refresh_failed,:user_error,
+	{:sym,:string},_unset,:cond_message_handler)
+$
+
+
+####
+#### WARNINGS
+####
+
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Warning condition raised when a property key is unknown
+#
+condition.define_condition(:unknown_property,:warning,
+	{:symbol,:value},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Warning condition raised when a property key and value
+## cannot be passed as in drawing protocol(s)
+#
+condition.define_condition(:invalid_drawing_property,:warning,
+	{:value},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Creation error in xml input
+#
+condition.define_condition(:xml_create_sym_error,:warning,
+	{:string},_unset,:cond_message_handler)
+$
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Info on reduction of colourmap
+#
+condition.define_condition(:colourmap_reduced,:warning,
+	{:file,:old,:new},_unset,:cond_message_handler)
+$
+
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Warning if a value_method on an rwo raises an error
+#
+condition.define_condition(:rwo_value_error,:warning,
+	{:rwo,:value_method,:message},
+	_unset,:cond_message_handler)
+$
+
+####
+#### INFORMATIONS
+####
+
+
+_pragma(classify_level=basic, topic={style_system})
+#
+## Information saving configuration
+#
+condition.define_condition(:data_file_saved,:information,
+	{:fname},_unset,:cond_message_handler)
+$

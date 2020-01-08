@@ -1,0 +1,52 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## A proc that loads all magik files in folder P_DIR
+_global !auto_load! <<
+_proc @auto_load_folder(p_dir)
+	_local l_chan << directory_channel.new(p_dir,"*.magik")
+	_loop
+		_local l_fo << l_chan.get()
+		_if l_fo = "load.magik"
+		_then _continue
+		_elif l_fo = _unset
+		_then _leave 
+		_endif
+		_local l_path << system.pathname_from_components(l_fo,p_dir)
+		_try _with p_cond
+			load_file(l_path)
+		_when error 
+			write("Error: loading ",l_path,newline_char,"Condition: (",p_cond.report_contents_string,")")
+		_endtry
+	_endloop
+	
+_endproc
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Add the raster_symbols_plugin to a running application
+## PAPP. When unset it will get the first from smallworld_product
+_global !add_rsp! <<
+_proc @add_plugin(_optional papp)
+	## ON THE FLY TEST ONLY
+	_global app,rsp
+	app << papp.default(smallworld_product.applications.an_element())
+	>> _if app _isnt _unset 
+	   _then
+		   app.add_plugin(:raster_symbols,
+				  :raster_symbol_plugin,
+				  _unset )
+		   rsp << app.plugin(:raster_symbols)
+		   rsp.register_self_on_app_databus()
+		   rsp.register_as_transient_drawer()
+		   >> app.plugin(:raster_symbols)
+	   _endif
+_endproc
+$

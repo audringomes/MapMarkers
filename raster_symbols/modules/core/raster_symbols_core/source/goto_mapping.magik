@@ -1,0 +1,131 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:goto_mapping)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## Holds goto parameters, managed by raster_symbol_handler
+## Creation is done by .new_with_properties()
+##
+## Properties are:
+##
+## :type - The mapping type. In case of generic mapping a
+## geometry_class. In case of specialised mappings: the type of mapping.
+##
+## :symbol - The name of the symbol to draw
+## 
+## [:use? - Use Symbol style]
+## [:params - <reserved>]
+##
+def_slotted_exemplar(:goto_mapping,
+	{{:type,_unset},
+	 {:symbol,_unset},
+	 {:use?,_unset},
+	 {:params,_unset}
+	})
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+goto_mapping.define_slot_access(:type,:write,:public)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+goto_mapping.define_slot_access(:symbol,:write,:public)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+goto_mapping.define_slot_access(:use?,:write,:public)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+goto_mapping.define_slot_access(:params,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method goto_mapping.new_with_properties(p_properties)
+	#
+	## Create a new mapping from the properties in P_PROPERTIES.
+	## See class comment for the properties.
+	# 
+	>> _self.new(p_properties[:type],
+		     p_properties[:symbol],
+		     p_properties[:use?],
+		     p_properties[:params])		     
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method goto_mapping.new(p_type,p_symbol,p_use?, _optional p_params)
+	## 
+	## 
+	>> _clone.init(p_type,p_symbol,p_use?,p_params)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method goto_mapping.init(p_type,p_symbol,p_use?,_optional p_params)
+	## 
+	## 
+	.type << p_type
+	.symbol << p_symbol
+	.use? << p_use?
+	.params << p_params
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method goto_mapping.use_geometry_style?
+	## 
+	## 
+	>> .use?
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method goto_mapping.mapped?
+	## 
+	## 
+	>> _false 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method goto_mapping.properties
+	## 
+	## 
+	>> property_list.new_with(:type,.type,
+				  :symbol,.symbol,
+				  :use?,.use?)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method goto_mapping.as_xml()
+	## return a simple_xml_element of selfs properties
+	##
+	_local l_rope << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(_self.type,l_rope)
+	l_rope.add(sw:simple_xml_thing.new(:symbol,_self.symbol))
+	l_rope.add(sw:simple_xml_thing.new(:use,write_string(_self.use?)))
+	_if _self.params _is _unset 
+	_then l_rope.add(sw:simple_xml_thing.new(:params))
+	_endif
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method goto_mapping.write_on(a_stream)
+	>> a_stream.write(_self.class_name,%(,.type,%,,.symbol,%))
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method goto_mapping.show_on(a_stream)
+	_self.write_on(a_stream)
+_endmethod
+$

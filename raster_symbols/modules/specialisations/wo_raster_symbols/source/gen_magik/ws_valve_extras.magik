@@ -1,0 +1,14 @@
+#% text_encoding = iso8859_1
+
+_package sw
+
+_pragma(classify_level=advanced, topic={style_system}, usage={external})
+## raster_symbol name for every opening state
+ws_valve.define_shared_constant(:raster_symbol_mapping,
+	equality_property_list.new_with("","locator1_blue.png",
+					"Close","ws_valve_closed.png",
+					"Open","ws_valve_open.png",
+					"Partly open","ws_valve_partly_open",
+					"Unknown","ws_valve_unknown.png"),
+	:public)
+$

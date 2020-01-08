@@ -1,0 +1,28 @@
+<plugins>
+  <!--  START RASTER SYMBOLS -->
+  <plugin name="raster_symbols" class_name="raster_symbol_plugin">
+    <property name="config_definition_module_name" value="raster_symbols_core"/>
+    <property name="config_definition_file_name" value="config.xml"/>
+    <property name="on_off" value="true" writable="false"/>
+    <property name="sticky_goto?" value="true"/>
+    <property name="goto_skip_invisible_geoms?" value="false"/>
+    <property name="use_default_for_goto?" value="true"/>
+    <property name="no_draw_labels?" value="false"/>
+    <property name="no_draw_geoms?" value="false"/>
+  </plugin>
+  <!--  END RASTER SYMBOLS -->
+  
+  <!-- Addition of Options Panel to the Options plugin -->
+  <!-- 
+  <plugin name="options" class_name="options_plugin">
+    <panels> -->
+    <!-- Add RS user options -->
+       <panel name="raster_symbols.user_options" />
+    <!-- END Add RS user options -->
+  <!--
+    </panels>
+  </plugin>
+  -->
+  
+  <!--  END RASTER SYMBOLS -->
+</plugins>

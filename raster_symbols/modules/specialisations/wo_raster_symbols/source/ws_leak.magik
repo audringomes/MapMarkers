@@ -1,0 +1,12 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_pragma(classify_level=basic, topic={style_system})
+_method ws_leak.rs_string
+	## 
+	## 
+	>> write_string(_self.external_name,%(,_self.number,%))
+_endmethod
+$

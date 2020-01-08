@@ -1,0 +1,80 @@
+#% text_encoding = iso8859_1
+##
+## File            : draw_sampler.magik
+##
+## Copyright       : Realworld Systems
+##                   e-mail  : support@realworldwide.com
+##                   address : Venusstraat 17, 4105 JH Culemborg, The Netherlands
+##                   tel     : +31(0)345 614319
+##                   fax     : +31(0)345 614406
+##
+## Contains        : 
+##
+##
+## Date written    : Feb/2017
+## Date changed    : 
+##
+## Source contents (Starts with evt. Shared Cons/vars):
+##&&
+#
+
+_package sw
+
+remex(:draw_sampler)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+#
+## singleton that stores drawing speeds of point geometries in
+## _self.list
+#
+def_slotted_exemplar(:draw_sampler,{
+	{:list,equality_hash_table.new()}
+		     })
+$
+_pragma(classify_level=restricted, topic={style_system})
+#
+## geometries hashed with value {style,speed}
+#
+draw_sampler.define_slot_access(:list,:read,:readonly)
+$
+
+_pragma(classify_level=advanced, topic={style_system})
+## maximum size of the list.
+draw_sampler.define_shared_constant(:max_size,100,_true)
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method draw_sampler.new()
+	## returns self with list cleared
+	>> _self.init()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method draw_sampler.init()
+	## returns self with list cleared
+	_self.clear()
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system})
+_method draw_sampler.add(p_geom,p_style,p_speed)
+	#
+	## adds P_GEOM to .list[P_GEOM], with vector contaning the
+	## point style P_STYLE and P_SPEED in s.
+	#
+	_if .list.size = _self.max_size
+	_then _return 
+	_endif
+	>> .list[p_geom]<<{p_style,p_speed}
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system})
+_method draw_sampler.clear()
+	## Clear the list
+	>> .list.empty()	
+_endmethod
+$

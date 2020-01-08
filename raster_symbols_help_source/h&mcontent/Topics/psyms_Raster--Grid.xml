@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Grid Raster Symbols</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">These are the additional external properties of a grid_raster_symbol:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="8" colcount="5" style="border-width:0px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#808080; border-style:solid; head-row-background-color:#d0d0d0; alt-row-background-color:none;">
+      <thead style="vertical-align:top">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"><text styleclass="TableText" translate="true">*)</text></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Draw?</text></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Name</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Default value</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Description</text></para>
+        </td>
+      </thead>
+      <tr style="vertical-align:top">
+        <td colspan="5">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-style:italic;" translate="true">grid_raster_symbol</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Colourmap" styleclass="TableText" translate="true">Colourmap</link></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">derived from bitmap, can be editted</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Filename_alpha</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Transparent_value</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">0</text></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Wash</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Smooth?</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="width:28px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:39px;">
+          <para styleclass="TableText" style="text-align:center;"></para>
+        </td>
+        <td style="width:158px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Auto_fade?</text></para>
+        </td>
+        <td style="width:272px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:546px;">
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[World sized grid]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">When a grid type symbol is configured as being </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Fixed-Size_" styleclass="Normal" translate="true">fixed size</link><text styleclass="Normal" translate="true">, you will not see much difference, except the longer creation and drawing time.</text><br/><text styleclass="Normal" translate="true">If it is configured &quot;world sized&quot; and you zoom in, you see the difference.</text></para>
+          <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+            <tr style="vertical-align:top">
+              <td colspan="2">
+                <para styleclass="TableText"></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:153px;">
+                <para styleclass="Normal"><image src="psyms_clip0022.png" scale="40.00%" width="262" height="273" styleclass="Image Caption"></image></para>
+              </td>
+              <td>
+                <para styleclass="Normal"><image src="psyms_clip0023.png" scale="40.00%" width="262" height="273" styleclass="Image Caption"></image></para>
+              </td>
+            </tr>
+          </table></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Drawing grids]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Images with indexed colours are useful if you have a local raster with certain values, typically with a colour pallet.</text><br/><text styleclass="Normal" translate="true">A normal resized byte image will blur. </text><br/><text styleclass="Normal" translate="true">Below an indexed and transparent raster image (left), and the image mapped to real world coordinates (right).</text></para>
+          <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+            <tr style="vertical-align:top">
+              <td style="width:56px; height:15px;">
+                <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Raster Fixed Size:</text></para>
+              </td>
+              <td style="height:15px;">
+                <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Raster World Size:</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:56px; height:37px; background-color:#808080;">
+                <para styleclass="TableText" style="text-align:center;"><image src="psyms_clip0026.png" scale="50.00%" width="296" height="230" styleclass="Image Caption"></image></para>
+              </td>
+              <td style="height:37px;">
+                <para styleclass="TableText"><image src="psyms_clip0027.png" scale="50.00%" width="296" height="230" styleclass="Image Caption"></image></para>
+              </td>
+            </tr>
+          </table></para>
+          <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+            <tr style="vertical-align:bottom">
+              <td style="width:56px;">
+                <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Grid Fixed Size</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Grid World Size</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:56px; height:37px; background-color:#808080;">
+                <para styleclass="TableText" style="text-align:center;"><image src="psyms_clip0028.png" scale="50.00%" width="296" height="230" styleclass="Image Caption"></image></para>
+              </td>
+              <td style="height:37px;">
+                <para styleclass="TableText"><image src="psyms_clip0029.png" scale="50.00%" width="296" height="230" styleclass="Image Caption"></image></para>
+              </td>
+            </tr>
+          </table></para>
+          <para styleclass="Normal"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Grids and value mapping]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Grid raster symbols are particularly useful in </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value-Mapping2" styleclass="TableText" translate="true">Value mapping</link><text styleclass="TableText" translate="true">. It allows easy manipulation of the colourmap as well as the grid values themselves.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Below an example of a graphs built on grid symbols where changing a few bytes is enough to show the bar to the extend that is needed.</text></para>
+          <para styleclass="TableText"><image src="green-red-20x96x32I.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Image Caption" translate="true"> Left the file with the indexed colours, used as colourmap for this result:</text></para>
+          <para styleclass="TableText"><image src="psyms_clip0078.png" scale="100.00%" styleclass="Image Caption"></image></para>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">The raster file itself (334 Byte) is created as </text><text styleclass="Code in text2" translate="true">grid_raster_symbol</text><text styleclass="Normal" translate="true">. The extracted colourmap (as designed) is shown below:</text><br/></para>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true"> </text><image src="psyms_clip0087.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

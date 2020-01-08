@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Preview canvas</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><text styleclass="User Interface Element" translate="true">Preview Canvas</text><text styleclass="Normal" translate="true"> is used when a realised raster Symbol is selected. The pixels from the </text><text styleclass="Code in text" translate="true">raster_image</text><text styleclass="Normal" translate="true"> are mapped 1:1 to the canvas pixels and centered.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When a raster is too large to be drawn, an error message is drawn at the canvas.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2" style="width:auto; cell-padding:2px;">
+      <tr style="vertical-align:top">
+        <td style="width:141px;">
+          <para styleclass="Normal"><image src="psyms_preview_canvas.png" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Example 1]]></caption></image></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><image src="psyms_preview_canvas2.png" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Example 2]]></caption></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <list id="4" type="ul" listtype="bullet" formatstring="·" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:10pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">The red </text><text styleclass="Normal" style="font-weight:bold; color:#ff0000;" translate="true">+</text><text styleclass="Normal" translate="true"> represents the value of the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Pixel-Offset" styleclass="Normal" style="font-style:italic;" translate="true">pixel_offset</link><text styleclass="Normal" translate="true"> of the raster Symbol.</text></li>
+    </list>
+    <list id="5" type="ul" listtype="bullet" formatstring="·" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:10pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">The blue </text><text styleclass="Normal" style="font-weight:bold; color:#00ffff;" translate="true">+</text><text styleclass="Normal" translate="true"> represents the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Picture-Justification" styleclass="Normal" style="font-style:italic;" translate="true">text_raster_justification</link></li>
+    </list>
+    <list id="6" type="ul" listtype="bullet" formatstring="·" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:10pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">The pixel box with the grey line shows the extend in width and height of the raster_image.</text></li>
+    </list>
+    <list id="7" type="ul" listtype="bullet" formatstring="·" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:10pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">The text display shows the properties of the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Style" styleclass="Normal" style="font-style:italic;" translate="true">text_style</link><text styleclass="Normal" translate="true"> and the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Justification" styleclass="Normal" style="font-style:italic;" translate="true">text_justification</link><text styleclass="Normal" translate="true">.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Highlight]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">When the GUI option </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Highlight_" styleclass="User Interface Element" translate="true">Highlight?</link><text styleclass="Normal" translate="true"> is set, the canvas shows a pixel box in highlight style as well as the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Highlight-Text-Style" styleclass="Normal" style="font-style:italic;" translate="true">text_highlight_style</link><text styleclass="Normal" translate="true"> of the symbol.</text></para>
+          <para styleclass="TableText"><image src="psyms_preview_canvas_hi.png" scale="100.00%" styleclass="Image Caption"></image><image src="psyms_preview_canvas2_hi.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

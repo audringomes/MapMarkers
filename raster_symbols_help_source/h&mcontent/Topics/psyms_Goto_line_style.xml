@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Goto_line_style</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The line style is used in drawing linear features in a GOTO mapping when the value </text><text styleclass="Normal" style="font-weight:bold;" translate="true">use?</text><text styleclass="Normal" translate="true"> is set to true.</text></para>
+    <para styleclass="Normal"><br/><image src="psyms_clip0071.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><br/><text styleclass="TableText" translate="true">To edit the line style, double click the property </text><text styleclass="TableText" style="font-weight:bold;" translate="true">Goto_line_style</text><text styleclass="TableText" translate="true"> in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Picture-Symbol-Properties" styleclass="TableText" translate="true">Symbol Property List</link><text styleclass="TableText" translate="true">.</text><br/><text styleclass="Result sign" translate="true">» </text><text styleclass="TableText" translate="true">The style attributes are shown:</text></para>
+    <para styleclass="TableText"><image src="psyms_clip0072.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="TableText"></para>
+  </body>
+</topic>

@@ -1,0 +1,22 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_block
+	# Define symbol for test plugin
+	# 
+	_local l_props << property_list.new()
+	l_props[:module_name] << :raster_symbols
+	l_props[:filename] << "Dot_Red.png"
+	l_props[:type] << :raster
+	l_props[:pixel_offset] << pixel_coordinate.new(-5,5)
+	l_props[:draw_text_string?] << _false
+	l_props[:text_raster_justification] << :top_right
+	raster_symbol_handler.add_symbol_definition("Dot_Red",l_props)
+_endblock
+$

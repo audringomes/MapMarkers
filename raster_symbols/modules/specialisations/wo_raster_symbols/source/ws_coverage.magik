@@ -1,0 +1,14 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+_pragma(classify_level=basic, topic={style_system})
+_method ws_coverage.rs_string
+	## 
+	## 
+	>> _if (l_casing << _self.ws_casing) _isnt _unset 
+	   _then >> l_casing.description()
+	   _else >> _self.description()
+	   _endif
+_endmethod
+$

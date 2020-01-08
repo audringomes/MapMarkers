@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Symbol Properties</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The </text><text styleclass="User Interface Element" translate="true">Symbol Property list</text><text styleclass="Normal" translate="true"> in tab you can view and edit the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Properties" styleclass="Normal" translate="true">properties</link><text styleclass="Normal" translate="true"> of a raster symbol (definition).</text></para>
+    <para styleclass="Image Caption"><image src="rs_gui_props.png" scale="100.00%" styleclass="Image Caption"></image></para>
+  </body>
+</topic>

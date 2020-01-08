@@ -1,0 +1,114 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:simple_magik_value_manager)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+#
+## Defines a value_manager used by the in place editor for
+## pixel_coordinate, pixel_bounding_box
+#
+def_slotted_exemplar(:simple_magik_value_manager,
+	{
+		{:type,_unset}
+	},
+	:value_manager)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.new(p_type)
+	## 
+	##
+	.type << p_type
+	>> _super.new()
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.parse(p_string)
+	## 
+	## 
+	#DEBUG write("Parse ",p_string)
+	_local l_string << p_string.trim_spaces()
+	_if l_string.size = 0
+	_then _return "" 
+	_endif
+	_local l_c << l_string.index_of_seq(":")
+	_local l_new << l_string.slice(1,l_c-1)+".new"+l_string.slice(l_c+1,l_string.size)
+	_local l_stream << internal_text_input_stream.new(l_new)
+	_local l_magik << magik_text.new_from_input(l_stream)
+	#DEBUG print(l_magik)
+	_local l_result
+
+	_try _with p_cond
+		l_result << l_magik.evaluate()	
+	_when error
+		write(p_cond.report_contents_string)
+		condition.raise(:bad_input,:value,p_string)
+	_endtry
+	
+	>> l_result
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.format(p_value)
+	## 
+	##
+	#DEBUG write("Format " ,p_value)
+	>> _if p_value = "unset" 
+	   _then >> .type.value_write_string
+	   _else >> p_value.write_string
+	   _endif	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.convert(p_value)
+	## 
+	##
+	#DEBUG write(_self,"convert",p_value)
+	>> _self.string_for_type(p_value)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.string_for_type(p_value)
+	## 
+	##
+	#DEBUG write(" String for type ",.type," '",p_value,"' ")
+	_if p_value = "unset"
+	_then _return .type.value_write_string
+	_endif
+	
+	_if .type _is pixel_bounding_box _andif
+	    p_value.responds_to?(:xmin)
+	_then
+		_return write_string("pixel_bounding_box:(",
+				     p_value.xmin,%,,
+				     p_value.ymin,%,,
+				     p_value.xmax,%,,
+				     p_value.ymax,%))
+		
+	_elif .type _is pixel_coordinate
+	_then
+		_return write_string(p_value)
+	_else 
+		_return write_string(p_value)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method simple_magik_value_manager.guide_message()
+	## 
+	## 
+	>> write_string("This editor is for magik class ",.type)
+_endmethod
+$

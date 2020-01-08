@@ -1,0 +1,62 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+remex(:db_analysis_gui)
+$
+
+_pragma(classify_level=basic, topic={analysis})
+def_slotted_exemplar(:db_analysis_gui,{},:model)
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis_gui.activate_in(p_frame)
+	## 
+	##
+	p_frame.width << 500
+	p_frame.height << 700
+	_local l_rc << rowcol.new(p_frame)
+	_local l_item << tree_item.new(l_rc,
+				       :column_headings,{"Dataset","Col","Size","Fld","Type","#Values"},
+				       :width_in_cols,6,
+				       :allow_filtering?,_true,
+				       :allow_renew?,_true ,
+				       :allow_refresh?,_true,
+				       :visible_rows,100,
+				       :model, _self,
+				       :double_click_notifier,:|analyse_values()|,
+				       :data_selector, :results)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis_gui.title
+	>> "Field Analyser"
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis_gui.results
+	## 
+	## 
+	>> db_analysis.result_as_display_tree()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis_gui.analyse_values(p_elem,p_row,p_event)
+	## 
+	##
+	_local l_fld << p_elem.key
+	_local l_en << p_elem.value[:stats_engine] <<
+		statistics_engine.new(l_fld.owner.name,
+				      l_fld.owner.dataset.name,
+				      l_fld.name)
+	write("Created ",l_en)
+	l_en.analyse_collection()
+	p_elem.add_child(l_en.as_display_tree())
+	p_elem.expanded? << _true 
+_endmethod
+$

@@ -1,0 +1,1 @@
+raster_symbol_selector

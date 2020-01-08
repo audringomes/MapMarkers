@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Draw_text_string?</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">If false, no text is drawn.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

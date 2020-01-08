@@ -1,0 +1,53 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:alpha_colour_popup_model)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+def_slotted_exemplar(:alpha_colour_popup_model,
+	{
+		{:ui_item,_unset}
+	},
+	:popup_model)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method alpha_colour_popup_model.activate_in(p_frame)
+	## 
+	##
+	#DEBUG write(_self,".activate_in() with value ",_self.alpha_value)
+	_local l_rowcol << rowcol.new(p_frame)
+	_local l_item << .ui_item <<
+		slider_item.new(l_rowcol,"Alpha",0.0,1.0,
+				:format,float_format.new_with_properties( :float_decimal_places, 2),
+				:model,.parent_model,
+				:change_selector,:|alpha_value_changed()|)
+	l_item.value << _self.alpha_value
+	
+	>> l_rowcol
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method alpha_colour_popup_model.reactivate(_gather p_args)
+	## 
+	## 
+	#DEBUG write(_self,".reactivate() with value ",_self.alpha_value)
+	_super.reactivate(_scatter p_args)
+	.ui_item.value << _self.alpha_value
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method alpha_colour_popup_model.alpha_value
+	## 
+	##
+	>> .parent_model.alpha_value
+_endmethod
+$

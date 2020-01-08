@@ -1,0 +1,100 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+##
+## Loads core as well as GUI
+## use load_file() to load
+##
+
+!global_auto_declare?! << _true 
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Load raster_symbols core and Configuration GUI
+_global !load_rsg! <<
+_proc @load_rs_gui()
+	
+	_local (l_name,l_root) << system.pathname_components(!source_file!)
+	sw:smallworld_product.add_product(l_root)
+	sw_module_manager.load_module(:raster_symbols_gui)
+	sw_module_manager.load_module(:raster_symbols)
+	_local l_path << system.pathname_down(l_root,"customisations")
+	sw:smallworld_product.add_product(l_path)
+	write("Raster Symbols software loaded")
+	>> _true 
+_endproc
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Add the raster_symbols_plugin to a running application
+_global !add_rsp! <<
+_proc @add_plugin(_optional papp)
+	## ON THE FLY TEST ONLY
+	_global app,rsp
+	app << papp.default(smallworld_product.applications.an_element())
+	_if app _isnt _unset 
+	_then
+		app.add_plugin(:raster_symbols,
+			       :raster_symbol_plugin,
+			       _unset )
+		rsp << app.plugin(:raster_symbols)
+		rsp.register_self_on_app_databus()
+		rsp.post_init_plugins()
+	_endif
+	!setv!(app)
+	>> app.plugin(:raster_symbols)
+_endproc
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Sets globals of most important objects
+_global !setv! <<
+_proc @setvars(_optional p_app) 
+	## Set shortcuts on main raster symbol objects
+	_global rsh
+	rsh << raster_symbol_handler
+	app << p_app.default(smallworld_product.applications.an_element())
+	_global rsp
+	rsp << app.plugin(:raster_symbols)
+	_global rsg
+	rsg << rsp.dialogs[:mgmt_interface]
+	write("Set globals rsh,app,rsp,rsg")
+_endproc
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+_global !smi! <<
+_proc @start_configuration_interface(_optional papp)
+	## Start raster symbol configuration GUI
+	_global !mi!
+	_local l_app << papp.default(smallworld_product.applications.an_element())
+	>> !mi! << l_app.plugin(:raster_symbols).activate_management_interface()
+_endproc
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+_global !cmi! <<
+_proc @close_configuration_interface(_optional papp)
+	## Clear raster symbol configuration GUI
+	_local l_app << papp.default(app)
+	>> l_app.plugin(:raster_symbols).clear_dialog_cache()
+_endproc
+$
+
+# Set this on the prompt:
+#!current_package! << !current_package!.all_packages[:sw]
+#$
+
+_block
+	!load_rsg!()
+	write(newline_char)
+	write("for testing, use !add_rsp!(_optional app) to add the raster_symbols plugin to an application",newline_char)
+	write("use !smi!(_optional app) to start the configuration GUI")
+_endblock
+$

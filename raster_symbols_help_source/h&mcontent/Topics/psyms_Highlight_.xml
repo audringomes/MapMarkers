@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Highlight?</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The option </text><text styleclass="User Interface Element" translate="true">Highlight? </text><image src="highlight_on.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true"> changes the Draw that is initiated by pressing the button </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw" styleclass="User Interface Element" translate="true">Draw</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The raster_images are not different when a symbol is &apos;drawn higlighted&apos;. In stead, the bounds of the raster are drawn in the application highlight style, and any text is drawn using the style stored in property </text><text styleclass="Normal" style="font-style:italic;" translate="true">highlight_text_style</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This applies both to the draw in the current map view as in the preview canvas, as shown in the raster below:</text><br/></para>
+    <para styleclass="Normal"><image src="psyms_clip0068.png" scale="100.00%" styleclass="Image Caption"></image><br/></para>
+  </body>
+</topic>

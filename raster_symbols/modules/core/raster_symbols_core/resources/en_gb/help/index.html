@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<head>
+  <title>MapMarkers</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="icon" href="mapmarkers_icon.ico" type="image/png"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="helpman_settings.js"></script>
+  <script type="text/javascript" src="helpman_navigation.js"></script>
+  <script type="text/javascript" src="hmcontextids.js"></script>
+  <script type="text/javascript" src="rwspextras.js"></script>
+  <link type="text/css" href="default.css" rel="stylesheet" />  
+  <link type="text/css" href="layout.css" rel="stylesheet" />
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      if (!hmSupportsAbspos()) {
+      	$(window).bind("resize", function() {
+      	  hmNoAbsposResize($("#hmheadbox"), true, false);
+      	  hmNoAbsposResize($("#hmnavbox"), false, true);
+      	  hmNoAbsposResize($("#hmcontentbox"), true, true);
+	    });
+	    $(window).trigger("resize");
+	  }
+      hmCreateVSplitter($("#hmnavbox"),$("#hmcontentbox"));
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+     document.getElementById("showHide").onclick = function() {
+        var frame, data;
+        data = { name: "collapseExpand" };
+        frame = document.getElementById("hmcontent");
+        frame.contentWindow.postMessage(data, "*");
+      };
+      document.getElementById("removeHighlight").onclick = function() {
+        var frame, data;
+        data = { name: "resultsHighlight" };
+        frame = document.getElementById("hmcontent");
+        frame.contentWindow.postMessage(data, "*");
+      };
+    }); //document ready
+  </script>
+</head>
+
+<body>
+<div id="hmheadbox" style='background-image:url("MapMarkersLogo.png");'>                          
+   <span class="logotitle"></span>
+</div>
+
+<div id="navbar">
+  <a href="psyms_picture-symbols.htm" title="Home" target="hmcontent" onclick="hmWebHelp.tocWin.tocScroller(this.href)">
+    <img src="hm_btn_toc.png" alt="Home"
+      onmouseover="this.src='hm_btn_toc_orange.png'" 
+      onmouseout="this.src='hm_btn_toc.png'"/>
+  </a>
+  <a id="navicon_printer" Title="Print the current topic" onclick="printHMcontent()">
+     <img src="btn_print.png" onmouseover="this.src='btn_print_orange.png'" onmouseout="this.src='btn_print.png'"/>
+  </a>                                                                                                                                                                                                                        
+                                                                                                                                      
+        
+
+  <a id="showHide" title="Show hidden text">
+     <img src="plus_30x30.png" onmouseover="this.src='plus_30x30_orange.png'" onmouseout="this.src='plus_30x30.png'"/>
+  </a>
+  <a id="removeHighlight" title="Remove highlight">
+     <img src="btn_rem_highlight_off.png" onmouseover="this.src='btn_rem_highlight_on.png'" onmouseout="this.src='btn_rem_highlight_off.png'"/>
+  </a>
+</div>
+
+
+<div id="searcharea">
+  <script type="text/javascript" src="settings.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="zoom_search.js"></script>
+  <form method="GET" action="search.html" target="hmcontent">
+    <input id="searchbutton" type="image" src="hm_btn_search.png" title="Search" alt="Search"
+        onmouseover="this.src='hm_btn_search_orange.png'" 
+        onmouseout="this.src='hm_btn_search.png'"/>
+    <input id="searchform" name="zoom_query" length="30" value="" 
+           autocorrect="off" autocapitalize="off" type="text" placeholder="Enter the word(s) to search"/>
+  </form>
+</div>
+
+
+<div id="hmnavbox">
+  <iframe name="hmnavigation" id="hmnavigation" src="hmcontent.htm" seamless="seamless" title="Navigation Pane" frameborder="0"></iframe>
+</div>
+
+<div id="navhandle">
+     <a href="javascript: void(0);" onclick="ShowHideNav()"><img src="nav_close.png" id="navshowhide" alt="Hide Table of Contents" title="Hide Table of Contents" border="0"></a>
+</div>
+
+<div id="hmcontentbox" >
+ <script type="text/javascript">
+ 
+    var defaulttopic="psyms_picture-symbols.htm";
+    <!-- rwsp mod to enable GESW #cshid syntax -->
+    var cshid_key = "cshid";
+    var cntxRX = /contextid=\d*/;
+    var hash = window.location.hash;
+
+    if (cshid_key != "cshid")
+      {cshid_key = "contextid";
+       var query = window.location.search.substring(1);
+      }
+    else
+      {var query = hash;
+       cntxRX = /cshid=\d*/;
+      }
+    var xssTest = /&#39;|&#x27;|&#34;|&#x22;|&sol;|&colon;|&apos;|&quot;|&rpar;|&lpar;|&#61;|&#x3D;|%27|%22|%3d|&#58;|&#x3a;|http|=|%3a|3a;|58;|:|\"|\/|'|"/i;
+    var cntxMatch = cntxRX.exec(query);
+    var cntxSrc = "";
+    if (query != "") {
+    if (typeof(hmGetContextId) != "undefined") 
+      {
+        if (cntxMatch != null) 
+          {cntxSrc = hmGetContextId(cntxMatch[0]);}
+        if (cntxSrc != "" && cntxSrc != "undefined") 
+          {defaulttopic = cntxSrc;}
+        else 
+          {if (!xssTest.test(query) && !xssTest.test(hash))
+		defaulttopic = query + hash;}
+      }
+    }
+    document.write('<iframe name="hmcontent" id="hmcontent" src="'+defaulttopic+'" seamless="seamless" title="Content Page" frameborder="0"></iframe>');
+  </script>
+
+  <noscript>
+    <iframe name="hmcontent" id="hmcontent" src="psyms_picture-symbols.htm" seamless="seamless" title="Content Page" frameborder="0"></iframe>
+  </noscript>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,18 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package user
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method service_connection.a_value()
+	## 
+	## 
+	>> pseudo_rwo.a_value()
+_endmethod
+$
+
+

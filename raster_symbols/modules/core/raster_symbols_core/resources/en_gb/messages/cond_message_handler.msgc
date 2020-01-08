@@ -1,0 +1,6 @@
+MSGCcolourmap_reduced#1
+Colourmap #2 reduced to #3creation_errorError creating symbol '#1' - #2creation_error_missing_nameCannot create a symbol without a nameinvalid_drawing_propertyProperty '#1' is not a valid drawing propertydata_file_savedConfiguration saved to '#1'invalid_symbol_property#3 - Invalid symbol property:
+Invalid value '#2' for property '#1'xml_create_sym_error#1xml_file_does_not_existsError - xml file '#1' does not existduplicate_symbol_with_nameError - There is already a symbol with name #1resource_not_in_module'#1' is not a resource in a sw_modulemissing_parentThumbnail picture symbol - No parent symbol with name #1resource_in_useOperation Failed - Picture Symbol '#1' is used by
+'#2'xml_read_error'#1'rwo_value_errorObject #1 raised error on value method '#2': '#3'inconsistent_values#4 - Inconsistent Values:
+Property '#1' should have a value when property '#2' has value '#3'invalid_symbol_typeInvalid symbol type '#2' for symbol #1thumbnail_refresh_failedThumbnail refresh for symbol '#1' failed.
+#2no_suitable_stream#1 - Cannot read '#2' as grid (no suitable stream)unknown_propertyUnknown property '#2' for symbol #1symbol_readonlyOperation Failed - Picture Symbol '#1' is readonly

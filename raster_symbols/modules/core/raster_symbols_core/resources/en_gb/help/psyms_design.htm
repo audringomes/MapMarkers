@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+	<title>Design</title>
+	<meta name="generator" content="Help &amp; Manual" />
+	<meta name="keywords" content="thumbnail_raster_symbol" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link type="text/css" href="default.css" rel="stylesheet" />
+	<link type="text/css" href="custom.css" rel="stylesheet">
+	<style TYPE="text/css" media="screen"> 
+		html, body { margin:0; 
+		             padding:0; 
+			     overflow: hidden; 
+		} 
+		
+			html {overflow-x: auto; overflow-y: scroll;}
+		
+  
+  
+
+		div#printheader { display: none; }
+		#idheader { width:100%; 
+		            height:auto; 
+		            padding: 0; 
+		            margin: 0;
+                            background-color: #e4eaf0; 
+		} 
+		#idcontent { position:relative }                                               
+		#callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+		#callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+		#callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+		#callout-table a {text-decoration: none; color: blue;}
+		#callout-table a:visited {text-decoration: none; color: blue;}
+		#overview-table a {text-decoration: none; color: black;}
+		#overview-table a:visited {text-decoration: none; color: black;}
+		#callout-table a:hover, #overview-table a:hover {text-decoration: underline;}      
+		#switchtoggles { text-align: right; padding: 0 5px 0 0; font-size: 90%; margin: 0; }  
+                #header1
+                  {
+                  font-size: 21pt;
+                  color: #00508f;
+	          margin-top: 0px;
+	          margin-bottom: 10px;
+	          border-bottom: solid 1px #bfc2c5;
+                  margin-left: 10px;
+                  padding-top: 10px;
+                  margin-right: 5px;
+	          padding-bottom: 10px;
+	          background-image: url('MapMarkersPageIcon.png');
+	          background-repeat: no-repeat;
+	          background-position: right center;
+                  }
+
+ 		p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
+		.sync-toc { color: #ffffff; font-size: 8pt; font-weight: bold; display: none; }
+		.sync-toc a { color: #ffffff; text-decoration: none; font-weight: bold;}
+		.sync-toc a:visited { color: #ffffff; }
+		.sync-toc a:hover { text-decoration: underline; }
+                .p_Heading1 {background-image: url('MapMarkersPageIcon.png');}
+
+	</style>
+	<noscript>
+		<style type="text/css">
+			html, body { overflow: auto; }
+		</style> 
+	</noscript>
+	
+		<style type="text/css" media="print">
+			span.f_Heading1 { color: black; }
+			#idheader, #printheader img { display:none; }
+			#printheader { display: block; margin-top: 20px; }
+			#idcontent { margin-top: 10px; position:relative }
+		</style>
+	   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+   <script type="text/javascript" src="nsh.js"></script>
+   <script type="text/javascript" src="message-handler.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "psyms_design.htm");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+	
+		<div id="header1">Design</div>
+	
+
+
+<div id="idcontent">
+<div id="innerdiv">
+
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">The basic object is <span class="f_Codeintext2">raster_symbol</span>, which has two subclasses: <span class="f_Codeintext2">grid_raster_symbol</span> and <span class="f_Codeintext2"><a href="psyms_thumbnail-picture-symbol.htm" class="topiclink">thumbnail_raster_symbol</a></span>. The manipulation of all of them is done by the <span class="f_Codeintext2">raster_symbol_handler</span>. There exists only one instance of a particular symbol with a certain name. When properties are changed (e.g. style) a copy of that property is made.</p>
+<p class="p_Normal">In case of a raster type, the raster is loaded as a <span class="f_Codeintext">raster_image</span>. In case of type :grid, the raster is also loaded as a raster_image, but on top of that, a grid is created containing the values (including transparency) of the raster image.<br />
+When the source image is a 24bit raster with an alpha channel containing the transparency of every pixel, the alpha channel is extracted. This is done with ImageMagick, stored in a file and its values loaded as a grid in the hidden property <span class="f_Codeintext2">.alpha_channel</span>.</p>
+<p class="p_Normal">The object <span class="f_Codeintext2">raster_symbol</span> has the following basic methods:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 8px 0;"><table class="CodeExampleTable" >
+<tr class="CodeExampleTable">
+<td class="CodeExampleTable"><p class="p_TableText"><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 17 basic or debug methods defined on classes ending in `sw:^raster_symbol'.</span>
+
+<span class="function-name">default_goto_area_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_goto_line_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_highlight_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_highlight_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_measurement_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_text_parameters</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">default_text_style</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">draw_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">draw_with_properties()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">new_with_properties()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">properties</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">set_property()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">show_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">source_module_name</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">write_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B
+<span class="function-name">xml_properties</span>  IN  <span class="type">sw:raster_symbol</span>    B
+</pre>
+  </body>
+</html></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">Symbols are cached with their <span style="font-weight: bold;">name</span>, which is a string. The <span class="f_Codeintext2">raster_symbol_handler</span> has the following basic methods:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 8px 0;"><table class="CodeExampleTable" >
+<tr class="CodeExampleTable">
+<td class="CodeExampleTable"><p class="p_TableText"><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 20 basic or debug methods defined on classes containing the string `raster_symbol_hand'.</span>
+
+<span class="function-name">get_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">symbol_for_special_type()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">add_specialised_mapping()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">add_symbol_definition()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">an_element()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    DEBUG
+<span class="function-name">available_symbol_names</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">bulk_import_from_module()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">copy_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">create_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">create_thumbnail_symbol_for()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">default_goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">draw_default_raster_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">draw_default_raster_symbol_highlight()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">pretty_string_from_filename()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">specialised_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">remove_symbol()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name">decache()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B
+<span class="function-name"><span class="region">thumbnail_symbol()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol_handler</span></span><span class="region">    B
+</span></pre>
+  </body>
+</html></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">&nbsp;<br />
+Symbols can be defined without realising. See <a href="psyms_definitions.htm" class="topiclink">Raster Symbol Definitions</a>.</p>
+<p class="p_Normal">&nbsp;</p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+
+</script>
+</body>
+</html>

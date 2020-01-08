@@ -1,0 +1,50 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:in_place_magik_object_editor)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+def_slotted_exemplar(:in_place_magik_object_editor,
+	{},
+	:in_place_value_editor)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method in_place_magik_object_editor.undo_value
+	## for manage actions that suspect 
+	##
+	>> _self.manager.format(_super.undo_value)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method in_place_magik_object_editor.value_format_handler
+	## 
+	## 
+	>> handler.new(_self.manager,:|format()|)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method in_place_magik_object_editor.start_edit(p_holder,p_value_id)
+	## 
+	## 
+	#DEBUG	write(_self,".start_edit(",p_holder,%,,p_value_id,%))
+	>> _super.start_edit(p_holder,p_value_id)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method in_place_magik_object_editor.stop_edit(cancel?)
+	## 
+	## 
+	#DEBUG write(_self,".stop_edit(",cancel?,%)," action value: ",_self.action(:value).value)
+	_super.stop_edit(cancel?)
+_endmethod
+$

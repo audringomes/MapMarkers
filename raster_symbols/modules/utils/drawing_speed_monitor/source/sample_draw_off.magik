@@ -1,0 +1,72 @@
+#% text_encoding = iso8859_1
+##
+## File            : drawing_performance.magik
+##
+## Copyright       : Realworld Systems
+##                   e-mail  : support@realworldwide.com
+##                   address : Venusstraat 17, 4105 JH Culemborg, The Netherlands
+##                   tel     : +31(0)345 614319
+##                   fax     : +31(0)345 614406
+##
+## Contains        : 
+##
+##
+## Date written    : Dec/2016
+## Date changed    : 
+##
+## Source contents (Starts with evt. Shared Cons/vars):
+##&&
+#
+
+_package user
+
+
+_pragma(classify_level=restricted, topic={geometry})
+_method sw_map_point.paint( g_context )
+	##
+	##
+	
+	_dynamic !current_unit_factor!
+	_dynamic !point_draw_transform_call_level!
+	
+	xform << _self.xform( g_context )
+	
+	# Redefine the dynamic for the target world uf to the uf of self's style
+	# so that any sub-point styles are deemed to be rendering into self
+	!current_unit_factor! << .unit_factor
+	
+	# Calculate a scale to compensate for the scale on the point
+	# style transform for the current style system draw_scale -
+	# required for sw_map_points reused at different scales.
+	scale << _if !point_draw_transform_call_level! _is _unset _andif
+		     _not .style.fixed_size?
+		 _then
+			 >> _self.draw_scale / .draw_scale
+		 _else
+			 >> 1.0
+		 _endif
+	
+	!point_draw_transform_call_level! << :not_top_level
+	
+	# Temporarily concatenate the supplied transform with current drawing
+	# surface transform and draw the symbol components
+	
+	old_xform << g_context.transform
+	_protect
+		temp_xform << _if scale <> 1.0
+			      _then
+				      >> transform.scale( scale ).multiply( xform ).multiply( old_xform )
+			      _else
+				      >> xform.multiply( old_xform )
+			      _endif
+		
+		g_context.transform << temp_xform
+
+		_super.paint(g_context)
+	_protection
+		# Restore the window transform to its original state
+		g_context.transform << old_xform
+	_endprotect
+
+_endmethod
+$

@@ -1,0 +1,94 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:colourmap_value_manager)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+def_slotted_exemplar(:colourmap_value_manager,{},:colour_value_manager)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colourmap_value_manager.format(p_value)
+	## 
+	## Format P_VALUE as string
+	##
+	#DEBUG write(_self,".format(",p_value,%))
+	>> p_value.write_string
+#	_if p_value _is _unset 
+#	_then _return ""
+#	_endif
+#
+#	_local l_format << float_format.new_with_properties( :float_decimal_places, .precision )
+#	_local l_vec << _allresults p_value.rgba()
+#	>> write_string(l_format.format(l_vec[1]*.scale),", ",
+#			l_format.format(l_vec[2]*.scale),", ",
+#			l_format.format(l_vec[3]*.scale),", ",
+#			l_format.format(l_vec[4]*.scale))
+#	>> _super.format(p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colourmap_value_manager.parse(p_string)
+	## 
+	## Subclass that parses string 
+	##
+	#DEBUG write(_self,".parse(",p_string,%))
+	>> colour_map
+
+#	_local l_string << p_string.trim_spaces()
+#	_if l_string.size = 0
+#	_then _return _unset 
+#	_endif
+#
+#	_local l_values << {0.0, 0.0, 0.0, 1.0}
+#	
+#	# Split string
+#	_for i_split_char _over { %-, %,, space_char }.fast_elements()
+#	_loop
+#		_if (l_svalues << l_string.split_by( i_split_char )).size > 1
+#		_then _leave
+#		_endif	
+#	_endloop
+#
+#	# Convert to number and check valid entries
+#	_for i_num,i_value _over l_svalues.fast_keys_and_elements()
+#	_loop
+#		_local l_value << i_value.as_number()
+#		_if l_value _isnt _unset _andif
+#		    l_value > 0.0 _andif l_value <= .scale
+#		_then l_values[i_num] << l_value/.scale
+#		_endif
+#		_if i_num = 4
+#		_then _leave 
+#		_endif
+#	_endloop
+#
+#	_local l_colour << colour.new_rgba(_scatter l_values)
+#	_if l_colour _is _unset 
+#	_then condition.raise(:bad_imput,:value,l_string)
+#	_endif
+#
+#	#DEBUG write("RGBA colour ",_self.format(l_colour))
+#	>> l_colour
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colourmap_value_manager.convert(p_value)
+	#
+	## Convert VALUE to standard internal type
+	#
+	#DEBUG write(_self," convert ",p_value)
+	_if p_value _isnt _unset 
+	_then colour_map.check_type(p_value)
+	_endif
+	>> p_value
+_endmethod
+$

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">String_selector</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The property </text><text styleclass="Code in text" translate="true">:string_selector</text><text styleclass="Normal" translate="true"> specifies a method (or field) that should be used to get the text string that is to be drawn.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The default raster has the value </text><text styleclass="Code in text" translate="true">:rs_string</text><text styleclass="Normal" translate="true">. This is implemented as follows:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis ws_example_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+          </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 1 basic or debug method containing the string "rs_string".</span>
+
+<span class="function-name">rs_string</span>  IN  <span class="type">sw:rwo_record</span>    B (subclassable and redefinable)
+<span class="function-name">
+</span>
+        <span class="comment">## Default string method for a raster_symbol that returns the
+</span>        <span class="comment">## value of method :tooltip_description or when not defined, the
+</span>        <span class="comment">## value of method :description()
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">If sending the string_selector to a record returns an error, the text &quot;ERROR&quot; is drawn.</text></para>
+  </body>
+</topic>

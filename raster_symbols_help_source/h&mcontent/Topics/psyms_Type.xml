@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Type</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Either </text><text styleclass="Normal" style="font-weight:bold;" translate="true">:raster</text><text styleclass="Normal" translate="true">, </text><text styleclass="Normal" style="font-weight:bold;" translate="true">:grid</text><text styleclass="Normal" translate="true"> or </text><text styleclass="Normal" style="font-weight:bold;" translate="true">:thumbnail</text><text styleclass="Normal" translate="true">. (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Raster--Grid" styleclass="Normal" translate="true">Raster &amp; Grid</link><text styleclass="Normal" translate="true">)</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Note that the creation of a grid type raster Symbol is rather time-consuming. It depends also on the type of raster. Byte or Integer.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The raster is loaded, when applicable the alpha channel map is extracted and loaded as washmap, a grid with colour and transparency is created and finally a run length encoded version is created.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

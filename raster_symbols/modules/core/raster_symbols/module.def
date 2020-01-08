@@ -1,0 +1,8 @@
+raster_symbols 1
+description
+	Collection of Raster Symbols
+end
+requires
+	raster_symbols_core
+end
+	

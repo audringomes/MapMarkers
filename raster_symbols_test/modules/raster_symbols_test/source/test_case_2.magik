@@ -1,0 +1,50 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:test_case_2)
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols_test,test})
+##
+def_slotted_exemplar( :test_case_2, {} , :test_case)
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols_test,test})
+_method test_case_2.set_up()
+	## 
+	## 
+	_super.set_up()
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols_test,test})
+_method test_case_2.test_assure_product()
+	## 
+	## 
+
+	_local l_name << :raster_symbols_gui
+	_local l_mod << sw_module_manager.module(l_name)
+	_self.assert_not_unset(l_mod,write_string("No module found with name ",l_name))
+
+	_if _not l_mod.loaded?
+	_then sw_module_manager.load_module(l_name)
+	_endif
+
+	_self.assert_true(l_mod.loaded?,write_string("Module ",l_name," loaded"))
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={raster_symbols_test,test})
+_method test_case_2.tear_down()
+	## 
+	## 
+	_super.tear_down()
+_endmethod
+$

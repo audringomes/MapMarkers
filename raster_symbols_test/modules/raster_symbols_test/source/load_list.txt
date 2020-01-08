@@ -1,0 +1,2 @@
+raster_symbol_definitions
+test_case_2

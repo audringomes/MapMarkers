@@ -1,0 +1,4181 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:raster_symbol_manager_gui)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## model based GUI that expose functions for creation of raster
+## symbols, mappings and style records 
+def_slotted_exemplar(:raster_symbol_manager_gui,{
+	{:owner, _unset },
+	{:preview_canvas, _unset },
+	{:plugin,_unset},
+	{:styles,property_list.new()},
+	{:ui_items,property_list.new()},
+	{:sstring,""},
+	{:rwo_list_label_text,""},
+	{:current_page,_unset},
+	{:restrict_one_module?,_false},
+	{:in_place_editors,_unset}
+		     },:model)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+raster_symbol_manager_gui.define_slot_access(:rwo_list_label_text,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+raster_symbol_manager_gui.define_shared_constant(:canvas_width,250,_true)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+raster_symbol_manager_gui.define_shared_constant(:canvas_height,170,_true)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+# for generic goto_mappings, because 'line.png' does not exist in
+# :ui_resources 
+raster_symbol_manager_gui.define_shared_constant(:gen_icons,
+	property_list.new_with(:point,"point",
+			       :linear,"line_geometry",
+			       :area,"area",
+			       :text,"text"),
+	_false)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+# Cache for display_styles for symbols
+raster_symbol_manager_gui.define_shared_constant(:display_styles,
+	property_list.new_with(
+		:symdef,styled_string.new(
+				:image,{"traffic_light_grey.png",:ui_resources},
+				:normal,
+				:value,:name,:tab,
+				:value,:type),
+		:symdef_realised,styled_string.new(
+					 :image,{"traffic_light_yellow.png",:ui_resources},
+					 :normal,
+					 :value,:name,:tab,
+					 :value,:type)
+		      ),
+	_false)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+# Format for speed label
+raster_symbol_manager_gui.define_shared_constant(:speed_string_format,
+	float_format.new_with_properties(:float_decimal_places,2),
+	_false)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Default Help
+_method raster_symbol_manager_gui.html_help_data
+	>> 40300,"index.html",:raster_symbols_core
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.new(p_owner,_optional p_plugin)
+	## 
+	##
+	#DEBUG write(_self,".new(" ,p_owner,p_plugin,")")
+	>> _clone.init(p_owner,p_plugin)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.init( p_owner, p_plugin)
+	## 
+	##
+	_super.init()
+	.owner << p_owner
+	.plugin << p_plugin
+	.message_accessor << message_handler.new(_self.class_name)
+	_self.set_styles()
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.title
+	## 
+	## 
+	>> _self.message(:title)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.on_activation()
+	## 
+	##
+
+	.owner.add_dependent(_self)
+	.plugin.add_dependent(_self)
+	gis_program_manager.style_view.add_dependent(_self)
+	_self.changed(:available_symbol_names, :renew)
+	_self.manage_actions()
+#	_self.make_icon("raster_symbols_16x16","Raster Symbols","raster_symbols_core")
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.on_deactivation()
+	## 
+	## 
+	.owner.remove_dependent(_self,:available_symbol_names)
+	.plugin.remove_dependent(_self)
+	gis_program_manager.style_view.remove_dependent(_self)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol_manager_gui.set_styles()
+	#  
+	## Set the styles for the preview elements
+	#
+	
+	_local l_colour << colour.new_rgb(0.8,0.8,0.8)
+	.styles[:bb] << line_style.new_with_properties(:foreground_colour,l_colour,:width,1)
+	.styles[:bb_hi] << line_style.new_with_properties(:foreground_colour,sw:application.highlight_colour,:width,1)
+	.styles[:offset] << line_style.new_with_properties(:foreground_colour,colour.new_rgb(1,0,0),:width,1)
+	.styles[:just] << line_style.new_with_properties(:foreground_colour,colour.new_rgb(0,1,1),:width,1)
+	.styles[:prev_grid] << line_style.new_with_properties(:foreground_colour,colour.new_with_properties(:gray_level,0.0))
+	>> .styles
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.show_symbols_only?
+	## 
+	## 
+	>> _if (l_item << .ui_items[:show_symbols_only?]) _isnt _unset
+	   _then >> l_item.value
+	   _else >> _false 
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.directory_for_generated_methods
+	#
+	## Return the folder where the custom draw methods should be
+	## created.
+	## It returns </>source/gen_magik of the current_module. If
+	## this folder does not exists, it is created and the template dir in
+	## base/data/gen_magik of module raster_symbols_core is copied
+	## into the folder
+	#
+
+	_local l_main << sw_module_manager.module(_self.current_module_name).full_directory
+	_local l_sub  << system.canonicalise(system.pathname_from_components("source/gen_magik",l_main))
+	_if _not system.file_exists?(l_sub)
+	_then
+		#DEBUG write("Creating source dir ",l_sub)
+		# Create <..source>/gen_magik/
+		system.mkdir(l_sub)
+
+		# Copy the contents in template dir to new folder
+		_local l_q << sw_module_manager.module(:raster_symbols_core).full_directory
+		_local l_source << system.canonicalise("resources\base\data\gen_magik",l_q)
+		_local l_ch <<  directory_channel.new(l_source)
+		_loop _if (l_f << l_ch.get()) _is _unset
+		      _then _leave
+		      _endif
+		      _local l_src << system.canonicalise(l_f,l_source)
+		      _local l_tar << system.canonicalise(l_f,l_sub)
+		      system.file_copy(l_src,l_tar)
+		_endloop
+		l_ch.close()
+		
+		_if _true 
+		_then
+			_local l_lldir << system.pathname_up(l_sub)
+			_local l_list << system.canonicalise("load_list.txt",l_lldir)
+			_self.int!add_to_load_list(l_list,"gen_magik/")
+		_endif
+	_endif
+	>> l_sub
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.int!add_to_load_list(p_path,p_txt)
+	#
+	## Append the text in P_TXT to the file P_PATH.
+	## If P_TXT is already present, skip. 
+	## Returns _true if the load list is changed
+	#
+
+	_if _not system.file_exists?(p_path)
+	_then _return _false
+	_endif
+	
+	#DEBUG write("Appending ",p_txt," to ",p_path)
+	_local l_ex << external_text_input_stream.new(p_path)
+	_local l_in << internal_text_output_stream.new()
+	_local l_add? << _false 
+	_protect
+		l_add? <<
+		_loop
+			_if (l_txt << l_ex.get_line()) _is _unset
+			_then _leave _with _true
+			_endif
+			_if l_txt = p_txt
+			_then _leave _with _false 
+			_endif
+			l_in.write(l_txt,newline_char)
+		_endloop
+		_if l_add?
+		_then l_in.write(p_txt,newline_char)
+		_endif
+	_protection
+		l_ex.close()
+	_endprotect
+	
+	_if l_add? _is _true 
+	_then
+		_local l_out << external_text_output_stream.new(p_path)
+		_protect
+			l_out.write(l_in.string)
+		_protection
+			l_out.close()
+		_endprotect
+		_return _true 
+	_endif
+
+	>> _false 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.activate_in(p_frame)
+	## 
+	## creates GUI in P_FRAME
+	##
+
+	p_frame.resizable? << _false 
+	
+	_local outer_rc << rowcol.new( p_frame,5 ,2 , :pixel,
+				       :style, :top_level,
+				       :resize_x?, _true,
+				       :resize_y?, _true )
+	_local l_rr << rowcol.new(outer_rc,1,2,:pixel,
+				  :col_alignment,:left)
+	
+	l_rr.min_col_sizes<<{200,550}
+	l_rr.row_spacing << 4
+	l_rr.col_spacing << 4
+	
+
+	# -------------
+	# Left
+	# -------------
+	_local l_left << rowcol.new(l_rr,5,1)
+	l_left.row_spacing << 4
+
+	# _local l_m << menubar.new(l_left)
+	# _local l_p << pulldown_menu.new("File Actions")
+	# l_m.add(menu_button_item.new(l_m,"File",l_p))
+		
+	# The buttons for PS
+	_self.build_sym_buttons_gui(l_left)
+
+	# The list of modules with pictures
+	_self.build_module_symbol_list_gui(l_left)
+
+	# Preview
+	_local l_r << rowcol.new(l_left)
+	l_r.border? << _true 
+	l_r.row << 5
+	# Build Preview canvas with Draw buttons
+	_self.build_preview(l_r)
+
+	# -------------
+	# Right
+	# -------------
+	# Options
+	_local l_right << rowcol.new(l_rr,2,1)
+	l_right.row_spacing << 5
+	# Option buttons for in a toolbar
+	_local l_opts << rowcol.new(l_right,1,6,:pixel,
+				    :col_alignment,:left)
+	_self.build_option_buttons_gui(l_opts)
+	# rwo_hierarhy_follow button
+	_self.add_rh_follow(l_opts)
+
+	# Build the tabs
+	_local l_tabs << rowcol.new(l_right,1,1)
+	_self.build_tabs(l_tabs)
+
+	# Dialog buttons
+	bbutton_rc << rowcol.new( outer_rc, 1, _unset , :pixel,
+				  :col_alignment, :right,
+				  :style,:button_box)
+	bbutton_rc.row << 4
+	bbutton_rc.col << 1
+	_self.build_dialog_buttons(bbutton_rc)
+
+	>> outer_rc
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_dialog_buttons(p_container)
+	## 
+	##
+
+	_local l_button_width << 70
+	
+	.ui_items[:refresh] << button_item.new( p_container,
+						_self.message(:btn_refresh),
+						_self, :refresh|()|,
+						:min_width, l_button_width,
+						:enabled?, _true,
+						:identifier, :draw )
+	
+	.ui_items[:style_versions] << button_item.new( p_container,
+						       _self.message(:btn_versions),
+						       _self, :versions|()|,
+						       :min_width, l_button_width,
+						       :enabled?, _true)
+	
+	.ui_items[:open] << button_item.new( p_container,
+					     _self.message(:btn_open),
+					     _self, :open|()|,
+					     :min_width, l_button_width )
+
+	.ui_items[:save] << button_item.new( p_container,
+					     _self.message(:btn_save),
+					     _self, :save|()|,
+					     :min_width, l_button_width )
+
+	.ui_items[:save_as] << button_item.new( p_container,
+					     _self.message(:btn_save_as),
+					     _self, :save_as|()|,
+					     :min_width, l_button_width)
+
+	.ui_items[:close] << button_item.new( p_container, _self.message(:btn_close),
+					      _self, :close|()|,
+					      :min_width, l_button_width,
+					      :identifier, :close )
+	
+	.ui_items[:help] << button_item.new( p_container, _self.message(:btn_help),
+					     _self, {:|help()|,40300},
+					     :min_width, l_button_width,
+					     :identifier, :help )
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_tabs(p_container)
+	## 
+	##
+
+	_local tb << .ui_items[:tb] <<
+		tab_box.new(p_container,:model,_self,
+			    :page_change_selector,:|page_changed()|)
+
+	_self.build_properties_tab(tb)
+	_self.build_goto_mappings_tab(tb)
+	_self.build_rwo_styles_tab(tb)
+	_self.build_default_properties_tab(tb)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_properties_tab(a_tab)
+	## 
+	## 
+
+	_local tab1 << rowcol.new( a_tab,1,1,:pixel,
+				   :style, :nested,
+#				   :top_spacing, 5,
+#				   :bottom_spacing, 5,
+#				   :left_spacing, 5,
+#				   :right_spacing, 5,
+#				   :row_spacing, 5,
+				   :default_col_alignment, :fill,
+				   :default_row_alignment, :fill,
+				   :row_resize_values, { 0, 100, 0 })
+	
+	tab1.tab_label << _self.message(:tab_properties)
+
+	_self.build_properties_gui(tab1)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_rwo_styles_tab(a_tab)
+	## 
+	## 
+	
+	_local tab1 << rowcol.new( a_tab, 2, 1, :pixel,
+				   :style, :nested,
+#				   :top_spacing, 5,
+#				   :bottom_spacing, 5,
+#				   :left_spacing, 5,
+#				   :right_spacing, 5,
+#				   :row_spacing, 5,
+				   :default_col_alignment, :fill,
+				   :default_row_alignment, :fill,
+				   :row_resize_values, { 0, 100, 0 })
+	
+	tab1.tab_label << _self.message(:tab_rwo_mappings)
+
+	_local l_btns << rowcol.new(tab1,1)
+	l_btns.row << 1
+	_local l_button_width << 80
+	l_i<<.ui_items[:attach] << button_item.new(l_btns,
+						   _self.message(:btn_attach),
+						   _self, :attach|()|,
+						   :min_width, l_button_width,
+						   :enabled?, _false,
+						   :identifier,:attach)
+	
+	l_i<<.ui_items[:detach] << button_item.new(l_btns,
+						   _self.message(:btn_detach),
+						   _self, :detach|()|,
+						   :min_width, l_button_width,
+						   :enabled?, _false,
+						   :identifier,:detach)
+
+	_local l_lab2 << .ui_items[:rwo_list_label] <<
+		label_item.new(l_btns,_self.default_rwo_list_label_text,
+			       :aspect,:rwo_list_label_text,
+			       :model,_self)
+	l_lab2.left_spacing << 5
+	
+	# The list with rwo styles for the selected geom
+	_local l_rwo_list << .ui_items[:rwo_list] <<
+		tree_item.new( tab1,
+			       :model, _self,
+			       :column_widths,_self.rwo_list_widths,
+			       :column_headings,_self.rwo_list_headings,
+			       :aspect, :rwo_styles,
+			       :allow_filtering?,_true ,
+			       :data_selector, :rwo_styles,
+			       :select_notifier, :rwo_style_item_select|()|,
+			       :double_click_notifier, :|double_click_rwo_style()|,
+			       :mode, :many,
+			       :min_width,250,
+			       :identifier, :rwo_list_item )	
+	l_rwo_list.col << 1
+	l_rwo_list.row << 2
+
+	>> tab1
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_goto_mappings_tab(a_tab)
+	## 
+	## 
+	_local l_tab2 <<  rowcol.new( a_tab, 2, 1, :pixel,
+				      :style, :nested,
+				      :default_col_alignment, :fill,
+				      :default_row_alignment, :fill,
+				      :row_resize_values, { 0, 100, 0 })
+
+	_local l_btns << rowcol.new(l_tab2,1)
+	l_btns.row << 1
+	_local l_button_width << 80
+	l_i<<.ui_items[:set_goto] << button_item.new( l_btns,
+						      _self.message(:btn_set),
+						      _self, :set_goto_mapping|()|,
+						      :min_width, l_button_width,
+						      :enabled?, _false,
+						      :identifier,:set)
+	l_i<<.ui_items[:clear_goto] << button_item.new( l_btns,
+							_self.message(:btn_clear),
+							_self, :clear_goto_mapping|()|,
+							:min_width, l_button_width,
+							:enabled?, _false,
+							:identifier,:clear)
+
+	
+	l_tab2.tab_label << _self.message(:tab_goto)
+	gui_widget << rowcol.new(l_tab2,1,_unset ,:pixel,
+				 :outer_spacing,1,:row_spacing,1,
+				 :default_row_alignment, :fill,
+				 :default_col_alignment, :fill)
+	
+	gui_widget.row << 2
+	rhc << rwo_hierarchy_component.new( :rwo_list, _self,
+					    :ace_control, _self.ace_control,
+					    :mode, :many,
+					    :display_geometry?,_true,
+					    :combo_box_item?,_false,
+					    :display_collections_without_geometry?, _false,
+					    :select_types,
+					    { :dataset, :header, :collection, :geometry},
+					    :report_types,
+					    { :collection, :geometry})
+
+	.ui_items[:rwo_hierarchy_list] << rhc
+
+	# Add event handlers for selection
+	rhc.add_event_handler( :select, _self, :handle_rwo_list_selected|()| )
+
+	_local l_gmaps << .ui_items[:goto_mappings] <<
+		tree_item.new(gui_widget,
+			:model, _self,
+			:column_widths,{20,50,50},
+			:aspect, :goto_mappings,
+			:data_selector, :goto_mappings,
+			:select_notifier, :goto_mapping_select|()|,
+			:double_click_notifier, :|double_click_goto_mapping()|,
+#			:mode, :one,
+			:mode, :many,
+			:identifier,:tree_item)
+	l_gmaps.agent.value_changed_notifier << :|goto_mapping_value_changed()|
+	l_gmaps.width << 220
+	rhc.build_gui(gui_widget)
+
+	>> l_tab2
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_default_properties_tab(a_tab)
+	## 
+	## 
+
+	_local tab1 << rowcol.new( a_tab,1,1,:pixel,
+				   :style, :nested,
+				   :default_col_alignment, :fill,
+				   :default_row_alignment, :fill,
+				   :row_resize_values, { 0, 100, 0 })
+	
+	tab1.tab_label << _self.message(:tab_default_properties)
+
+	_self.build_default_properties_gui(tab1)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_sym_buttons_gui(p_container)
+	#
+	## the toolbar with action buttons on symbols
+	# 
+	
+	_local l_btns1 << rowcol.new(p_container,1,4,:pixel)
+	_local l_tb << toolbar.new(l_btns1)
+	l_tb.border? << _true 
+
+
+	l_i <<.ui_items[:new] <<
+		image_button_item.new(l_tb,
+				      {"new",:ui_resources},
+				      _self, :add|()|)
+	l_i.tooltip << _self.message(:tt_new)
+
+	
+	_local l_file << smallworld_product.get_resource_file("traffic_light_grey.png",
+							      :icons,:ui_resources)
+	_local l_image << raster_image.new_from_file(l_file)
+	l_i <<.ui_items[:realise] <<
+		image_button_item.new( l_tb,
+				       {:traffic_light_green,:ui_resources},
+				       _self, :realise|()|,
+				       :insensitive_image,l_image,
+				       :enabled?,_false)
+	l_i.tooltip << _self.message(:tt_new_from_def)
+
+	l_i << .ui_items[:delete_symbol] <<
+		image_button_item.new( l_tb,
+				       {:delete_object,:ui_resources},
+				       _self, :delete|()|,
+				       :enabled?,_false)
+	l_i.tooltip << _self.message(:tt_delete_sym)
+
+
+	l_i << .ui_items[:draw_btn] <<
+		image_button_item.new(l_tb,
+				      {"draw",:raster_symbols_gui},
+				      _self, :draw|()|,
+				      :enabled?,_false)
+	l_i.tooltip << _self.message(:tt_draw_sym)
+	
+	
+	l_file << smallworld_product.get_resource_file("highlight_grey.png",
+						       :bitmaps,:raster_symbols_gui)
+	l_image << raster_image.new_from_file(l_file)
+	l_i << .ui_items[:highlight?] <<
+		image_toggle_item.new(l_tb,
+				      {"highlight_off.png",:raster_symbols_gui},
+				      :insensitive_image,l_image,
+				      :model,_self,
+				      :value, _false,
+				      :change_selector,:|highlight_toggle_changed()|)
+	l_i.tooltip << _self.message(:tt_highlight_toggle)
+
+	l_i << .ui_items[:s_label] <<
+		label_item.new(l_tb,"",
+			       :model,_self,
+#			       :max_width,20,
+			       :aspect,:sstring)
+	l_i.left_spacing << 5
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_default_properties_gui(p_container)
+	## 
+	##
+	
+	_local l_item << .ui_items[:default_properties] <<
+		tree_item.new(p_container,
+			      :model, _self,
+			      :edit_always_on?,_false,
+			      :aspect, :default_properties,
+			      :data_selector, :default_properties,
+			      :select_notifier, :default_property_select|()|,
+#			      :double_click_notifier, :|double_click_default_property()|,
+#			      :double_click_notifier, :|prop_double()|,
+#			      :editor_required_notifier,:|default_prop_editor_required()|,
+#			      :edit_stop_notifier,:|edit_stop_default()|,
+			      :mode, :one,
+			      :width_in_cols,3,
+			      :column_widths,{150,270,70},
+			      :column_headings,{"Property","Value","Group"},
+			      :allow_filtering?,_false,
+			      :column_allow_visibility_change?,_false,
+			      :column_allow_visibility_manage?,_false,
+			      :identifier, :default_properties )
+
+	l_item.agent.value_changed_notifier << :|default_property_changed()|
+
+	_self.setup_value_formatters(l_item)
+	
+	>> l_item
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_properties
+	## 
+	## returns a rope with display trees for the default properties
+	##
+
+	_local l_defaults << raster_symbol_handler.grouped_defaults
+	
+	_local l_tree << rope.new()
+	_for i_key,i_val _over l_defaults.fast_keys_and_elements()
+	_loop
+		_local l_prop << property_list.new_with(:property_value,i_val,
+							:group,i_key[2])
+		_local l_dtree << display_tree.new(i_key[1],l_prop)
+
+		l_dtree.styled_string << styled_string.new(
+						 write_string(i_key[1]).capitalise, # Property name
+						 :tab,
+						 :value,:property_value, # Value
+						 :tab,
+						 write_string(i_key[2]).capitalise # Group
+						 )
+		l_tree.add(l_dtree)
+	_endloop
+
+	>> l_tree
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_property_select(p_elem,p_mod)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_property_changed(p_elem,p_val)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.double_click_default_property(p_elem)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_preview(p_container)
+	## 
+	## 
+	
+	preview_rc << rowcol.new(p_container, 1 , 1 , :pixel)
+	_local l_can << .preview_canvas << canvas.new( preview_rc,
+						       _self.canvas_width,
+						       _self.canvas_height,
+						       _unset,
+						       :row_alignment, :bottom,
+						       :col_alignment, :left,
+						       :model,_self,
+						       :resize?, _false,
+						       :retained?, _true )
+	>> l_can
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.add_rh_follow(p_container)
+	#
+	## Add Follow selection - select in list
+	#
+
+	_local l_tb << toolbar.new(p_container)
+	_local l_file << smallworld_product.get_resource_file("follow.png",
+							      :bitmaps,:raster_symbols_gui)
+	_local l_image << raster_image.new_from_file(l_file)
+	_local l_btn << .ui_items[:follow_selection?] <<
+		image_button_item.new(l_tb,{"follow.png",:raster_symbols_gui},
+				      _self,
+				      :|follow_select()|,
+				      :show_outer_border?,_true)
+	l_btn.col_alignment << :right
+	l_btn.tooltip << _self.message(:tt_follow_select)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.build_module_symbol_list_gui(p_container)
+	#
+	## Create module choice item and the list with symbols
+	# 
+	
+	_local l_mhead << rowcol.new(p_container,1,_unset,:pixel,
+				     :col_alignment,:left,
+				     :col_spacing,2)
+	
+	_local l_re << .ui_items[:restrict_modules] <<
+		image_toggle_item.new(l_mhead,{"locked.png",:ui_resources},
+				      :model,_self,
+				      :value,_false,
+				      :change_selector,:|restrict_changed()|)
+	_local l_mi << .ui_items[:modules] << text_choice_item.new(l_mhead,
+								   _self.message(:btn_module),
+								   :model,_self,
+								   :text_items,_self.module_names,
+								   :aspect,:module_name,
+ 								   :display_length,150,
+								   :change_selector,:|module_changed()|)
+	# The list with symbols
+	_local l_tr <<
+		.ui_items[:symbols] <<
+		tree_item.new(p_container,
+			      :model, _self,
+			      :column_widths,{100,400},
+			      :aspect, :available_symbol_names,
+			      :data_selector, :available_symbol_names,
+			      :select_notifier, :symbol_item_select|()|,
+#			      :editor_required_notifier,:|sym_editor_required()|,
+			      :double_click_notifier, :|double_click_symbol()|,
+#			      :edit_stop_notifier,:|stop_sym_name_edit()|,
+			      :mode, :one,
+			      :min_width,250,
+			      :identifier, :tree_item )
+	_self.add_to_symbols_popup(l_tr.popup_menu)
+
+	l_tr.row<<2
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.add_to_symbols_popup(p_menu)
+	#
+	## Add item(s) to the popup of the symbol (def) list
+	# 
+
+	# Add seperator
+	p_menu.add_separator()
+
+	# Add Copy action
+	.ui_items[:copy_symbol] << button_item.new_safe(p_menu,
+							_self.message(:btn_copy_sym),
+							_self,:|copy_symbol()|)
+
+	# Add Show in Explorer
+	.ui_items[:show_in_explorer] << button_item.new_safe(p_menu,
+							     _self.message(:btn_show_in_expl),
+							     _self,:|show_in_explorer()|)
+
+	.ui_items[:show_symbols_only?] <<
+		toggle_item.new(p_menu,_self.message(:show_symbols_only?),
+				:model,_self,
+				:value,_self.show_symbols_only?,
+				:change_selector,:|sym_only()|)
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.sym_only(p_value)
+	## 
+	## 
+	#DEBUG write("sym_only",p_value)
+	_self.changed(:available_symbol_names,:renew)
+	_self.manage_actions()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.copy_symbol()
+	#
+	## Callback from popup that copies the selected symbol.
+	## The copy itself is handled by .owner
+	# 
+
+	_local l_sym << _self.current_symbol
+	_local l_curmod << _self.current_module_name
+	_if l_sym _isnt _unset 
+	_then
+		_if l_curmod ~= l_sym.source_module_name
+		_then 
+			_if _self.show_question(_self.message(:yes_message),
+						_self.message(:no_message),
+						_self.message(:confirm_copy,_unset,
+							      _self.current_module_name))
+			_then
+				.owner.copy_symbol(l_sym.name,l_curmod)
+			_endif
+		_else
+			.owner.copy_symbol(l_sym.name)
+		_endif
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.show_in_explorer()
+	## 
+	##
+	
+	_local l_path << _self.path_for_selected_symbol()
+	_if l_path _is _unset 
+	_then _return 
+	_endif
+
+	_local l_str << write_string("EXPLORER.EXE /select,",l_path)
+	#DEBUG write(l_str)
+	system.do_command(l_str)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.path_for_selected_symbol()
+	##
+	## P_VALUE is the value from a tree selection with :name and
+	## :type (:sym or :def)
+	##
+	
+	_local l_some
+	_if (l_some << _self.current_selection) _is _unset 
+	_then _return 
+	_endif
+
+	_local l_value << l_some.value
+	_local l_path
+	
+	_if l_value[:type] = :def
+	_then
+		_local l_def << .owner.symbol_definitions[l_value[:name]]
+		l_path << smallworld_product.get_resource_file(l_def[:filename],
+							       :bitmaps,
+							       l_def[:module_name])
+		
+	_elif l_value[:type] = :sym
+	_then
+		_local l_sym << .owner.symbol(l_value[:name])
+		l_path << l_sym.filename
+	_endif
+
+	l_path << system.canonicalise(l_path)
+
+	>> l_path
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.sym_editor_required(p_tree, p_index, p_value_id, p_agent)
+	#
+	## Editor required method for the symbol (def) list.
+	#
+	
+	#DEBUG write("sym_editor_required",p_tree, p_index, p_value_id, p_agent)
+	>> _if (l_val << p_tree.value(:name)) = "default" _orif
+	       (p_tree.value(:type) = :sym _andif
+		.owner.symbol(l_val).readonly? _is _true)
+	   _then >> _unset
+	   _else _local l_ed << .in_place_editors[:name]
+		 l_ed.value << l_val
+		 >> l_ed
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.stop_sym_name_edit(p_elem,p_id,p_value_id,p_editor)
+	#
+	## Activates rename of selected symbol
+	#
+	
+	_local l_old << p_elem.key
+	_local l_new << p_elem.value[p_value_id]
+	_local l_type << p_elem.value[:type]
+	#DEBUG write("symbol_name_changed(",l_type,p_elem,p_id,p_value_id,p_editor," ",l_new)
+
+	
+	_local l_ok? << _self.perform_safely(:int!rename|()|,l_type,l_old,l_new)
+	_if l_ok?  _is _true 
+	_then _for i _over .ui_items[:symbols].tree_manager.children()
+	      _loop _if i.value[:name] = l_new
+		    _then i.selected? << _true 
+		    _endif
+	      _endloop
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.int!rename(p_type,p_old,p_new)
+	## 
+	##
+	
+	_local l_ok?
+	_try _with p_cond
+		l_ok? << _if p_type = :sym
+			 _then >> .owner.rename_symbol(p_old,p_new)
+			 _elif p_type = :def
+			 _then >> .owner.rename_symbol_definition(p_old,p_new)
+			 _endif
+	_when error
+		_self.show_alert(p_cond.report_contents_string)
+		.ui_items[:symbols].refresh()
+	_endtry
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.double_click_goto_mapping(p_display_tree)
+	## 
+	## 
+	
+_endmethod
+$
+
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.goto_mapping_value_changed(p_dtree,p_id,p_new,p_old,p_editor)
+	## 
+	## 
+	_global dt
+	dt << p_dtree
+	#DEBUG write(_self,".goto_mapping_value_changed(",p_dtree,p_id,p_new,p_old,p_editor,")")
+	_local l_mapping << p_dtree.value[:mapping]
+	>> _if l_mapping _isnt _unset 
+	   _then >> l_mapping.perform(p_id.with_chevron,p_new)
+	   _else >> p_dtree.value[p_id] << p_old
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.goto_mappings
+	#
+	## returns a display tree with goto_mappings as defined by the
+	## raster_symbol_handler
+	#
+
+	_local l_trees << property_list.new()
+	
+	# The generic mappings
+	_self.generic_goto_mappings(l_trees)
+
+	# The specialized draws
+	_self.specialised_mappings(l_trees)
+
+	# The rwo/app_type mappings
+	_self.rwo_goto_mappings(l_trees)
+
+	>> l_trees
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.generic_goto_mappings(p_tree)
+	#
+	## Adds to P_TREE a display tree with generic goto mappings
+	#
+	
+	_local l_gen << raster_symbol_handler.default_goto_mappings
+
+	_local l_key << :generic
+	l_tree1 << p_tree[l_key] << display_tree.new(l_key)
+	l_tree1.styled_string << {_self.message(:title_generic)}
+
+	_local lgi << _self.gen_icons
+	_for i_key,i_mapping _over l_gen.fast_keys_and_elements()
+	_loop
+		_local l_dt << display_tree.new(i_key,property_list.new())
+		_if i_mapping.is_kind_of?(goto_mapping)
+		_then
+			_local l_sym << raster_symbol_handler.symbol(i_mapping.symbol)
+			#DEBUG write(i_key," mapped symbol - ",i_mapping.symbol,"-",l_sym)
+			_if l_sym _isnt _unset 
+			_then
+				_local (l_name,l_path) << l_sym.thumbnail()
+				l_dt.styled_string <<
+					styled_string.new(:image,{lgi[i_key],:ui_resources},
+							  :toggle,:use?,
+							  :image,{l_name,l_sym.source_module_name},
+							  :value,:symbol_name)
+			_else 
+				l_dt.styled_string <<
+					styled_string.new(:image,{lgi[i_key],:ui_resources},
+							  :toggle,:use?,
+							  :image,{:missing_picture,:raster_symbols_core},
+							  :value,:symbol_name)
+			_endif
+			
+			l_dt.value[:symbol_name] << i_mapping.symbol
+			l_dt.value[:use?] << i_mapping.use?.default(_true)
+			l_dt.value[:mapping] << i_mapping
+		_else 
+			l_dt.styled_string <<
+				styled_string.new(:image,{lgi[i_key],:ui_resources},
+						  :toggle,:use?,
+						  :value,"")
+		_endif
+		l_tree1.add_child(l_dt)
+	_endloop
+	>> l_tree1
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.specialised_mappings(p_tree)
+	#
+	## Adds the tree with specialized mappings to P_TREE
+	# 
+
+	#DEBUG write(" specialised_mappings tree " ,p_tree)
+	_local l_maps << .owner.specialised_mappings
+	
+	_local l_key << :specialised
+	_local l_tree << p_tree[l_key] << display_tree.new(l_key)
+	l_tree.styled_string << {_self.message(:title_specialised)}
+	
+	_for i_type,i_elem _over l_maps.fast_keys_and_elements()
+	_loop
+		_local l_dt
+		_if i_elem _is _unset 
+		_then
+			l_dt << display_tree.new(i_type)
+			_local l_string << _self.message(i_type,write_string(i_type))
+			l_dt.styled_string << {write_string(l_string,%:)}
+		_else
+			_local l_sym << .owner.symbol(i_elem.symbol)
+			l_dt << display_tree.new(i_type,i_elem.properties)
+			l_m << write_string(_self.message(i_type,write_string(i_type)),%:)
+			_if l_sym _is _unset
+			_then
+				l_dt.styled_string <<
+					styled_string.new(l_m,
+							  :image,{:missing_picture,:raster_symbols_core},
+							  :value,:symbol)
+			_else
+				_local (l_name,l_path) << l_sym.thumbnail()
+				l_dt.styled_string <<
+					styled_string.new(l_m,
+							  :image,{l_name,l_sym.source_module_name},
+							  :value,:symbol)
+			_endif
+		_endif
+		l_tree.add_child(l_dt)
+	_endloop
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_goto_mappings(p_tree)
+	#
+	## Adds to P_TREE a display tree with rwo_goto_mappings
+	#
+	_local l_key << :specific
+	_local l_tree2 << p_tree[l_key] << display_tree.new(l_key)
+	l_tree2.styled_string << _self.message(:title_specific)
+	
+	_local l_maps << raster_symbol_handler.goto_mappings
+	_for i_vec,i_map _over l_maps.fast_keys_and_elements()
+	_loop
+		_local l_sym << raster_symbol_handler.symbol(i_map.symbol)
+		_local l_thm,l_name
+		_local l_imgvec << {:img,""}
+		_if l_sym _isnt _unset 
+		_then
+			(l_thm,l_name) << l_sym.thumbnail()
+			l_imgvec << {write_string(l_thm),l_sym.source_module_name}
+		_else
+			l_imgvec << {:missing_picture,:raster_symbols_core}
+		_endif
+		_local l_props << property_list.new_with(:mapping,i_map)
+		l_props.add_all(i_map.properties)
+		_local l_elem << display_tree.new(i_map,l_props)
+		l_elem.styled_string <<
+			styled_string.new(:image,l_imgvec,
+					  :toggle,:use?,
+					  :toggle,:mapped?,
+					  :gray,
+   					  :value,:symbol,:bold,
+					  :value,:external_rwo_name,:normal,
+					  :value,:external_app_name)
+		l_tree2.add_child(l_elem)
+	_endloop
+	>> l_tree2
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.handle_rwo_list_selected(p_1,p_2)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.refresh()
+	# 
+	## Renew picture symbols and definitions, the rwo_styles, and
+	## the module list text item
+	#
+	.ui_items[:symbols].refresh(:renew)
+	.ui_items[:rwo_list].refresh(:renew)
+	_self.changed(:rwo_list_label_text)
+	.ui_items[:modules].text_items << _self.module_names
+	.ui_items[:goto_mappings].refresh(:renew)
+	.ui_items[:default_properties].refresh(:renew)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.safe_draw_preview(p_name)
+	## 
+	## 
+	>> _self.perform_safely(:draw_preview|()|,p_name)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.draw_preview(p_name)
+	## 
+	## 
+	#DEBUG write("Draw preview ",p_name)
+	.preview_canvas.clear()
+	_if p_name _is _unset 
+	_then _return _false 
+	_endif
+
+	_local l_sym << .owner.symbol(p_name)
+
+	# Check size against preview canvas
+	_if l_sym.width > _self.canvas_width _orif
+	    l_sym.height > _self.canvas_height
+	_then 
+		.preview_canvas.transform << transform.new().translate(0,-40)
+		l_sym.default_text_style.draw_sample(.preview_canvas,
+						     .preview_canvas.bounds.new_enlarging(2),
+						     :sample_string,
+						     _self.message(:preview_too_large))
+		_return 
+	_endif
+	
+	_local l_height << .preview_canvas.height
+	_local l_width << .preview_canvas.width
+	_local l_sym_bounds << l_sym.raster_bounds
+	_local l_shiftx << (l_width/2.0-l_sym.width/2.0).rounded
+	_if l_sym.type = :grid
+	_then
+		_local l_coord1 << coordinate.new(1,l_sym.height/2.0)
+		_local l_coord2 << coordinate.new(l_sym.width,l_sym.height/2.0)
+		_local l_shifty << (-l_height/2.0+l_sym.height/2.0).rounded
+		.preview_canvas.transform << transform.new().translate(l_shiftx,l_shifty).
+					     mirror_about(l_coord1,l_coord2)
+
+	_else
+		_local l_shifty << (l_height/2.0-l_sym.height/2.0).rounded
+		.preview_canvas.transform << transform.new().translate(l_shiftx,l_shifty)
+	_endif
+
+	_self.draw_grid_lines()
+	_self.draw_bounds(l_sym_bounds)
+	l_sym.draw_preview_on(.preview_canvas)
+	_self.draw_offset(l_sym)
+	_self.draw_raster_justification(l_sym)
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw_grid_lines()
+	## 
+	## 
+	_local l_style << .styles[:prev_grid]
+	_local l_grd_size << 10 # pixels
+	_for x _over range(l_grd_size,_self.canvas_width,l_grd_size)
+	_loop
+		_for y _over range(l_grd_size,_self.canvas_height,l_grd_size)
+		_loop
+			.preview_canvas.draw_segment(l_style,x,y,x,y)
+		_endloop
+	_endloop
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw_bounds(p_bb)
+	## 
+	##
+	
+	_local l_bb << bounding_box.new_enclosing(p_bb,1)
+	_local l_style << _if .ui_items[:highlight?].value = _true 
+			  _then >> :bb_hi
+			  _else >> :bb
+			  _endif
+	l_bb.draw_on(.preview_canvas,_self.style_for(l_style))
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw_raster_justification(p_sym)
+	## 
+	##
+	_local l_p,l_tj
+	_if (l_tj << p_sym.text_raster_justification) _is _unset
+	_then _return 
+	_endif
+	
+	_local l_something
+	_local l_bounds << p_sym.raster_bounds
+	_local l_text_style << _if .ui_items[:highlight?].value _is _true 
+			       _then >> p_sym.highlight_text_style
+			       _else >> p_sym.text_style
+			       _endif
+	_local l_base_y << l_bounds.ymax
+	_local l_canvas << .preview_canvas
+	_local l_style << .styles[:just]
+	
+	_if l_bounds.responds_to?(l_tj)
+	_then
+		l_something << l_bounds.perform(l_tj)
+		_local l_coord << _if p_sym.type = :raster
+				  _then >> pixel_coordinate.new(l_something.x.rounded,
+								(l_base_y-l_something.y).rounded)
+				  _else >> pixel_coordinate.new(l_something.x.rounded,
+								(l_bounds.xmin+l_something.y).rounded)
+				  _endif
+		
+		_local (l_hline,l_vline) << _self.cross_on_xy(l_coord.x,l_coord.y)
+		l_hline.draw_on(l_canvas,l_style)
+		l_vline.draw_on(l_canvas,l_style)
+
+		_if p_sym.draw_text?
+		_then
+			l_canvas.draw_vtext_transform(l_text_style,
+						      l_coord.x,
+						      l_coord.y,
+						      "TXT",
+						      _unset,_unset,
+						      p_sym.text_scale_factor,
+						      _unset,
+						      p_sym.text_justification)
+
+		_endif
+
+	_elif l_tj = :text_coordinate
+	_then
+		l_something << p_sym.text_coordinate
+		_if l_something _is _unset 
+		_then condition.raise(:invalid_symbol_property,
+				      :property,:text_coordinate,
+				      :value,l_something,
+				      :symbol,p_sym)
+		_endif
+		_if p_sym.type = :grid
+		_then
+			#  Mirror against already mirrored symbol by canvas transform
+			_local l_transform << transform.new().mirror_about(l_bounds.centre_left,
+									   l_bounds.centre_right)
+			l_something << l_something.transformed(l_transform)
+		_endif
+
+		_local (l_hline,l_vline) << _self.cross_on_xy(l_something.x,
+							      l_base_y-l_something.y)
+		l_hline.draw_on(l_canvas,l_style)
+		l_vline.draw_on(l_canvas,l_style)
+		
+		_if p_sym.draw_text?
+		_then
+			l_canvas.draw_vtext_transform(l_text_style,
+						       l_something.x,
+						       l_base_y-l_something.y,
+						       "TXT",
+						       _unset,_unset,
+						       p_sym.text_scale_factor,
+						       _unset,
+						       p_sym.text_justification)
+
+			
+		_endif
+		
+	_elif l_tj = :text_box
+	_then
+		_local l_transform << transform.new().mirror_about(l_bounds.centre_left,
+								   l_bounds.centre_right)
+		l_something << p_sym.text_box.transformed(l_transform)
+		l_something.draw_on(l_canvas,l_style)
+		_if p_sym.draw_text?
+		_then l_text_style.draw_sample(l_canvas,l_something.bounds,
+				       :sample_string,"TXT")
+		_endif
+		
+	_endif
+	>> l_something
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.cross_on_xy(p_x,p_y,_optional p_len)
+	## 
+	## returns cross segments on P_X,P_Y with P_LEN (default 4)
+	_local l_len << p_len.default(4)
+	# horizontal line
+	_local l_hline << sw:coords_vector.new_with_xy(p_x-l_len,
+						       p_y,
+						       p_x+l_len,
+						       p_y)
+	
+	# Vertical line
+	_local l_vline << sw:coords_vector.new_with_xy(p_x,
+						       p_y-l_len,
+						       p_x,
+						       p_y+l_len)
+	
+	>> l_hline,l_vline
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}) 
+_method raster_symbol_manager_gui.draw_offset(p_sym)
+	## Draw cross on the coordinate where the drawing point is
+	## after applying the pixel_offset defined in P_SYM
+	##
+
+	_local l_pbounds << p_sym.raster_bounds
+	
+	_local l_offset << p_sym.pixel_offset
+	_if l_offset _is _unset 
+	_then l_offset << coordinate.new(l_pbounds.bottom_centre,0)
+	_endif
+	
+	_local l_style << _self.style_for(:offset)
+	_local l_x << (l_pbounds.xmin-l_offset.x).rounded
+	_local l_y << _if p_sym.type = :raster
+		      _then >> (l_pbounds.height-l_offset.y).rounded
+		      _else >> l_offset.y.rounded #canvas is mirrored
+		      _endif
+	_local (l_hline,l_vline) << _self.cross_on_xy(l_x,l_y)
+	l_hline.draw_on(.preview_canvas,l_style)
+	l_vline.draw_on(.preview_canvas,l_style)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw()
+	#
+	## Button action that draws the current symbol on the centre of
+	## the window of the current map view, or on the point(s) of a
+	## trail when there is one. Updates speed label.
+	# 
+
+	_local l_symbol << _self.current_symbol
+	_if l_symbol _is _unset 
+	_then _return _false 
+	_endif
+	
+	_local l_app << _self.application
+	_local l_mapm << l_app.plugin(:maps)
+	_if l_mapm _is _unset 
+	_then _return 
+	_endif
+
+	_local l_win << l_mapm.current_map_view.window
+	_local l_trail << l_mapm.current_trail.coords
+	_local l_coord << _if l_trail.size = 1
+			  _then >> {l_trail.first_coord}
+			  _elif l_trail.size > 1
+			  _then >> l_trail
+			  _else >> {l_win.centre}
+			  _endif
+	
+
+	#l_symbol.validate_properties()
+	_if l_symbol.draw_text? _is _true 
+	_then l_string << "TXT"
+	_endif
+
+	_local l_num << 0
+	_local l_sum << 0
+	_for i_coord _over l_coord.fast_elements()
+	_loop
+		_local l_t1 << system.elapsed_seconds()
+		l_symbol.draw_on(l_win,i_coord,_self.highlight?,l_string)
+		_local l_t2 << system.elapsed_seconds()
+		l_sum +<< (l_t2-l_t1)*1000
+		l_num +<< 1
+	_endloop
+	
+	_local l_format << _self.speed_string_format
+	
+	.sstring << _if l_num = 1
+		    _then >> _self.message(:speed_label1,_unset,
+					   l_format.format(l_sum))
+		    _else >> _self.message(:speed_label2,_unset,
+					   l_num,
+					   l_format.format((l_sum/l_num)))
+		    _endif
+	_self.changed(:sstring)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.sstring
+	#
+	## label text method for speed string
+	# 
+	>> .sstring
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_selection
+	# 
+	## Current selection in symbol list
+	#
+	>> .ui_items[:symbols].selection.an_element()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_symbol
+	## 
+	## 
+	_local l_sel << _self.current_selection
+	_if l_sel _isnt _unset _andif
+	    l_sel.value[:type] = :sym
+	_then
+		_return .owner.symbol(l_sel.value[:name])
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.note_change(p_who,p_what,p_data)
+	## 
+	## 
+	#DEBUG write(_self," notes ",p_who,%,,p_what,%,,p_data)
+	_if p_who = .owner
+	_then
+		_if (p_what = :available_symbol_names _orif
+		     p_what = :goto_mapping)
+		_then _self.refresh()
+		_elif p_what = :modules_for_pictures
+		_then .ui_items[:modules].text_items << _self.module_names
+		_elif p_what = :available_colourmaps
+		_then _self.update_named_colourmap_list()
+		_elif p_what = :defaults
+		_then .ui_items[:default_properties].refresh(:renew)
+		_endif
+		
+	_elif p_who _is .plugin _andif p_what _is :property
+	_then
+		_self.handle_property_change(_scatter p_data)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.handle_property_change(p_prop,p_value)
+	## 
+	## 
+	#DEBUG write(_self," property ",p_prop," changed ",p_value)
+	_if (l_item << .ui_items[p_prop]) _isnt _unset 
+	_then 
+		l_item.set_value_quietly(p_value)
+	      _if p_prop=:on_off
+	      _then l_item.image << _self.power_icon(p_value)
+	      _endif 				       
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.available_symbol_names
+	#
+	## content for tree view with picture symbols and picture
+	## symbol definitions
+	#
+	
+	_local l_current_module_name << _self.current_module_name
+	_local l_restrict_to_current_module? << .restrict_one_module?
+	
+	# Add the picture symbols
+	_local l_names << .owner.available_symbol_names
+	_local l_tree << sorted_collection.new(_unset,
+					       _proc @sn(sym1,sym2)
+						       >> sym1.key.canonical_cf(sym2.key)
+					       _endproc)
+	_for i_name _over l_names.fast_elements()
+	_loop
+		_if (l_s << .owner.symbol(i_name)).hidden?
+		_then _continue
+		_endif
+		_if l_restrict_to_current_module? _andif
+		    l_s.source_module_name ~= l_current_module_name
+		_then _continue 
+		_endif
+		_local l_elem << display_tree.new(i_name,property_list.new())
+		l_elem.styled_string << _self.styled_string_for_symbol(i_name)
+		l_elem.value[:name] << i_name
+		l_elem.value[:type] << :sym
+		l_tree.add(l_elem)
+	_endloop
+
+	_if _self.show_symbols_only? _is true
+	_then _return l_tree
+	_endif
+	
+	# Add the symbol definitions
+	l_names << .owner.symbol_definitions
+	_for i,i_val _over l_names.fast_keys_and_elements()
+	_loop
+		_if l_restrict_to_current_module? _andif
+		    i_val[:module_name] ~= l_current_module_name
+		_then _continue
+		_endif
+		_local l_elem << display_tree.new(i,property_list.new())
+		l_elem.styled_string << _if .owner.symbol(i) _isnt _unset
+					_then >> _self.display_styles[:symdef_realised]
+					_else >> _self.display_styles[:symdef]
+					_endif
+		l_elem.value[:name] << i
+		l_elem.value[:type] << :def
+		l_tree.add(l_elem)
+	_endloop
+	>> l_tree
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.styled_string_for_symbol(p_key)
+	## 
+	## returns normal display_style with thumbnail for P_KEY
+
+	_local l_symbol << .owner.symbol(p_key)
+	_local (l_name,l_path,l_ras) << l_symbol.thumbnail()
+	_local l_type << _if p_key = "default" _then >> :disabled _else >> :normal _endif
+	_local l_styled_string << styled_string.new(
+					  :image,{l_name,l_symbol.source_module_name},
+					  l_type,
+					  :value,:name,:tab,:value,:type)
+	>> l_styled_string
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.style_for(p_key)
+	## 
+	## 
+	>> _if (l_style << .styles[p_key]) _isnt _unset 
+	   _then >> l_style		   
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.highlight?
+	## 
+	## 
+	>> .ui_items[:highlight?].value
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.enable_name_change?(p_boolean)
+	## 
+	##
+	>> .in_place_editors[:name].readonly? << (p_boolean _is _false)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.symbol_item_select( p_selection, p_by_user?)
+	#
+	## Selector method of the list with raster symbol (definitions)
+	#
+
+	#DEBUG write("Symbol select")
+	#DEBUG _global ss
+	#DEBUG ss << p_selection
+	
+	_self.enable_name_change?(_false)
+
+	_local l_selection << p_selection.an_element()
+	_self.manage_actions()
+	_local l_enable? << l_selection _isnt _unset
+	_if l_enable? _andif l_selection.value(:type) = "sym"
+	_then
+		_self.safe_draw_preview(l_selection.value(:name))
+	_else
+		.preview_canvas.clear()
+	_endif
+	
+	_self.changed(:property_tree,:renew)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.manage_actions()
+	## 
+	##
+
+	_local l_selected? << _not (l_sel<<.ui_items[:symbols].selection).empty?
+	_local l_sym_selected? << _false 
+	_if l_selected?
+	_then l_sym_selected? << l_sel.an_element().value[:type] = :sym
+	_endif
+	
+	.ui_items[:draw_btn].enabled? << l_sym_selected?
+	.ui_items[:save].enabled? << _true 
+	.ui_items[:save_as].enabled? << _true 
+	.ui_items[:delete_symbol].enabled? << l_selected?
+	.ui_items[:realise].enabled? << (l_selected? _is _true _andif l_sym_selected?  = _false)
+
+	.ui_items[:copy_symbol].enabled? << l_sym_selected?
+	.ui_items[:show_in_explorer].enabled? << l_selected?
+
+	# RWO Styles
+	_local l_mprefx << .owner.custom_draw_method_base
+	_local l_rwo_style_selected? << _not (l_sel<<.ui_items[:rwo_list].selection).empty?
+	.ui_items[:attach].enabled? << l_sym_selected? _and
+				       l_rwo_style_selected? 
+	.ui_items[:detach].enabled? << l_rwo_style_selected? _andif
+				       l_sel.an_element().key.custom_draw_method.index_of_seq(l_mprefx) _isnt _unset
+
+	_local l_selected_goto_mapping? << _not .ui_items[:goto_mappings].selection.empty?
+	.ui_items[:set_goto].enabled? << l_sym_selected? _and l_selected_goto_mapping?
+	.ui_items[:clear_goto].enabled? << l_sym_selected? _and l_selected_goto_mapping?
+
+	# Editor restrictions
+	.in_place_editors[:value_colour_scheme].items << _self.value_schemes()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.double_click_symbol(p_selection)
+	#
+	## If P_SELECTION is an unrealised sps definition, user will be
+	## asked to create a symbol. Else it will start editting the
+	## name if it authorised to do so
+	#
+
+	#DEBUG write(_self,"double_click_symbol(",p_selection,%))
+	_if p_selection.value(:type) = :def _andif .owner.symbol(p_selection.value(:name)) _is _unset 
+	_then
+		_if _self.show_question(_self.message(:yes_message),
+					_self.message(:no_message),
+					_self.message(:realise_q))
+		_then
+			_self.perform_safely(:|realise()|,p_selection)
+		_else
+			_self.enable_name_change?(_true)
+			.ui_items[:symbols].edit_selection()
+		_endif
+	_else
+		_self.enable_name_change?(_true)
+		.ui_items[:symbols].edit_selection()
+	_endif	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.realise(_optional p_selection)
+	## 
+	##
+
+	_local l_selection << p_selection.default(_self.current_selection)
+	_self.perform_safely(:|int!realise()|,l_selection)
+			     
+	# we don't have to refresh, becaused the raster_symbol_handler
+	# sends changed(:available_raster_names)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.int!realise(p_definition)
+	## 
+	## 
+	
+	.owner.create_symbol_from_definition(p_definition.key)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.attach()
+	# 
+	## Btn callback to attach selected symbol as custom draw for the
+	## selected style records.
+	#
+
+	_local l_sym << _self.current_symbol
+	_if l_sym  _is _unset
+	_then _self.show_message(_self.message(:no_sym_selected))
+	_else _self.handle_set_rwo_style(l_sym.name)
+	_endif	
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.handle_set_rwo_style(p_symbol_key)
+	## 
+	## 
+
+	#DEBUG write("handle_set_rwo_style(",p_symbol_key,%))
+	_local l_selected_rwo_styles << .ui_items[:rwo_list].selection
+	_if (l_num << l_selected_rwo_styles.size) = 0
+	_then _self.show_message(_self.message(:no_rwo_style_selected))
+	      _return 
+	_endif
+	
+	_self.prompt_for_method_name()
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.prompt_for_method_name()
+	## 
+	##
+	
+	_local l_p << prompter.new(_self,
+				   _self.message(:enter_method_name),
+				   _self.default_custom_draw_method_name,
+				   :|draw_method_ok()|,
+				   :|draw_method_cancel()|)
+	
+	>> l_p.activate_at(_self.top_frame,300,150)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw_method_ok(p_value)
+	## 
+	## Promter OK message
+	
+	_local l_sel << .ui_items[:rwo_list].selection
+	_for i_sel _over l_sel.fast_elements()
+	_loop
+		_local l_rwo_style << i_sel.value(:style)
+		_try _with cond
+			_self.set_custom_draw(l_rwo_style,p_value)
+		_when error
+			_self.show_alert(cond.report_contents_string)
+			_return 
+		_endtry
+	_endloop
+
+	.ui_items[:rwo_list].refresh()
+
+	_local l_rwo_type << l_sel.an_element().value(:style).rwo_name
+	_local l_sym_name << _self.current_symbol.name
+	_local l_path << _self.create_custom_draw_method_for(l_rwo_type,l_sym_name,p_value)
+
+	_local l_mappy << _self.application.plugin(:maps)
+	l_mappy.current_map_view.select_style_system().uncache_styles()
+
+	_self.show_message(write_string("Created & loaded ",l_path)) 
+ 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.draw_method_cancel()
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.set_custom_draw(p_rwo_style,p_method_name)
+	## 
+	## should be called in safe transaction
+	##
+
+	# Database change
+	_local l_rec << p_rwo_style.detached()
+	l_rec.custom_draw_method << p_method_name
+	_local l_new << l_rec.source_collection.update(l_rec)
+	
+	>> l_new
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_custom_draw_method_name
+	## 
+	## default without () from owner
+	>> .owner.custom_draw_method_base
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol_manager_gui.method_name_for_custom_draw(p_rwo_type,p_key)
+	## 
+	## Return the name .owner.custom_draw_method_base
+	## When it does have the method new names are generated with a
+	## suffix number until the exemplar does not have it
+	##
+
+	_local l_base << _self.default_custom_draw_method_name
+	_local l_mname << write_string(l_base,"()")
+	_local l_ex << !current_package![p_rwo_type.as_symbol()]
+
+	_if l_ex.responds_to?(l_mname.as_symbol())
+	_then
+		# Method already exists, make unique name
+		_loop
+			_local l_i << 1
+			_local l_n << write_string(l_base,%_,l_i,"()")
+			_if _not l_ex.responds_to?(l_n.as_symbol())
+			_then
+				l_base << write_string(l_base,%_,l_i)
+				_leave
+			_endif 
+		_endloop
+	_endif
+	>> l_base
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.create_custom_draw_method_for(p_rwo_type,p_key,p_method_name)
+	## 
+	## create method, save to file in the
+	## directory_for_generated_methods and load it.
+	##
+	_local l_strip << p_method_name.replace_all_instances_of("()","")
+	_local l_dir << _self.directory_for_generated_methods
+	_local l_path << system.canonicalise(write_string(p_rwo_type,%.,l_strip,".magik"),l_dir)
+	_local l_str << sw:external_text_output_stream.new(l_path)
+	_protect
+		l_str.write("_package user",newline_char)
+		l_str.write("_pragma(classify_level=advanced, topic={style_system,raster_symbols}, usage={external})",newline_char)
+		l_str.write("_method ",p_rwo_type,".",l_strip,"(p_context,p_geom,p_rwo_style,p_draw?)",newline_char)
+		l_str.write(tab_char,"## Generated method from Raster Symbols GUI that draws symbol ",p_key,newline_char)
+		l_str.write(tab_char,"_if (l_sym << sw:raster_symbol_handler.get_symbol(",%",p_key,%",")) _isnt _unset",newline_char)
+		l_str.write(tab_char,"_then l_sym.draw_on(p_context,p_geom,p_rwo_style.style_type=",%","highlight",%",")",newline_char)
+		l_str.write(tab_char,"_endif",newline_char)
+		l_str.write(tab_char,">> _true",newline_char)
+		l_str.write("_endmethod",newline_char)
+		l_str.write("$",newline_char)
+		l_str.close()
+		load_file(l_path)
+	_protection
+		l_str.close()
+	_endprotect
+	>> l_path
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.detach()
+	## 
+	## clear the custom draw method from the selected rwo_style records
+	
+	_local l_selected_rwo_styles << .ui_items[:rwo_list].selection
+	_if l_selected_rwo_styles _is _unset _orif
+	    l_selected_rwo_styles.size = 0
+	_then _self.show_message(_self.message(:no_rwo_style_selected))
+	      _return 
+	_endif
+
+	_if _self.show_question(_self.message(:yes_message),
+				_self.message(:no_message),
+				_self.message(:detach_q,
+					      _unset,
+					      l_selected_rwo_styles.size)) _isnt _true
+	_then _return 
+	_endif
+
+	_local l_my_methods << .owner.custom_draw_method_base
+	_local l_anything_changed? << _false 
+	_for i_sel _over l_selected_rwo_styles.fast_elements()
+	_loop
+		_local l_rwo_style << i_sel.value(:style)
+		_if l_rwo_style.custom_draw_method.index_of_seq(l_my_methods) _isnt _unset 
+		_then
+			# Database change
+			l_rwo_style.unrealise()
+			_local l_rec << l_rwo_style.detached()
+			l_rec.custom_draw_method << ""
+			_local l_new << l_rec.source_collection.update(l_rec)
+			l_anything_changed? << _true 
+		_endif 
+	_endloop
+
+	_if l_anything_changed?
+	_then
+		_local l_mappy << _self.application.plugin(:maps)
+		l_mappy.current_map_view.select_style_system().uncache_styles()
+		.ui_items[:rwo_list].refresh()
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol_manager_gui.module_names
+	#
+	## returns the value for the text item with modules.
+	## see _self.modules_for_pictures
+	#
+	>> _self.modules_for_pictures.keys
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.symbol_for_selection()
+	## 
+	## 
+	>> .owner.symbol(_self.current_selection)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_resource_dir
+	## 
+	## 
+	_local l_sel << _self.current_module_name
+	_local l_module << _self.modules_for_pictures[l_sel]
+	_local l_dir << l_module.resource_list_for(:bitmaps,_false).an_element()
+	>> l_dir
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_configuration_dir
+	## 
+	## 
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_configuration_file
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.add()
+	## 
+	## Add a new symbol from an picture in the current resource dir
+	## (i.e. from the selected module item)
+
+	_self.select_file_dialog()
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.select_file_dialog()
+	## 
+	##
+	_local l_file_filters << {"PNG files (*.png)","*.png"}
+	_local l_dir << _self.current_module_bitmap_dir
+	_local f_dlg << file_dialog.new( _self,
+					 :file_selector_ok|()|,
+					 :file_selector_cancel|()|,
+					 :title,_self.message(:new_file_heading),
+					 :operation, :open,
+					 :filter, l_file_filters,
+					 :directory, l_dir,
+					 :do_existence_check?, _true )
+	_global fd
+	fd << f_dlg
+	f_dlg.activate()
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.file_selector_ok(p_sel)
+	# 
+	## File selection dialog OK message with P_SEL being the full
+	## pathname of a valid bitmap file.
+	## It creates and returns a new symbol of type :raster with default
+	## properties.
+	## It also updates the list of modules_for_pictures if the
+	## module isn't in the list yet.
+	#
+	#DEBUG write("file_selection_open ",p_sel)
+
+	# Get the module from the filename
+	_local (l_name,l_module) << .owner.module_from_resource(p_sel)
+
+	# Build key and properties
+	_local (l_fname,l_dir) << system.pathname_components(p_sel)
+	_local l_props << property_list.new_with(:type,:raster,
+						 :filename,p_sel,
+						 :module_name,l_name)
+	# Create the ps
+	_local l_sname << raster_symbol_handler.pretty_string_from_filename(l_fname)
+	>> .owner.create_symbol(l_sname,l_props)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.file_selector_cancel()
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.modules_for_pictures
+	# 
+	>> .owner.modules_for_pictures
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.application
+	## parent model for now
+	>> .parent_model
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_module_name
+	#
+	## Returns the module name selected in the choice item. Note
+	## that this name can be a 'fake' name in case of a
+	## cutsomisation module
+	#
+	>> .ui_items[:modules].value
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_module_bitmap_dir
+	## 
+	##
+	_local l_module << sw_module_manager.module(_self.current_module_name)
+	_local l_dir << l_module.resource_list_for(:bitmaps,_false).an_element()
+	>> l_dir
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_module_data_dir
+	## 
+	## 
+	_local l_module << sw_module_manager.module(_self.current_module_name)
+	_local l_dir << l_module.resource_list_for(:data,_false).an_element()
+	>> l_dir	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.versions()
+	# 
+	## Opens version management dialog of style database
+	#
+	_local l_plugin << _self.application.plugin(:versions)
+	>> l_plugin.activate_style_dialog()
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_styles
+	## 
+	## data for list with rwo_style mappings
+
+	# get style records for selected rwo+geom
+	_if (l_sel << _self.current_graphics_selection) _is _unset 
+	_then .rwo_list_label_text << _self.default_rwo_list_label_text
+	      _return rope.new()
+	_endif
+	
+	_local l_rwo_type << l_sel.rwo_type
+	_local l_app_type << l_sel.app_type
+	_local l_app << _self.application 
+	_local l_mapv << l_app.plugin(:maps).current_map_view
+	_local l_current_style << l_mapv.style_for(l_sel)
+	_local l_id << l_current_style.style_id
+		
+	_local l_styles << _self.rwo_styles_for(l_rwo_type,l_app_type)
+	_local l_tree << rope.new()
+	_for i_style _over l_styles.fast_elements()
+	_loop  l_tree.add_last(_self.display_tree_for_style(i_style,l_id))
+	_endloop
+
+	_local l_identifier << write_string(l_rwo_type,".",l_app_type).uppercase
+	.rwo_list_label_text << _self.message(:style_records_for,_unset,
+					      l_styles.size,
+					      l_identifier)
+	_self.changed(:rwo_list_label_text)
+	>> l_tree
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_graphics_selection
+	## 
+	## 
+
+	_local l_app << _self.application
+	_local l_mapv << l_app.plugin(:maps).current_map_view
+	_local l_geom << l_mapv.map.current_selection.an_element()
+	
+	>> l_geom
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_styles_for(p_rwo_type,p_app_type)
+	## 
+	## 	
+
+	_local l_sts << _self.current_style_system
+	_local l_rwo_style << l_sts.get_classification_style(p_rwo_type,
+							     p_app_type,
+							     :point)
+	#DEBUG _global rs
+	#DEBUG rs << l_rwo_style
+	_local l_pred << #predicate.eq(:style_name,l_rwo_style.style_name) _and
+			 predicate.eq(:rwo_name,write_string(p_rwo_type)) _and
+			 predicate.eq(:app_name,write_string(p_app_type))
+	#DEBUG write(l_pred)
+	_local l_result << l_rwo_style.source_collection.select(l_pred).result
+	
+	>> l_result
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_style_item_select(p_selection)
+	## 
+	## Select selector in rwo_list (multiple selections allowed)
+	## setting visibility of detach button
+	##
+
+	_self.manage_actions()
+#	_local l_enable_detach? << _true
+#	_for i_sel _over p_selection.fast_elements()
+#	_loop
+#		_if (l_m<<i_sel.key.custom_draw_method) _isnt _unset _andif
+#		    l_m.index_of_seq(.plugin.custom_draw_method_base) _is _unset 
+#		_then l_enable_detach? << _false
+#		      _leave 
+#		_endif
+#	_endloop
+#	.ui_items[:detach].enabled? << l_enable_detach?
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.double_click_rwo_style(p_selection)
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.current_style_system
+	## 
+	## 
+	
+	_local l_mv << _self.application.databus.request_data(:map_properties).first
+	_local l_ace_name << l_mv.ace_name
+	_local l_display_scale_name << l_mv.current_display_style_name
+	
+	>> _self.application.get_style_system_for(l_ace_name,l_display_scale_name)
+
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.open()
+	## 
+	## Open File selection dialog for other config file 
+	##
+
+	_local l_file_selector << file_dialog.new(_self,:|open_file()|,:|cancel_file()|,
+						  :directory,_self.current_module_data_dir,
+						  :title,_self.message(:open_dialog_title),
+						  :filter,"*.xml")
+	>> l_file_selector.activate()
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.open_file(p_file)
+	## 
+	## Callback from Open File dialog
+	##
+
+	_try _with p_cond
+		raster_symbol_handler.read_xml_data(p_file)
+	_when error
+		_self.show_message(p_cond.report_contents_string)
+	_endtry
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.cancel_file()
+	## 
+	## Callback from Open File dialog
+	## 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.save()
+	## 
+	##
+
+	_local l_ok? << _self.show_question("Yes","No",
+					 write_string("Save configuration in the module RASTER_SYMBOLS?"))
+	_if l_ok? _is _false _then _return _endif 
+					 
+	_local l_cur_only? << _self.ask_select
+	_self.perform_safely(:|int!save()|,_unset,l_cur_only?)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.save_as()
+	## 
+	## Button callback opens a file dialog
+	##
+	
+	_local l_file_dialog << file_dialog.new(_self,:|save_as_file()|,:|cancel_file()|,
+						:directory,_self.current_module_data_dir,
+						:selection,"raster_symbols_configuration",
+						:operation,:save,
+						:title,_self.message(:save_as_dialog_title),
+						:filter,"*.xml")
+	>> l_file_dialog.activate()
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.ask_select
+	## 
+	## 
+	_local l_m << _self.current_module_name.write_string.uppercase
+	>> _self.show_question("Yes","No",write_string("Save for module ",l_m," only?"))
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.save_as_file(p_file)
+	## 
+	## From Save As dialog - saves current configuration in P_FILE
+	##
+	
+	_local l_cur_only? << _self.ask_select
+	_self.perform_safely(:|int!save()|,p_file,l_cur_only?)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method raster_symbol_manager_gui.int!save(_optional p_file_name,p_cur_only?)
+	## 
+	## Save xml into P_FILENAME or data_file_name and write only
+	## configurations (symbols) for the current_module if
+	## P_CUR_ONLY? is true
+	##
+
+	_local l_module << 
+		_if p_cur_only?
+		_then >> _self.current_module_name
+		_endif
+
+	_try _with p_cond
+		.owner.save(_self.options,p_file_name,l_module)
+	_when information
+		_self.show_message(p_cond.report_contents_string)
+	_when error
+		_self.show_message(p_cond.report_contents_string)
+	_endtry
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.display_tree_for_style(p_rwo_style,p_current_id)
+	## 
+	##
+
+	_local l_elem << display_tree.new(p_rwo_style,property_list.new())
+	_local l_rope << rope.new()
+	_local l_draw_m << .owner.custom_draw_method_base
+
+	_if p_rwo_style.style_id = p_current_id
+	_then
+		l_rope.add(:brown)
+#		l_rope.add({"select_style.png",:raster_symbol_gui})
+	_endif
+
+
+	# define mapping states so they are selectable and sortable
+	l_rope.add(:image)
+	_if (l_method<<p_rwo_style.custom_draw_method).index_of_seq(l_draw_m) _isnt _unset 
+	_then 
+		l_rope.add({"traffic_light_green.png",:ui_resources})
+		l_rope.add_all_last("S")
+	_elif l_method ~= "" 
+	_then
+		l_rope.add({"traffic_light_red.png",:ui_resources})
+		l_rope.add_all_last("U")
+	_else 
+		l_rope.add({"traffic_light_grey.png",:ui_resources})
+		l_rope.add_all_last("F")
+	_endif
+	
+
+	l_rope.add(:tab)
+	_for i_key _over _self.rwo_style_keys.fast_elements()
+	_loop l_rope.add(:value)
+	      l_rope.add(i_key)
+	      l_rope.add(:tab)
+	_endloop
+	
+	l_elem.styled_string << l_rope.as_simple_vector()
+	
+	_for i_key _over _self.rwo_style_keys.fast_elements()
+	_loop
+		l_elem.value[i_key] << p_rwo_style.perform(i_key)
+		##DEBUG write(l_elem.value[i_key])
+	_endloop
+	
+	l_elem.value(:style) << p_rwo_style
+	>> l_elem
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_style_keys
+	## 
+	## 
+	>> {:style_name,:rwo_name,:app_name,:style_type,:scale,:sub_code,:custom_draw_method}
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_list_headings
+	## 
+	## 
+	_local l_rope << rope.new()
+	l_rope.add("")
+	l_rope.add_all_last(_self.rwo_style_keys)
+	>> l_rope
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.rwo_list_widths
+	## 
+	## 
+	>> {35,40,80,120,60,100,40,100}
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_rwo_list_label_text
+	## 
+	## 
+	>> _self.message(:default_rwo_list_label_text)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.restrict_changed(p_value)
+	## 
+	## 
+	#DEBUg write(_Self," restrict changed " ,p_value)
+	.restrict_one_module? << p_value
+	_self.refresh()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.module_changed(p_value)
+	## 
+	## 
+	_if .restrict_one_module? 
+	_then _self.refresh()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.page_changed(p_page)
+	## 
+	## 
+	.current_page << p_page
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.ace_control
+	 ## 
+	 ## 
+	 >> _self.application.plugin(:maps).current_map_view.ace_control
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.goto_mapping_select(p_sel)
+	#
+	## select notifier of goto mappings that manage the button set
+	## and clear mapping
+	#
+	
+	_local l_enabled? << _not (p_sel.an_element() _is _unset)
+	
+	_if (l_sym << _self.current_selection) _isnt _unset
+	_then .ui_items[:set_goto].enabled? << _true
+	_endif	
+	.ui_items[:clear_goto].enabled? << l_enabled?
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.set_goto_mapping()
+	## button callback
+
+	_local l_sel << .ui_items[:goto_mappings].selection
+	_if (l_elem << l_sel.an_element()) _is _unset 
+	_then _return
+	_endif
+
+	#DEBUG Write(" Set GOTO MAPPING " ,l_elem," Type: ",l_elem.parent.key)
+	_if (l_key << l_elem.parent.key) = :generic
+	_then
+		_local l_type << l_elem.key
+		_local l_name << _self.current_selection.value[:name]
+		_local l_use? << l_elem.value(:use?).default(_false)
+		_local l_map << goto_mapping.new(l_type,l_name,l_use?)
+		raster_symbol_handler.set_generic_goto_mapping(l_map)
+		
+	_elif l_key = :specialised
+	_then
+		_self.handle_specialized_mapping(l_elem,_self.current_selection.value[:name])
+		
+	_elif l_key = :specific _orif
+	      l_elem.key = :specific # first rwo_goto_mapping
+	_then 
+		_self.handle_set_goto_rwo_style(_self.current_selection.value[:name])
+	_endif
+
+	.ui_items[:goto_mappings].refresh()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.handle_specialized_mapping(p_elem,p_symname)
+	## 
+	## 
+	_local l_type << p_elem.key
+	#DEBUG write("Handle specialized mapping ",l_type," with symbol ",p_symname)
+	.owner.set_specialised_mapping(l_type,p_symname)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.handle_set_goto_rwo_style(p_symbol_key)
+	#
+	## Register col(s)/geom(s) with symbol P_SYMBOL_KEY as goto
+	## symbol
+	#
+
+	_local l_sel << .ui_items[:rwo_hierarchy_list].display_tree_selection
+	
+	_for i_key,i_val _over l_sel.fast_keys_and_elements()
+	_loop
+		_local l_rwo_type
+		_local l_app_type
+		_local l_use? << _false 
+		_local l_mapped? << _false
+		_local l_exname_col, l_exname_field
+		
+		_if i_key.is_collection?
+		_then
+			_local l_col << i_key.value[:object_data]
+			l_exname_col << l_col.external_name.write_string
+			l_rwo_type << l_col.record_exemplar.rwo_type
+			l_app_type << :all
+			
+		_elif i_key.is_geometry?
+		_then
+			_local l_field << i_key.object_data
+			l_exname_field << l_field.external_name.write_string
+			l_exname_col << l_field.owner.external_name.write_string
+			l_rwo_type << l_field.rwo_type
+			l_app_type << l_field.name
+			l_mapped? << l_field.mapped?
+		_endif
+
+		_local l_props << property_list.new_with(:rwo_type,l_rwo_type,
+							 :app_type,l_app_type,
+							 :symbol,p_symbol_key,
+							 :use?,l_use?,
+							 :mapped?,l_mapped?,
+							 :external_rwo_name,l_exname_col,
+							 :external_app_name,l_exname_field)
+		_local l_mapping << rwo_goto_mapping.new_with_properties(l_props)
+		raster_symbol_handler.add_goto_mapping_for_collection(l_mapping)
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.clear_goto_mapping()
+	#
+	## button callback - removes selected goto_mapping(s)
+	#
+	
+	_local l_sel << .ui_items[:goto_mappings].selection
+	_if l_sel.empty?
+	_then _return 		
+	_endif
+
+	_protect
+		raster_symbol_handler.disable_notification(:goto_mappings)
+		_for i_key,i_elem _over l_sel.fast_keys_and_elements()
+		_loop
+			_if (l_key << i_elem.parent.key) = :generic
+			_then
+				_local l_use? << i_elem.value(:use?).default(_false)
+				raster_symbol_handler.clear_generic_goto_mapping(i_elem.key,l_use?)
+			_elif l_key = :specialised
+			_then
+				raster_symbol_handler.clear_specialised_mapping(i_key)
+				
+			_elif l_key = :specific
+			_then
+				raster_symbol_handler.clear_rwo_goto_mapping(
+					i_elem.value[:rwo_type].as_symbol(),
+					i_elem.value[:app_type].as_symbol(),
+					i_elem.value[:symbol])
+			_endif
+		_endloop
+	_protection
+		raster_symbol_handler.enable_notification(:goto_mappings)	
+	_endprotect
+
+#	_self.changed(:goto_mappings,_self.goto_mappings)
+	.ui_items[:goto_mappings].refresh()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.skip_invisible_changed(p_value)
+	## 
+	## Button callback - use action from plugin for consistency
+	##
+	.plugin.action(:goto_skip_invisible).execute_action()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.goto_use_default_changed(p_value)
+	## 
+	## Button callback - use action from plugin for consistency
+	##
+	.plugin.action(:goto_use_default).execute_action()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.dpm
+	## 
+	## 
+	>> .ui_items[:dpm]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_option_buttons_gui(p_container)
+	#
+	## options buttons
+	#
+	_local l_plugin << .plugin
+	_local l_opts << toolbar.new(p_container)
+	_local l_file << smallworld_product.get_resource_file("on_grey.png",:bitmaps,:raster_symbols_core)
+	_local l_image << raster_image.new_from_file(l_file)
+	_local l_onoff << .ui_items[:on_off] <<
+		image_toggle_item.new(l_opts,{"on.png",:raster_symbols_core},
+				      :insensitive_image,l_image,
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:on_off),
+				      :tooltip,_self.message(:tt_option_on),
+				      :change_selector,:|on_off_changed()|)
+	
+	l_onoff.row << 1
+	l_onoff.col << 1
+	_local l_def << .ui_items[:use_default_for_goto?] <<
+		image_toggle_item.new(l_opts,{:goto_object,:ui_resources},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:use_default_for_goto?),
+				      :tooltip,_self.message(:tt_option_use_backstop),
+				      :change_selector,:|goto_use_default_changed()|)
+
+	l_def.row << 1
+	l_def.col << 2
+	_local l_rst << .ui_items[:sticky_goto?] <<
+		image_toggle_item.new(l_opts,{"sticky_goto_on.png",:raster_symbols_core},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:sticky_goto?),
+				      :tooltip,_self.message(:tt_option_sticky),
+				      :change_selector,:|sticky_goto_changed()|)
+	l_rst.row << 1
+	l_rst.col << 3
+	
+	
+	_local l_vis << .ui_items[:goto_skip_invisible_geoms?] <<
+		image_toggle_item.new(l_opts,{:visible_field,:ui_resources},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:goto_skip_invisible_geoms?),
+				      :tooltip,_self.message(:tt_option_skip_invis),
+				      :change_selector,:|skip_invisible_changed()|)
+
+	l_vis.row << 1
+	l_vis.col << 4
+
+	_local l_lab << .ui_items[:no_draw_labels?] <<
+		image_toggle_item.new(l_opts,{:draw_text,:raster_symbols_core},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:no_draw_labels?),
+				      :tooltip,_self.message(:tt_option_no_label),
+				      :change_selector,:|suppress_label_drawing()|)
+	l_lab.row << 1
+	l_lab.col << 5
+
+	_local l_geo << .ui_items[:no_draw_geoms?] <<
+		image_toggle_item.new(l_opts,{:draw_geoms,:raster_symbols_core},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:no_draw_geoms?),
+				      :tooltip,_self.message(:tt_option_no_geoms),
+				      :change_selector,:|suppress_geometry_drawing()|)
+	l_geo.row << 1
+	l_geo.col << 6
+
+	_local l_tick << .ui_items[:tick] <<
+		image_toggle_item.new(l_opts,{:tick_refresh_black,:raster_symbols_core},
+				      :model,_self,
+				      :value,l_plugin.value_for_prop(:tick),
+				      :tooltip,_self.message(:tt_tick_refresh),
+				      :change_selector,:|tick_refresh_changed()|)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.on_off_changed(p_value)
+	## 
+	##
+
+	.ui_items[:on_off].image << _self.power_icon(p_value)
+
+	.plugin.action(:use_goto_raster_symbols).execute_action()
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.sticky_goto_changed(p_value)
+	## 
+	## 
+	>> .plugin.action(:sticky_goto).execute_action()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.suppress_label_drawing(p_value)
+	## 
+	## 
+	>> .plugin.action(:no_draw_labels?).execute_action()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.suppress_geometry_drawing(p_value)
+	## 
+	## 
+	>> .plugin.action(:no_draw_geoms?).execute_action()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.power_icon(p_on?)
+	# 
+	## to be optimized
+	#
+	_local l_name << _if p_on?
+			 _then >> "on.png"
+			 _else >> "off.png"
+			 _endif
+	_local l_file << smallworld_product.get_resource_file(l_name,:bitmaps,:raster_symbols_core)
+	_local l_image << raster_image.new_from_file(l_file)
+	>> l_image
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.highlight_toggle_changed(p_value)
+	## 
+	## 
+	#DEBUG write(_self,".highlight_toggle_changed(" ,p_value," )" )
+
+	_self.set_highlight_icon_for_value(p_value)
+	
+	_if _not (l_selection << .ui_items[:symbols].selection).empty?
+	_then
+		_local l_sel << l_selection.an_element()
+		_if l_sel.value(:type)="sym"
+		_then _self.safe_draw_preview(l_sel.value(:name))
+		_endif
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.tick_refresh_changed(val,item)
+	## 
+	## 
+	>> .plugin.tick_refresh_changed(val)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_manager_gui.set_highlight_icon_for_value(p_value)
+	## 
+	## to be optimized	
+	_local l_name << _if p_value _is _true 
+			 _then >> "highlight_on.png"
+			 _else >> "highlight_off.png"
+			 _endif
+	_local l_file << smallworld_product.get_resource_file(l_name,
+							      :bitmaps,:raster_symbols_gui)
+	_local l_image << raster_image.new_from_file(l_file)
+	.ui_items[:highlight?].image << l_image
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.build_properties_gui(p_container)
+	## 
+	## 
+	_local l_prop << .ui_items[:properties] <<
+		tree_item.new(p_container,
+			      :model, _self,
+			      :grid_lines?,_false,
+			      :editor_required_notifier,:|prop_editor_required()|,
+			      :edit_always_on?, _true,
+			      :edit_stop_notifier,:|edit_stop()|,
+			      :column_headings,{_self.message(:sym_property),
+						_self.message(:sym_value)},
+			      :column_widths,{150,270},
+			      :width_in_cols,2,
+			      :aspect, :property_tree,
+			      :data_selector, :property_tree,
+			      :select_notifier, :property_item_select|()|,
+			      :double_click_notifier, :prop_double|()|,
+			      :mode, :one,
+			      :allow_filtering?,_false,
+			      :column_allow_visibility_change?,_false,
+			      :column_allow_visibility_manage?,_false,
+			      :identifier, :properties )
+	
+
+	_self.setup_in_place_editors(l_prop)
+
+	_self.setup_value_formatters(l_prop)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.property_tree
+	# 
+	## returns a rope with display trees for the property window
+	## with the properties of the selected raster symbol (definition)
+	#
+	
+	_if (l_sel << _self.current_selection) _is _unset
+	_then _return rope.new()
+	_endif
+	
+	_local l_type << l_sel.value(:type)
+	_local l_key << l_sel.value(:name)
+	_local l_realised? << _true 
+	_local l_sym
+	
+	_local l_props << 
+		_if l_type="def"
+		_then l_realised? << _false 
+		      >> .owner.symbol_definitions[l_key]
+		_elif (l_sym << .owner.symbol(l_key)) _isnt _unset
+		_then >> l_sym.properties
+		_endif
+
+	_local l_trees << rope.new()
+	_for i_key,i_value _over l_props.fast_keys_and_elements()
+	_loop
+		_local l_prop << property_list.new_with(:property_value,i_value,
+							:realised?,l_realised?)
+ 		_local l_dtree << display_tree.new(i_key,l_prop)
+		# MUST BE IMPROVED
+		_if i_key _is :colourmap
+		_then
+			l_dtree.set_value_method(_self,
+						 {:|get_special()|,:colourmap,l_dtree},
+						 {:|set_special()|,:colourmap,l_dtree})
+
+			l_dtree.styled_string <<
+				styled_string.new(write_string(i_key).capitalise,
+						  :tab,
+						  _self.gray_or_normal_property(i_key),
+						  :value,:colourmap_format)
+		_elif i_key _is :value_colour
+		_then
+			l_dtree.set_value_method(_self,
+						 {:|get_special()|,:value_colour,l_dtree},
+						 {:|set_special()|,:value_colour,l_dtree})
+			l_dtree.styled_string <<
+				{write_string(i_key).capitalise,:tab,
+#				 :custom_draw, .in_place_editors[:colour_format].custom_draw_renderer(),
+				 :value,:value_colour}		
+		_else
+			l_dtree.styled_string <<
+				styled_string.new(write_string(i_key).capitalise,
+						  :tab,
+						  _self.gray_or_normal_property(i_key),
+						  :value,:property_value)
+
+		_endif
+		l_trees.add(l_dtree)
+	_endloop
+
+	_self.post_prop_display_tree(l_trees)
+	
+	>> l_trees
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.post_prop_display_tree(p_trees)
+	## 
+	## 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.setup_in_place_editors()
+	## 
+	##
+	
+	_local l_agent << .ui_items[:properties].agent	
+	_local l_eds << .in_place_editors << property_list.new()
+
+	# Raster Symbol (Definition) Name
+	_local l_e << l_eds[:name] << in_place_value_editor.new(l_agent)
+	l_e.readonly? << _true 
+
+	# ---------------------------------
+	# raster_SYMBOL_PROPERTIES
+	# ---------------------------------
+
+	# Fixed_size?
+	l_eds[:fixed_size?] << l_eds[:fixed_size] << sw:in_place_boolean_editor.new(l_agent)
+	
+	# Pixel_offset
+	_local l_o << l_eds[:pixel_offset] << sw:in_place_magik_object_editor.new(l_agent)
+	l_o.manager << simple_magik_value_manager.new(pixel_coordinate)
+
+	# Draw_size_mm
+	_local l_mm << l_eds[:draw_size_mm] << sw:in_place_value_editor.new(l_agent)
+	l_mm.manager << numeric_value_manager.new(:integer?,_true )
+
+	# String selector
+	l_ss << l_eds[:string_selector] << sw:in_place_value_editor.new(l_agent)
+	l_ss.manager << symbol_value_manager.new()
+
+	
+	# Value selector
+	l_vs << l_eds[:value_selector] << sw:in_place_value_editor.new(l_agent)
+	l_vs.manager << symbol_value_manager.new()
+
+	# Value scale
+	l_vsca << l_eds[:value_scale] << sw:in_place_value_editor.new(l_agent)
+	l_vsca.manager << numeric_value_manager.new(:integer?,_false )
+
+	# Value colour scheme
+	l_eds[:value_colour_scheme] << in_place_choice_editor.new( l_agent, :items, _self.value_schemes())
+
+
+	# ---------------------------------
+	# raster_SYMBOL value properties
+	# ---------------------------------
+	l_eds[:draw_measurement_scale?] << sw:in_place_boolean_editor.new(l_agent)
+
+	
+	# Draw background?
+	l_eds[:draw_background?] << sw:in_place_boolean_editor.new(l_agent)
+
+	# Draw text string?
+	l_eds[:draw_text_string?] << sw:in_place_boolean_editor.new(l_agent)
+
+	# Text scale factor
+	_local l_mag << l_eds[:text_scale_factor] << sw:in_place_value_editor.new(l_agent)
+	l_mag.manager << numeric_value_manager.new(:precision,3,:valid_interval,interval.new(1.0,100.0))
+		
+	# Text raster justification
+	_local l_pjust << l_eds[:text_raster_justification] <<
+		l_eds[:value_box_justification] << sw:in_place_combo_editor.new(l_agent)
+	l_pjust.items << sw:raster_symbol.valid_data_types[:text_raster_justification]
+
+	# Text justification
+	_local l_tjust << l_eds[:text_justification] <<
+		l_eds[:value_text_justification]  << sw:in_place_combo_editor.new(l_agent)
+	l_tjust.items << sw:raster_symbol.valid_data_types[:text_justification]
+
+	# Text coordinate
+	_local l_txtc << l_eds[:text_coordinate] << sw:in_place_magik_object_editor.new(l_agent)
+	l_txtc.manager << simple_magik_value_manager.new(pixel_coordinate)
+
+	# Text box
+	_local l_txtb << l_eds[:text_box] << sw:in_place_magik_object_editor.new(l_agent)
+	l_txtb.manager << simple_magik_value_manager.new(pixel_bounding_box)
+
+	# ---------------------------------
+	# STYLES
+	# Line
+	# 1. Width
+	l_eds[:line_width_format] << in_place_line_width_editor.new(l_agent,:allow_mm_widths?,_true)
+	
+	# 2. Colour
+	_local l_ed << l_eds[:colour_format] << in_place_alpha_colour_editor.new(
+					 l_agent,
+					 :scale, 1.0,
+					 :precision, 2,
+					 :palette, :default,
+					 :allow_no_value?, _false,
+					 :allow_custom_colours?, _true )
+	
+	# 3 Line properties
+	l_eds[:dash_pattern_format] << in_place_dash_pattern_editor.new( l_agent )
+	l_eds[:line_end_style_format] << in_place_line_end_style_editor.new( l_agent )
+	l_eds[:line_join_style_format] << in_place_line_join_style_editor.new( l_agent )
+	
+	# 4. Text style properties
+	l_eds[:font_name] << in_place_choice_editor.new( l_agent, :items, _self.font_names()[1] )
+	
+	# .. Font size
+	l_eds[:font_size] << in_place_value_editor.new(l_agent,:manager,
+						       sw:numeric_value_manager.new(:integer?,_true,
+										    :valid_interval,interval.new(1,48)))	
+	# .. Font orientation
+	l_eds[:font_orientation] << in_place_choice_editor.new( l_agent, :items, _self.font_orientations )
+
+	# .. Font Underline? etc.
+	l_eds[:underline?] <<
+		l_eds[:overstrike?] <<
+		l_eds[:text_bg_filled]<< 
+		l_eds[:text_boxed] <<
+		l_eds[:multiline?] << 
+		l_eds[:outline_style] <<
+		l_eds[:show_transparency?] << 
+		l_eds[:clear?] << in_place_boolean_editor.new( l_agent )
+
+	
+	#
+	# OTHER PROPERTIES
+	#
+		
+	#
+	# GRID
+	#
+	l_eds[:auto_fade?] << in_place_boolean_editor.new( l_agent )
+	l_eds[:smooth?] << in_place_boolean_editor.new( l_agent )
+	l_eds[:transparent_value] << in_place_value_editor.new(
+					     l_agent,:manager,
+					     sw:numeric_value_manager.new(:integer?,_true,
+									  :valid_interval,interval.new(0,254)))
+	l_eds[:wash] << in_place_value_editor.new(
+					     l_agent,:manager,
+					     sw:numeric_value_manager.new(:integer?,_true,
+									  :valid_interval,interval.new(0,100)))
+	
+	#
+	# BYTE_GRID_RASTER_SYMBOL
+	#
+	# Number of Layers
+	_local l_max << byte_grid_raster_symbol.max_layers
+	_local l_man << sw:numeric_value_manager.new(:integer?,_true,
+						     :valid_interval,interval.new(1,l_max))
+
+	l_eds[:number_of_layers] << in_place_value_editor.new(l_agent,:manager,l_man)
+	
+	# Colourmap
+	l_eds[:colourmap] << in_place_colourmap_editor.new( l_agent)
+	
+	# Named Colourmap
+	l_eds[:named_colourmap] << in_place_choice_editor.new( l_agent, :items, _self.available_colourmaps())
+	
+	>> l_eds
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.setup_value_formatters(p_tree)
+	## 
+	##
+	
+	_local l_styleh << p_tree.style_holder
+	_local l_ed << .in_place_editors
+
+	# Colour format
+	l_styleh.add_value_formatter(:colour_format,l_ed[:colour_format].value_format_handler)
+	l_styleh.add_value_formatter(:value_colour,l_ed[:colour_format].value_format_handler)
+	
+	# Line style formats
+	_for i _over {:line_width_format,:dash_pattern_format,
+		      :line_end_style_format,:line_join_style_format}.fast_elements()
+	_loop
+		l_styleh.add_value_formatter(i,l_ed[i].value_format_handler)
+	_endloop
+
+	# Special magik ojects
+	l_styleh.add_value_formatter(:pixel_offset_format,l_ed[:pixel_offset].value_format_handler)
+	l_styleh.add_value_formatter(:text_coordinate_format,l_ed[:text_coordinate].value_format_handler)
+	l_styleh.add_value_formatter(:text_box_format,l_ed[:text_box].value_format_handler)
+	l_styleh.add_value_formatter(:colourmap_format,l_ed[:colourmap].value_format_handler)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.get_value(p_key, p_elem)
+	## 
+	##
+	#DEBUG write("Get Value for ",p_key," ",p_elem)
+	
+	_local l_result
+	_try _with p_cond
+		l_result << p_elem.parent.value[:property_value].perform(p_key)
+		#DEBUG write(_self," GOT_value(",p_key,% ,p_elem,") ",l_result)
+	_when error 
+		write(p_cond.report_contents_string)
+	_endtry
+	>> l_result
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.set_value(p_elem,p_key,p_value)
+	#
+	## Updates the symbol property value P_KEY with P_VALUE.
+	## These are the complex top level style elements. P_ELEM is a
+	## direct child of the element that holds the symbol property
+	## value.
+	## Once the property is updated, the same property of the symbol
+	## is updated, and the preview refreshed.
+	#
+	
+	#DEBUG write("SET_VALUE ",p_elem,% ,p_key,% ,p_value)
+
+	_local l_parent << p_elem.parent
+	#DEBUG write(" Updating style property in ",l_parent,% ,l_parent.value[:property_value],% ,p_key," with " ,p_value)
+	_local l_old << l_parent.value[:property_value]
+
+	_local l_new
+	_if p_key _is :outline_style
+	_then l_old.set_outline(p_value)
+	      l_new << l_old
+	_elif p_value.is_kind_of?(colour) _andif 
+	      l_old.responds_to?(:|copy_with_colour()|)
+	_then l_new << l_old.copy_with_colour(p_value)
+	_else l_new << l_old.copy_with_properties(p_key,p_value)
+	_endif
+	
+	l_parent.value[:property_value] << l_new
+	l_new.realise()
+	
+	.ui_items[:properties].redraw_selection(l_parent)
+
+	_self.update_symbol_from_prop_tree(l_parent.key,l_new)
+	
+	>> l_new
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.file_selector_cancel()
+	## 
+	## 
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.delete()
+	## 
+	## 
+	_if (l_sel << _self.current_selection) _isnt _unset 
+	_then
+		_local l_name << l_sel.value(:name)
+		_local l_type << l_sel.value(:type)
+		_if l_type = "def"
+		_then .owner.remove_symbol_definition(l_name)
+		_else .owner.remove_symbol(l_name)
+		_endif
+		_self.refresh()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.update_symbol_from_prop_tree(p_key,p_value)
+	##
+	## Update the property P_KEY with P_VALUE in the current symbol.
+	## 
+
+	_local l_sel << _self.current_selection
+	_if l_sel _is _unset 
+	_then _return _false 
+	_endif
+	
+	_if l_sel.value[:type] = :def
+	_then
+		#DEBUG write("- Update symbol definition property of current definition ",l_sel.value[:name]," with ",p_key,% ,p_value)
+		_local l_def << .owner.symbol_definitions[l_sel.value[:name]]
+		l_def[p_key] << p_value
+	_else
+		_local l_sym << .owner.symbol(l_sel.value[:name])
+		#DEBUG write("- Update symbol property of current symbol ",l_sym," with ",p_key,% ,p_value)
+	      	_try _with p_cond
+			l_sym.set_property(p_key,p_value)
+			_self.safe_draw_preview(l_sym.name)
+		_when error
+			_self.show_message(p_cond.report_contents_string)
+		_endtry
+	_endif
+
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.prop_editor_required(p_tree, p_index, p_value_id, p_agent)
+	# 
+	## return the required in place property editor. First check if
+	## an editor is defined for this key, else try to find it keyed
+	## on P_VALUE_ID
+	#
+
+	#DEBUG write("Editor required for key ",p_tree.key," > ",.in_place_editors[p_tree.key])
+	_local l_eds << .in_place_editors
+	>> _if (l_ed << l_eds[p_tree.key]) _isnt _unset 
+	   _then >> l_ed
+	   _else >> l_eds[p_value_id]
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.default_prop_editor_required(p_tree, p_index, p_value_id, p_agent)
+	# 
+	## return the required in place property editor. First check if
+	## an editor is defined for this key, else try to find it keyed
+	## on P_VALUE_ID
+	#
+
+	#DEBUG write("Editor required for key ",p_tree.key," > ",.in_place_editors[p_tree.key])
+	_local l_eds << .in_place_editors
+	>> _if (l_ed << l_eds[p_tree.key]) _isnt _unset 
+	   _then >> l_ed
+	   _else >> l_eds[p_value_id]
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.property_item_select( p_selection, p_by_user?)
+	## 
+	## 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.prop_double( p_selection)
+	#
+	## Double Click selector of property tree that enables edting
+	## the style roperties of the symbol style properties like the
+	## :goto_line_style and :text_style
+	#
+	
+	#DEBUG _global dcc
+	#DEBUG dcc << p_selection
+	
+	_local l_key << p_selection.key
+	#DEBUG write("Double Click ",l_key)
+
+	_if l_key = :goto_line_style
+	_then
+		_self.enable_goto_line_style_edit(p_selection)
+		
+	_elif l_key = :text_style _orif
+	      l_key = :value_text_style
+	_then
+		_self.enable_text_style_edit(p_selection,l_key)
+		
+	_elif l_key = :highlight_text_style
+	_then
+		_self.enable_highlight_text_style_edit(p_selection)
+		
+	_elif l_key = :goto_area_style
+	_then
+		_self.enable_goto_area_style_edit(p_selection)
+	_elif l_key = :background_fill_style _orif
+	      l_key = :value_fill_style
+	_then
+		_self.enable_edit_fill_style(p_selection,l_key)
+	_elif l_key.index_of_seq(:_boxed) _isnt _unset
+	_then
+		_self.enable_line_style_edit_for(p_selection,:text_line)
+
+	_elif l_key.index_of_seq(:bg_fill) _isnt _unset
+	_then
+		_self.enable_text_bg_fill_edit(p_selection)
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.enable_edit_fill_style(p_selection,p_key)
+	## 
+	## 
+
+	_if p_selection.children.size = 0
+	_then _self.create_fill_style_tree(p_selection,p_key)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.enable_line_style_edit_for(p_selection,p_key)
+	## 
+	## Add line style dtrees below P_SELECTION with key P_KEY
+	##
+	
+	_if p_selection.children.size = 0
+	_then _self.create_line_style_tree_for(p_selection,p_key)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true	
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.enable_goto_line_style_edit(p_selection)
+	# 
+	## If not yet created, create the child display trees with the
+	## properties of the line_style in p_selection.
+	## Expand P_SELECTION
+	#
+
+	_if p_selection.children.size = 0
+	_then _self.create_line_style_tree_for(p_selection,:goto_line)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true	
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.enable_goto_area_style_edit(p_selection)
+	# 
+	## If not yet created, create the child display trees with the
+	## properties of the area_style in p_selection.
+	## Expand P_SELECTION
+	#
+
+	_if p_selection.children.size = 0
+	_then _self.create_goto_area_style_tree(p_selection)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.enable_text_style_edit(p_selection,p_key)
+	# 
+	## If not yet created, create the child display trees with the
+	## properties of the text_style in p_selection.
+	## Expand P_SELECTION
+	#
+
+	_if p_selection.children.size = 0
+	_then _self.create_text_style_tree_for(p_selection,p_key)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true	
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.enable_highlight_text_style_edit(p_selection)
+	# 
+	## If not yet created, create the child display trees with the
+	## properties of the highlight_text_style in p_selection.
+	## Expand P_SELECTION
+	#
+
+	_if p_selection.children.size = 0
+	_then _self.create_text_style_tree_for(p_selection,:hi_text_style)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true	
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.enable_text_bg_fill_edit(p_selection)
+	# 
+	## If not yet created, create the child display trees with the
+	## properties of the text_style in p_selection.
+	## Expand P_SELECTION
+	#
+
+	_if p_selection.children.size = 0
+	_then _self.create_text_bg_fill_tree(p_selection)
+	_endif
+	_if _not p_selection.expanded?
+	_then p_selection.expanded? << _true	
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.create_text_style_tree_for(p_selection,p_key)
+	# 
+	## Create the display trees with the properties of the
+	## text_style hold in P_SELECTION.value[:property_value].
+	#
+	
+	#DEBUG write(_self,".create_text_style_tree_for(",p_selection,%,,p_key,")" )
+
+	_local l_key,l_dtree
+	
+	# Font name
+	l_key << p_key+:_font_name
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,:text,"Font name", :tab, :value, :font_name}
+	l_dtree.set_value_method(_self,{:|get_font_value()|,:name,l_dtree},:|set_font_value()|,:name)
+	p_selection.add_child(l_dtree)
+
+	# Font size
+	l_key << p_key+:_font_size
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,:text, "Font size", :tab, :value, :font_size}
+	l_dtree.set_value_method(_self,{:|get_font_value()|,:point_size,l_dtree},:|set_font_value()|)
+	p_selection.add_child(l_dtree)
+
+	# Font Orientation
+	l_key << p_key+:_font_orientation
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,:text, "Text orientation", :tab, :value, :font_orientation}
+	l_dtree.set_value_method(_self,{:|get_font_value()|,:orientation,l_dtree},:|set_font_value()|)
+	p_selection.add_child(l_dtree)
+	
+	# Fixed size?
+	l_key << p_key+:_fixed_size
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image, :text, "Fixed size?", :tab, :value, :fixed_size?}
+	l_dtree.set_value_method(_self,{:|get_value()|,:fixed_size?,l_dtree},{:|set_value()|,l_dtree,:fixed_size?})
+	p_selection.add_child(l_dtree)
+
+	# Text Colour
+	l_key << p_key+:_colour
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,{:text_colour,:style_widgets}, "Text colour", :tab,
+				  :custom_draw, .in_place_editors[:colour_format].custom_draw_renderer(),
+				  :value, :colour_format}
+	l_dtree.set_value_method(_self,{:|get_value()|,:foreg_colour,l_dtree},{:|set_value()|,l_dtree,:colour})
+	p_selection.add_child(l_dtree)
+	
+	# Xscale
+
+	# Underline?
+	l_key << p_key+:_underline
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,{ :text_underline, :style_properties}, "Underline?", :tab,
+				  :value, :underline?}
+	l_dtree.set_value_method(_self,{:|get_value()|,:underline?,l_dtree},{:|set_value()|,l_dtree,:underline?})
+	p_selection.add_child(l_dtree)
+	
+	# Overstrike?
+	l_key << p_key+:_overstrike
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,{ :text_strikethrough, :style_properties}, "Strikethrough?", :tab,
+				  :value, :overstrike?}
+	l_dtree.set_value_method(_self,{:|get_value()|,:overstrike?,l_dtree},{:|set_value()|,l_dtree,:overstrike?})
+	p_selection.add_child(l_dtree)
+
+	# Clear?
+	l_key << p_key+:_clear
+	l_dtree << display_tree.new(l_key )
+	l_dtree.styled_string << {:image,{ :text_clear_background, :style_properties}, "Clear bg?", :tab,
+				  :value, :clear?}
+	l_dtree.set_value_method(_self,{:|get_value()|,:clear?,l_dtree},{:|set_value()|,l_dtree,:clear?})
+	p_selection.add_child(l_dtree)
+
+	# Multiline?
+	l_key << p_key+:_multiline
+	l_dtree << display_tree.new(l_key )
+	l_dtree.styled_string << {:image, :text, "Multiline?", :tab,
+				  :value, :multiline?}
+	l_dtree.set_value_method(_self,{:|get_value()|,:multiline?,l_dtree},{:|set_value()|,l_dtree,:multiline?})
+	p_selection.add_child(l_dtree)
+	
+	# Border - a boolean that enables using unset line_style
+	l_key << p_key+:_boxed
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << {:image,{ :text_boxed, :style_properties}, "Box line", :tab,
+				  :value, :text_boxed}
+	l_dtree.set_value_method(_self,{:|get_sub_line()|,l_dtree,:line_style},{:|set_sub_line()|,l_dtree,:line_style})
+	p_selection.add_child(l_dtree)
+	
+	# Background Fill style - a boolean that enables unset fill_style
+	l_key << p_key+:_bg_filled
+	l_dtree << display_tree.new(l_key)
+	l_dtree.styled_string << { :image, {:area_colour, :style_widgets}, "Background", :tab,
+				   :value, :text_bg_filled}
+	l_dtree.set_value_method(_self,{:|text_fill_style?()|,l_dtree,:fill_style},{:|set_text_fill_style?()|,l_dtree,:text_bg_filled})
+	p_selection.add_child(l_dtree)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.create_text_bg_fill_tree(p_selection)
+	## 
+	## 
+
+	# Colour
+	l_dtree << display_tree.new(:text_bg_colour)
+	l_dtree.styled_string << { :image, {:area_colour, :style_widgets}, "Colour", :tab,
+				   :custom_draw,.in_place_editors[:colour_format].custom_draw_renderer(),
+				   :value,:colour_format}
+	l_dtree.set_value_method(_self,{:|get_fill_value()|,:colour,l_dtree},{:|set_fill_value()|,l_dtree,:colour})
+	p_selection.add_child(l_dtree)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.get_fill_value(p_key,p_elem)
+	## 
+	##
+	_local l_style << p_elem.parent.parent.value[:property_value].fill_style
+	_local l_value << _if l_style _isnt _unset 
+			  _then >> l_style.perform(p_key)
+			  _endif
+	#DEBUG write("Got fill value ",l_value,% ,p_key," for elem ",p_elem)
+	>> l_value
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.set_fill_value(p_elem,p_key,p_value)
+	## 
+	## 
+	#DEBUG write("set_fill_value ",p_elem,% ,p_key,% ,p_value)
+
+#	_local l_fill << p_elem.parent.value
+	_local l_fill << p_elem.parent.parent.value[:property_value].fill_style
+	_local l_new << _if l_fill _isnt _unset 
+			_then
+				#DEBUG write("  Updating fill style ",l_fill," with ",p_value)
+				>> l_fill.copy_with_colour(p_value)
+			_else
+				#DEBUG write("  Created fill style with ",p_key,% ,p_value)
+				>> fill_style.new_with_properties(p_key,p_value)
+			_endif
+	
+	_self.set_value(p_elem.parent,:fill_style,l_new)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.get_font_value(p_key,p_elem)
+	## 
+	##
+
+	_local l_value
+	_try _with p_cond
+		l_value << p_elem.parent.value[:property_value].font.perform(p_key)
+		#DEBUG write("GOT_font_value ",p_key,% ,p_elem,% ,l_value)
+	_when error 
+		write(p_cond.report_contents_string)
+	_endtry
+
+	>> l_value
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.set_font_value(p_value,p_key,p_elem)
+	## 
+	##
+	
+	#DEBUG write("SET_FONT_value ",p_value,% ,p_key,% ,p_elem)
+	_local l_txt_style << p_elem.parent.value[:property_value]
+	_local l_cfont << l_txt_style.font
+	_local l_new_font
+	
+	_if p_key = :font_name
+	_then
+		# Create new font with name P_VALUE
+		l_new_font << font.new_with_properties(:type, :logical,
+						       :name, p_value,
+						       :orientation,l_cfont.orientation,
+						       :point_size,l_cfont.point_size)
+	_elif p_key = :font_size
+	_then
+		# Create new font with point_size P_VALUE
+		l_new_font << font.new_with_properties(:type,:logical,
+						       :name,l_cfont.name,
+						       :orientation,l_cfont.orientation,
+						       :point_size,p_value)
+		
+	_elif p_key = :font_orientation
+	_then
+		# Create new font with orientation P_VALUE
+		l_new_font << font.new_with_properties(:type,:logical,
+						       :name,l_cfont.name,
+						       :orientation,p_value,
+						       :point_size,l_cfont.point_size)
+		
+	_endif
+
+	# Update the value in the tree
+	_self.set_value(p_elem,:font,l_new_font)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.create_line_style_tree_for(p_selection,p_key)
+	# 
+	## Generic creation method for line_style_properties.
+	## Create the display trees with prefix key p_ke.
+	## The properties of the line_style hold in
+	## P_SELECTION.value[:property_value].
+	## The get_line_value() and set_line_value() methods for these children
+	## operate on this style.
+	#
+	
+	_local l_key,l_dtree
+	_local l_editors << .in_place_editors
+
+	# Line width
+	l_key << p_key+:_width
+	l_dtree << display_tree.new(l_key)
+	l_dtree.set_value_method(_self,{:|get_line_value()|,:width,l_dtree},{:|set_line_value()|,:width,l_dtree})
+	l_dtree.styled_string << { :image, { :line_width, :style_widgets}, "Line width", :tab,
+				   :custom_draw, l_editors[:line_width_format].custom_draw_renderer(),
+				   :value, :line_width_format}
+	p_selection.add_child(l_dtree)
+
+	# Line fg colour
+	l_key << p_key+:_fg_colour
+	l_dtree << display_tree.new(l_key)
+	l_dtree.set_value_method(_self,{:|get_line_value()|,:colour,l_dtree},{:|set_line_value()|,:foreground_colour,l_dtree})
+	l_dtree.styled_string << { :image, {:line_colour, :style_widgets}, "Line colour", :tab,
+				   :custom_draw,l_editors[:colour_format].custom_draw_renderer(),
+				   :value,:colour_format}
+	p_selection.add_child(l_dtree)
+
+	# Line dash pattern
+	l_key << p_key+:_dash_pattern
+	l_dtree << display_tree.new(l_key)
+	l_dtree.set_value_method(_self,{:|get_line_value()|,:dash_style,l_dtree},{:|set_line_value()|,:dash_pattern,l_dtree})
+	l_dtree.styled_string << { :image, { :dash_pattern, :style_widgets}, "Dash pattern", :tab,
+				   :custom_draw,l_editors[:dash_pattern_format].custom_draw_renderer(),
+				   :value, :dash_pattern_format }
+	p_selection.add_child(l_dtree)
+
+	# Line end style
+	l_key << p_key+:_end_style
+	l_dtree << display_tree.new(l_key)
+	l_dtree.set_value_method(_self,{:|get_line_value()|,:cap_style,l_dtree},{:|set_line_value()|,:cap_style,l_dtree})
+	l_dtree.styled_string << { :image, { :line_end_style, :style_widgets}, "End style", :tab,
+				   :custom_draw,l_editors[:line_end_style_format].custom_draw_renderer(),
+				   :value,:line_end_style_format}
+	p_selection.add_child(l_dtree)
+
+	# Line join style
+	l_key << p_key+:_join_style
+	l_dtree << display_tree.new(l_key)
+	l_dtree.set_value_method(_self,{:|get_line_value()|,:join_style,l_dtree},{:|set_line_value()|,:join_style,l_dtree})
+	l_dtree.styled_string << { :image, { :line_join_style, :style_widgets}, "Join style", :tab,
+				   :custom_draw,l_editors[:line_join_style_format].custom_draw_renderer(),
+				   :value, :line_join_style_format}
+	p_selection.add_child(l_dtree)
+
+	# Background colour
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.get_line_value(p_key,p_elem)
+	# 
+	## value method for the line_style properties
+	#
+	#DEBUG write("GET_LINE_VALUE " ,p_key,% ,p_elem)
+
+	_local l_parent << p_elem.parent
+	_local l_value << l_parent.value
+	
+	_local l_style << 
+		_if l_value.is_kind_of?(property_list)
+		_then
+			>> l_value[:property_value]
+		
+		_elif l_value.is_kind_of?(_true)
+		_then
+			>> l_parent.parent.value[:property_value]
+		_endif
+	
+	_local l_style_prop <<
+		_if l_style.is_kind_of?(line_style)
+		_then
+			>> l_style.perform(p_key)
+		_elif l_style.is_kind_of?(fill_style)
+		_then
+			>> _if (l_line << l_style.outline_style) _isnt _unset
+			   _then >> l_line.perform(p_key)
+			   _endif
+		_elif l_style.is_kind_of?(text_style)
+		_then
+			>> _if (l_line << l_style.line_style) _isnt _unset
+			   _then >> l_line.perform(p_key)
+			   _endif
+		_endif
+	
+	#DEBUG write("GOT_LINE_VALUE " ,p_key,% ,l_style_prop)
+	
+	>> l_style_prop
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.set_line_value(p_key,p_elem,p_value)
+	## 
+	## 
+	#DEBUG write("SET_LINE_value ",p_key,% ,p_elem,% ,p_value)
+
+	_local l_parent << p_elem.parent
+	_local l_value << l_parent.value
+	
+	_if l_value.is_kind_of?(property_list)
+	_then
+		# Top level property eg GOTO_LINE_STYLE
+		_self.set_value(p_elem,p_key,p_value)
+		
+	_elif l_value.is_kind_of?(_true)
+	_then
+		# Line style as sub_style text_style or fill_style
+		_local l_top << l_parent.parent
+		_local l_style << l_top.value[:property_value]
+		_if l_style.is_kind_of?(fill_style)
+		_then
+			_local l_old_line << l_style.outline_style
+			_local l_new_line << l_old_line.copy_with_properties(p_key,p_value)
+			_self.set_value(l_parent,:outline_style,l_new_line)
+			
+		_elif l_style.is_kind_of?(text_style)
+		_then
+			_local l_old_line << l_style.line_style
+			_if l_old_line _isnt _unset 
+			_then
+				_local l_new_line << l_old_line.copy_with_properties(p_key,p_value)
+				_self.set_value(l_parent,:line_style,l_new_line)	
+			_endif
+		_endif
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.text_fill_style?(p_elem,p_key)
+	## 
+	## 
+	_local l_fill << p_elem.parent.value[:property_value].perform(p_key)
+	>> l_fill _isnt _unset 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.set_text_fill_style?(p_elem,p_key,p_value)
+	#
+	## Value setter for text background fill Y/N
+	#
+	
+	#DEBUG write("set_text_fill_style? ",p_elem,%,,p_value)
+	_local l_style << p_elem.parent.value[:property_value]
+	_local l_fill << l_style.fill_style
+	#DEBUG write("Found style" ,l_style,%,,l_fill)
+	
+	_if p_value = _true 
+	_then
+		_if l_fill _is _unset 
+		_then
+			# Create 
+			l_fill << fill_style.new_with_properties(:colour,colour)
+			_self.set_value(p_elem,:fill_style,l_fill)
+		_endif
+
+		_if p_elem.children.size = 0
+		_then _self.create_text_bg_fill_tree(p_elem)
+		_endif
+
+		_if _not p_elem.expanded?
+		_then p_elem.expanded? << _true 
+		_endif
+		
+	_else
+		_if l_fill _isnt _unset 
+		_then
+			# Delete
+			_self.set_value(p_elem,:fill_style,_unset)
+		_endif
+		_if p_elem.expanded? _is _true 
+		_then p_elem.expanded? << _false
+		_endif
+	_endif
+
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.get_sub_line(p_elem,p_key)
+	# 
+	## returns boolean whether there is a line_style in a style
+	## This is the value method for the parent Y/N element
+	
+	_local l_line << p_elem.parent.value[:property_value].perform(p_key)
+	#DEBUG write("GET SUB LINE " ,p_elem,% ,p_key,% ,l_line)
+	>> l_line _isnt _unset
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_method raster_symbol_manager_gui.set_sub_line(p_elem,p_key,p_value)
+	## 
+	## Value setter for the top element of line_style values where
+	## the top element has an optional line_style.
+	## If the linestyle tree elements are not yet present, the
+	## elements as well as the line_style itself is created when
+	## P_VALUE is _true.
+	## If P_VALUE is _false, and a line_style exists, the
+	## line_style is destroyed.
+	#
+	#DEBUG write("SET SUB LINE ",p_elem,% ,p_key,% ,p_value)
+
+	_local l_style << p_elem.parent.value[:property_value]
+	_local l_line << l_style.perform(p_key)
+
+	_if p_value = _true 
+	_then
+		_if p_elem.children.size = 0
+		_then
+			_self.enable_line_style_edit_for(p_elem,p_key)
+		_else
+			_if _not p_elem.expanded?
+			_then p_elem.expanded? << _true 
+			_endif
+		_endif
+		
+		_if l_line _is _unset 
+		_then
+			# Create 
+			l_line << line_style.new_with_properties(:foreground_colour,colour,
+								 :width,1)
+			_self.set_value(p_elem,p_key,l_line)
+		_endif
+	_else
+		_if l_line _isnt _unset 
+		_then
+			# Delete
+			_self.set_value(p_elem,p_key,_unset)
+		_endif
+		_if p_elem.expanded? _is _true 
+		_then p_elem.expanded? << _false
+		_endif
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.create_goto_area_style_tree(p_selection)
+	# 
+	## Create the display trees with the properties of the
+	## area_style hold in P_SELECTION.value[:property_value].
+	## The get_value() and set_value() methods for these children
+	## operate on this style.
+	#
+
+	>> _self.create_fill_style_tree(p_selection,:goto_area)
+#	#DEBUG write(_self,".create_goto_area_style_tree(",p_selection,")" )
+#	_local l_style << p_selection.value[:property_value]
+#
+#	# Area colour
+#	l_dtree << display_tree.new(:goto_area_colour)
+#	l_dtree.set_value_method(_self,{:|get_value()|,:colour,l_dtree},{:|set_value()|,l_dtree,:colour})
+#	l_dtree.styled_string << { :image, {:area_colour, :style_widgets}, "Area colour", :tab,
+#				   :custom_draw,.in_place_editors[:colour_format].custom_draw_renderer(),
+#				   :value,:colour_format}
+#	p_selection.add_child(l_dtree)
+#
+#	# Outline Style?
+#	l_dtree << display_tree.new(:goto_area_outline)
+#	l_dtree.set_value_method(_self,{:|get_sub_line()|,l_dtree,:outline_style},{:|set_sub_line()|,l_dtree,:outline_style})
+#	l_dtree.styled_string << { "Outline style",:tab,:value,:outline_style}
+#	p_selection.add_child(l_dtree)
+#	
+#	_self.create_line_style_tree_for(l_dtree,:goto_area)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system}, usage={internal})
+_private _method raster_symbol_manager_gui.create_fill_style_tree(p_selection,p_key)
+	# 
+	## Create the display trees with the properties of a fill style
+	## for property P_KEY
+	## area_style hold in P_SELECTION.value[:property_value].
+	## The get_value() and set_value() methods for these children
+	## operate on this style.
+	#
+	
+	#DEBUG write(_self,".create_fill_style_tree(",p_selection,%,,p_key,")" )
+	_local l_style << p_selection.value[:property_value]
+
+	# Area colour
+	l_dtree << display_tree.new(p_key+:_colour)
+	l_dtree.set_value_method(_self,{:|get_value()|,:colour,l_dtree},{:|set_value()|,l_dtree,:colour})
+	l_dtree.styled_string << { :image, {:area_colour, :style_widgets}, "Area colour", :tab,
+				   :custom_draw,.in_place_editors[:colour_format].custom_draw_renderer(),
+				   :value,:colour_format}
+	p_selection.add_child(l_dtree)
+
+	# Outline Style?
+	l_dtree << display_tree.new(p_key +:_outline)
+	l_dtree.set_value_method(_self,{:|get_sub_line()|,l_dtree,:outline_style},{:|set_sub_line()|,l_dtree,:outline_style})
+	l_dtree.styled_string << { "Outline style",:tab,:value,:outline_style}
+	p_selection.add_child(l_dtree)
+	
+	_self.create_line_style_tree_for(l_dtree,p_key)
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.gray_or_normal_property(p_prop, _optional p_type)
+	## 
+	##
+	>> _if raster_symbol.readonly_properties[p_prop] _is _true
+	   _then >> :gray
+	   _else >> :black
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.edit_stop(p_tree,p_row,p_value_id,p_manager)
+	#
+	## We respond only to properties defined on the symbol, all
+	## other (style) property changes are handled by set_value()
+	## protocol.
+
+	_global qq
+	qq << p_tree
+	#DEBUG write("Edit stop ",p_tree,% ,p_row,% ,p_value_id)
+	_if p_value_id _is :property_value
+	_then
+	#DEBUG write("Edit stop ",p_tree,% ,p_row,% ,p_value_id,% ,p_tree.value[:property_value])
+		_local l_key << p_tree.key
+		_local l_value << p_tree.value[:property_value]
+		_self.update_symbol_from_prop_tree(l_key,l_value)
+	_endif
+_endmethod
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.edit_stop_default(p_tree,p_row,p_value_id,p_manager)
+	#
+	
+	_global qq
+	qq << p_tree
+	_if p_value_id _is :property_value
+	_then
+	#DEBUG write("Edit stop default ",p_tree,% ,p_row,% ,p_value_id,% ,p_tree.value[:property_value])
+		_local l_key << p_tree.key
+		_local l_value << p_tree.value[:property_value]
+		raster_symbol_handler.change_default(l_key,l_value,p_tree.value[:group])
+#		_self.update_symbol_from_prop_tree(l_key,l_value)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.font_names()
+	# 
+	## Returns the font names that can be selected
+	#
+	
+	_local values << font.known_scalable_fonts("screen").as_sorted_collection( :canonical_strings )
+	_local strings << values.map(_proc(string) >> string.canonical.capitalise _endproc )
+	>> {strings,strings}
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.font_orientations
+	##
+	## Returns the Font orientations to can be selected
+	##
+
+	>> {{:left_right,"Left to right"},{:top_bottom,"Top to Bottom"}}
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.auto_select_rwo_hierarchy_component?
+	## 
+	## 
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.follow_select()
+	## 
+	## 
+	.ui_items[:rwo_hierarchy_list].follow_select()
+	.ui_items[:rwo_list].refresh(:renew)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.options
+	## 
+	## My own and the plugin options (for xml)
+
+	_local l_props << property_list.new()
+	_local l_obj << property_list.new_with(:raster_symbol_manager_gui,l_props)
+	l_props[:current_module] << _self.current_module_name
+	l_props[:restrict_one_module?] << .restrict_one_module?
+	l_props[:highlight?] << _self.highlight?
+	l_props[:show_symbols_only?] << _self.show_symbols_only?
+
+	l_props << l_obj[:raster_symbol_plugin] << .plugin.options
+	>> l_obj
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.colourmap_changed(p_map)
+	## 
+	## 
+	#DEBUG write(_self," colourmap_changed ",p_map)
+	_if (l_sym << _self.current_symbol) _isnt _unset 
+	_then l_sym.colourmap_changed(p_map)
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.get_special(p_key,p_tree)
+	## 
+	##
+	#DEBUG write(_self," get_special ",p_key)
+	>> _if p_key _is :colourmap _andif 
+	       (l_sym << _self.current_symbol) _isnt _unset 
+	   _then >> l_sym.colourmap
+	   _elif p_key.index_of_seq(:_colour) _isnt _unset _andif
+		 (l_sym << _self.current_symbol) _isnt _unset 
+	   _then >> l_sym.perform(p_key)
+	   _endif
+		   
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.set_special(p_key,p_tree)
+	## 
+	##
+	#DEBUG write(_self," set_special ",p_key,%,,p_tree)
+	_self.update_symbol_from_prop_tree(p_key,p_tree.value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.value_schemes()
+	## 
+	## Returns string and values for the colour value scheme
+	## property depending on the current class 
+	##
+
+	_local l_object << _self.current_symbol.default(!current_package![:raster_symbol])
+	>> l_object.valid_data_types[:value_colour_scheme]
+#	_local strings << rope.new()
+#	_for i_val _over values.fast_elements()
+#	_loop strings.add(i_val.write_string.make_non_escape_string_pretty())
+#	_endloop
+#	_local l_rope << rope.new()
+#	_for i _over range(1,values.size)
+#	_loop l_rope.add({values[i],strings[i]})
+#	_endloop
+#	>> l_rope
+#	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.available_colourmaps()
+	## 
+	##
+	_local l_vec << rope.new()
+	_for i_key,i_map _over raster_symbol_handler.available_colourmaps.fast_keys_and_elements()
+	_loop l_vec.add({i_key,i_key})
+	_endloop
+	>> l_vec
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_manager_gui.update_named_colourmap_list()
+	## 
+	## 
+
+	_if (l_ed << .in_place_editors[:named_colourmap]) _isnt _unset 
+	_then l_ed.items << _self.available_colourmaps()
+	_endif
+
+_endmethod
+$

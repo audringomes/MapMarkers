@@ -1,0 +1,8 @@
+rs_drawing_speed_monitor 1
+description
+	Displays drawing speeds of points
+end
+requires
+	raster_symbols_gui
+	style_symbol_magik_gui
+end

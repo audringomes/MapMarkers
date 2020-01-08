@@ -1,0 +1,12 @@
+raster_symbols_test	1
+
+description
+	Unit tests for raster_symbols
+end
+requires
+	munit_base 4
+	munit_xml 4
+end
+tests_modules
+	raster_symbols_gui
+end

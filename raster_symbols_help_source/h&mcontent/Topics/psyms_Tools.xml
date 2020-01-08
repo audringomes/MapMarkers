@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Tools</title>
+  <body>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">These tools are not part of the software.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

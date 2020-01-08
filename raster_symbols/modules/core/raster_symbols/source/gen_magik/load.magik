@@ -1,0 +1,14 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package user
+
+_block
+	_local (l_n,l_p) << system.pathname_components(!source_file!)
+	!auto_load!(l_p)
+_endblock
+$

@@ -1,0 +1,45 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:symbol_value_manager)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## Convert string into symbol
+##
+def_slotted_exemplar(:symbol_value_manager,{},:value_manager)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method symbol_value_manager.format(p_value)
+	## 
+	##
+	>> _if p_value _isnt _unset 
+	   _then >> p_value.as_symbol()
+	   _else >> ""
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method symbol_value_manager.parse(p_value)
+	## 
+	## 
+	>> _self.format(p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method symbol_value_manager.convert(p_value)
+	## 
+	## 
+	>> _self.format(p_value)
+_endmethod
+$

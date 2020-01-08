@@ -1,0 +1,12 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+_pragma(classify_level=basic, topic={style_system})
+_method wo_rwo_record.rs_string
+	## 
+	## 
+	>> _self.description()
+_endmethod
+$

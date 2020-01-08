@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Colourmap</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Raster images that are processed as grids have a colourmap if the raster image is a 8bit raster or less. This colourmap can be inspected and changed.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The maximum size of a colourmap is 32.</text><br/></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" translate="true">A Grid raster Symbol with gradient colours:</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0070.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

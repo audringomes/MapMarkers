@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Follow selection</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The button </text><text styleclass="User Interface Element" translate="true">Follow Selection </text><image src="follow.png" scale="100.00%" styleclass="TableText"></image><text styleclass="TableText" translate="true"> takes a graphics selection and opens and selects the geometry field in the rwo hierarchy list at the right in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto-Mapping-tab" styleclass="TableText" translate="true">Goto Mapping tab</link><text styleclass="TableText" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Save</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">With the button </text><text styleclass="User Interface Element" translate="true">Save</text><text styleclass="Normal" translate="true">, the configuration is saved in an XML file. It is saved with the name </text><text styleclass="Normal" style="font-weight:bold;" translate="true">raster_symbols_configuration.xml.</text><br/><text styleclass="Normal" translate="true">The path is derived by the method </text><text styleclass="Code in text" translate="true">raster_symbol_handler.data_file_name</text><text styleclass="Normal" translate="true">, which by default is in the data folder of the module </text><text styleclass="Normal" style="font-weight:bold;" translate="true">raster_symbols</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">See for details </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_XML-configuration" styleclass="Normal" translate="true">Features &gt; XML Storage</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

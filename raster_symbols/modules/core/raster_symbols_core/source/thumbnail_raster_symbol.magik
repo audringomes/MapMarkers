@@ -1,0 +1,130 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:thumbnail_raster_symbol)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Specialized symbol subclass that on normal draw, draws it
+## thumbnail, but on highlight the actual picture.
+##
+## The singleton raster_symbol_handler is resposable for the
+## creation, caching and managing of raster_symbols.
+## See 
+## 
+## Raster Symbols must be organised a resource of a module, but
+## the actual file of a thumbnail_picture_symbol may be
+## anywhere, as long as it is accessible.
+##
+## The following properties are for this type only:
+##   keygen_method - a method that generates the symbol_name
+##
+## Usage:
+##  new_with_properties()
+##  draw_on()
+##  
+#
+def_slotted_exemplar(:thumbnail_raster_symbol,{},
+	:raster_symbol)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+##
+## The data and types for this subclass
+##
+thumbnail_raster_symbol.define_shared_constant(:data_types,
+	property_list.new_with(:keygen_method,""),
+	:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method thumbnail_raster_symbol.valid_data_types
+	# 
+	## subclassed, with own properties and super included
+	#
+	_local l_types << _super.valid_data_types
+	_for i_key,i_val _over _self.data_types.fast_keys_and_elements()
+	_loop l_types[i_key]<<i_val
+	_endloop
+	_self.define_shared_constant(:valid_data_types,l_types,:public)
+	>> l_types
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method thumbnail_raster_symbol.hidden?
+	## Subclass to disable use
+	>> _super.hidden?
+#	>> _true
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method thumbnail_raster_symbol.thumbnail_folder
+	## 
+	## 
+	>> sw_module_manager.module(:rs_associated_pictures).resource_list_for(:bitmaps)[:base]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method thumbnail_raster_symbol.draw_on(p_window,p_geom,p_highlight?,_optional p_text_string)
+	##
+	## Subclass that will do as normal draw a draw of the
+	## thumbnail, and as a highlight draw it will draw the original
+	## raster 
+	## 
+
+	#DEBUG write(_self,"[thumbnail_raster_symbol].draw_on(",p_window,p_geom,p_highlight?,p_text_string,%))
+	
+	_if p_highlight? _is _false
+	_then
+		_if (l_coord << _self.point_for_geom(p_geom)) _is _unset 
+		_then _return _false 
+		_endif
+		_return _self.draw_thumbnail_raster_on(p_window,l_coord)
+	_else
+		_return _super.draw_on(p_window,p_geom,p_highlight?)#,p_text_string)
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_private _method thumbnail_raster_symbol.draw_thumbnail_raster_on(p_window,p_coord)
+	## 
+	## Draw the thumbnail in stead of the raster image
+	##
+
+	#DEBUG write(_self,"draw_thumbnail_raster_on(",p_window,p_coord,")")
+	_local l_raster << .thumbnail
+	_local (l_width,l_height) << l_raster.size()
+	_local l_pxcoord << p_window.pixel_for(p_coord)
+
+	# Calculate pixel coord. raster_image coords are relative to
+	# top left. Adjust using the offset positions as identified by
+	# the user.
+	_local l_x << l_pxcoord.x+.pixel_offset.x
+	_local l_y << l_pxcoord.y-l_height+.pixel_offset.y
+
+	_if _self.draw_background?
+	_then
+		_local l_bb << pixel_bounding_box.new_with_size(l_x,l_y,l_width,l_height)
+		_self.draw_background(p_window,l_bb)
+	_endif
+	
+	#DEBUG write(_self," render plain raster at ",l_x,%,,l_y)
+	p_window.render_raster(l_raster,l_x,l_y,_true,_unset,l_width,l_height)
+
+	>> _true 
+
+_endmethod
+$
+
+
+

@@ -1,0 +1,9 @@
+_package user
+
+_pragma(classify_level=advanced, topic={style_system,sps}, usage={external})
+_method ws_hydrant.draw_raster_symbol(p_context,p_geom,p_rwo_style,p_draw?)
+	## Generated method from Picture Symbols GUI
+	raster_symbol_handler.symbol("Red Locator").draw_on(p_context,p_geom,p_rwo_style.style_type="highlight")
+	>> _true
+_endmethod
+$

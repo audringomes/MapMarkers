@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">MapMarkers</title>
+  <body>
+    <para styleclass="Normal"><table rowcount="1" colcount="1" style="width:100%; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:#eaeaea; head-row-background-color:none; alt-row-background-color:none;">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">This software is a spin-off of a Proof of Concept for drawing normal bitmaps on the maps in Smallworld GIS. The investigation revealed easy use of bitmap resources with transparency, mainly caused by the new alpha property of the object &apos;colour&apos;.</text><br/><text styleclass="TableText" translate="true">The use of grids and colour mappings for value mapping was a logical start, and is still a part of the module set.</text><br/><text styleclass="TableText" translate="true">The Configuration GUI is written as subclass of model, the plugin has actions and a toolbar. It seems to be very logical to build the GUI in the Style Designer application. There is no database involved, except for the tab RWO mappings, which interacts with the style view.</text><br/><text styleclass="TableText" translate="true">The software is shared with the whole Smallworld Community to be an inspiration. The GUI is mainly based on legacy widgets, but all of them function as designed. </text><br/><text styleclass="TableText" translate="true">The software will work from 4.3.0 and is lately tested on 5.2.2.</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The software is public domain, with courtesy of Realworld Software Products.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The basic idea behind the </text><var styleclass="Product Name">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true"> is to improve the visual interaction between the map and the user.</text><br/><text styleclass="Normal" translate="true">A better map makes it easier and faster to find the things a user needs. It displays and emphasize what is important for his specific task. </text><br/><text styleclass="TableText" translate="true">In the real world there are many users with many specific tasks. </text></para>
+    <para styleclass="Normal"><text styleclass="TableText" translate="true">Therefore, this product allows you to create configurations for different tasks.</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0056.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

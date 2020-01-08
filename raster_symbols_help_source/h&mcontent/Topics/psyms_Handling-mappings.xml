@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Handling of mappings</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">All mappings are stored as an instance of </text><text styleclass="Code in text" translate="true">goto_mapping</text><text styleclass="Normal" translate="true"> or the subclass </text><text styleclass="Code in text" translate="true">rwo_goto_mapping</text><text styleclass="Normal" translate="true">, and are handled by the </text><text styleclass="Code in text" translate="true">raster_symbol_handler.</text><br/></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Goto Mappings]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">default_goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B style_system
+<span class="function-name">
+</span>
+        <span class="comment">## returns the generic type mappings
+</span><span class="function-name">
+</span>
+<span class="function-name">goto_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B style_system
+<span class="function-name">
+</span>
+        <span class="comment">## resturns the specific mappings
+</span><span class="function-name">
+</span>
+<span class="function-name">specialised_mappings</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B style_system
+<span class="function-name">
+</span>
+        <span class="comment">## returns the specialised mappings
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="TableText"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Add specialised mapping]]></caption></toggle></para>
+    <para styleclass="TableText"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+
+<span class="function-name">add_specialised_mapping()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    B style_system
+ <span class="variable-name">p_type </span><span class="cb-font-lock-optional">OPT p_symname</span>
+
+        <span class="comment">## Add a new special type to the system. When P_SYMNAME is
+</span>        <span class="comment">## given, a mapping is created for it.
+</span><span class="function-name">
+</span>
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="TableText"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,823 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:grid_raster_symbol)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Subclass that creates and display symbols, stored in a Grid
+## Usage:
+##  new_with_properties()
+##  draw_on()
+##
+#
+def_slotted_exemplar(:grid_raster_symbol,
+	{
+		{:grid,_unset},
+		{:filename_alpha,_unset},
+		{:has_transparency?,_unset},
+		{:transparent_value,_unset},
+		{:show_transparency?,_unset},
+		{:washmap,_unset},
+		{:wash,_unset},
+		{:rle_encoded,_unset},
+		{:rle_encoded_washed,_unset},
+		{:smooth?,_true},
+		{:auto_fade?,_true}
+	},
+	:raster_symbol)
+$
+
+##
+## SLOT DEFINITIONS
+##
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## grid, slot holding simple_grid
+## 
+grid_raster_symbol.define_slot_access(:grid,:write,:private)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## auto_fade? 
+## 
+grid_raster_symbol.define_slot_access(:auto_fade?,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## Smooth?
+# 
+grid_raster_symbol.define_slot_access(:smooth?,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## Show transparency?
+# 
+grid_raster_symbol.define_slot_access(:show_transparency?,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## The colour index that is the transparent value
+# 
+grid_raster_symbol.define_slot_access(:transparent_value,:write,:public)
+$
+
+###
+### SHARED CONSTANTS
+###
+
+_pragma(classify_level=basic, topic={shuttle}, usage={external})
+## 255 for 8bit pictures with 1 colour transparency
+grid_raster_symbol.define_shared_constant(:default_transparent_index,255,
+	:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## The 25 bit stuff for transparency in 24bit png from
+## smallworld does not work. This value is 1.shift(24)-1
+grid_raster_symbol.define_shared_constant(:actual_24bittransparency_value,16777215,
+	:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## The default transparency factor for auto_fade grid
+#
+grid_raster_symbol.define_shared_constant(:auto_fade_correction,
+	0.3,
+	:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## The default scale auto_fade will be applied
+#
+grid_raster_symbol.define_shared_constant(:auto_fade_threshold,
+	0.05,
+	:public)
+$
+
+_pragma(classify_level=basic, topic={shuttle}, usage={external})
+##
+## The data and types for this subclass
+##
+grid_raster_symbol.define_shared_constant(:data_types,
+	property_list.new_with(:smooth?,_false,
+			       :filename_alpha,"",
+			       :wash,integer,
+			       :transparent_value,integer,
+			       :auto_fade?,_false,
+			       :show_transparency?,_true),
+	:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method grid_raster_symbol.valid_data_types
+	# 
+	## subclassed, with own properties and super included
+	#
+	_local l_types << _super.valid_data_types
+	_for i_key,i_val _over _self.data_types.fast_keys_and_elements()
+	_loop l_types[i_key]<<i_val
+	_endloop
+	_self.define_shared_constant(:valid_data_types,l_types,:public)
+	>> l_types
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method grid_raster_symbol.valid_unset_properties
+	#
+	## Subclassed with own properties and super included
+	#
+	_local l_types << rope.new_from(_super.valid_unset_properties)
+	_local l_my_types << rope.new_with(:smooth?,
+					   :filename_alpha,
+					   :wash,
+					   :transparent_value,
+					   :show_transparency?,
+					   :auto_fade?)
+	l_types.add_all_last(l_my_types)
+	_local l_vec << {}.new_from(l_types)
+	_self.define_shared_constant(:valid_unset_properties,l_vec,:public)
+	>> l_vec
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.new_with_properties(p_filename,p_properties)	
+	#
+	## Creates a grid_raster_symbol from P_FILENAME.
+	## See super implementation for details.
+	## P_PROPERTIES: property_list with property/value:
+	##
+	##              [super properties] +
+	##
+	##              :transparent_value - in case of byte palletted pictures
+	##                                   this is the index of the
+	##                                   colourmap that should be treated as 
+	##                                   transparent.
+	##              :smooth? - for grid types: smooth out visible grid lines
+	##              :auto_fade? - for grid types: draw transparent
+	##                            when zoomed in beyond a certain scele
+	##   (optional) :wash - wash percentage applied to image when drawn
+	##   (optional) :alpha_file - full pathname with transparency mask.
+
+	>> _clone.init(p_filename,p_properties)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.init(p_filename,p_properties)
+	#
+	## Initialize a clone with type :grid, populating the grid and
+	## rle_encoded.
+	#
+	#DEBUG write(_self," INIT ",p_filename," " ,p_properties)
+
+	_super.init(p_filename,p_properties)#,p_image)
+
+	_local l_defs << raster_symbol_handler.defaults
+	.transparent_value << p_properties[:transparent_value].default(_self.default_transparent_index)
+	.wash << p_properties[:wash].default(100)
+	.smooth? << p_properties[:smooth?].default(_true)
+	.auto_fade? << p_properties[:auto_fade?].default(_true)
+	.show_transparency? << p_properties[:show_transparency?].default(l_defs[:show_transparency?])
+
+	_self.load_grid_from_file()
+
+	_if .has_transparency? _andif .show_transparency? 
+	_then _self.make_grid_transparent()
+	_endif
+
+#	_self.load_alpha_from_file(p_properties[:alpha_file])
+#	_self.rle_encoded()
+	
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method grid_raster_symbol.properties
+	## for property gui element
+	##
+	_local l_prop << _super.properties
+	l_prop[:filename_alpha] << .filename_alpha
+	l_prop[:transparent_value] << .transparent_value
+	l_prop[:wash] << .wash
+	l_prop[:smooth?] << .smooth?
+	l_prop[:auto_fade?] << .auto_fade?
+	l_prop[:show_transparency?] << .show_transparency?
+	>> l_prop
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.validate_properties(_optional p_properties)
+	# 
+	## Check for valid values in P_PROPERTIES or (after
+	## realisation) (combination of) values of self.
+	#
+	
+	# As the super implementation with properties passed just use
+	# the valid_data_types, we call that.
+	_if p_properties _isnt _unset 
+	_then _return _super.validate_properties(p_properties)
+	_endif
+
+	_if _super.validate_properties() _is _true
+	_then
+		# Add some checks
+	_endif
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.load_grid_from_file()
+	#
+	## creates grid from file .filename
+	## If 8bit, extracts and stores the colourmap and sets the
+	## TRANSPARENT_VALUE (if given) in the colourmap to _unset.
+	#
+
+	_local l_strm << _self.input_stream_for_file (.filename)
+	#DEBUG write(_self," used stream ",l_strm)
+	_local l_pb   << l_strm.pixel_bounds
+	_local l_grid << .grid << simple_grid.new ( l_pb, l_strm.type )
+	
+	_protect
+		
+		l_grid.set_from_grid_input_stream ( l_strm )
+		#DEBUG write("Loaded grid from ",.filename," type ",l_grid.type)
+		_local l_type << l_grid.type
+		
+		#DEBUG write("Setting transparency for 24b")
+		.has_transparency? <<
+			_if .transparent_value _isnt _unset
+			_then >> .grid.contains_value?(.transparent_value)
+			_else >> _false
+			_endif
+		
+	_protection
+		l_strm.close()
+	_endprotect
+
+	>> .grid
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.load_alpha_from_file(_optional p_filename)
+	#
+	## loads the alpha mask from file P_FILENAME into .washmap.
+	## As the alpha_channnel could not be read from the stream of a
+	## multi plane 24bit image,
+	## When p_filename is unset, the alpha channel is exracted from
+	## .filename and the pathname of the output file returned.
+	## Note that when run outside the creation process,
+	## _self.rle_encoded() must be run again.
+	#
+
+	_local l_filename << p_filename
+	_if l_filename _is _unset _andif .grid.type = :integer
+	_then
+		_try _with p_cond
+			l_filename << _self.extract_alpha()
+			write("Alpha extracted to l_filename ",l_filename)
+		_when error 
+			write("Alpha extract failed for ",.filename," [",p_cond.report_contents_string,"]")
+		_endtry	
+	_endif
+	
+	#DEBUG write("Load alpha from ",l_filename)
+
+	_if l_filename _is _unset _orif
+	    _not system.file_exists?(l_filename)
+	_then _return _unset	
+	_endif
+
+	_local l_strm << _self.input_stream_for_file ( l_filename )
+	#DEBUG write(_self," used stream ",l_strm)
+	_local l_pb   << l_strm.pixel_bounds
+	_protect
+		
+		_local l_washmap << .washmap << simple_grid.new ( l_pb, :float)
+		l_washmap.set_from_grid_input_stream ( l_strm )
+		_if (l_cm << l_strm.colour_map) _isnt _unset 	    
+		_then 
+			_for i_val,i_col _over l_cm.fast_keys_and_elements()
+			_loop l_washmap.substitute(i_val,_self.gray_level(i_col))
+			_endloop
+		_endif
+		.filename_alpha << l_filename
+	_protection
+		l_strm.close()	
+	_endprotect
+
+	>> .washmap
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.extract_alpha(_optional p_filename)
+	#
+	## extract the alpha channel from the .filename and return the
+	## full pathname, which is a png in temp with <name>_alpha.png
+	## Note that this implementation uses the convert.exe from
+	## ImageMagick and is as such not very efficient.
+	#
+	_local l_inputfile << p_filename.default(.filename)
+	_local (l_name,l_dir) << system.pathname_components(l_inputfile)
+	_local (l_name_noex,l_ex) << system.split_filename(l_name)
+	_local l_outname << write_string(l_name_noex,"_alpha.png")
+	_local l_outpath << system.pathname_from_components(l_outname,
+							    system.temp_directory_name)
+	_local l_exe << _self.path_to_im_convert()
+	_local l_command << write_string(l_exe," ",
+					 l_inputfile,
+					 " -alpha extract ",
+					 l_outpath)
+	#DEBUG	write(l_command)
+	system.do_command(l_command,system.temp_directory_name)
+	
+	>> l_outpath
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.input_stream_for_file(p_filename)
+	#
+	## test the creation of a suitable grid input stream for file P_FILENAME.
+	## Streams are selected on file extension as stored in
+	## external_grid_input_stream.grid_stream_exemplars  
+	##
+	
+	_local (l_rest,l_extension) << system.split_filename(p_filename)
+	_local l_type << l_extension.canonical.as_symbol()
+	_local l_exem << external_grid_input_stream.grid_stream_exemplars[l_type]
+	
+	_local l_instance << _unset
+	_try _with p_cond
+		l_instance << l_exem.new(p_filename)
+	_when error
+		l_instance << _unset
+		condition.raise(:no_suitable_stream,
+				:symbol,_self,
+				:fname,p_filename)
+	_endtry
+	
+	>> l_instance
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.draw_preview_on(p_window)
+	## 
+	##
+
+#	_local l_cwidth << p_window.width
+#	_local l_cheight << p_window.height
+#	_local l_x << (l_cwidth/2.0 - _self.width/2.0).rounded
+#	_local l_y << (l_cheight/2.0 - _self.height/2.0).rounded
+#
+
+	# Draw the cells
+	_local l_transform << transform.new().scale(1.0)
+	.grid.draw_cells_on(p_window,l_transform)
+
+#	>> _self.draw_encoded_grid(p_window,coordinate.new(l_x,l_y),l_transform)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.show_transparency?<< p_value 
+	## 
+	## Changes the value of the tarnsparent colour index
+
+	.show_transparency? << p_value
+
+	# When this is true, a grid is realised and there are actual
+	# transparent values
+	_if .has_transparency? _is _true 
+	_then
+		_if p_value _is _true 
+		_then _self.make_grid_transparent()
+		_else _self.make_grid_non_transparent()
+		_endif
+	_endif
+
+	>> .show_transparency?
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.make_grid_transparent()
+	## 
+	## a noop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.make_grid_non_transparent()
+	## 
+	## a noop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.world_transform(p_window,p_coord)
+	#
+	## Returns the transform to be applied to draw self at
+	## P_COORD on P_WINDOW for both fixed_size? and not
+	#
+
+	_dynamic !current_unit_factor!
+	_if !current_unit_factor! _is _unset 
+	_then
+		_try
+			!current_unit_factor! << p_window.properties[:user_data].world.unit_factor
+		_when error
+			!current_unit_factor! << 1.0
+		_endtry
+	_endif
+	
+	_local l_magnification 
+	_if .fixed_size? _is _true
+	_then
+		l_magnification << 1.0/p_window.transform.nominal_scale
+	_else
+		l_magnification << (_self.draw_size_mm/_self.width).as_float
+	_endif
+	
+	#DEBUG write("world_transform magnification: ",l_magnification)
+	_local l_offs << .pixel_offset
+	_local l_transform << transform.new().
+			      scale(l_magnification).
+			      translate(p_coord.x + l_offs.x * l_magnification,
+					p_coord.y - l_offs.y * l_magnification)
+#					p_coord.y + l_offs.y * l_magnification)
+
+	>> l_transform
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.draw_image(p_window,p_coord)
+	##
+	## Draws super untill good use of grid is found
+	##
+
+	#DEBUG write(_self,"grid_raster_symbol.draw_image(",p_window,p_coord)
+	_if .fixed_size?
+	_then
+		_return _super.draw_image(p_window,p_coord)
+	_else 
+		_return _super.draw_scaled_raster_on(p_window,p_coord)
+	_endif
+
+#	>> _self.draw_encoded_grid(p_window,p_coord,l_transform)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method grid_raster_symbol.draw_encoded_grid(p_window,p_coord,p_transform)
+	# 
+	## Draw the (non transparent) colours from _self.rle_encoded on
+	## P_WINDOW, using P_TRANSFORM.
+	## Colours include alpha transparency when supplied
+	## as washmap.
+	## Gridded type symbols are washed with _self.auto_fade_correction when nonimal scale
+	## of the window exeeds _self.auto_fade_threshold.
+	#
+	
+	_local l_eg << 
+		_if .fixed_size? _isnt _true _andif .auto_fade? _is _true _and p_window.transform.nominal_scale > _self.auto_fade_threshold
+		_then
+			#DEBUG write("Draw faded encoded grid ",p_window.transform.nominal_scale)
+			
+			>> _self.duplicate_encoded(_self.auto_fade_correction)
+		_else
+			#DEBUG write("Draw encoded grid ",p_window.transform.nominal_scale)
+			>> .rle_encoded
+		_endif
+	
+	_for i_vec _over l_eg.fast_elements()
+	_loop
+		_local l_bb << i_vec[4].transform(p_transform)
+		i_vec[5].draw_sample(p_window,l_bb)
+	_endloop
+
+	>> _true 
+_endmethod
+$
+#
+#_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#_method grid_raster_symbol.draw_highlight(p_window,p_coord)
+#	# 
+#	## Subclass that draws transformed grid outline in _self.highlight_style
+#	##
+#
+#	_local l_transform << _self.world_transform(p_window,p_coord)
+#	.grid.pixel_bounds.transformed(l_transform).draw_on(p_window,_self.highlight_style,3)
+#
+#_endmethod
+#$
+##
+#_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#_method grid_raster_symbol.draw_background(p_window,p_transform)
+#	## 
+#	##
+#	_local l_bb << .grid.pixel_bounds.transformed(p_transform)
+#	l_bb.draw_on(p_window,_self.background_fill_style)
+#	
+#	>> l_bb
+#_endmethod
+#$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_private _method grid_raster_symbol.convert_washmap_to_percentage()
+	## 
+	## range 0-255 of an alpha wash converted into percentage.
+	## implementation should be improved.
+	##
+	_for x,y _over .washmap.pixels()
+	_loop
+		_local l_val << .washmap[x,y]
+		.washmap[x,y] << _if l_val = 0
+				  _then >> l_val
+				  _elif l_val = 255
+				  _then >> 100
+				  _else >> (0.25*l_val).rounded
+				  _endif
+	_endloop
+
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.actual_transparent_value
+	#
+	## Returns the value for the transparency of the current
+	## object. If the value .transparent_value is set, this will be
+	## returned.
+	## In other cases it will return
+	## _self.default_transparent_index for byte grids,
+	## _self.actual_24bittransparancy_value for integer grids
+	##    without washmap and
+	## 0 when a washmap is given
+	#
+
+	_if (l_val << .transparent_value) _isnt _unset 
+	_then _return l_val
+	_endif
+			
+	>> _if .grid.type = :integer
+	   _then
+		   >> _if .washmap _is _unset 
+		      _then >> _self.actual_24bittransparency_value
+		      _else >> 0
+		      _endif
+	   _else
+		   >> _self.default_transparent_index
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.is_transparent_value?(p_x,p_y)
+	# 
+	## Check for value against _unset and _self.actual_transparent_value
+	## In case a washmap is given, it returns _true if the value at
+	## .washmap[p_,p_y] = 0.
+	##
+	
+	_local l_is? << _false
+
+	_local l_grid << .grid
+	_local l_value << l_grid[p_x,p_y]
+	_if (l_type << l_grid.type) _is :byte
+	_then
+		_if l_value _is _unset _orif
+		    l_value = _self.actual_transparent_value
+		_then l_is? << _true 
+		_endif
+		
+	_elif l_type = :integer
+	_then
+		_if .washmap _is _unset 
+		_then
+			l_is? << (l_value = _self.actual_transparent_value)
+		_else
+			l_is? << (.washmap[p_x,p_y] = 0)
+		_endif
+	_endif
+	##DEBUG write("is_transparent_value? ",p_x,%,,p_y,%,,l_value," ",l_is?,_self.actual_transparent_value)
+	>> l_is?
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.rle_encoded()
+	#
+	## Create a compact set of drawing instructions from .grid
+	## For every row a rope is created with vectors with
+	##    {row,x_start,length,bboxoutline,fill_style}
+	## for every different colour/wash
+	## Transparant values are skipped.
+	## The result is stored in .rle_encoded and is drawn 
+	## by _self.draw_encoded_grid()
+	## Byte grids are encoded by default. Once this method is
+	## called, only .rle_encoded is used for drawing
+	#
+	
+	_local l_grid << .grid
+	_local l_pxbnds << l_grid.pixel_bounds
+	_local l_maxx << l_pxbnds.xmax
+	_local l_maxy << l_pxbnds.ymax
+	_local l_rowvals << .rle_encoded << rope.new()
+	_local l_smooth? << .smooth? _is _true 
+
+	# conpare values rather that colours, which have a tolerance
+	_for i_y _over range(1,l_maxy)
+	_loop
+		_local l_count << 1
+		_local l_val << l_grid[1,i_y]
+		_local l_write? << _true
+		_if i_y=l_maxy 
+		_then l_smooth? << _false
+		_endif
+		
+		_for i_x _over range(2,l_maxx)
+		_loop @xloop
+			
+			_local l_cval << l_grid[i_x,i_y]
+			_if l_cval = l_val
+			_then l_count +<< 1
+			      l_write? << _false
+			_else l_write? << _true
+			_endif
+			_if l_write? 
+			_then
+				_local l_start << _if l_count=l_maxx
+						  _then >> 1
+						  _else >> i_x-l_count
+						  _endif
+				_if _not _self.is_transparent_value?(l_start,i_y)
+				_then
+					_local l_ac << _self.colour_and_alpha_for(l_start,i_y)
+				#DEBUG write("y",i_y," x",i_x," count",l_count," start",l_start," val",l_val," col", l_ac," alpha",l_ac.alpha )
+					_self.create_rle_element(
+						i_y,
+						l_start,
+						l_count,
+						l_ac,
+						l_smooth?
+					      )
+				_endif
+				l_count << 1
+			_endif
+			
+			_if i_x=l_maxx _andif (l_write? _is _false _orif l_count = 1)
+			_then
+				_local l_start << i_x-l_count+1
+				_if _not _self.is_transparent_value?(l_start,i_y)
+				_then 
+
+					l_ac << _self.colour_and_alpha_for(l_start,i_y)
+					#DEBUG write("y",i_y," x",i_x," count",l_count,"start ",l_start," val",l_val," col", l_ac," alpha",l_ac.alpha )
+					_self.create_rle_element(
+						i_y,
+						l_start,
+						l_count,
+						l_ac,
+						l_smooth?
+					      )
+				_endif
+			_endif
+			l_val << l_cval
+		_endloop
+	_endloop
+
+	# update the washed too
+	_if .auto_fade? _is _true 
+	_then _self.duplicate_encoded(_self.auto_fade_correction,_true)
+	_endif
+	
+	>> l_rowvals
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method grid_raster_symbol.duplicate_encoded(p_adjust, _optional p_fresh?)
+	## Create a new encoded grid with alpha values divided by
+	## P_ADJUST that must be a value between 0 and 1
+	## IF P_FRESH? is true (default false), the existing data in .rle_encoded_washed
+	## is overwritten with a fresh copy before it is changed.
+	## returns the washed rle
+
+	_local l_egw << .rle_encoded_washed
+	_if l_egw _is _unset _orif p_fresh?.default(_false) _is _true 
+	_then
+		l_egw << .rle_encoded_washed << rope.new()
+		_local l_eg << .rle_encoded
+		_for i_vec _over l_eg.fast_elements() 
+		_loop
+			_local l_col << i_vec[5]
+			_local l_alpha << l_col.alpha*p_adjust
+			_local l_new_col << colour.new_rgb(l_col.red,l_col.green,l_col.blue)
+			l_new_col.set_alpha(l_alpha)
+			l_egw.add({i_vec[1],i_vec[2],i_vec[3],i_vec[4],l_new_col})
+		_endloop
+	_endif
+
+	>> l_egw
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method grid_raster_symbol.create_rle_element(p_row,p_x,p_len,p_col,p_smooth?)
+	#
+	## Creates an element that contains all information to draw a
+	## serie of pixels in a row with the same colour and alpha
+	## value.
+	#
+	_local l_ymax << _if p_smooth? _is _true
+			 _then >> p_row+1
+			 _else >> p_row
+			 _endif
+	_local l_bb << bounding_box.new(p_x,p_row-1,p_x+p_len,l_ymax)
+	>> .rle_encoded.add({p_row,p_x,p_len,l_bb,p_col})
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.colour_for_value(p_val)
+	## Create a colour from 24bit value P_VAL
+	>> colour.new_with_properties(:value,p_val)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method grid_raster_symbol.colour_and_alpha_for(x,y)
+	#
+	## Returns the colour for the value in grid[x,y] 
+	## If a washmap is present, its wash value is translated into a
+	## alpha value for the colour
+	#
+	#DEBUG write("colour_and_Alpha_for " ,x,%,,y)
+	_local l_colour << colour
+	_try
+		l_colour << _self.colour_for_value(.grid[x,y])
+		_if (l_map << .washmap) _isnt _unset 
+		_then
+			##DEBUG write(" Convert washmap value " ,x,y)
+			_local l_mskval << l_map[x,y]
+#			_local l_alpha << _self.convert_wash_to_alpha(l_mskval)
+#			l_colour.set_alpha(l_alpha)
+			l_colour.set_alpha(l_mskval)
+		_endif		
+	_when error
+		
+	_endtry
+	>> l_colour
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method grid_raster_symbol.rle_encoded?
+	## is .rle_encoded set?
+	>> .rle_encoded _isnt _unset 
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method grid_raster_symbol.dump(p_key)
+	## 
+	##
+	_local l_grid << _self.sys!slot(p_key)
+	_for i_rle _over l_grid.fast_elements()
+	_loop write("y:",i_rle[1]," startxx:",i_rle[2]," count:",i_rle[3]," colour:",i_rle[5])
+	_endloop
+_endmethod
+$

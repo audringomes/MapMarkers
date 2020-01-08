@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Name</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">A raster symbol is stored by the </text><text styleclass="Code in text" translate="true">raster_symbol_handler </text><text styleclass="Normal" translate="true">using a name as string. The following method returns the symbol keyed on name &quot;name&quot; or _unset:</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">raster_symbol_handler.symbol(&quot;name&quot;) </text></para>
+    <para styleclass="Code Example"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The ADD button in the GUI creates a symbol with a name derived from </text><text styleclass="Code in text2" translate="true">raster_symbol_handler.pretty_string_from_filename()</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">For convenience reason every instance of </text><text styleclass="Code in text" translate="true">raster_symbol</text><text styleclass="Normal" translate="true"> has a slot with this name.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The name is case-sensitive.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

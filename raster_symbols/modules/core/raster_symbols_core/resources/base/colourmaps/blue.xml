@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="windows-1252" standalone="yes"?>
+<colour_map name="Blue" num_layers="40" origin="0">
+	<colour index="0" red="0.92157" green="0.92157" blue="0.92157"/>
+	<colour index="1" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="2" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="3" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="4" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="5" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="6" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="7" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="8" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="9" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="10" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="11" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="12" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="13" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="14" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="15" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="16" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="17" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="18" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="19" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="20" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="21" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="22" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="23" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="24" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="25" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="26" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="27" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="28" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="29" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="30" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="31" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="32" red="0.22745" green="0.38431" blue="0.52549"/>
+	<colour index="33" red="0.35686" green="0.50588" blue="0.63922"/>
+	<colour index="34" red="0.35294" green="0.51765" blue="0.66667"/>
+	<colour index="35" red="0.36471" green="0.53333" blue="0.67451"/>
+	<colour index="36" red="0.32157" green="0.52157" blue="0.70196"/>
+	<colour index="37" red="0.31765" green="0.54118" blue="0.74510"/>
+	<colour index="38" red="0.34510" green="0.52941" blue="0.69412"/>
+	<colour index="39" red="0.35686" green="0.54118" blue="0.70196"/>
+</colour_map>

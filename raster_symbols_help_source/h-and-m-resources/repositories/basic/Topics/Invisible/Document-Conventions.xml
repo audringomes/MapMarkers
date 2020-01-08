@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../helpproject.xsd">
+  <title translate="true">Document Conventions</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The following typographic conventions are used throughout the document:</text></para>
+    <para styleclass="TableText" style="text-indent:0px; margin-right:0px; margin-left:0px; tabstops:none;"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="15" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="User Interface Element" translate="true">Arial Bold</text><text styleclass="TableText" translate="true"> face is used for the names of menus, editors and dialog boxes; also for the names of menu commands, buttons and fields in editors and dialog boxes.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Normal" style="font-style:italic;" translate="true">Italic</text><text styleclass="Normal" translate="true"> face is used:</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">• </text><text styleclass="TableText" translate="true">for emphasis</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">• </text><text styleclass="TableText" translate="true">in cross-references to sections, figures and tables, and titles of documents</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">• </text><text styleclass="TableText" translate="true">in References to module names or part of products</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Table Name" translate="true">Verdana Bold Blue</text><text styleclass="Normal" translate="true"> is used for the names of database Tables/Objects.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Field Name" translate="true">Verdana Bold Blue Italic</text><text styleclass="Normal" translate="true"> is used for the names of database fields.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">ALL CAPS are used for Keyboard keys, for example CTRL.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Text that represent a file path, e.g. </text><text styleclass="Filepath" translate="true">c:\smallworld</text><text styleclass="Normal" translate="true"> is marked </text><text styleclass="Filepath" translate="true">8pt bold</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Code in text" translate="true">Calibri Green Bold</text><text styleclass="Normal" translate="true"> is used for the names of code object references in the text.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Examples of source code </text><text styleclass="Normal" style="font-style:italic;" translate="true">without named syntax highlighting</text><text styleclass="Normal" translate="true"> are given in courier green, for example:</text></para>
+          <para styleclass="Code Example"><br/><text styleclass="Code Example" translate="true">_method example_class.example_method(argument)</text></para>
+          <para styleclass="Code Example"><text styleclass="Code Example" translate="true"> &#160; ##</text></para>
+          <para styleclass="Code Example"><text styleclass="Code Example" translate="true"> &#160; ##</text></para>
+          <para styleclass="Code Example"></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="vertical-align:middle; width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para styleclass="TableText"><conditional-text type="IF" value="HTML"/><text styleclass="TableText" translate="true">Links to internal topics are coloured bold blue and preceded by</text><text styleclass="Inline_Icon" translate="true">&#32;</text><image src="TopicReference.png" scale="100.00%" styleclass="Inline_Icon"></image><conditional-text type="END"/><conditional-text type="IF" value="PDF"/><text styleclass="TableText" translate="true">Links to internal topics are coloured blue and underlined together with a page referrer for printed output, like </text><image src="pdflinks.png" scale="100.00%" styleclass="Inline_Icon"></image><text styleclass="Inline_Icon" translate="true">.</text><conditional-text type="END"/></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="vertical-align:middle; width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">References to external documents are marked by</text><text styleclass="Inline_Icon" translate="true">&#32;</text><image src="ref_book.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="vertical-align:middle; width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">(step-by-step) instructions are preceded with</text><text styleclass="Inline_Icon" translate="true">&#32;</text><image class="wo_inline_icon" src="procedure.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:20px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="vertical-align:middle; width:20px;">
+          <para styleclass="TableText"><text style="font-family:Verdana; font-size:9pt; font-weight:bold; color:#000000;" translate="true">•</text></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">References to internet links are preceded with</text><text styleclass="Inline_Icon" translate="true">&#32;</text><image src="Weblink1616.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Topics under construction have the folllowing background image. To ease reading and save energy the background of all pages is in colour whitesmoke.</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="1">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><image src="UnderConstruction.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,10 @@
+raster_symbols layered_product
+title
+	Enables drawing of pictures as symbols
+end
+
+description
+	
+end
+
+version 5.2.2

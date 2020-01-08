@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    	<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+<span class="magik-font-lock-keyword-statements"><span class="region">_pragma</span></span><span class="magik-font-lock-pragma"><span class="region">(classify_level=advanced, topic={raster_symbols,test})</span></span><span class="region">
+</span><span class="function-name"><span class="region">_method</span></span><span class="region"> </span><span class="type"><span class="region">test_case_1</span></span><span class="region">.</span><span class="function-name"><span class="region">test_changing_default_symbol</span></span><span class="region">()
+</span><span class="doc"><span class="region">        ## </span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ## This test relies on a raster symbol definition "LocatorBlue"</span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ## and changes the name for the default symbol</span></span><span class="comment"><span class="region">
+</span></span><span class="doc"><span class="region">        ##</span></span><span class="comment"><span class="region">
+</span></span><span class="region">
+        </span><span class="magik-font-lock-keyword-variable"><span class="region">_local</span></span><span class="region"> l_sym &lt;&lt; raster_symbol_handler.</span><span class="function-name"><span class="region">get_symbol</span></span><span class="region">(</span><span class="string"><span class="region">"LocatorBlue"</span></span><span class="region">)
+
+        raster_symbol_handler.</span><span class="function-name"><span class="region">change_default</span></span><span class="region">(</span><span class="magik-font-lock-symbol"><span class="region">:default_raster_symbol_name</span></span><span class="region">,</span><span class="string"><span class="region">"LocatorBlue"</span></span><span class="region">)
+
+        </span><span class="magik-font-lock-keyword-variable"><span class="region">_local</span></span><span class="region"> (l_dsym,l_dname) &lt;&lt; rsh.default_raster_symbol
+
+        </span><span class="type"><span class="region">_self</span></span><span class="region">.assert</span><span class="constant"><span class="region">_true</span></span><span class="region">(l_sym </span><span class="magik-font-lock-keyword-operators"><span class="region">_is</span></span><span class="region"> l_dsym,</span><span class="string"><span class="region">"Default symbol is now LocatorBlue"</span></span><span class="region">) 
+        
+</span><span class="function-name"><span class="region">_endmethod</span></span><span class="region">
+$
+</span></pre>
+  </body>
+</html>

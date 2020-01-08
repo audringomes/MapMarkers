@@ -1,0 +1,478 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:xml_handler)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+##
+## does the conversion to and from raster symbol configurations
+##
+def_slotted_exemplar(:xml_handler,{})
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method xml_handler.?_as_p(p_collection)
+	## 
+	##
+
+	_if _not p_collection.responds_to?(:|rindex_of_seq()|)
+	_then _return p_collection
+	_endif
+
+	>> _if (l_pos << p_collection.rindex_of_seq("?")) = p_collection.size
+	   _then >> p_collection.slice(1,l_pos-1) + "_p",_true 
+	   _else >> p_collection,_false
+	   _endif
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method xml_handler.p_as_?(p_collection)
+	## 
+	## 
+
+	_if _not p_collection.responds_to?(:|rindex_of_seq()|)
+	_then _return p_collection
+	_endif
+
+	>> _if (l_pos << p_collection.rindex_of_seq("_p")) = p_collection.size-1
+	   _then >> p_collection.slice(1,l_pos-1) + %?,_true 
+	   _else >> p_collection,_false
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method xml_handler.properties_without?(p_properties)
+	## 
+	## Remove question mark character
+	##
+
+	_local l_xml_properties << property_list.new()
+	_for i_key,i_val _over p_properties.fast_keys_and_elements()
+	_loop (nwkey,changed?) << xml_handler.?_as_p(i_key)
+	      l_xml_properties[nwkey] << i_val
+	_endloop
+	
+	>> l_xml_properties
+		
+_endmethod
+$
+
+################################################
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_colour(p_colour,_optional p_tag)
+	#
+	## returns simple_xml_thing element with type p_tag.default(:colour)
+	## P_COLOUR is a colour object. Returned values are RGBA
+	#
+	_local l_val << (_allresults p_colour.rgb())
+	_local l_colrope << rope.new()
+	l_colrope.add(sw:simple_xml_thing.new(:red,l_val[1].write_string))
+	l_colrope.add(sw:simple_xml_thing.new(:green,l_val[2].write_string))
+	l_colrope.add(sw:simple_xml_thing.new(:blue,l_val[3].write_string))
+	l_colrope.add(sw:simple_xml_thing.new(:alpha,p_colour.alpha.write_string))
+	_local l_xml << sw:simple_xml_thing.new(p_tag.default(:colour),l_colrope)
+	>> l_xml
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_line_style(p_line_style,_optional p_tag)
+	# 
+	## returns simple_xml_thing from P_LINE_STYLE with key P_TAG
+	## (default :line_style)
+	## If P_LINE_STYLE is unset, an empty element with type P_TAG
+	## or its default is returned.
+	#
+
+	_local l_tag << p_tag.default(:line_style)
+	_if p_line_style _is _unset 
+	_then _return sw:simple_xml_thing.new(l_tag)
+	_endif
+	
+	_local l_rope << rope.new()
+	_local l_xmlls << sw:simple_xml_thing.new(l_tag,l_rope)
+	
+	# colour
+	_local l_colour << p_line_style.colour
+	_local l_xmlcol << _self.xml_colour(l_colour)
+	l_rope.add(l_xmlcol)
+
+	# width
+	l_rope.add(sw:simple_xml_thing.new(:width,p_line_style.width.write_string))
+	# cap_style
+	l_rope.add(sw:simple_xml_thing.new(:cap_style,p_line_style.cap_style.write_string))
+	# join_style
+	l_rope.add(sw:simple_xml_thing.new(:join_style,p_line_style.join_style.write_string))
+	
+	>> l_xmlls
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_font(p_font)
+	# 
+	## returns a simple_xml_thing with elements containing the
+	## attributes of font P_FONT.
+	## If P_FONT is unset, it will return an empty element :font
+	#
+	
+	_local l_font << p_font
+	_if l_font _is _unset 
+	_then _return sw:simple_xml_thing.new(:font)
+	_endif
+
+	_local l_frope << rope.new()
+	_local l_fxml << sw:simple_xml_thing.new(:font,l_frope)
+
+	l_frope.add(sw:simple_xml_thing.new(:type,l_font.identification[1]))
+	l_frope.add(sw:simple_xml_thing.new(:name,l_font.identification[2]))
+
+	_if l_font.identification.size = 3
+	_then l_frope.add(sw:simple_xml_thing.new(:point_size,
+			write_string(l_font.identification[3])))
+	_endif
+	
+	l_frope.add(sw:simple_xml_thing.new(:orientation,l_font.orientation))
+
+	>> l_fxml
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_fill_style(p_fill_style)
+	#
+	## returns a simple_xml_thing from P_FILL_STYLE
+	## If P_FILL_STYLE is unset, an empty element with type
+	## :fill_style is returned
+	#
+
+	_local l_rope << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:fill_style,l_rope)
+
+	_if p_fill_style.is_kind_of?(colour)
+	_then l_rope.add(_self.xml_colour(p_fill_style,:foreground_colour))
+	      _return l_xml
+	_endif
+	
+	_if (l_col << p_fill_style.colour) _isnt _unset 
+	_then l_rope.add(_self.xml_colour(l_col,:foreground_colour))
+	_endif
+
+	_if (l_wash << p_fill_style.percent) _isnt _unset 
+	_then l_rope.add(sw:simple_xml_thing.new(:wash_percent,l_wash.write_string))
+	_endif
+
+	# pattern
+	_if (l_pat << p_fill_style.pattern) _isnt _unset 
+	_then l_rope.add(sw:simple_xml_thing.new(:pattern,l_pat.write_string))
+	_endif
+	
+	# outline_style
+	_if (l_line << p_fill_style.outline_style) _isnt _unset 
+	_then l_rope.add(_self.xml_line_style(l_line,:outline_style))
+	_endif
+	
+	# overlay_style
+	
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_text_style(p_text_style,_optional p_tag)
+	#
+	## returns a simple_xml_thing with elements defining the
+	## properties of text_style P_TEXT_STYLE.
+	## If P_TEXT_STYLE is unset, it returns an empty element with
+	## type P_TAG or if this is _unset :text_style
+	##
+
+	_local l_tag << p_tag.default(:text_style)
+	
+	_if p_text_style _is _unset 
+	_then _return sw:simple_xml_thing.new(l_tag)
+	_endif
+	
+	_local l_rope << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(l_tag,l_rope)
+
+	# colour
+	_local l_colour << p_text_style.foreg_colour
+	_local l_xmlcol << _self.xml_colour(l_colour,:colour)
+	l_rope.add(l_xmlcol)
+
+	# font
+	_local l_font << p_text_style.font
+	_local l_xmlfont << _self.xml_font(l_font)
+	l_rope.add(l_xmlfont)
+	
+	# remaining properties
+	l_rope.add(sw:simple_xml_thing.new(:fixed_size,write_string(p_text_style.fixed_size?)))
+	l_rope.add(sw:simple_xml_thing.new(:multiline,write_string(p_text_style.multiline?)))
+	l_rope.add(sw:simple_xml_thing.new(:clear,write_string(p_text_style.clear?)))
+	l_rope.add(sw:simple_xml_thing.new(:inverted,write_string(p_text_style.clear?)))
+	l_rope.add(sw:simple_xml_thing.new(:border,write_string(p_text_style.border)))
+
+	# line style
+	_if (l_val << p_text_style.line_style) _isnt _unset 
+	_then l_rope.add(_self.xml_line_style(l_val,:line_style))
+	_endif
+	
+	# fill style
+	_if (l_val << p_text_style.fill_style) _isnt _unset 
+	_then l_rope.add(_self.xml_fill_style(l_val))
+	_endif
+	
+	>> l_xml
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.xml_coordinate(p_coordinate,_optional p_tag)
+	# 
+	## create simple xml from P_COORDINATE with typ
+	## P_TAG, that defaults to :coordinate
+	#
+
+	_local l_tag << p_tag.default(:coordinate)
+
+	_if p_coordinate _is _unset 
+	_then _return sw:simple_xml_thing.new(l_tag)
+	_endif
+	
+	_local l_rope << rope.new()
+
+	l_rope.add(sw:simple_xml_thing.new(:x,p_coordinate.x.write_string))
+	l_rope.add(sw:simple_xml_thing.new(:y,p_coordinate.y.write_string))
+	
+	>> sw:simple_xml_thing.new(l_tag,l_rope)
+
+_endmethod
+$
+
+###########################
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.coordinate_from_xml(p_xml)
+	#
+	## returns the coordinate from P_XML as defined by the elements
+	## with type :x and :y
+	#
+	#DEBUG write("coordinate from ",p_xml.type)
+	_if (l_elems << p_xml.elements).size = 0
+	_then _return 
+	_endif
+
+	_local l_vals << property_list.new_with(:x,0,:y,0)
+	_for i_elem _over l_elems.fast_elements()
+	_loop			
+		_local l_type << i_elem.type
+		_try _with p_cond
+			_local l_val << i_elem.elements.first
+			l_vals[l_type] << l_val.as_number()
+		_when error
+			write(" Error" ,p_cond.report_contents_string)
+			_return 
+		_endtry
+	_endloop
+
+	>> pixel_coordinate.new(l_vals[:x].truncated,l_vals[:y].truncated)
+
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.colour_from_xml(p_xml)
+	# 
+	## returns the colour from colour definition in P_XML
+	#
+
+	_local l_props << property_list.new()
+	_local l_alpha << _unset 
+	_for i_elem _over p_xml.elements.fast_elements()
+	_loop
+		#DEBUG write("COL",i_elem)
+		_local l_value << i_elem.elements
+		_if l_value.is_kind_of?(rope)
+		_then l_value << l_value.first
+		_endif
+		
+		_if (l_type << i_elem.type) = :alpha
+		_then l_alpha << l_value.as_number()
+		_else l_props[l_type] << l_value.as_number()
+		_endif
+	_endloop
+	
+	_local l_col << colour.new_with_properties(_scatter l_props)
+
+	_if l_alpha _isnt _unset 
+	_then l_col.set_alpha(l_alpha)
+	_endif
+	
+	>> l_col
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.font_from_xml(p_xml)
+	# 
+	## returns a font from the elements and properties in the xml
+	## P_XML 
+	#
+
+	_local l_elems << p_xml.elements
+	_if l_elems.size = 0
+	_then _return _unset 
+	_endif
+
+	_local l_props << property_list.new()
+	_for i_elem _over l_elems.fast_elements()
+	_loop
+		
+		_local l_type << i_elem.type.as_symbol()
+		_local l_value << i_elem.elements
+		
+		_if l_value.is_kind_of?(rope)
+		_then l_value << l_value.first
+		_endif
+		
+		_if l_type _is :point_size
+		_then l_props[l_type] << l_value.as_number()
+		_else l_props[l_type] << l_value.as_symbol()
+		_endif
+		
+	_endloop
+	_local l_font << font.new_with_properties(_scatter l_props)
+	
+	# Realise, otherwise is won't show up the right sized
+	l_font.realise() 
+
+	>> l_font
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.text_style_from_xml(p_xml)
+	#
+	## returns a text_style object from the elements in P_XML
+	#
+		
+	_local l_props << property_list.new()
+
+	_for i_elem _over p_xml.elements.fast_elements()
+	_loop
+		_local l_type << i_elem.type
+		_local l_val << i_elem.elements
+		_if l_val.is_kind_of?(rope)
+		_then l_val << l_val.first
+		_endif
+		
+		_if l_type = :font
+		_then l_props[:font] << _self.font_from_xml(i_elem)
+		_elif l_type = :colour
+		_then l_props[:colour] << _self.colour_from_xml(i_elem)
+		_elif l_type = :fixed_size
+		_then l_props[:fixed_size?] << l_val="True"
+		_elif l_type = :multiline
+		_then l_props[:multiline?] << l_val="True"
+		_elif l_type = :clear
+		_then l_props[:clear?] << l_val="True"
+		_elif l_type = :inverted
+		_then l_props[:inverted?] << l_val="True"
+		_elif l_type = :border
+		_then l_props[:border] << l_val.as_number()
+		_elif l_type = :fill_style
+		_then l_props[:fill_style] << _self.fill_style_from_xml(i_elem)
+		_endif
+	_endloop
+
+	_local l_text_style << sw:text_style.new_with_properties(_scatter l_props)
+
+	>> l_text_style
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.fill_style_from_xml(p_xml)
+	## 
+	## 
+
+	_local l_elements << p_xml.elements
+	_if l_elements.size = 0
+	_then _return _unset 
+	_endif
+
+	_local l_props << property_list.new()
+	_for i_elem _over l_elements.fast_elements()
+	_loop
+		_local l_type << i_elem.type		
+		_local l_val << i_elem.elements
+		_if l_val.is_kind_of?(rope)
+		_then l_val << l_val.first
+		_endif
+
+		_if l_type _is :foreground_colour
+		_then
+			l_props[:foreground_colour] <<
+				_self.colour_from_xml(i_elem)
+		_endif
+	_endloop
+
+	>> fill_style.new_with_properties(_scatter l_props)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method xml_handler.line_style_from_xml(p_xml)
+	# 
+	## creates a line_style from the element properties in P_XML
+
+	_local l_elements << p_xml.elements
+	_if l_elements.size = 0
+	_then _return _unset 
+	_endif
+
+	_local l_props << property_list.new()
+	_for i_elem _over l_elements.fast_elements()
+	_loop
+		_local l_val << i_elem.elements
+		_if l_val.is_kind_of?(rope)
+		_then l_val << l_val.first
+		_endif
+
+		_local l_type << i_elem.type
+		_if l_type = :colour
+		_then
+			l_props[:foreground_colour] << _self.colour_from_xml(i_elem)
+		_elif l_type = :width
+		_then
+			l_props[:width] << l_val.as_number()
+		_else
+			l_props[l_type] << l_val.as_symbol()
+		_endif		
+	_endloop
+	
+	>> line_style.new_with_properties(_scatter l_props)
+	
+_endmethod
+$

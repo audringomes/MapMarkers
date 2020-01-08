@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Symbol (definition) list</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The Symbol (definition) list contains a list of available symbols and </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Definitions" styleclass="Normal" translate="true">symbol definitions</link><text styleclass="Normal" translate="true">. The selected symbol is used in the creation of GOTO mappings and the generation of custom draw methods.</text></para>
+    <para styleclass="Normal"><image src="psyms_symbol_list.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">The image of a Raster Symbol Definition has a colour that reflect the status of the raster Definition:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="3" colcount="3">
+      <tr style="vertical-align:top">
+        <td style="width:25px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:25px;">
+          <para styleclass="TableText"><image src="traffic_light_grey.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A non-realised raster Definition</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:25px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:25px;">
+          <para styleclass="TableText"><image src="traffic_light_yellow.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A realised raster Definition</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:25px;">
+          <para styleclass="TableText"></para>
+        </td>
+        <td style="width:25px;">
+          <para styleclass="TableText"><image src="traffic_light_red.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">A raster Definition that raised an error on realisation.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Operations:</text></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Select</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The properties of the selected symbol (definition) are displayed in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Picture-Symbol-Properties" styleclass="Normal" translate="true">raster Symbol Properties List</link><text styleclass="Normal" translate="true">. The symbol is drawn at the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Preview-canvas" styleclass="Normal" translate="true">Preview canvas</link><text styleclass="Normal" translate="true">. When authorised, the symbol can be renamed by a Double Click.</text><br/></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Double Click</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">A double click on an unrealised raster definition will raise a question if the symbol should be realised. (Only if this isn&apos;t done yet.) In all other cases it will enable modifying the name.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading 3"><image src="traffic_light_green.png" scale="100.00%" styleclass="Heading 3"></image><text styleclass="Heading 3" translate="true"> Realise </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Creates a raster symbol from the selected definition.</text><br/></para>
+    <para styleclass="Heading 3"><image src="delete_object.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Image Caption" translate="true"> </text><text styleclass="Heading 3" translate="true">Delete</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Deletes the selected raster(definition).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="draw.png" scale="100.00%" styleclass="Normal"></image><text styleclass="Normal" translate="true"> </text><text styleclass="Heading 3" translate="true">Draw</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Draws the selected raster(definition). See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw" styleclass="Normal" translate="true">Draw</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">The popup menu contains the following actions:</text></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Copy</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Make a copy of the selected raster(definition).</text></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Show in Explorer...</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Select in the Windows explorer the raster image file.</text></para>
+    <para styleclass="Heading 3"><text styleclass="Heading 3" translate="true">Show Symbols only?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When selected, the list will show only (realised) raster symbols and no raster definitions.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

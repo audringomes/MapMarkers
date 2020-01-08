@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Drawing speed label</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Shows the speed of drawing the current symbol. When a trail with multiple points is used (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Draw" styleclass="Normal" translate="true">Draw</link><text styleclass="Normal" translate="true">), it displays the average speed.</text><br/></para>
+    <para styleclass="Normal"><image src="psyms_clip0034.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><image src="psyms_clip0033.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The examples are created by drawing the default symbol.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,4 @@
+raster_symbols_core 1 1
+description
+	Enables drawing of raster images as symbol
+end

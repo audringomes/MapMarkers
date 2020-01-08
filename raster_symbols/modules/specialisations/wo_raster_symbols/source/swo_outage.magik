@@ -1,0 +1,8 @@
+
+_pragma(classify_level=basic, topic={shuttle}, usage={subclassable,redefinable})
+_method swo_outage.style_sub_code()
+	## 
+	## 
+	>> 0
+_endmethod
+$

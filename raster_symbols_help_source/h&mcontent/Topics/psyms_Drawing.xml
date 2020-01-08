@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Drawing of symbols</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The major interface for drawing is putting data on the application databus. How this can be done is described here.</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Basic draw]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The basic drawing instruction is defined on the raster symbol class itself:</text><br/><text styleclass="Normal" translate="true">What and how is actually drawn depends on the properties of the raster symbol. (See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Properties" styleclass="Normal" translate="true">Properties)</link><br/><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 2 methods containing the string `draw_on' defined on classes containing the string `raster_s'.</span>
+
+<span class="function-name">draw_on()</span>  IN  <span class="type">sw:raster_symbol</span>    B style_system
+ <span class="variable-name">p_window p_spatial p_highlight? </span><span class="cb-font-lock-optional">OPT p_text_string</span>
+
+        <span class="comment">## Draw _self on window P_WINDOW (or graphics_context), using
+</span>        <span class="comment">## the world coordinate P_SPATIAL, or a coordinate
+</span>        <span class="comment">## derived from the geom P_SPATIAL depending on the
+</span>        <span class="comment">## geom_type (.coord, .cs_midpoint or .an_internal_point())
+</span>        <span class="comment">## 
+</span>        <span class="comment">## If P_HIGHLIGHT? is true, draw self in default_highlight_style.
+</span>        <span class="comment">## 
+</span>        <span class="comment">## If P_TEXT_STRING is not unset, this string is drawn at a
+</span>        <span class="comment">## position and with style as configured by the text
+</span>        <span class="comment">## parameters for this particular symbol.
+</span><span class="function-name">
+</span>
+<span class="function-name">draw_on()</span>  IN  <span class="type">sw:thumbnail_raster_symbol</span>    B style_system
+ <span class="variable-name">p_window p_coord_or_geom p_highlight? </span><span class="cb-font-lock-optional">OPT p_text_string</span>
+
+        <span class="comment">## A normal draw, will draw the thumbnail, a highlight draw
+</span>        <span class="comment">## will draw the original raster
+</span>        <span class="comment">## 
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Draw with properties]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">An existing raster_symbol can be drawn with properties. See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Properties" styleclass="TableText" translate="true">Properties</link><text styleclass="TableText" translate="true"> for a list of properties that can be passed as drawing parameters.</text></para>
+          <para styleclass="TableText"></para>
+          <para styleclass="TableText"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 1 method containing the string `draw_wit' defined on classes containing the string `raster_s'.</span>
+
+<span class="function-name">draw_with_properties()</span>  IN  <span class="type">sw:raster_symbol</span>    B style_system
+ <span class="variable-name">p_ctx p_spatial p_props p_highlight? </span><span class="cb-font-lock-optional">OPT p_string</span>
+
+        <span class="comment">## Draw _self on context P_CTX, at spatial element P_SPATIAL
+</span>        <span class="comment">## with P_PROPS as drawing properties.
+</span>        <span class="comment">## P_PROPS are validated against _self.drawing_properties.
+</span>        <span class="comment">## Properties P_PROPS are set before drawing and reset after
+</span>        <span class="comment">## drawing.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[databus:draw_raster_symbols]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">To draw a specific Raster Symbol for a set of geometries once, the following request should be put on the databus:</text></para>
+          <para styleclass="Normal"><tab/><text styleclass="Code in text2" translate="true">_self.application.databus.make_data_available(:draw_raster_symbols,l_props)</text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The properties should be a property_list with the following keys and values. </text><br/><text styleclass="Normal" translate="true">The :properties may contain valid drawing properties for the symbol identified with the value of the property </text><text styleclass="Code in text" translate="true">:symbol</text><text styleclass="Normal" translate="true">. (See </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Properties" styleclass="Normal" translate="true">Properties</link><text styleclass="Normal" translate="true">)</text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The example below is actually part of the cam_db_raster_symbols module.</text></para>
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>test_plugin.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">#</span><span class="comment">% text_encoding = iso8859_1
+</span><span class="magik-font-lock-keyword-statements">_package</span> sw
+
+<span class="magik-font-lock-procedure">remex</span>(<span class="magik-font-lock-symbol">:test_plugin</span>)
+$
+
+<span class="type">def_slotted_exemplar</span>(<span class="magik-font-lock-symbol">:test_plugin</span>,{},<span class="magik-font-lock-symbol">:plugin</span>)
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="type">test_plugin</span>.define_shared<span class="constant">_constant</span>(
+        <span class="magik-font-lock-symbol">:databus_producer_data_types</span>,
+        {<span class="magik-font-lock-symbol">:draw_raster_symbols</span>},
+        <span class="magik-font-lock-symbol">:public</span>)
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">post_init_plugins</span>()
+        <span class="type">_self</span>.<span class="function-name">register_self_on_app_databus</span>()
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">regi</span>ster_self_on_app_databus()
+        <span class="type">_self</span>.application.databus.<span class="function-name">add_producer</span>(<span class="type">_self</span>,<span class="magik-font-lock-keyword-arguments">_scatter</span> <span class="type">_self</span>.databus_producer_data_types)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">map_manager</span>
+        &gt;&gt; <span class="type">_self</span>.application.<span class="function-name">plugin</span>(<span class="magik-font-lock-symbol">:maps</span>)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">draw_selection_candidates</span>()
+<span class="doc">        ## </span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span>        <span class="magik-font-lock-keyword-variable">_local</span> l_props &lt;&lt; property_list.<span class="function-name">new</span>()
+        <span class="magik-font-lock-keyword-variable">_local</span> l_view &lt;&lt; <span class="type">_self</span>.map_manager.current_map_view
+        l_props[<span class="magik-font-lock-symbol">:graphics_context</span>] &lt;&lt; l_view.window.<span class="function-name">create_graphics_context</span>()
+        l_props[<span class="magik-font-lock-symbol">:geometry_set</span>] &lt;&lt; l_view.<span class="function-name">get_selection_candidates</span>(<span class="magik-font-lock-symbol">:within</span>,l_view.current_view_bounds)
+        l_props[<span class="magik-font-lock-symbol">:symbol</span>] &lt;&lt; <span class="string">"Red10"</span>
+        
+        <span class="type">_self</span>.application.databus.<span class="function-name">make_data_available</span>(<span class="magik-font-lock-symbol">:draw_raster_symbols</span>,l_props)
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=restricted, topic=style_system)</span>
+<span class="function-name">_method</span> <span class="type">test_plugin</span>.<span class="function-name">draw_ordered_selection_candidates</span>()
+<span class="doc">        ## </span><span class="comment">
+</span><span class="doc">        ## </span><span class="comment">
+</span>
+        <span class="magik-font-lock-keyword-variable">_local</span> l_view &lt;&lt; <span class="type">_self</span>.map_manager.current_map_view
+        gc &lt;&lt; l_view.window.<span class="function-name">create_graphics_context</span>()
+        data &lt;&lt; l_view.<span class="function-name">ge</span>t_selection_candidates(<span class="magik-font-lock-symbol">:within</span>,l_view.current_view_bounds,<span class="constant">_true</span> )
+        sym &lt;&lt; raster_symbol_handler.<span class="function-name">get_symbol</span>(<span class="string">"Red10"</span>)
+        format &lt;&lt; float_format.<span class="function-name">new_with_properties</span>(<span class="magik-font-lock-symbol">:float_decimal_places</span>,0)
+        
+        <span class="magik-font-lock-keyword-loop">_for</span> <span class="variable-name">i</span> <span class="magik-font-lock-keyword-loop">_over</span> data.<span class="function-name">fast_elements</span>()
+        <span class="magik-font-lock-keyword-loop">_loop</span> sym.<span class="function-name">draw_on</span>(gc,i[2],<span class="constant">_false</span>,format.<span class="function-name">format</span>(i[1]/1000))
+        <span class="magik-font-lock-keyword-loop">_endloop</span>
+        
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2" style="page-break-inside:avoid;">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:top; width:17px; height:17px;">
+          <para styleclass="TableText"><image src="Information-icon_16px.png" scale="100.00%" styleclass="TableText"></image></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">The </text><text styleclass="Code in text" translate="true">raster_symbol_plugin</text><text styleclass="TableText" translate="true"> does execute the drawing either by &lt;symbol&gt;draw_on() of &lt;symbol&gt;draw_with_properties()</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

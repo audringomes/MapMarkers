@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Alpha Colour Editor</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The object </text><text styleclass="Code in text" translate="true">colour</text><text styleclass="Normal" translate="true"> in Smallworld 5 has now a new property: </text><text styleclass="Normal" style="font-weight:bold;" translate="true">alpha</text><text styleclass="Normal" translate="true">, a blending factor common in the raster world. The </text><var styleclass="Normal">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true"> uses this value and added some methods to manipulate and compare.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">A special class colour editor is created with an additional slider item sub dialog to set the alpha value. See the raster below.</text></para>
+    <para styleclass="Normal"><image src="Image1.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">See how it works:</text></para>
+    <para styleclass="Normal"><link displaytype="image" src="webm.png" type="weblink" href="SettingAlphaValue.webm"><title translate="true">Example setting Alpha value to colour</title></link></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

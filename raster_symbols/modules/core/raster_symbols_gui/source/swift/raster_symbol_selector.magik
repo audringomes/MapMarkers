@@ -1,0 +1,264 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:raster_symbol_selector)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## Allows selection of a raster_symbol from a list
+## It is supposed to work with a dialog_frame, hence opened
+## with new_dialog()
+##
+## Arguments are the :ok_selector containing the message to be send
+## to the parent_model when the user selects a symbol. 
+## The default is :|selected_raster_symbol()|
+##
+def_slotted_exemplar(:raster_symbol_selector,
+	{
+		{:ok_selector},
+		{:items,_unset},
+		{:current_selection,_unset},
+		{:list,_unset},
+		{:handler,_unset}
+	},:model)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.new(_gather p_args)
+	## 
+	## To do: get selection method
+	>> _clone.init(_scatter p_args)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.init(_gather p_args)
+	## 
+	##
+
+	.handler << raster_symbol_handler
+	.items << property_list.new()
+	_local l_p << property_list.new_with(_scatter p_args)
+	.ok_selector << l_p[:ok_selector].default(:|selected_raster_symbol()|)
+ 	.list << equality_hash_table.new()
+	
+	>> _super.init(_scatter p_args)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.activate_in(p_frame)
+	## Creates the GUI interface.
+	##
+	>> _self.build_swift_selector(p_frame)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.on_activation()
+	## 
+	## 
+	.handler.add_dependent(_self,:available_symbol_names)
+	_self.populate_list()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.on_deactivation()
+	## 
+	## 
+	.handler.remove_dependent(_self,:available_symbol_names)	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.title
+	## 
+	## 
+	>> _self.message(:title)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.build_swift_selector(p_frame)
+	##
+	## Builds a list of raster symbols that can be filtered and
+	## selected
+	##
+	
+	outer_con << sw_container.new( p_frame,2,1,
+				       :resize?,_false,
+				       :min_width,250,
+				       :min_height,300,
+				       :top_spacing,5,
+				       :left_spacing,2,
+				       :row_spacing, 1,
+				       :row_resize_values, {0,1} )
+
+	
+	# Filter 
+	filter_toolbar << sw_toolbar_container.new( outer_con, _false,
+						    :background_type, :button_group,
+						    :button_group_height, sw_item.default_item_height )
+	filter_item << sw_text_item.new( filter_toolbar,
+					  :model, _self,
+					  :display_length, 48,
+					  :prompt_text, _self.message(:filter),
+					  :identifier, :filter_item )
+	
+	clear_filter_item << sw_button_item.new( filter_toolbar,
+						 :image, {:clear_filter, :magik_gui_components},
+						 :model, _self,
+						 :left_spacing, 1,
+						 :right_spacing, 1,
+						 :tooltip, _self.message(:clear_filter) )
+
+	# Ok button
+	.items[:ok] << oke_item << sw_button_item.new( filter_toolbar,
+					:model, _self,
+					:image, {:ok, :ui_resources},
+					:selector,:|ok_symbol_select()|,
+					:left_spacing, 2,
+					:tooltip, _self.message(:ok) )
+	
+	# Symbol list
+	.items[:table] << list << sw_table.new( outer_con,
+						:model,_self,
+						:selection_notifier,:|symbol_selected()|,
+						:row_height,20,
+						:row_lines?,_false)
+	list.set_column_width(1,20)
+	list.set_column_labels({"Rs","Name","Source module"})
+	list.row_height << 20
+	
+	# Callbacks to filter the list
+	filter_item.incremental_change_selector << {:filter_list|()|, list}
+	clear_filter_item.selector << {:clear_filter_list|()|, filter_item, list}
+	
+	>> outer_con, :title, :description, 75
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.populate_list()
+	## 
+	##
+
+	.list.empty()
+	_local l_table << .items[:table]
+	_local l_names << .handler.available_symbol_names
+	_for i_name _over l_names.fast_elements()
+	_loop _self.add_list_element(l_table, i_name)
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_selector.add_list_element( p_table, p_name )
+	## 
+	## Adds an element to the list and table to display the symbol
+
+	_local l_sym << .handler.symbol(p_name)
+	.list[p_name]<<l_sym
+	_local l_row << .list.size+1
+	p_table.add_cell(l_row,1,{},{:image,l_sym.thumbnail})
+	p_table.add_cell(l_row,2,{},{:label,p_name})
+	p_table.add_cell(l_row,3,{},{:label,l_sym.source_module_name})
+	p_table.set_row_data(l_row,l_sym)
+	
+_endmethod
+$
+
+
+_pragma(classify_level=restricted)
+_method raster_symbol_selector.filter_list( list, val )
+	## 
+	## Callback from the filter item to update the list.
+
+	list.filter( write_string("*",val,"*"), _true )
+	
+_endmethod
+$
+
+
+_pragma(classify_level=restricted)
+_method raster_symbol_selector.clear_filter_list( filter_item, list )
+	## 
+	## Reset the filter item and list.
+
+	filter_item.value << ""
+	list.clear_filter( _true )
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.manage_items()
+	## Only OK button
+	.items[:ok].enabled? << .current_selection _isnt _unset _andif
+				    .current_selection.size > 0 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.symbol_selected(p_item,p_selection)
+	##
+	## callback from selector in the list, sets selection in slot
+	##
+
+	#DEBUG write(_self,p_item,p_selection)
+	
+	.current_selection << p_selection
+	_self.manage_items()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.ok_symbol_select()
+	##
+	## Callback from the OK button.
+	## Gets the selected symbol and send .ok_selector to .parent_model
+	##
+
+	_local l_sym << _self.sym_from_selection()
+	_if .parent_model _isnt _unset
+	_then .parent_model.perform(.ok_selector,l_sym)
+	_endif
+
+	_self.close()
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.sym_from_selection()
+	## 
+	## Returns the symbol in the selected row
+	## 
+	>> _if .current_selection.size = 1
+	   _then >> .items[:table].get_row_data_from_selection().first
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_selector.note_change(p_who,p_what,p_data)
+	## 
+	## 
+	#DEBUG write(_self,"notes",p_who,p_what,p_data)
+	## 
+	## 
+	_if p_who _is .handler _andif
+	    p_what _is :available_symbol_names
+	_then _self.populate_list()
+	_endif
+_endmethod
+$

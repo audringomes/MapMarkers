@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Drawing Speed Monitor</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">To test the speed of drawing of the raster symbols, the Drawing Speed Monitor is added to the software.</text><br/><text styleclass="Normal" translate="true">This module is not loaded by default.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">To load the module, use the Smallworld Module Manager or perform:</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">sw_module_manager.load_module(:drawing_speed_monitor)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">To start the GUI, perform the following methods:</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">psp &lt;&lt; smallworld_product.application(:&lt;your_application&gt;).plugin(:raster_symbols)</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">psp.activate_measurement_interface()</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">This will open the dialog shown below:</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0001.png" scale="66.10%" width="371" height="312" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

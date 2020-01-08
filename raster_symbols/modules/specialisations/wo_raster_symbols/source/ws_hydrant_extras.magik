@@ -1,0 +1,16 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+#
+# (c) 2020 Realworld Software Products. All Rights Reserved.
+#
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=debug, topic={raster_symbols})
+_method ws_hydrant.guaranteed_pressure
+	## 
+	## 
+	>> 450
+_endmethod
+$

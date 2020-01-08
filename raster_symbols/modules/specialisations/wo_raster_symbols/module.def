@@ -1,0 +1,13 @@
+wo_raster_symbols 1
+description
+	Raster symbols drawing functions and resources for Water Office
+end
+requires
+	wo_application
+	raster_symbols
+end
+
+
+
+
+

@@ -1,0 +1,84 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour.eqa?(p_another)
+	## Test using eq?() and additional for differnt alpha values
+	## (without tolerance)
+	## 
+	>> _if _not _self.eq?(p_another)
+	   _then >> _false 
+	   _else >> _self.perform(:alpha) = p_another.alpha # compatibility SW4
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour.set_alpha(p_val)
+	## 
+	## Set the .alpha value to p_val, which should be a float
+	## between 0 (complete transparent) to 1.0 (complete fill)
+	_if smallworld_product.release_version < 5
+	_then _return _unset 
+	_endif
+	# compatibility SW4
+	# >> .alpha << p_val	
+	>> _self.sys!slot(:alpha) << p_val.as_float
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour.new_rgba(r,g,b,a)
+	## 
+	## 
+	_local l_col << _self.new_rgb(r,g,b)
+	_if smallworld_product.release_version < 5
+	_then _return l_col
+	_endif
+	_if (l_a << a.default(1.0)) < 1.00 _andif
+	    l_a >= 0.0
+	_then l_col.set_alpha(l_a)
+	_endif
+	>> l_col
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour.rgba()
+	## 
+	## as rgb(), with 4th value the alpha value
+	##
+	>> _if smallworld_product.release_version < 5
+	   _then >> _self.red,_self.green,_self.blue
+	   _else >> _self.red,_self.green,_self.blue,_self.alpha
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method colour.show_on(p_stream)
+	## 
+	##
+	_if smallworld_product.release_version < 5
+	_then p_stream.write(_self.class_name,%(,_self.red,%,,_self.green,%,,_self.blue,%))
+	_else p_stream.write(_self.class_name,%(,_self.red,%,,_self.green,%,,_self.blue,%,,_self.alpha,%))
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method colour.print_on(p_stream)
+	## 
+	## 
+	_if smallworld_product.release_version < 5
+	_then p_stream.write(_self.class_name,%(,_self.red,%,,_self.green,%,,_self.blue,%))
+	_else p_stream.write(_self.class_name,"(R=",_self.red,",G=",_self.green,",B=",_self.blue,",A=",_self.alpha,%))
+	_endif
+_endmethod
+$

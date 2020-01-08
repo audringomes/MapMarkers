@@ -1,0 +1,62 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour_map.as_xml(p_name,p_num_layers)
+	## 
+	##
+
+	_local l_format << float_format.new(:number_num_digits,6,:float_decimal_places,5)
+	_local l_origin << _self.origin
+	_local l_objects << rope.new()
+	_local l_xml << sw:simple_xml_thing.new(:colour_map,l_objects,
+						{"name",p_name.write_string,
+						 "num_layers",p_num_layers,
+						 "origin",l_origin})
+
+	_local l_count << l_origin
+	_for i_ind,i_val _over _self.fast_keys_and_elements()
+	_loop
+		l_objects.add(sw:simple_xml_thing.new(:colour,_unset,
+						      {"index",i_ind,
+						       "red",l_format.format(i_val.red),
+						       "green",l_format.format(i_val.green),
+						       "blue",l_format.format(i_val.blue)}
+						  ))
+		_if (l_count +<< 1) > p_num_layers
+		_then _leave
+		_endif
+	_endloop
+
+	>> l_xml
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method colour_map.new_from_xml(p_xml,p_origin,p_num_layers)
+	## 
+	##
+	
+	_local l_map << _self.new(p_origin,p_num_layers)
+	_local l_count << 0
+	_for i_elem _over p_xml.xml_elements.fast_elements()
+	_loop
+		_if (l_count +<< 1) > p_num_layers
+		_then _leave 
+		_endif
+		_local l_vec << {i_elem.attribute("red").as_number(),
+				 i_elem.attribute("green").as_number(),
+				 i_elem.attribute("blue").as_number()}
+		_local l_colour << colour.new_with_properties(:value,l_vec)
+		l_map[i_elem.attribute("index").as_number()] << l_colour
+	_endloop
+	
+	>> l_map
+_endmethod
+$

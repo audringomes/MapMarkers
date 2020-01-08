@@ -1,0 +1,8 @@
+rs_cam_db_raster_symbols 1
+description
+	Code and symbols for the Cambridge Application
+end
+requires
+	cam_db_data_model
+end
+

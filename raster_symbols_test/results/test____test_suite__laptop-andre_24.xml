@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-15" ?>
+<testsuite tests="3" name="raster_symbols_test" time="1.1810000">
+  <testsuite tests="4" name="test_case_1" time="1.0880000">
+    <testcase classname="test_case_1" name="test_creation_raster_symbol_from_definition()" time="1.0560000"/>
+    <testcase classname="test_case_1" name="test_assure_product()" time="0.0000000"/>
+    <testcase classname="test_case_1" name="test_creation_raster_symbol()" time="0.016000000"/>
+    <testcase classname="test_case_1" name="test_default_symbol()" time="0.0000000"/>
+  </testsuite>
+  <testsuite tests="4" name="test_case_xml" time="0.093000000">
+    <testcase classname="test_case_xml" name="test_colour()" time="0.015000000"/>
+    <testcase classname="test_case_xml" name="test_xml_font()" time="0.0000000"/>
+    <testcase classname="test_case_xml" name="test_xml_text_style()" time="0.016000000"/>
+    <testcase classname="test_case_xml" name="test_symbol_from_xml()" time="0.062000000"/>
+  </testsuite>
+  <testsuite tests="1" name="test_case_2" time="0.0000000">
+    <testcase classname="test_case_2" name="test_assure_product()" time="0.0000000"/>
+  </testsuite>
+</testsuite>

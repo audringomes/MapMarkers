@@ -1,0 +1,39 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+##
+## Loads only the core functionality
+## use load_file() to load
+##
+
+!global_auto_declare?! << _true 
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Loads the raster_symbols core and resources
+_global !load_rs! <<
+_proc @load_rs_core()
+	
+	_local (l_name,l_root) << system.pathname_components(!source_file!)
+	sw:smallworld_product.add_product(l_root)
+	sw_module_manager.load_module(:raster_symbols_core)
+	sw_module_manager.load_module(:raster_symbols)
+	_local l_path << system.pathname_down(l_root,"customisations")
+	sw:smallworld_product.add_product(l_path)
+	write("Raster Symbols software loaded")
+	>> _true 
+_endproc
+$
+
+_block
+	!load_rs!()
+	write(newline_char)
+	write("for testing, use !add_rsp!(_optional app) to add the raster_symbols plugin to an application")
+_endblock
+$

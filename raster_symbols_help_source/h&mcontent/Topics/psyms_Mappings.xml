@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Geometry Mappings</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">For drawing of Raster Symbols as Locator for Goto operations geometry mappings can be defined.</text><br/><text styleclass="Normal" translate="true">There are four types op mappings:</text><br/></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="2" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+      <tr style="vertical-align:top">
+        <td style="width:83px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Generic</text></para>
+        </td>
+        <td style="width:985px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Defines the Raster Symbol to be used for the generic geometry categories </text><text styleclass="Normal" style="font-style:italic;" translate="true">point, line, area and text. </text><text styleclass="Normal" translate="true">These can be configured in the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Goto-Mapping-tab" styleclass="Normal" translate="true">Goto Mapping Tab</link><text styleclass="Normal" translate="true"> of the Configuration GUI.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:83px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Specialized</text></para>
+        </td>
+        <td style="width:985px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Associates a Raster Symbol with a special task, like the drawing of symbols with a sequence number.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:83px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Specific</text></para>
+        </td>
+        <td style="width:985px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Associates Raster Symbols to specific geometries, for example the geometry location of an rwo.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:83px;">
+          <para styleclass="TableText"><text styleclass="TableText" style="font-weight:bold;" translate="true">Style</text></para>
+        </td>
+        <td style="width:985px;">
+          <para styleclass="TableText"><text styleclass="Normal" translate="true">Associates Raster Symbols to style records.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Generic Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">When required, a symbol can be assigned to a geometry type, which means that all goto actions of a geometry with that type will use the selected raster Symbol as locator.</text></para>
+          <para styleclass="Normal"><image src="psyms_clip0005.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Specialized Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Currently there is only one specialized mapping; the </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Numerator</text><text styleclass="Normal" translate="true">.</text><br/><text styleclass="Normal" translate="true">When this is defined, any goto request with data of class </text><text styleclass="Code in text" translate="true">ordered_geometry_set </text><text styleclass="Normal" translate="true">is handled by the raster_symbol_plugin as follows: It draws the configured symbol in the order of the set. The symbol draws itself and as text the sequence number of the geometry.</text><br/><text styleclass="TableText" translate="true">New specialized mappings can be defined by the API user.</text></para>
+          <para styleclass="TableText"><link displaytype="image" src="webm.png" type="weblink" href="Numerator.webm"><title translate="true">See how this works</title></link></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Specific Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The third category is </text><text styleclass="Normal" style="font-style:italic;" translate="true">specific .</text><text styleclass="Normal" translate="true"> It means that what is being drawn can be configured for individual or groups of geometries.</text></para>
+          <para styleclass="TableText"><image src="psyms_rwo_mapping.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Style Mappings]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">The last category is </text><text styleclass="Normal" style="font-style:italic;" translate="true">Style Mapping .</text><text styleclass="Normal" translate="true"> The drawing of Raster Symbols is done by a custom style method. The </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Development-GUI" styleclass="Normal" translate="true">Configuration GUI</link><text styleclass="Normal" translate="true"> enables selection of style records and a simple </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Attach</text><text styleclass="Normal" translate="true"> will generate the method. Once defined, it will be automatically loaded on startup.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

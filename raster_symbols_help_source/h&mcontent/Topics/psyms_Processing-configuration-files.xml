@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Processing configuration files</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Configuration files are read and written by the raster_symbol_handler.</text></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Reading]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+    </style>
+  </head>
+  <body>
+    <pre>
+ <span class="comment">*** The 1 method called `read_xml_data()'.</span>
+
+<span class="function-name">read_xml_data()</span>  IN  <span class="type">sw:raster_symbol_handler</span>    A style_system
+ <span class="variable-name">p_file </span><span class="cb-font-lock-optional">OPT p_overwrite?</span>
+
+        <span class="comment">## Read configuration from XML file P_FILE.
+</span>        <span class="comment">## The default name is _self.data_file_name
+</span>        <span class="comment">## If the option p_overwrite? is true, everything will be
+</span>        <span class="comment">## overwritten. This is the default.
+</span><span class="function-name">
+
+</span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Toggle"><image src="wo_collapse.png" align="left" scale="100.00%" styleclass="Toggle"></image><toggle type="dropdown" print-expanded="true" help-expanded="false" defaultstyle="false" translate="true" src-collapsed="wo_collapse.png" src-expanded="wo_expanded.png" src-print="wo_toggle_print.png" styleclass="Toggle"><caption translate="true"><![CDATA[Writing]]></caption></toggle></para>
+    <para styleclass="Normal"><table styleclass="Table_Toggle" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:5px; border-top:none; border-right:none; border-bottom:none;">
+        </td>
+        <td style="width:970px; border:none;">
+          <para styleclass="Normal"><html-code width="100" height="16" translate="true"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>*cb**gis cambridge_db_open*</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <pre>
+<span class="function-name"><span class="region">save()</span></span><span class="region">  IN  </span><span class="type"><span class="region">sw:raster_symbol_handler</span></span><span class="region">    A style_system
+ </span><span class="variable-name"><span class="region">OPT p_</span></span><span class="cb-font-lock-optional"><span class="region">options p_file_name</span></span><span class="region">
+
+        </span><span class="comment"><span class="region">## 
+</span></span><span class="region">        </span><span class="comment"><span class="region">## This method writes the current configuration to
+</span></span><span class="region">        </span><span class="comment"><span class="region">## P_FILE_NAME. If filename isn't passed the value of
+</span></span><span class="region">        </span><span class="comment"><span class="region">## _self.data_file_name is used. P_OPTIONS can be derived
+</span></span><span class="region">        </span><span class="comment"><span class="region">## from sw:raster_symbol_manager_gui.options
+</span></span><span class="region">        </span><span class="comment"><span class="region">## 
+</span></span></pre>
+  </body>
+</html>
+]]></html-code></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

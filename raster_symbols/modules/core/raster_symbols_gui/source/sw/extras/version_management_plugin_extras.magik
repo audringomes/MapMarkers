@@ -1,0 +1,25 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method version_management_plugin.activate_style_dialog()
+	##
+	## Activate the style versions dialog
+	##
+
+	_local l_t << _self.type
+	_local l_dia
+	_protect
+		_self.type << :style
+		l_dia << _self.activate_as_dialog(:style,"Style")
+	_protection
+		_self.type << l_t		
+	_endprotect
+	>> l_dia
+_endmethod
+$

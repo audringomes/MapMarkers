@@ -1,0 +1,171 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+#
+# Contains code to open the display tree with the
+# rwo_typ.app_type from the selection in the current map view
+# A button Follow Map Selction can be added to the popup menu
+# with the metho1
+#
+_pragma(classify_level=basic)
+_method rwo_hierarchy_component.follow_select()
+	#
+	## Select the rwo_type.app_type from the application's main view
+	## selection
+	#
+	_local l_sel << _self.application.plugin(:maps).current_map.current_selection
+	_if _not l_sel.empty?
+	_then _self.make_selection_visible(l_sel.an_element())
+	_endif
+
+_endmethod
+$
+_pragma(classify_level=basic)
+_method rwo_hierarchy_component.make_selection_visible(p_geom)
+	# 
+	## Select the display_tree element with the geom_descriptor of
+	## P_GEOM, and make the row visible in the GUI
+	#
+	#DEBUG write("MSV " ,p_geom)
+	_local (l_dm,l_cl,l_item) << _self.locate_element_for_geom(p_geom)
+	#DEBUG write(" Found " ,l_item)
+	_if l_item _is _unset 
+	_then _return 
+	_endif
+	
+	l_item.selection << _true
+	_local l_row << .tree_item.tree_manager.index_of_tree(l_item)
+	#DEBUG write("ROW" ,l_row)
+	_if l_row _is _unset
+	_then _return 
+	_endif
+
+	.tree_item.ensure_row_visibility(l_row,l_row+5)
+	
+_endmethod
+$
+
+_pragma(classify_level=advanced)
+_method rwo_hierarchy_component.locate_element_for_geom(p_geom)
+	#
+	## Locate the element with the descriptor for P_GEOM in the
+	## display tree.
+	## Return 1) Dataset item
+	##        2) Collection item
+	##        3) Geom item
+	#
+
+	_local l_soc << _self.application.database
+	_local l_select_types << .properties[:select_types]
+	_local l_trees << .trees
+	_local l_ds << p_geom.dataset
+	_local l_ds_manager << l_soc.dataset_manager(l_ds.name)
+	_local l_collection << p_geom.rwo.source_collection
+
+	
+	_local l_dm_elem << _self.locate_element_for_ds(l_ds_manager)
+#	l_dm_elem.expanded? << _true 
+	_local l_col_elem << _self.locate_element_for_collection(l_dm_elem,l_collection)
+#	l_col_elem.expanded? << _true
+	_local l_geom_elem << _self.locate_element_for_geometry(l_col_elem,p_geom)
+	
+	>> l_dm_elem,l_col_elem,l_geom_elem
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_private _method rwo_hierarchy_component.locate_element_for_ds(p_ds_manager)
+	## Get element for P_DS_MANAGER, a dataset manager
+
+	_local l_elem << _for i_d _over .trees.fast_elements()
+	_loop
+		_if i_d.key.key = p_ds_manager
+		_then _leave _with i_d
+		_endif
+	_endloop
+	
+	#DEBUG write("Found Dataset element " ,l_elem)
+	>> l_elem
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_private _method rwo_hierarchy_component.locate_element_for_collection(p_dm_elem,p_col)
+	## Get element for collection P_COL in the children of P_DM_ELEM
+
+	_local l_elem << _self.int!locate_element_for_col(p_dm_elem,p_col)
+	#DEBUG write("Found collection element ",l_elem)
+	>> l_elem
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_private _method rwo_hierarchy_component.locate_element_for_geometry(p_ds_col_tree,p_geom)
+	## Get element with descriptor for P_GEOM in the children of
+	## P_DS_COL_TREE  
+	
+	_local l_descr << p_geom.geometry_descriptor
+	_local l_result
+	_for i_sub _over p_ds_col_tree.children.fast_elements()
+	_loop @outer
+		_if (i_value << i_sub.key.value)[:type] _is :geometry _andif
+		    i_value[:object_data] _is l_descr
+		_then
+			#DEBUG write("Found Geometry element ",i_sub)
+			l_result << i_sub
+			_leave @outer
+		_else write(i_sub)
+		_endif
+	_endloop
+	>> l_result
+
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_private _method rwo_hierarchy_component.int!locate_element_for_col(p_tree,p_col)
+	## Recursive used method to get the element with collection
+	## P_COL in tree P_TREE
+
+	#DEBUG write("int!locate_element_for_col(",p_tree,% ,p_col)
+	_for i_sub _over p_tree.children.fast_elements()
+	_loop @outer
+		#DEBUG write(i_sub.key,% ,i_sub.key.value[:object_data])
+		_if (i_value << i_sub.key.value)[:type] _is :collection _andif
+		    i_value[:object_data] _is p_col
+		_then
+			l_col_elem << i_sub
+#			i_sub.expanded? << _true 
+			_leave @outer
+		_elif i_value[:type] _is :header
+		_then l_col_elem << _self.int!locate_element_for_col(i_sub,p_col)
+		      _if l_col_elem _isnt _unset
+		      _then
+#			      i_sub.expanded? << _true 
+			      _leave @outer
+		      _endif
+		_endif
+	_endloop
+	>> l_col_elem
+_endmethod
+$
+
+_pragma(classify_level=restricted)
+_method rwo_hierarchy_component.add_follow_item()
+	#
+	## Add Seperator and Follow map select button to my popup menu
+	# 
+
+	_local l_popup << .tree_item.popup_menu
+	l_popup.add_separator()
+	_local l_btn << button_item.new(l_popup,"Follow map select",_self,:|follow_select()|)
+	l_popup.add(l_btn)
+
+	>> l_popup
+_endmethod
+$

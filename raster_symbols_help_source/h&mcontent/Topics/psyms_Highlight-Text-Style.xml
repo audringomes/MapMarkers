@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Highlight_text_style</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The Highlight Text Style is used when a raster symbol is drawn with the parameter </text><text styleclass="Code in text" translate="true">highlight?</text><text styleclass="Normal" translate="true"> is true, which is done for example in the standard </text><text styleclass="Code in text" translate="true">custom_draw_method</text><text styleclass="Normal" translate="true"> that is generated. This can be previewed in the GUI (see </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Highlight_" styleclass="Normal" translate="true">Highlight?)</link></para>
+    <para styleclass="Normal"><br/><text styleclass="Normal" translate="true">Possible values for the symbol property </text><text styleclass="Code in text" translate="true">highlight_text_style</text><text styleclass="Normal" translate="true"> are:</text></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="5" colcount="2">
+      <tr style="vertical-align:middle">
+        <td style="vertical-align:middle; width:79px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Value</text></para>
+        </td>
+        <td style="width:729px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Action</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="vertical-align:middle; width:79px;">
+          <para styleclass="Code in text"><text styleclass="Code in text" translate="true">_unset</text></para>
+        </td>
+        <td style="width:729px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">the style is set from the default </text><text styleclass="Code in text" translate="true">highlight_text_style</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="vertical-align:middle; width:79px;">
+          <para styleclass="Code in text"><text styleclass="Code in text" translate="true">a text_style</text></para>
+        </td>
+        <td style="width:729px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">the </text><text styleclass="Code in text" translate="true">text_style</text><text styleclass="TableText" translate="true"> is used</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="vertical-align:middle; width:79px;">
+          <para styleclass="Code in text"><text styleclass="Code in text" translate="true">&quot;default&quot;</text></para>
+        </td>
+        <td style="width:729px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">the default </text><text styleclass="Code in text" translate="true">highlight_text_style</text><text styleclass="TableText" translate="true"> is used</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:middle">
+        <td style="vertical-align:middle; width:79px;">
+          <para styleclass="Code in text"><text styleclass="Code in text" translate="true">&quot;derived&quot;</text></para>
+        </td>
+        <td style="width:729px;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">the default </text><text styleclass="Code in text" translate="true">highlight_text_style</text><text styleclass="TableText" translate="true"> is copied with the colour value from the </text><text styleclass="Code in text" translate="true">application.highlight_colour</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

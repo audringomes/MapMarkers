@@ -1,0 +1,419 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:colourmap_editor)
+$
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+def_slotted_exemplar(:colourmap_editor,
+	{
+		{:key_press_handler,_unset}
+	},
+	:raster_style_editor)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+colourmap_editor.define_shared_constant(:max_layers,32,:public)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method colourmap_editor.init_sub_items()
+	## 
+	## 
+
+	_local colour_selector_title  << _self.message(:colour_selector_title)
+
+	new_cols << simple_vector.new(_self.current_layer_size)
+
+	.edit_items[:layer_colours] << col_pal << colour_palette.new_with(new_cols,:draw_style, :buttons,
+									  :nrows,1, :ncols, _self.current_layer_size,
+									  :black_and_white?,_false)
+
+	# Create a colour editor for selecting new layer colours
+	
+	disable_list << vec(:no_colour,:define,:update)
+	.edit_items[:colour_selector] << colour_palette_editor.new(_self,:|change_layer_colour()|,
+								   colour_selector_title,
+								   :draw_style,:buttons,
+								   :black_and_white?,_false,
+								   :disable_items, disable_list)
+
+#	.edit_items[:colour_selector].select_cell_with_nearest_rgb_values(_unset) 	# no selection
+
+	# Initialise the Editor's Value Slot
+	n_vis << .edit_items[:layer_colours].values.size
+	visibilities << simple_vector.new(n_vis)
+	_for i _over range(1,n_vis) _loop visibilities[i] << _true _endloop
+	
+	.value << hash_table.new()
+	.value[:layer_colours]   << simple_vector.new_with(_scatter new_cols)
+	.value[:visibilities]    << visibilities
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method colourmap_editor.activate_in(a_frame)
+	## 
+	##
+	#DEBUG write(_self,"activate_in")
+	_local lab_current_layer	<< _self.message( :current_layer_no )
+	_local lab_colour_selector	<< _self.message( :change_col )
+	_local lab_vis_on	        << _self.message( :vis_on )
+	_local lab_vis_flip	        << _self.message( :vis_flip )
+	_local lab_vis_all_on	        << _self.message( :vis_all_on )
+	_local lab_vis_all_off	        << _self.message( :vis_all_off )
+
+	_local a_panel << panel.new(a_frame)
+	a_panel.outer_spacing << 0
+
+	# Create layer colours palette view
+	_if .item_disabled?[:layer_colours] _isnt _true 
+	_then
+		col_pal << .edit_items[:layer_colours]
+		h << col_pal.nrows * 40
+		w << 500
+
+		.edit_items[:layer_colours_view] << style_palette_view.new(col_pal,a_panel,
+									   w,h,_unset,_unset,_self,:|select_layer_colour()|)
+	_endif 
+
+	a_panel.start_row()
+	_local buttons_panel  << panel.new( a_panel )
+
+	left_margin << _self.normal_margin
+
+	.text_items[:n_layers] << ti << numeric_text_item.new(buttons_panel,_self.message(:number_layers),
+							      :model,_self,
+							      :display_length,3,
+							      :change_selector,:|change_layers()|,
+							      :resize_x?,_false,
+							      :width,10,
+							      :help_id,:change_layers_help,
+							      :precision,0)
+	ti.focus_change_selector << :focus_changed|()|
+	.key_press_handler << sw_event_handler.new()
+	.key_press_handler.key_press_handler << handler.new(_self,:|handle_key_press()|)
+	ti.add_event_handler(.key_press_handler)
+	buttons_panel.set_item_col(ti, left_margin)
+	ti.value << .edit_items[:layer_colours].values.size.write_string
+	
+
+	# Buttons for changing current layer
+	# ..................................
+#	buttons_panel.start_row(_unset, 20)
+
+	.label_items[:current_layer_label] << li << label_item.new(buttons_panel,lab_current_layer+" 1",:model,_self)
+	li.set_right_of(ti,10)
+	last_item << li
+
+#	_if .item_disabled?[:visibility] _isnt _true 
+#	_then 
+#		.toggle_items[:vis_on] << toggle_item.new(buttons_panel, lab_vis_on,
+#							:help_id,:vis_on_help,
+#							:model, _self,
+#							:change_selector, {:set_visibility|()|,:on_off}) 
+#		.toggle_items[:vis_on].value << _true 
+#
+#		.toggle_items[:vis_on].set_right_of(last_item, 20)
+#		last_item << .toggle_items[:vis_on]
+#	_endif 
+
+#	.button_items[:vis_flip] << i << button_item.new_safe( buttons_panel, lab_vis_flip,
+#								      _self, {:set_visibility|()|,:flip},
+#								      :help_id,:vis_flip_help)
+#	.button_items[:vis_flip].set_right_of(last_item, 5)
+#	last_item << i
+#
+#	.button_items[:vis_all_on] << i << button_item.new_safe( buttons_panel, lab_vis_all_on,
+#								      _self, {:set_visibility|()|,:all_on},
+#								      :help_id,:vis_all_on_help)
+#	.button_items[:vis_all_on].set_right_of(last_item, 5)
+#	last_item << i
+#
+#	.button_items[:vis_all_off] << i << button_item.new_safe( buttons_panel, lab_vis_all_off,
+#								      _self, {:set_visibility|()|,:all_off},
+#								      :help_id,:vis_all_off_help)
+#	.button_items[:vis_all_off].set_right_of(last_item, 5)
+#	last_item << i
+		
+	_if .item_disabled?[:colour_selector] _isnt _true 
+	_then 
+		.button_items[:colour_selector] << i << button_item.new_safe( buttons_panel, lab_colour_selector,
+									      _self,:activate_colour_selector|()|,
+									      :help_id,:colour_selector_help)
+		i.set_right_of(last_item, 10)
+		last_item << i
+	_endif 
+
+
+	# Buttons for changing whole colour map
+	# .....................................
+	buttons_panel.start_row(_unset, 10)
+	_local rc << rowcol.new(buttons_panel,1,2)
+	# Create system palette, greyscale and rangemap buttons
+	_if .item_disabled?[:colour_selector] _isnt _true 
+	_then
+		rci << rowcol.new(rc,1,_unset)
+		.button_items[:system_colours] << i << button_item.new_safe( rci,
+									     _self.message(:system_colours),
+									     _self,:set_system_colours|()|,
+									     :help_id,:system_colours_help)
+#		buttons_panel.set_item_col(i, left_margin)
+#		last_item << i
+
+		.button_items[:greyscale] << i << button_item.new_safe( rci,
+									_self.message(:greyscale),
+									_self,:set_greyscale|()|,
+									:help_id,:greyscale_help)
+		
+		.button_items[:reset] << i << button_item.new_safe( rci,
+								    _self.message(:reset),
+								    _self,:reset_colourmap|()|,
+								    :help_id,:reset_colourmap_help)
+				
+#		i.set_right_of(last_item, 5)
+#		last_item << i
+
+		.button_items[:update] << i << button_item.new_safe( rc, "Update",
+								     _self,:accept|()|)
+
+		i.row<< 1 
+		i.col<< 2
+		i.col_alignment << :right
+#		last_item << i
+#	
+#		.button_items[:edit_range_map] << i << button_item.new_safe( buttons_panel,
+#									     _self.message(:range_map),
+#									     _self,:edit_range_map|()|,
+#									     :help_id,:range_map_help)
+#		i.set_right_of(last_item, 20)
+#		last_item << i
+#		
+#		# Create wash density editor button
+#		.button_items[:edit_fill_style] << i << button_item.new_safe( buttons_panel,
+#									      _self.message(:wash_style),
+#									      _self,:edit_fill_style|()|,
+#									      :help_id,:wash_style_help)
+#		i.set_right_of(last_item, 5)
+#		last_item << i
+#
+#		# Create annotations buttons
+#		.toggle_items[:cell_edges] << i << toggle_item.new(buttons_panel,
+#								   _self.message(:cell_edges),
+#								   :model,_self,
+#								   :change_selector,:set_draw_cell_edges|()|,
+#								   :help_id,:cell_edges_help)
+#		i.set_right_of(last_item, 20)
+#		last_item << i
+#
+#		.toggle_items[:cell_nodes] << i << toggle_item.new(buttons_panel,
+#								   _self.message(:cell_nodes),
+#								   :model,_self,
+#								   :change_selector,:set_draw_cell_nodes|()|,
+#								   :help_id,:cell_nodes_help)
+#		i.set_right_of(last_item, 5)
+#		last_item << i
+#		
+#		.toggle_items[:cell_values] << i << toggle_item.new(buttons_panel,
+#								    _self.message(:cell_values),
+#								    :model,_self,
+#								    :change_selector,:set_draw_cell_values|()|,
+#								    :help_id,:cell_values_help)
+#		i.set_right_of(last_item, 5)
+#		last_item << i
+#
+	_endif 
+
+	# Create range map editor
+	#	_self.edit_items[:range_map_editor] << range_map_editor.new(_self)
+		
+	#
+	# Create the rest
+	#
+	_self.create_display_panel_and_buttons(a_panel)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_private _method colourmap_editor.update_menu_items()
+
+## Updates the visibilities of the menu items according to the
+## type of raster style (mono, grayscale or colour) being edited,
+## the current value of the Wash Fill Style Editor and the
+## current value of the Number of Layers and Current Layer.
+	
+	type << _self.raster_type
+
+# Number of layers and current layer label item
+
+	_if (ti << .text_items[:n_layers]) _isnt _unset 
+	_then 
+		ti.label << _if type _is :colour
+			    _then >> _self.message(:number_layers)
+			    _else >> _self.message(:number_gray_levels)
+			    _endif 
+	_endif
+	_self.update_layer_label()
+
+# Current fill style
+
+	ed << _self.edit_items[:fill_style_editor]
+
+	_if (ed _isnt _unset) _then
+		ed.set_cell_with_fill_saturation(_self.value[:fill_saturation])
+
+	_endif
+
+## Cell edge visibility
+#
+#	.toggle_items[:cell_edges].value << (_self.value[:cell_edge_col] _isnt _unset)
+#
+## Cell node visibility
+#
+#	.toggle_items[:cell_nodes].value << (_self.value[:cell_node_col] _isnt _unset)
+#
+## Cell value visibility
+#
+#	.toggle_items[:cell_values].value << (_self.value[:cell_value_col] _isnt _unset)
+
+_endmethod 
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.reset_colourmap()
+	## 
+	## 
+	_global ce
+	ce << _self 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.on_activation()
+	## 
+	##
+	#DEBUG write(_self,"on_activation")
+	_super.on_activation()
+	_self.set_pallete_from_colourmap()
+	.edit_items[:layer_colours_view].redraw()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.focus_changed(p_gained?)
+	## 
+	## 
+	_self.perform_safely(:|change_layers()|,.text_items[:n_layers].value)
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.create_display_panel_and_buttons(a_panel)
+	## 
+	##
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.change_layers(p_val)
+	## 
+	## 
+	_if p_val > _self.max_layers
+	_then condition.raise(:user_error,:string,write_string("Maximum layers is ",_self.max_layers))
+	_endif
+	_super.change_layers(p_val)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.current_layers
+	## 
+	##
+	>> .owner.value_holder.value
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.current_layer_size
+	## 
+	## 
+	>> _self.current_layers.size
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.set_pallete_from_colourmap()
+	## 
+	##
+	.edit_items[:layer_colours].set_values(_self.current_layers.slice(1,31))
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.accept()
+	## 
+	##
+	_if _self.anything_changed?
+	_then .owner.perform(.message,.value)
+	_endif
+	_self.close()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.anything_changed?
+	## 
+	## 
+	_for i_val _over .value[:layer_colours].fast_elements()
+	_loop _if i_val _isnt _unset 
+	      _then _return _true 
+	      _endif
+	_endloop
+	>> _false 
+_endmethod
+$
+
+#_block
+#	an_ed << sw:colourmap_editor.new(!psg!,:|colourmap_changed()|,_unset,"B")
+#	an_ed.activate()
+#	>> an_ed
+#_endblock
+
+
+_pragma(classify_level=restricted, topic={style_system})
+_method colourmap_editor.handle_key_press(_gather p_args)
+	## 
+	##
+	_global cme
+	cme << _self
+
+	_local l_event << p_args[1]
+	_if l_event.category _is :keyboard _andif 
+	    l_event.id = %return
+	_then 
+	      _self.perform_safely(:|change_layers()|,.text_items[:n_layers].value)
+	_endif
+
+_endmethod
+$
+
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method colourmap_editor.activate_colour_selector()
+
+## Activates the sub-editor to select a new colour
+## 
+## Callback method for the CHANGE COLOUR Button
+## Change: activate at relative position of _self.top_frame
+	.edit_items[:colour_selector].activate(_unset,_self.top_frame.position+pixel_coordinate.new(10,-10))
+_endmethod
+$
+

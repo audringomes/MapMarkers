@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="2.0" isskin="false" isrepository="true">
+  <config>
+    <namespaces>
+      <namespace name="TemplateProjectReleaseNotes" href="../TemplateProjectReleaseNotes/TemplateProjectReleaseNotes.hmxp"/>
+    </namespaces>
+    <styleclasses>
+      <styleclass name="Courier Fixed" shortcut="0">
+        <style-set media="screen" type="text">font-family:'Courier New'; font-size:9pt; color:#000000;</style-set>
+      </styleclass>
+      <styleclass name="Normal" shortcut="114">
+        <style-set media="screen" type="para">text-align:left; text-indent:0px; margin-right:0px; margin-bottom:8px; margin-left:0px;</style-set>
+        <style-set media="screen" type="text">font-family:Tahoma; font-size:10pt; color:#000000;</style-set>
+      </styleclass>
+      <styleclass name="Code Example" parentclass="Normal" shortcut="118">
+        <style-set media="screen" type="para">margin-bottom:0px; margin-left:10px;</style-set>
+        <style-set media="screen" type="text">font-size:8pt; font-weight:bold; color:#008000;</style-set>
+      </styleclass>
+      <styleclass name="Code in text" parentclass="Normal" shortcut="117">
+        <style-set media="screen" type="text">font-weight:bold; color:#008000;</style-set>
+      </styleclass>
+      <styleclass name="Comment" parentclass="Normal" shortcut="0"/>
+      <styleclass name="Component Name" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">font-style:italic;</style-set>
+      </styleclass>
+      <styleclass name="Definition" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">font-weight:bold; color:#008000;</style-set>
+      </styleclass>
+      <styleclass name="Error description" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-left:38px;</style-set>
+      </styleclass>
+      <styleclass name="Error message" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-top:14px; margin-left:8px;</style-set>
+        <style-set media="screen" type="text">font-weight:bold; font-style:italic;</style-set>
+      </styleclass>
+      <styleclass name="Filepath" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-left:10px;</style-set>
+        <style-set media="screen" type="text">font-size:8pt; font-weight:bold;</style-set>
+      </styleclass>
+      <styleclass name="Heading1" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-bottom:0px; page-break-inside:avoid; page-break-after:avoid;</style-set>
+        <style-set media="screen" type="text">font-size:15pt; font-weight:bold; color:#00518f;</style-set>
+      </styleclass>
+      <styleclass name="Heading 2" parentclass="Heading1" nextclass="Normal" shortcut="115">
+        <style-set media="screen" type="para">margin-top:16px; margin-bottom:8px;</style-set>
+        <style-set media="screen" type="text">font-size:14pt; font-weight:normal; color:#004080;</style-set>
+      </styleclass>
+      <styleclass name="Heading 3" parentclass="Heading 2" nextclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-top:4px; margin-bottom:4px;</style-set>
+        <style-set media="screen" type="text">font-size:11pt; color:#00518f;</style-set>
+      </styleclass>
+      <styleclass name="Image Caption" parentclass="Normal" nextclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-top:8px; margin-bottom:0px;</style-set>
+        <style-set media="screen" type="text">font-size:9pt; font-weight:bold; color:#00518f; background-color:#eaeaea;</style-set>
+      </styleclass>
+      <styleclass name="Inline_Icon" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-bottom:0px;</style-set>
+      </styleclass>
+      <styleclass name="Meta Text" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">color:#ffffff; background-color:#000000;</style-set>
+      </styleclass>
+      <styleclass name="Notes" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-top:13px; background-color:#ffe6cc;</style-set>
+      </styleclass>
+      <styleclass name="Product Name" parentclass="Normal" shortcut="123">
+        <style-set media="screen" type="text">font-style:italic;</style-set>
+      </styleclass>
+      <styleclass name="Screen toggle" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">color:#000000;</style-set>
+      </styleclass>
+      <styleclass name="Table Name" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">font-weight:bold; color:#020b75;</style-set>
+      </styleclass>
+      <styleclass name="Field Name" parentclass="Table Name" shortcut="0">
+        <style-set media="screen" type="text">font-style:italic;</style-set>
+      </styleclass>
+      <styleclass name="TableText" parentclass="Normal" shortcut="119">
+        <style-set media="screen" type="para">margin-bottom:0px;</style-set>
+      </styleclass>
+      <styleclass name="Toggle" parentclass="Normal" nextclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-top:8px; page-break-inside:avoid; page-break-after:avoid;</style-set>
+        <style-set media="screen" type="text">font-size:12pt; color:#004080;</style-set>
+        <style-set media="print" type="para">page-break-inside:avoid; page-break-after:avoid;</style-set>
+        <style-set media="print" type="text">color:#004080;</style-set>
+      </styleclass>
+      <styleclass name="Inline Toggle" parentclass="Toggle" nextclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">font-size:10pt; background-color:#e4eaf0;</style-set>
+      </styleclass>
+      <styleclass name="User Interface Element" parentclass="Normal" nextclass="Normal" shortcut="116">
+        <style-set media="screen" type="text">font-family:Arial; font-weight:bold;</style-set>
+      </styleclass>
+      <styleclass name="Result sign" parentclass="User Interface Element" nextclass="Normal" shortcut="0">
+        <style-set media="screen" type="para">margin-bottom:0px;</style-set>
+        <style-set media="screen" type="text">font-family:Tahoma; font-size:12pt;</style-set>
+      </styleclass>
+      <tablestyleclass name="Default">
+        <style-set media="screen">width:100%; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:none; head-row-background-color:none; alt-row-background-color:none;</style-set>
+      </tablestyleclass>
+      <tablestyleclass name="CodeExampleTable" parentclass="Default">
+        <style-set media="screen">width:auto; cell-padding:0px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:#f2f2f2; head-row-background-color:none; alt-row-background-color:none;</style-set>
+      </tablestyleclass>
+      <tablestyleclass name="Info_Etc" parentclass="Default">
+        <style-set media="screen">width:500px; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:#f2f2f2; head-row-background-color:none; alt-row-background-color:none;</style-set>
+      </tablestyleclass>
+      <tablestyleclass name="Table_Toggle" parentclass="Default">
+        <style-set media="screen">width:100%; cell-padding:3px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#4b93be; border-style:solid; background-color:none; head-row-background-color:none; alt-row-background-color:none;</style-set>
+        <style-set media="print">width:100%; cell-padding:4px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:none; head-row-background-color:none; alt-row-background-color:none;</style-set>
+      </tablestyleclass>
+    </styleclasses>
+    <config-group name="project">
+      <config-value name="lcid" translate="true">en-gb</config-value>
+      <config-value name="bidimode">0</config-value>
+      <config-value name="charset" translate="true">ANSI_CHARSET</config-value>
+      <config-value name="deffont">font-family:'MS Sans Serif'; font-size:8pt; color:#000000; </config-value>
+      <config-value name="contents">Document-Conventions</config-value>
+      <config-group name="custombuilds">
+        <config-value name="demo">Demo Build</config-value>
+        <config-value name="user1">User defined 1</config-value>
+        <config-value name="user2">User defined 2</config-value>
+        <config-value name="user3">User defined 3</config-value>
+      </config-group>
+      <config-value name="imageshortcuts_includebaggage">1</config-value>
+      <config-value name="make0include">CHM</config-value>
+      <config-value name="make0status">*</config-value>
+      <config-value name="searchpath">.\Baggage\;.\</config-value>
+      <config-value name="imageshortcuts">book.png;</config-value>
+    </config-group>
+    <config-group name="html">
+      <config-value name="topiceditor">1</config-value>
+      <config-value name="topicsimplebuttons">1</config-value>
+      <config-group name="topicsimplebutton1">
+        <config-value name="CAPTION" translate="true">Top</config-value>
+      </config-group>
+      <config-group name="topicsimplebutton2">
+        <config-value name="CAPTION" translate="true">Previous</config-value>
+      </config-group>
+      <config-group name="topicsimplebutton3">
+        <config-value name="CAPTION" translate="true">Next</config-value>
+        <config-value name="IMAGE">Z:\MyDocuments\My Pictures\ArrowRight.png</config-value>
+      </config-group>
+      <config-group name="topictemplates">
+        <config-value name="default" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+<head>
+   <title><%TOPIC_TITLE%></title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="<%TOPIC_KEYWORDS%>" />
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+   <style>
+a:link {
+        font-weigth: bold; 
+	text-decoration: none; 
+	color: #6699FF;
+	}
+a:visited { 
+        font-weigth: bold; 
+	text-decoration: none; 
+	color: #6633CC;
+	}
+a:hover, a:active { 
+        font-weigth: bold; 
+	text-decoration: underline; 
+	color: #6633CC;
+	}
+
+.greyRule { 
+background: #CECECE; 
+width: 100%; 
+height: 1px; 
+padding: 0; 
+margin: 0;
+} 
+.greyRule hr { 
+display: none; 
+}
+/* Formats for header navigation*/
+a.navlinks:link{ font-size: 7pt; text-decoration: none; color: #00518f;}
+a.navlinks:visited{ font-size: 7pt; text-decoration: none; color: #00518f;}
+a.navlinks:hover{ font-size: 7pt; text-decoration: underline; color: #00518f;}
+
+.tt_leftborder {border-top:none; border-right:none; border-bottom:none;}
+.tt_right {border:none;}
+
+</style>
+</head>
+
+<body style="margin: 0px 0px 0px 0px; background: #FFFFFF;">
+<IF_TOPIC_HEADER>
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+  <tr valign="bottom">
+    <td align="left">
+      <%TOPIC_HEADER%>
+    </td>
+    <td width="172px" align="right" id="wo_logo">
+   </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr height="7px">
+<td>
+</td>
+    <td width="10px">
+    </td>
+    <td align="left">
+      <IF_TOGGLES><a href="javascript:HMToggleExpandAll(!HMAnyToggleOpen())" class="navlinks" title="Click to open/close expanding sections">
+       Expand/Collapse all text</a>
+      </IF_TOGGLES> 
+    </td>
+    <td align="right">
+       <span style="font-size: 7pt">
+          <IF_PREVIOUS_PAGE><a href="<%HREF_PREVIOUS_PAGE%>" class="navlinks">Previous</a></IF_PREVIOUS_PAGE>
+          <IFNOT_PREVIOUS_PAGE>Previous</IFNOT_PREVIOUS_PAGE>          
+          <img src="navseperator.png" border=0>
+          <a href="<%HREF_DEFAULT_PAGE%>" class="navlinks">Top</a>
+          <img src="navseperator.png" border=0>     
+          <IF_NEXT_PAGE><a href="<%HREF_NEXT_PAGE%>" class="navlinks">Next</a></IF_NEXT_PAGE>
+          <IFNOT_NEXT_PAGE>Next</IFNOT_NEXT_PAGE>
+          
+       </span>
+    </td>
+    <td width="10px">
+    </td>
+  </tr>
+</table>
+
+</IF_TOPIC_HEADER>
+
+<!-- Placeholder for topic body. -->
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr valign="top"><td align="left"><div class="greyRule"><hr /></div>
+<tr valign="top"><td align="left">
+<%TOPIC_TEXT%>
+</td></tr>
+</div>
+<tr valign="bottom"><td align="left"><div class="greyRule"><hr /></div>
+<span style="font-size: 8pt"><%TITLE%></span>
+</td></tr>
+</table>
+</body>
+</html>]]></config-value>
+        <config-value name="popup" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+<head>
+   <title><%TOPIC_TITLE%></title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="<%TOPIC_KEYWORDS%>" />
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+   <IF_CHM><meta http-equiv="X-UA-Compatible" content="IE=8" /></IF_CHM>
+   <IF_HTML><meta http-equiv="X-UA-Compatible" content="IE=edge" /></IF_HTML>
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+   <style type="text/css">
+     body { margin: 0px; background: #FFFFFF; }
+   </style>
+</head>
+<body>
+
+<IF_TOPIC_HEADER>
+<table style="width:100%; border:none; border-spacing:0px; padding:5px; background:#C0C0C0">
+  <tr style="vertical-align:middle">
+    <td style="text-align:left">
+      <%TOPIC_HEADER%>
+    </td>
+    <td style="text-align:right">
+     <a href="<%HREF_DEFAULT_PAGE%>">Top</a>&nbsp;
+     <IF_PREVIOUS_PAGE><a href="<%HREF_PREVIOUS_PAGE%>">Previous</a>&nbsp;</IF_PREVIOUS_PAGE>
+     <IF_NEXT_PAGE><a href="<%HREF_NEXT_PAGE%>">Next</a></IF_NEXT_PAGE>
+    </td>
+  </tr>
+</table>
+</IF_TOPIC_HEADER>
+
+<!-- Placeholder for topic body. -->
+<table style="width:100%;border:none;border-spacing:0px"><tr style="vertical-align:top"><td style="text-align:left;padding:5px">
+<%TOPIC_TEXT%>
+</td></tr></table>
+
+</body>
+</html>]]></config-value>
+        <config-value name="Concept" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+<head>
+   <title><%TOPIC_TITLE%></title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="<%TOPIC_KEYWORDS%>" />
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+   <style>
+a:link {
+        font-weigth: bold; 
+	text-decoration: none; 
+	color: #6699FF;
+	}
+a:visited { 
+        font-weigth: bold; 
+	text-decoration: none; 
+	color: #6633CC;
+	}
+a:hover, a:active { 
+        font-weigth: bold; 
+	text-decoration: underline; 
+	color: #6633CC;
+	}
+
+.greyRule { 
+background: #CECECE; 
+width: 100%; 
+height: 1px; 
+padding: 0; 
+margin: 0;
+} 
+.greyRule hr { 
+display: none; 
+}
+/* Concept */
+.concept {background-image:url("UnderConstruction.jpg")} 
+/* Formats for header navigation*/
+a.navlinks:link{ font-size: 7pt; text-decoration: none; color: #00518f;}
+a.navlinks:visited{ font-size: 7pt; text-decoration: none; color: #00518f;}
+a.navlinks:hover{ font-size: 7pt; text-decoration: underline; color: #00518f;}
+a.topiclink:link{ font-size: 10pt; text-decoration: none; color: #00518f;}
+a.topiclink:visited{ font-size: 10pt; text-decoration: none; color: #00518f;}
+a.topiclink:hover{ font-size: 10pt; text-decoration: underline; color: #00518f;}
+
+</style>
+</head>
+
+<body style="margin: 0px 0px 0px 0px;">
+<IF_TOPIC_HEADER>
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+  <tr valign="bottom">
+    <td align="left">
+      <%TOPIC_HEADER%>
+    </td>
+    <td width="172px" align="right" id="wo_logo">
+   </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr height="7px">
+<td>
+</td>
+    <td width="10px">
+    </td>
+    <td align="left">
+      <IF_TOGGLES><a href="javascript:HMToggleExpandAll(!HMAnyToggleOpen())" class="navlinks" title="Click to open/close expanding sections">
+       Expand/Collapse all text</a>
+      </IF_TOGGLES> 
+    </td>
+    <td align="right">
+       <span style="font-size: 7pt">
+          <IF_PREVIOUS_PAGE><a href="<%HREF_PREVIOUS_PAGE%>" class="navlinks">Previous</a></IF_PREVIOUS_PAGE>
+          <IFNOT_PREVIOUS_PAGE>Previous</IFNOT_PREVIOUS_PAGE>          
+          <img src="navseperator.png" border=0>
+          <a href="<%HREF_DEFAULT_PAGE%>" class="navlinks">Top</a>
+          <img src="navseperator.png" border=0>     
+          <IF_NEXT_PAGE><a href="<%HREF_NEXT_PAGE%>" class="navlinks">Next</a></IF_NEXT_PAGE>
+          <IFNOT_NEXT_PAGE>Next</IFNOT_NEXT_PAGE>
+          
+       </span>
+    </td>
+    <td width="10px">
+    </td>
+  </tr>
+</table>
+
+</IF_TOPIC_HEADER>
+
+<!-- Placeholder for topic body. -->
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr valign="top"><td align="left"><div class="greyRule"><hr /></div>
+<tr valign="top"><td align="left" class="concept">
+<%TOPIC_TEXT%>
+</td></tr>
+</div>
+<tr valign="bottom"><td align="left"><div class="greyRule"><hr /></div>
+<span style="font-size: 8pt"><%TITLE%></span>
+</td></tr>
+</table>
+</body>
+</html>]]></config-value>
+      </config-group>
+      <config-value name="topicsimpleheadercolor">#FFFFFF</config-value>
+      <config-value name="topicsimpletextcolor">#FFFFFF</config-value>
+      <config-value name="navigationstyle">2</config-value>
+      <config-value name="frameeditor">0</config-value>
+      <config-value name="contentborder">1</config-value>
+      <config-value name="contentwidth">30</config-value>
+      <config-value name="headframeheight">30</config-value>
+      <config-value name="headframescroll">0</config-value>
+      <config-value name="frametemplate" translate="true"></config-value>
+      <config-value name="headframesrc"></config-value>
+      <config-value name="headframehtml" translate="true"></config-value>
+      <config-value name="hasindex">1</config-value>
+      <config-value name="hassearch">1</config-value>
+      <config-value name="contentnumbers">0</config-value>
+      <config-value name="contentlazysync">0</config-value>
+      <config-value name="contentindent">20</config-value>
+      <config-value name="contentsingleclick">0</config-value>
+      <config-value name="contentautocollapse">0</config-value>
+      <config-value name="contentexpand">0</config-value>
+      <config-value name="defaulticons">1</config-value>
+      <config-value name="iconopenbook"></config-value>
+      <config-value name="iconclosedbook"></config-value>
+      <config-value name="icontopic"></config-value>
+      <config-value name="toceditor">0</config-value>
+      <config-value name="tocsimpletext1" translate="true"></config-value>
+      <config-value name="tocsimpletext2" translate="true"></config-value>
+      <config-value name="tocsimplefont1"></config-value>
+      <config-value name="tocsimplefont2"></config-value>
+      <config-value name="tocsimplefont3"></config-value>
+      <config-value name="tocsimplefont4"></config-value>
+      <config-value name="tocsimplefont5"></config-value>
+      <config-value name="tocsimplefont6"></config-value>
+      <config-value name="contenttemplate" translate="true"></config-value>
+      <config-value name="indexeditor">0</config-value>
+      <config-value name="indexsimpletext1" translate="true"></config-value>
+      <config-value name="indexsections" translate="true"></config-value>
+      <config-value name="indexsimplefont1"></config-value>
+      <config-value name="indexsimplefont2"></config-value>
+      <config-value name="indexsimplefont3"></config-value>
+      <config-value name="indexsimplefont4"></config-value>
+      <config-value name="indextemplate" translate="true"></config-value>
+      <config-value name="searcheditor">0</config-value>
+      <config-value name="searchsimpletext1" translate="true"></config-value>
+      <config-value name="searchtemplate" translate="true"></config-value>
+      <config-value name="searchstoplist" translate="true"></config-value>
+      <config-value name="searchskipwordsmin">3</config-value>
+      <config-value name="searchjoinwordchars" translate="true">.-_'</config-value>
+      <config-value name="searchhighlight">1</config-value>
+      <config-value name="searchallowdate">0</config-value>
+      <config-value name="searchaccentinsensitive">0</config-value>
+      <config-value name="searchsinglecase">0</config-value>
+      <config-value name="htmlpopup">3</config-value>
+      <config-value name="defaultext">.htm</config-value>
+      <config-value name="cssfile">default.css</config-value>
+      <config-value name="fontsizeencoding">0</config-value>
+      <config-value name="fontsizebase">100</config-value>
+      <config-value name="exportmarkersastext">1</config-value>
+      <config-value name="exportstylenames">1</config-value>
+      <config-value name="exportxhtml">0</config-value>
+      <config-value name="imageconversion">1</config-value>
+      <config-value name="jpgquality">90</config-value>
+      <config-value name="imagehint">1</config-value>
+      <config-value name="outputfile">.\Publish\html\index.html</config-value>
+      <config-value name="skin">..\Realworld H&amp;M Skin\HMSkin_Realworld.hmskin</config-value>
+    </config-group>
+    <config-group name="chm">
+      <config-value name="outputfile">Repository.chm</config-value>
+      <config-value name="deletetemp">1</config-value>
+      <config-value name="skin">..\..\..\..\wo-documentation\branches\sw5webhelpAndTraining\source\EN-Wateroffice templates\WoWebhelpSkin2\wo-webdoc.hmskin</config-value>
+    </config-group>
+    <config-group name="user">
+      <config-value name="project.lastexport">0</config-value>
+      <config-group name="andre">
+        <config-group name="project">
+          <config-value name="lastexport">0</config-value>
+        </config-group>
+      </config-group>
+    </config-group>
+    <config-group name="liststyles">
+      <config-value name="outline2">LEVELS=9;L0.ListType=0;L0.Font.Name=Verdana;L0.Font.Charset=0;L0.FormatString=;L0.MarkerAlignment=0;L0.StartFrom=1;L1.ListType=0;L1.Font.Name=Courier New;L1.Font.Charset=0;L1.FormatString=o;L1.MarkerAlignment=0;L1.StartFrom=1;L2.ListType=0;L2.Font.Name=Wingdings;L2.Font.Charset=2;L2.FormatString=§;L2.MarkerAlignment=0;L2.StartFrom=1;L3.ListType=0;L3.Font.Name=Wingdings;L3.Font.Charset=2;L3.FormatString=v;L3.MarkerAlignment=0;L3.StartFrom=1;L4.ListType=0;L4.Font.Name=Wingdings;L4.Font.Charset=2;L4.FormatString=Ø;L4.MarkerAlignment=0;L4.StartFrom=1;L5.ListType=0;L5.Font.Name=Symbol;L5.Font.Charset=2;L5.FormatString=·;L5.MarkerAlignment=0;L5.StartFrom=1;L6.ListType=0;L6.Font.Name=Courier New;L6.Font.Charset=0;L6.FormatString=o;L6.MarkerAlignment=0;L6.StartFrom=1;L7.ListType=0;L7.Font.Name=Wingdings;L7.Font.Charset=2;L7.FormatString=§;L7.MarkerAlignment=0;L7.StartFrom=1;L8.ListType=0;L8.Font.Name=Wingdings;L8.Font.Charset=2;L8.FormatString=v;L8.MarkerAlignment=0;L8.StartFrom=1;</config-value>
+      <config-value name="bullet0">LEVELS=1;L0.ListType=0;L0.Font.Name=Verdana;L0.Font.Charset=0;L0.FormatString=;L0.MarkerAlignment=0;L0.StartFrom=1;</config-value>
+    </config-group>
+    <variables>
+      <variable id="HOLDING" type="text" translate="true">Realworld Holding BV</variable>
+    </variables>
+    <helpcontext-numbers/>
+  </config>
+  <project-files>
+    <file href="Topics/*.xml" build="ALL" filetype="topic"/>
+    <file href="Topics/Invisible/*.xml" build="ALL" filetype="topic">
+      <file-mod href="Tables_for_formatting.xml"/>
+    </file>
+    <file href="Baggage/*.*" build="ALL" filetype="baggage">
+      <file-mod href="example.magik"/>
+      <file-mod href="example.magik.html"/>
+      <file-mod href="example.png"/>
+      <file-mod href="extra.css"/>
+      <file-mod href="magik.css"/>
+    </file>
+    <file href="Baggage/source/*.*" build="ALL" filetype="baggage">
+      <file-mod href="Weblink.pspimage"/>
+      <file-mod href="wo_toggle_print.pspimage"/>
+    </file>
+  </project-files>
+</helpproject>

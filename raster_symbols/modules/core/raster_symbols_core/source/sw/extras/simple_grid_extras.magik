@@ -1,0 +1,18 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols}, usage={internal})
+_method simple_grid.uncache_image()
+	## This method deletes the buffered image. This is needed when
+	## an indexed grid is drawn with a different colourmap.
+	## 
+	.cached_image << _unset
+_endmethod
+$
+

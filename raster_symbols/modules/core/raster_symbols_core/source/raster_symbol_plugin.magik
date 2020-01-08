@@ -1,0 +1,1101 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+remex(:raster_symbol_plugin)
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+##
+## Handles :goto_requests and :draw_raster_symbols from
+## databus. Manage options and tick drawing, and manage xml
+## configurations.
+##
+def_slotted_exemplar(:raster_symbol_plugin,
+	{
+		{:drawing_cache,property_list.new_with(
+					:data,_unset,
+					:mapviews,rope.new())},
+		{:direct_draw_cache,_unset},
+		{:operating_mode,:transient_drawer},
+		{:map_manager,_unset},
+		{:tick_thread,_unset}
+	},
+	:plugin)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## Holds the data for Goto requests
+raster_symbol_plugin.define_slot_access(:drawing_cache,:write,:private)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+## Holds the data from :draw_raster_symbols requests
+raster_symbol_plugin.define_slot_access(:direct_draw_cache,:write,:private)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.define_slot_access(:operating_mode,:read,:public)
+$
+
+_pragma(classify_level=restricted)
+raster_symbol_plugin.define_shared_constant(:help_id, 40300, :public )
+$
+
+_pragma(classify_level=restricted)
+raster_symbol_plugin.define_shared_constant(:html_help_file_name,"index.html", :public )
+$
+
+_pragma(classify_level=restricted)
+raster_symbol_plugin.define_shared_constant(:html_help_module_name,:raster_symbols_core, :public )
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.define_shared_constant(
+	:databus_consumer_data_types,
+	{:goto_request,:post_render_sets,:draw_raster_symbols},
+	:public)
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:config_definition_file_name,
+	:type,:string,
+	:default_value,"config.xml")
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:config_definition_module_name,
+	:type,:string,
+	:default_value,"raster_symbols_core")
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:configurations)
+$
+
+# Proc to enable setting the proper description of the
+# properties of the plugin
+_global !mp! <<
+_proc @mess(Mid)
+	>> message_handler(:raster_symbol_plugin).human_string(Mid)
+_endproc
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:on_off,
+	:type,:boolean,
+	:default_value,_true,
+	:writable?,_true,
+	:description,!mp!(:tt_use_goto_raster_symbols))
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:sticky_goto?,
+	:type,:boolean,
+	:default_value,_true,
+	:writable?,_true,
+	:description,!mp!(:tt_option_sticky))
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:goto_skip_invisible_geoms?,
+	:type,:boolean,
+	:default_value,_false,
+	:writable?,_true,
+	:description,!mp!.invoke(:tt_option_skip_invis))
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:use_default_for_goto?,
+	:type,:boolean,
+	:default_value,_true,
+	:writable?,_true,
+	:description,!mp!.invoke(:tt_option_use_backstop))
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:no_draw_labels?,
+	:type,:boolean,
+	:default_value,_false,
+	:writable?,_true,
+	:description,!mp!.invoke(:tt_option_no_label))
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+raster_symbol_plugin.def_property(:no_draw_geoms?,
+	:type,:boolean,
+	:default_value,_false,
+	:writable?,_true,
+	:run_time_settable?,_true,
+	:description,!mp!.invoke(:tt_option_no_geoms))
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.help_wanted(_optional help_id)
+	## 
+	## Skip framework
+	##
+
+	_try
+		ho << smallworld_product.get_htmlhelp( _self.html_help_file_name, _self.html_help_module_name )
+		_self.htmlhelp_by_id( ho, help_id )
+	_when resource_not_found_error
+		_self.show_alert( _self.message( :no_help ) )
+	_endtry 
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.post_init_plugins()
+	## 
+	## Register as transient drawer and when property
+	## :configurations isnt set, load configurations
+	##
+
+	_self.register_as_transient_drawer()
+	
+	_if _self.configurations _is _unset 
+	_then _self.load_configurations()
+	_endif
+
+	.map_manager << _self.framework.plugin(:maps)
+
+	_self.add_dependent(_self)
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.set_property(p_name, p_value)
+	## 
+	## Subclassed to enable updates of toggles
+	## The GUI isn't a proper
+	## framework, so this is a kind of hack
+	##
+	_super.set_property(p_name,p_value)
+	_self.changed(:property,{p_name,p_value})
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.value_for_prop(p_prop)
+	## 
+	## 
+	>> _self.property(p_prop)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.options
+	## 
+	## Return the options in two property lists:
+	## 1 with key value
+	## 2 with key property_signature
+	##
+
+	_local l_vals << property_list.new()
+	_local l_sigs << property_list.new()
+	_for i_name,i_val _over _self.properties.fast_keys_and_elements()
+	_loop
+		#DEBUG write(i_name,i_val)
+		_local l_sig << _self.get_property_signature(i_name)
+		# Should be based on writable property Y/N
+		_if l_sig.description.empty?
+		_then _continue 
+		_endif
+		l_sigs[i_name] << l_sig
+		l_vals[i_name] << i_val
+	_endloop	
+	>> l_vals, l_sigs
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.set_options(p_controls)
+	## 
+	## Called by the options dialog with P_CONTROLS being the
+	## cached items. As they are keyed in property, it is easy to
+	## set these properties
+	##
+
+	_local l_p << property_list.new_with(
+		:on_off,:|set_use_goto_changed()|,
+		:sticky_goto?,:|sticky_goto_changed()|,
+		:goto_skip_invisible_geoms?,:|skip_invisible_changed()|,
+		:use_default_for_goto?,:|goto_use_default_changed()|,
+		:no_draw_labels?,:|no_draw_labels()|)
+	
+	_for i_k,i_c _over p_controls.fast_keys_and_elements()
+	_loop
+		_if (l_m<<l_p[i_k]) _isnt _unset 
+		_then _self.perform(l_m,i_c.value)
+		      #DEBUG write("set value for ",i_k," ",i_c.value)
+		_endif
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.init_actions()
+	## 
+	## 
+
+	_super.init_actions()
+
+	_self.add_action(sw_action.new(:activate_management_interface,
+				       :engine,_self,
+				       :image, {:configuration,:raster_symbols_core},
+				       :toolbar_control, {:image_button_item,:max_width,16},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_button_item,
+				       :action_message, :|activate_management_interface()| ))
+
+	_local l_file << smallworld_product.get_resource_file("on_grey.png",:bitmaps,:raster_symbols_core)
+	_local l_image << raster_image.new_from_file(l_file)
+
+	_self.add_action(sw_action.new(:use_goto_raster_symbols,
+				       :engine,_self,
+				       :value,_true,
+				       :image, {:on,:raster_symbols_core},
+				       :tooltip,_self.message(:tt_use_goto_raster_symbols),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|set_use_goto_changed()| ))
+
+	_self.add_action(sw_action.new(:sticky_goto,
+				       :engine,_self,
+				       :value,_self.sticky_goto?,
+				       :image, {:sticky_goto_on,:raster_symbols_core},
+				       :tooltip,_self.message(:tt_option_sticky),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|sticky_goto_changed()| ))
+	
+	_self.add_action(sw_action.new(:goto_skip_invisible,
+				       :engine,_self,
+				       :value,_self.goto_skip_invisible_geoms?,
+				       :image, {:visible_field,:ui_resources},
+				       :tooltip,_self.message(:tt_option_skip_invis),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|skip_invisible_changed()| ))
+
+	_self.add_action(sw_action.new(:goto_use_default,
+				       :engine,_self,
+				       :value,_self.use_default_for_goto?,
+				       :image, {:goto_object,:ui_resources},
+				       :tooltip,_self.message(:tt_option_use_backstop),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|goto_use_default_changed()| ))
+
+	_self.add_action(sw_action.new(:no_draw_labels?,
+				       :engine,_self,
+				       :value,_self.no_draw_labels?,
+				       :image, {:draw_text,:raster_symbols_core},
+				       :tooltip,_self.message(:tt_option_no_label),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|no_draw_labels()| ))
+
+	_self.add_action(sw_action.new(:no_draw_geoms?,
+				       :engine,_self,
+				       :value,_self.no_draw_geoms?,
+				       :image, {:draw_geoms,:raster_symbols_core},
+				       :tooltip,_self.message(:tt_option_no_geoms),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|no_draw_geoms()| ))
+
+	_self.add_action(sw_action.new(:tick,
+				       :engine,_self,
+				       :value,_false,
+				       :image, {:tick_refresh_black,:raster_symbols_core},
+				       :tooltip,_self.message(:tt_tick_refresh),
+				       :toolbar_control, {:image_toggle_item},
+				       :menubar_control, :menu_button_item,
+				       :dialog_control, :image_toggle_item,
+				       :value_change_message, :|tick_refresh_changed()| ))
+
+	_self.add_action(sw_action.new(:help,
+				       :engine,_self,
+				       :action_message,{:help_wanted|()|, 40385},
+				       :image, {:help, :ui_resources},
+				       :help_id, 40385))
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.options_panel()
+	## 
+	## Returns a new raster_symbol_opotion_panel
+	##
+	>> raster_symbol_option_panel.new(_self)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.load_configurations()
+	## 
+	## This reads from selfs config_file any raster configuraton
+	## files mentioned and when the "autoload" attribute is true,
+	## loads the symbols and options
+	##
+	
+	_local l_stream << smallworld_product.get_data_read_stream( _self.config_definition_file_name,
+								    _self.config_definition_module_name )
+	_local l_config
+	_protect
+		l_config << simple_xml.read_element_from(l_stream)
+		# Configurations
+		_for i_conf _over l_config.xml_elements.fast_elements()
+		_loop _local l_atts << i_conf.attributes
+		      _local l_name << l_atts["name"]
+		      _local l_auto_load? << l_atts["autoload"] = "true"
+		      _local l_overwrite? << l_atts["overwrite"] = "true"
+		      _local (l_module_name,l_filename) << _self.int!config_file_from(i_conf)
+		      _if l_auto_load?
+		      _then
+			      _local l_file
+			      _try _with p_cond
+				      l_file << smallworld_product.get_resource_file(l_filename,"data",l_module_name)
+				      write("Reading Raster Symbols from ",l_file)
+				      _if l_file _isnt _unset 
+				      _then raster_symbol_handler.read_xml_data(l_file,l_overwrite?)
+				      _endif
+
+			      _when xml_read_error
+				      write("Error reading configuration file ",l_file,": ",p_cond.report_contents_string)
+			      _when resource_not_found_error
+				      write("Raster Symbols file ",l_module_name,%.,l_filename," not found")
+			      _endtry
+			      
+		      _endif
+		_endloop
+	_protection
+		_if l_stream _isnt _unset 
+		_then l_stream.close()
+		      _self.set_property(:configurations,l_config)
+		_endif
+	_endprotect
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_plugin.int!config_file_from(a_xml)
+	## 
+	## 
+	_local l_elems << a_xml.xml_elements
+	_local l_mod,l_file
+	_for i_elem _over l_elems.fast_elements()
+	_loop _if i_elem.type = "module"
+	      _then l_mod << i_elem.attributes["name"]
+	      _elif i_elem.type = "file"
+	      _then l_file << i_elem.attributes["name"]
+	      _endif
+	_endloop
+	>> l_mod,l_file
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.ask_to_load(p_model,_optional p_feature)
+	## 
+	## Ask user to load the sw_module needed for feature P_FEATURE
+	## Messages are send to P_MODEL
+	##
+	
+	_local l_mod_to_load << :raster_symbols_gui
+	_local l_mod << sw_module_manager.module(l_mod_to_load)
+	_local l_des << l_mod.description
+	_local l_name << l_mod.name
+	
+	_local l_done? << _false 
+	_if p_model.show_question("Yes",
+				  "No",
+				  _self.message(:gui_not_loaded),newline_char,
+				  _self.message(:load_the_gui?,l_name,l_des)) _is _true 
+	_then
+		_protect
+			p_model.busy? << _true 
+			l_done? << sw_module_manager.load_module(l_mod_to_load)	
+		_protection
+			p_model.busy? << _false
+		_endprotect
+		_if l_done?
+		_then p_model.show_message(_self.message(:module_loaded,l_mod))
+		_endif
+	_endif
+	>> l_done?
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.activate_management_interface()
+	#
+	## Activates the Management GUI
+	#
+
+	# If this method is used without the GUI being loaded, the user
+	# is asked to load it.
+	_if !current_package![:raster_symbol_manager_gui] _is _unset
+	_then
+		_if _self.ask_to_load(_self,:raster_symbol_manager_gui) _is _false
+		_then _return
+		_endif
+	_endif
+	
+	# Open a new or cached model
+	_if (l_d << _self.get_dialog(:mgmt_interface)) _is _unset 
+	_then
+		_local l_app << _self.application
+		l_d << raster_symbol_manager_gui.new_dialog(l_app,raster_symbol_handler,_self)
+		_self.cache_dialog(:mgmt_interface,l_d)
+	_endif
+	
+	l_d.activate(l_d.message(:title))
+	
+	>> l_d
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.set_use_goto_changed(p_value)
+	## 
+	## (action value change selector) that enables or disables the goto
+	## function to P_VALUE which must be a boolean
+	##
+
+	#DEBUG write(_self,".set_use_goto_changed(",p_value,")")
+	_self.set_property(:on_off,p_value)
+	
+	_if p_value _is _true 
+	_then _self.register_self_on_app_databus()
+	_else _self.unregister_self_on_app_databus()
+	      _self.clear_goto_cache()
+	_endif
+	
+	_self.set_power_icon(p_value)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.sticky_goto_changed(p_value)
+	## 
+	## (action value change selector) that toggles the continues drawing of
+	## geometries after a goto.
+	##
+	
+	_self.set_property(:sticky_goto?,p_value)
+	_if p_value = _false 
+	_then _self.clear_goto_cache()
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.goto_use_default_changed(p_value)
+	## 
+	## (action value change selector) that toggles drawing
+	## the default symbol when there is no mapping
+	##
+	>> _self.set_property(:use_default_for_goto?,p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.skip_invisible_changed(p_value)
+	## 
+	## (action value change selector) that toggles drawing
+	## symbols for invisible geometries
+	##
+	>> _self.set_property(:goto_skip_invisible_geoms?,p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.no_draw_labels(p_value)
+	## 
+	## (action value change selector) that toggles
+	## suppressed drawing of symbol labels
+	>> _self.set_property(:no_draw_labels?,p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.no_draw_geoms(p_value)
+	## 
+	## (action value change selector) that toggles
+	## suppressed drawing of the geometries in Goto
+	>> _self.set_property(:no_draw_geoms?,p_value)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.tick_refresh_changed(p_value)
+	## Action change selector
+	## 
+	_if p_value _is _true 
+	_then
+		_if _self.ticking?
+		_then _return 
+		_endif
+		_self.action(:tick).set_image({"tick_refresh_green.png","raster_symbols_core"})
+		_self.start_ticking()
+	_else
+		_if _not _self.ticking?
+		_then _return 
+		_endif
+		_self.action(:tick).set_image({"tick_refresh_black.png","raster_symbols_core"})
+		_self.stop_ticking()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.set_power_icon(p_on?)
+	## 
+	## Changes the image of the :use_goto_raster_symbols
+	## image_toggle_item
+	## 
+	_local l_name << _if p_on? _is _true 
+			 _then >> "on.png"
+			 _else >> "off.png"
+			 _endif
+	_self.action(:use_goto_raster_symbols).set_image({l_name,"raster_symbols_core"})
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.register_self_on_app_databus()
+	#
+	## Interested in _self.databus_consumer_data_types
+	#
+	_self.application.databus.add_consumer(_self,_scatter _self.databus_consumer_data_types)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.unregister_self_on_app_databus()
+	#
+	## Not interested anymore in _self.databus_consumer_data_types
+	#
+	_self.application.databus.remove_consumer(_self,_scatter _self.databus_consumer_data_types)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.register_as_transient_drawer()
+	#
+	## We registered to the databus as interested in
+	## post_render_sets, but we want the map_manager sending
+	## map_damage_notify()
+
+	_self.application.plugin(:maps).add_post_renderer(_self,140,:transient_drawer)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.sw_databus_data_available(p_type,p_data)
+	#
+	## If P_TYPE is :goto_request or :post_render_sets, cache the data P_DATA in
+	## .drawing_cache, waiting to be drawn by map_damage_notify()
+	## P_DATA can be:
+	##   geometry_set
+	##   rwo_set
+	##   spatial_context_element
+	##
+	## If P_TYPE is :post_render_sets it will match the data given
+	## by the arguments and draw what is in cache
+	# 
+
+	#DEBUG write(_self," sw_databus_data_available " ,p_type," " ,p_data)
+	#DEBUG _global con
+	#DEBUG con << p_data
+
+	_if p_type _is :goto_request _orif p_type _is :post_render_sets
+	_then
+		.operating_mode << :transient_drawer
+		_self.process_goto_request(p_data)
+				
+	_elif p_type _is :draw_raster_symbols
+	_then
+		.operating_mode << :draw_raster_symbols
+		_self.draw_by_request(p_data)
+		
+	_endif
+
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_plugin.process_goto_request(p_data)
+	## 
+	## Fills the drawing cache after examination of P_DATA
+	##
+
+	#DEBUG show("nil:Line 5",:p_data,p_data)
+	
+	_self.clear_goto_cache()
+	
+	_local l_data
+	
+	# Deal with goto requests send in a simple vector
+	_if p_data.is_kind_of?({}) _andif
+	    p_data.size > 0
+	_then l_data << p_data.first
+	_else l_data << p_data
+	_endif
+	
+	# if bouding box (e.g. send from Google plugin), we ignore it
+	_if l_data.is_kind_of?(bounding_box)
+	_then _return 
+	_endif
+	
+	.drawing_cache[:data] << l_data
+	
+_endmethod
+$
+
+#_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+#_method raster_symbol_plugin.process_post_render_sets(p_data)
+#	## 
+#	## P_DATA : {:world,world_bounds,completion}
+#
+#	#DEBUG write(_self,".process_post_render_sets(",p_data,")")
+#	_if p_data _is _unset _orif
+#	    p_data.size ~= 3 _orif
+#	    p_data[3] _isnt :complete
+#	_then _return 
+#	_endif
+#
+#	_if _self.operating_mode _is :transient_drawer
+#	_then 
+#		
+#	_endif
+#	
+#_endmethod
+#$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_plugin.draw_by_request(p_data)
+	# 
+	## responds on :draw_raster_symbols dbus request if
+	## .operating_mode = :draw_raster_symbols
+	##
+	## Evaluate P_DATA, cache it after creating a symbol with
+	## properies.
+	## P_DATA should contain the following properties:
+	##
+	##   :graphics_context, a graphics_context
+	##   :geometry_set, a geometry_set, 
+	##   :symbol, name of a picture symbol
+	## Optional properties are:
+	##   [:one_shot?], do not sticky draw
+	##   [:highlight?, a boolean] Default false 
+	##   [:sym_properties, being raster symbol properties]
+	##
+	#
+
+	#DEBUG write(_self,".draw_by_request(",p_data,%))
+
+	_local l_cntxt << p_data[:graphics_context]
+	_if _not l_cntxt.is_kind_of?(graphics_context)
+	_then _return _false 
+	_endif
+
+	_local l_set << p_data[:geometry_set]
+	_if (_not l_set.is_kind_of?(sw:geometry_set_mixin) _and
+	     _not l_set.is_kind_of?(geometry_value_collection)) _orif 
+	    l_set.empty?
+	_then _return _false
+	_endif
+	
+	#DEBUG write("draw_by_request geom set: ",l_set)
+
+	# Get the symbol to draw
+	_local l_sym
+	_try _with p_cond
+		l_sym << raster_symbol_handler.get_symbol(p_data[:symbol])
+	_when creation_error
+		write(p_cond.report_contents_string)
+		l_sym << raster_symbol_handler.default_raster_symbol()
+	_endtry
+	_if l_sym _is _unset 
+	_then _return _false 
+	_endif
+
+	# Set properties
+	.direct_draw_cache << p_data
+	.direct_draw_cache[:highlight?] << p_data[:highlight?].default(_false)
+
+	_local l_sym_props << p_data[:sym_properties]
+	_if l_sym_props _is _unset 
+	_then l_sym_props << p_data[:sym_properties] << property_list.new()
+	_endif
+
+	_if l_set.is_kind_of?(geometry_value_collection)
+	_then
+		l_sym_props[:value_scale] << l_set.value_scale
+		l_sym_props[:value_format] << l_set.value_format
+	_endif
+	_local l_modsym << l_sym.clone_with_properties(l_sym_props)
+
+	.direct_draw_cache[:cloned_symbol] << l_modsym
+
+	# Draw
+	_self.int!draw_direct_draw_cache(l_cntxt)
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_plugin.int!draw_direct_draw_cache(a_graphics_context)
+	## 
+	## This actually draws the geometry_set from the .direct_draw_cache
+	##
+	
+	#DEBUG write(_self,".int!draw_direct_draw_cache(",a_graphics_context,")")
+
+	_local l_cache << .direct_draw_cache
+	_local l_highlight? << l_cache[:sym_properties][:highlight?].default(_false)
+	_local l_sym << l_cache[:cloned_symbol]
+	_local l_set << l_cache[:geometry_set]
+	
+	# Draw
+	_if l_set.is_kind_of?(geometry_value_collection)
+	_then
+		# Draw values
+		_for i_geom,i_value _over l_set.fast_geoms_and_values()
+		_loop
+			#DEBUG write("draw_value_by_request ",i_geom,i_value)
+			l_sym.draw_value_on(a_graphics_context,i_geom,l_highlight?,i_value)
+		_endloop
+
+	_else
+		# Just draw
+		_for i_geom _over l_set.fast_elements()
+		_loop
+			#DEBUG write("draw_by_request",i_geom)
+			l_sym.draw_on(a_graphics_context,i_geom,l_highlight?)
+		_endloop
+	_endif
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.map_damage_notify(a_graphics_context,a_map_view)
+	#
+	## Draw what is in cache that was send to me as a transient
+	## drawer. 
+	#
+	
+	#DEBUG write(_self,".map_damage_notify(",a_graphics_context,%,,a_map_view)
+	
+#	_self.changed(:map_damage_notify,a_map_view)
+
+	_if (l_mode << _self.operating_mode) _is :transient_drawer
+	_then _self.redraw_goto_cache(a_graphics_context,a_map_view)
+	_elif l_mode _is :draw_raster_symbols
+	_then _self.redraw_request_data(a_graphics_context,a_map_view)
+	_endif
+		
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.redraw_goto_cache(a_graphics_context,a_map_view)
+	## 
+	##
+
+	#DEBUG write(_self,".redraw_goto_cache(",a_graphics_context,a_map_view,")")
+	_if _self.sticky_goto?
+	_then
+		_self.draw_cached_goto(a_graphics_context,a_map_view)
+		
+	_else
+		_if _not .drawing_cache[:mapviews].includes?(a_map_view)
+		_then
+			.drawing_cache[:mapviews].add(a_map_view)
+			_self.draw_cached_goto(a_graphics_context,a_map_view)
+		_endif
+	_endif
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.redraw_request_data(a_graphics_context,a_map_view)
+	## 
+	##
+
+	#DEBUG write(_self,".redraw_request_data(",a_graphics_context,a_map_view,")")
+	
+	_local l_props << .direct_draw_cache
+	_if l_props _is _unset _orif
+	    l_props[:one_shot?] _is _true 
+	_then _return 
+	_endif
+	
+
+	_self.int!draw_direct_draw_cache(a_graphics_context)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.draw_cached_goto(p_gc,p_map_view)
+	#
+	## Draw what's in .drawing_cache on Graphics Context P_GC, and
+	## draw on every unique P_MAPVIEW passed.
+	## 
+
+	_local l_gset << .drawing_cache[:data]
+	_if l_gset _is _unset _orif l_gset.responds_to?(:empty?)_andif
+				    l_gset.empty? _is _true 
+	_then _return
+	_endif
+
+	
+	#DEBUG write(_self,".draw_cached_goto(",p_gc,%,,p_map_view,"[",l_gset,"]")
+
+	_local l_set << l_gset
+	_if l_set.is_kind_of?(rwo_set)
+	_then
+		l_set << l_set.geometry_set(p_map_view.world)
+	_elif l_set.is_kind_of?(spatial_context_element)
+	_then
+		l_set << l_set.geometry_set()
+	_elif l_set.is_kind_of?(ordered_geometry_set)
+	_then
+		_if (l_sym << raster_symbol_handler.symbol_for_special_type(:numerator)) _isnt _unset 
+		_then
+			_for i_num,i_geom _over l_set.fast_keys_and_elements()
+			_loop l_sym.draw_on(p_gc,i_geom,_false,i_num.write_string)
+			_endloop
+			_return  
+		_endif
+	_endif
+
+	_self.int!draw_geoms(l_set,p_gc,p_map_view)
+	
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method raster_symbol_plugin.int!draw_geoms(p_set, _optional p_context,p_map)
+	## 
+	## does the actual drawing of the geoms in P_SET
+	##
+	
+	_local l_map <<
+		_if p_map _is _unset 
+		_then >> p_map.default(.framework.plugin(:maps).current_map_view)
+		_else >> p_map
+		_endif
+	
+	_local l_gc << p_context.default(l_map.window)
+
+	_local l_visi
+	_if _self.goto_skip_invisible_geoms?
+	_then l_visi << l_map.get_visible_geometry_set()
+	_endif
+	
+	_if _self.no_draw_labels? _is _true 
+	_then l_prop << property_list.new_with(:draw_text_string?,_false)
+	_else l_prop << property_list.new()
+	_endif
+	
+	# Loop over the geomeries and draw using the goto_mappings
+	_for i_geom _over p_set.fast_elements()
+	_loop
+		# For the time being we ignore drawing links
+		_if i_geom.geom_type _is :link
+		_then _continue 
+		_endif
+
+
+		#DEBUG write("Prepare drawing for ",i_geom," with visset ",l_visi)
+		# If configured so, skip invisibles
+		_if _self.goto_skip_invisible_geoms? _andif
+#		    l_map.geometry_not_visible?(i_geom.rwo,i_geom.app_type) _is _true
+		    _not l_visi.includes?(i_geom)
+		_then
+			#DEBUG write("Skip goto invisible geom " ,i_geom)
+			_continue				
+		_endif
+		
+		# 1. get goto symbol
+		_local (l_sym,l_mapping) <<
+			raster_symbol_handler.goto_symbol_for(i_geom,_self.use_default_for_goto?)
+
+		#DEBUG  write("Draw " ,i_geom.app_type," with ", l_sym)
+		# Special case of nothing
+		_if l_mapping _is _unset _orif
+		    l_mapping.symbol = "NOTHING"
+		_then _continue 
+		_endif
+
+		#DEBUG print(l_mapping)
+		# When the first geometry and mapping is passed, make sure a
+		# stistical analyses is done when the symbol has a
+		# value_selector  
+		_if (l_m<<l_sym.value_selector) _isnt _unset _andif
+		    l_sym.value_scale _is _unset
+		_then
+			#DEBUG write("Analyse statistics for ",l_sym)
+			_local l_eng << raster_symbol_handler.statistics_engine_for(i_geom.rwo_type,i_geom.dataset.name,l_m)
+			_if l_eng.analyzed? _andif
+			    _not l_eng.stopped? _is _true
+			_then l_eng.analyse_values_for(p_set)
+			_endif
+		_endif
+
+		_local l_geom_cat << i_geom.geom_category
+		
+		# If the geom is kind of text, get a string
+		_local l_str << _if l_geom_cat = :text 
+				_then >> i_geom.string.default("?")
+				_else >> _unset 
+				_endif
+
+		_if _self.no_draw_geoms? _isnt _true 
+		_then
+			# When a goto line style is defined, draw it.
+			_if l_geom_cat = :linear _andif
+			    (l_style << l_sym.goto_line_style) _isnt _unset _andif
+			    l_mapping.use? _is _true 
+			_then i_geom.draw_on(l_gc,l_style)
+			_endif
+
+			# When a goto area style is defined, draw it.
+			_if l_geom_cat = :area _andif 
+			    (l_style << l_sym.goto_area_style) _isnt _unset _andif
+			    l_mapping.use? _is _true 
+			_then i_geom.draw_on(l_gc,l_style)
+			_endif
+			
+		_endif
+		
+		# Finally, draw the configured symbol
+#		l_sym.draw_on(l_gc,i_geom,_false,l_str)
+		l_sym.draw_with_properties(l_gc,i_geom,l_prop,_false,l_str)
+	_endloop
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.clear_goto_cache()
+	#
+	## In case gotos are draw untill a next goto,
+	## this will stop it.
+	## 
+
+	.drawing_cache << property_list.new_with(:data,_unset,
+						 :mapviews,rope.new())
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.clear_direct_draw_cache()
+	## 
+	## 
+	>> .direct_draw_cache << _unset 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.ticking?
+	## 
+	##
+	_local l_tt << .tick_thread
+	>> l_tt _isnt _unset _andif
+		l_tt.vm_status _is l_tt.status_notification_wait
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.start_ticking(_optional p_time_interval)
+	## p_time_interval in ms
+	##
+	_local l_int << p_time_interval.default(raster_symbol_handler.defaults[:tick_interval])
+	>> .tick_thread << _self.thread_proc.fork(l_int)
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.thread_proc
+	## 
+	##
+	_local l_m << _self
+	>> _proc @tick(p_int)
+		   _import l_m
+		   _local l_t << 0
+		   _loop
+			   l_t +<< 1
+			   l_m.changed(:ticked,l_t)
+			   _thisthread.sleep(p_int)
+		   _endloop
+	   _endproc
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.stop_ticking()
+	## 
+	##
+	_if .tick_thread _isnt _unset 
+	_then _return .tick_thread.kill()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.note_change(p_who,p_what,p_data)
+	## 
+	## 
+	#DEBUG write(p_who,p_what,p_data)
+	_if p_who _is _self _andif
+	    p_what _is :ticked
+	_then _self.repeat_active_task()
+	_endif
+_endmethod
+$
+
+_pragma(classify_level=debug, topic={style_system,raster_symbols})
+_method raster_symbol_plugin.repeat_active_task()
+	##
+	## Method from note_change that triggers a transient redraw
+	## Returns _false if there is no map manager
+	
+	_if (l_mapm << .map_manager) _is _unset 
+	_then _return _false
+	_endif
+
+	l_mapm.current_map_view.trigger_transient_redraw()
+	
+	>> _true 
+_endmethod
+$

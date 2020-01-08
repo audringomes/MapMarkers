@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Text_justification</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The position relative to the text itself. The values are identical to those of the standard positions of the </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Text-Picture-Justification" styleclass="Normal" translate="true">Text raster Justification</link><br/></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:169px;">
+          <para styleclass="Normal" style="text-align:center;"></para>
+          <para styleclass="Normal" style="text-align:center;"><image src="psyms_clip0042.png" scale="162.82%" width="127" height="127" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:top_right</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:centre_right</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_left</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_centre</text></para>
+          <para styleclass="Code in text" style="margin-bottom:4px;"><text styleclass="Code in text" translate="true">:bottom_right</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

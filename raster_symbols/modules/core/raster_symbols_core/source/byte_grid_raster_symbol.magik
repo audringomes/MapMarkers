@@ -1,0 +1,634 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+
+_package sw
+
+remex(:byte_grid_raster_symbol)
+$
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## Subclass that creates and display symbols, stored in a Grid
+## Usage:
+##  new_with_properties()
+##  draw_on()
+##
+#
+def_slotted_exemplar(:byte_grid_raster_symbol,
+	{
+		{:colourmap,_unset},
+		{:number_of_layers,_unset},
+		{:original_colourmap,_unset},
+		{:instance_colourmap,_unset},
+		{:named_colourmap,_unset}
+	},
+	:grid_raster_symbol)
+$
+
+##
+## SLOT DEFINITIONS
+##
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Colourmap of the loaded raster
+byte_grid_raster_symbol.define_slot_access(:colourmap,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## Number of unique colour indexes in the raster image
+## This is used in value drawing and may differ from the number
+## of entries in the colourmap
+byte_grid_raster_symbol.define_slot_access(:number_of_layers,:write,:public)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+## The name of the colourmap to be used in Value Mapping
+## The colourmap should be known to the raster_symbol_handler
+byte_grid_raster_symbol.define_slot_access(:named_colourmap,:write,:public)
+$
+
+##
+## SHARED CONSTANTS 
+##
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+#
+## The maximum of colours in a colourmap
+#
+byte_grid_raster_symbol.define_shared_constant(:max_layers,
+	40,
+	:public)
+$
+
+_pragma(classify_level=basic, topic={shuttle})
+##
+## The data and types for this subclass
+##
+byte_grid_raster_symbol.define_shared_constant(:data_types,
+	property_list.new_with(:colourmap,sw:colour_map,
+			       :number_of_layers,integer,
+			       :value_colour_scheme,{:sym_colourmap,:named_colourmap,:colour},
+			       :named_colourmap,""),
+	:public)
+$
+
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.default_transparent_index
+	>> raster_symbol_handler.defaults[:default_transparent_index]
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.valid_data_types
+	# 
+	## subclassed, with own properties and super included
+	#
+	_local l_types << _super.valid_data_types
+	_for i_key,i_val _over _self.data_types.fast_keys_and_elements()
+	_loop l_types[i_key]<<i_val
+	_endloop
+	_self.define_shared_constant(:valid_data_types,l_types,:public)
+	>> l_types
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.valid_unset_properties
+	#
+	## Subclassed with own properties and super included.
+	#
+	_local l_types << rope.new_from(_super.valid_unset_properties)
+	l_types.add_all_last(_self.data_types.keys)
+	_local l_vec << {}.new_from(l_types)
+	_self.define_shared_constant(:valid_unset_properties,l_vec,:public)
+	>> l_vec
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.new_with_properties(p_filename,p_properties)
+	#
+	## Creates a byte_grid_raster_symbol from P_FILENAME.
+	## See super implementation for details.
+	## P_PROPERTIES: property_list with property/value:
+	##
+	##              [super properties] +
+	##
+	##              :transparent_value - in case of byte palletted pictures
+	##                                   this is the index of the
+	##                                   colourmap that should be treated as 
+	##                                   transparent.
+	##              :number_of_layers,integer
+	##		:value_colour_scheme,{:sym_colourmap,:named_colourmap,:colour}
+	##		:named_colourmap,sw:colour_map
+	##		:background_fill_style,sw:fill_style
+	## 
+	>> _clone.init(p_filename,p_properties)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.init(p_filename,p_properties)
+	#
+	## Initialize a clone with type :grid, populating the grid and
+	## rle_encoded.
+	#
+	#DEBUG write(_self," NEW ",p_filename," " ,p_properties)
+
+	_super.init(p_filename,p_properties,p_image)
+
+	_local l_defs << raster_symbol_handler.defaults
+	
+	# Set my properties
+	.number_of_layers << p_properties[:number_of_layers].default(_self.max_layers)
+	.value_colour_scheme << p_properties[:value_colour_scheme].default(l_defs[:value_colour_scheme])
+	.named_colourmap << p_properties[:named_colourmap]
+	
+	>> _self
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.load_alpha_from_file(p_file)
+	## Subclass NOOP
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.rle_encoded()
+	## Subclass NOOP
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.properties
+	##
+	## Expose my special properties for the GUI
+	##
+
+	_local l_prop << _super.properties
+	_for i_prop _over _self.data_types.fast_keys()
+	_loop l_prop[i_prop] << _self.perform(i_prop)
+	_endloop
+
+	>> l_prop
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.validate_properties(_optional p_properties)
+	# 
+	## Check for valid values in P_PROPERTIES or (after
+	## realisation) (combination of) values of self.
+	#
+	
+	# As the super implementation with properties passed just use
+	# the valid_data_types, we call that.
+	
+	_if p_properties _isnt _unset 
+	_then _return _super.validate_properties(p_properties)
+	_endif
+
+	_if _super.validate_properties() _is _true
+	_then
+		_if .value_colour_scheme = :named_colourmap _andif
+		    .named_colourmap _is _unset 
+		_then condition.raise(:inconsistent_values,
+				      :symbol,_self,
+				      :key1,:named_colourmap,
+				      :key2,:value_colour_scheme,
+				      :value,:named_colourmap)
+		      
+		_endif
+	_endif
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.load_grid_from_file()
+	#
+	## creates grid from file .filename
+	## If 8bit, extracts and stores the colourmap and sets the
+	## TRANSPARENT_VALUE (if given) in the colourmap to _unset.
+	#
+
+	_local l_strm << _self.input_stream_for_file (.filename)
+	#DEBUG write(_self," used stream ",l_strm)
+	_local l_pb   << l_strm.pixel_bounds
+	_local l_grid << .grid << simple_grid.new ( l_pb, l_strm.type )
+	
+	_protect
+		
+		l_grid.set_from_grid_input_stream ( l_strm )
+		#DEBUG write("Loaded grid from ",.filename," type ",l_grid.type)
+		_local l_type << l_grid.type
+
+		.colourmap << l_strm.colour_map
+		.original_colourmap << .colourmap.deep_copy()
+		_if .colourmap.size > _self.max_layers
+		_then
+			_local l_origin << .colourmap.origin
+			_local l_maxnew << _if l_origin = 0
+					   _then >> _self.max_layers-1
+					   _else >> _self.max_layers
+					   _endif
+			_local l_map << colour_map.new(l_origin,_self.max_layers)
+			_for i _over range(l_origin,l_maxnew)
+			_loop l_map[i] << .colourmap[i]
+			_endloop
+			.colourmap << l_map
+			condition.raise(:colourmap_reduced,
+					:file,.filename,
+					:old,l_strm.colour_map,
+					:new,.colourmap)
+			.instance_colourmap << .colourmap.deep_copy()
+			
+			#DEBUG write("Setting transparency")
+			.has_transparency? <<
+				_if .transparent_value _isnt _unset
+				_then >> .grid.contains_value?(.transparent_value)
+				_else >> _false
+				_endif
+		_endif
+		
+	_protection
+		l_strm.close()
+	_endprotect
+
+	>> .grid
+
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.reset_colourmap()
+	## 
+	## 
+	>> .colourmap << .original_colourmap.deep_copy()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.make_grid_transparent()
+	## 
+	##
+	
+	.colourmap[_self.actual_transparent_value] << _unset 
+	.grid.uncache_image()
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.make_grid_non_transparent()
+	## 
+	##
+
+	_local l_ti << _self.actual_transparent_value
+	.colourmap[l_ti] << .original_colourmap[l_ti]
+	.grid.uncache_image()
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.colourmap_values_as_background()
+	## 
+	## 
+	_local l_map << .original_colourmap.deep_copy()
+	_local l_tra_ind << _self.actual_transparent_value
+	_local l_tra << l_map[l_tra_ind]
+	_for i,i2 _over l_map.fast_keys_and_elements()
+	_loop
+		_if i ~= l_tra_ind
+		_then l_map[i] << l_tra
+		_endif
+	_endloop
+	>> l_map
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.set_values_as_background()
+	## 
+	## 
+	.colourmap << _self.colourmap_values_as_background()
+	.grid.uncache_image()
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.draw_preview_on(p_window)
+	## 
+	## 
+	_local l_transform << transform.new().scale(1.0)
+	.grid.uncache_image()
+	.grid.draw_cells_on(p_window,l_transform,.colourmap)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.draw_image(p_window,p_coord)
+	##
+	## Subclassed to draw indexed colours if there is no
+	## value_selector defined
+	##
+	
+	#DEBUG write(_self,"byte_grid_raster_symbol.draw_image(",p_window,p_coord,%))
+	_local l_transform << _self.world_transform(p_window,p_coord)
+	_if l_transform.nominal_scale < 1.0
+	_then _return _false
+	_endif
+
+	_local l_pixel_bounds << _self.transformed_bounds(p_window,p_coord)
+
+	_if _self.draw_background?
+	_then _self.draw_background(p_window,l_pixel_bounds.bounds)
+	_endif
+
+	_if .value_selector _is _unset 
+	_then .grid.draw_cells_on(p_window,l_transform,.colourmap,.wash)
+	_endif
+	
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.draw_graph(p_window,p_coord,p_rwo,p_method, _optional p_value)
+	#
+	## Subclassed method that in case of a byte grid with colourmap
+	## draws values by modifying the colourmap. This supposes that
+	## the colourmap scale is linear equivalent to the value scale.
+	#
+	
+	#DEBUG write(_self,"byte_grid_raster_symbol.draw_graph(",p_window,p_coord,p_rwo,p_method,p_value)
+
+
+	# To be on the safe side, we check if there is s suitable grid
+	# and colourmap
+	_if .grid.type _isnt :byte _andif
+	    .colourmap _is _unset
+	_then _return _super.draw_graph(p_window,p_coord,p_rwo,p_method,p_value)
+	_endif
+
+	_local l_value << _if p_method _is :value_argument
+			  _then >> p_value
+			  _else >> _self.get_value_from(p_rwo,p_method)
+			  _endif
+	_if l_value _is _unset
+	_then _return _false
+	_endif
+	
+
+	_local l_vscale << _self.get_value_scale(p_rwo,p_method)
+	_local l_map << _self.colourmap_for_value(l_value,l_vscale)
+	##DEBUG print(l_map)
+	_local l_transform << _self.world_transform(p_window,p_coord)
+
+	.grid.uncache_image()
+	.grid.draw_indexed_cells_on(p_window,l_transform,l_map,100)
+
+	# Draw value string
+	_local l_string << _self.value_string_from_value(l_value)
+	_local l_pxcoord << p_window.pixel_for(p_coord)
+	_local l_pixel_bounds << pixel_bounding_box.new_with_size(
+					 l_pxcoord.x+.pixel_offset.x,
+					 l_pxcoord.y+.pixel_offset.y-.height,
+					 .width,
+					 .height)
+	_self.draw_value_string(p_window,l_pixel_bounds,l_string)
+
+	# Draw measurement scale and method
+	_if l_vscale _isnt _unset _andif
+	    .draw_measurement_scale? _is _true
+	_then _self.draw_measurement_text(p_window,l_pixel_bounds,l_vscale,p_method)
+	_endif
+
+	>> _true 
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method byte_grid_raster_symbol.draw_value_string(p_window,p_bbox,p_value_string)
+	##
+	## Subclassed method that isn't dependent on a style etc.
+	##
+
+	#DEBUG write(_self,"raster_symbol.draw_value_string()",p_value_string)
+
+	_local l_vcoord << p_bbox.perform(.value_box_justification)
+	
+	p_window.draw_text(.value_text_style,
+			   l_vcoord.x,l_vcoord.y,
+			   p_value_string,
+			   _unset,_unset,
+			   .value_text_justification)
+	
+_endmethod
+$
+
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.cmap_range
+	## 
+	## returns min and max index values
+	## The minimum of _self.number_of_layers and .colourmap.size is
+	## used and when the origin is 0 and the
+	## actual_transparent_value is 0, the range start with 1
+	##
+	
+	_local l_min << .colourmap.origin
+	_local l_max << _self.number_of_layers.min(.colourmap.size)
+	_if l_min = 0
+	_then
+		_if _self.actual_transparent_value = 0
+		_then l_min << 1      
+		_endif
+		l_max << l_max - 1
+	_endif
+	>> l_min,l_max
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_private _method byte_grid_raster_symbol.colourmap_for_value(p_value,p_vscale)
+	# 
+	## returns a modified instance colourmap with the colour values up to the
+	## value P_VALUE relative to scale P_VSCALE.
+	## If P_VSCALE is unset, the original CMAP is returned
+	#
+
+
+	_if p_vscale _is _unset 
+	_then _return .colourmap
+	_endif
+
+	_local (l_min,l_max) << _self.cmap_range
+	
+	_if p_value.is_kind_of?(unit_value)
+	_then p_value << p_value.value
+	_endif
+
+	_local l_value_height <<
+		_if p_vscale _isnt _unset _andif
+		    p_vscale _isnt 0
+		_then >> ((p_value/p_vscale)*l_max).truncated
+		_else >> (p_value/l_max).truncated
+		_endif
+
+	#DEBUG write("Colourmap for value ",p_value," scale ",p_vscale," cmaprange=",l_min,%,,l_max," value_heigth=",l_value_height)
+
+	_if l_value_height > l_max
+	_then condition.raise(:warning,:string,write_string("Value ",p_value," is out of range ",p_vscale))
+	      l_value_height << l_max
+	_elif l_value_height < l_min
+	_then condition.raise(:warning,:string,write_string("Value ",p_value," is out of range ",p_vscale))
+	      l_value_height << l_min
+	_endif
+	
+	#DEBUG write("Value height ",l_value_height)
+
+	# Modify the instance colourmnap by transfering colours from
+	# another colourmap or a colour, as designed by the value for
+	# the value_colour_scheme 
+	_local l_cmap
+	_local l_shift << 0
+	_if (l_sc<<_self.value_colour_scheme) _is :sym_colourmap
+	_then
+		#DEBUG write("Transfer colours...")
+		l_cmap << .colourmap
+		_for i _over range(l_min,l_value_height)
+		_loop .instance_colourmap[i] << l_cmap[i]
+		_endloop
+	
+	_elif l_sc _is :named_colourmap
+	_then
+		l_cmap << raster_symbol_handler.colourmap(_self.named_colourmap)
+#		l_shift << _if l_cmap.origin = 0 _andif
+#			       l_min = 1
+#			   _then >> -1
+#			   _else >> 0
+#			   _endif
+		_for i _over range(l_min,l_value_height)
+		_loop .instance_colourmap[i] << l_cmap[i]#+l_shift]
+		_endloop
+
+	_elif l_sc _is :colour
+	_then
+		l_cmap << .colourmap
+		_local l_colour << _self.value_colour
+		_for i _over range(l_min,l_value_height)
+		_loop .instance_colourmap[i] << l_colour
+		_endloop
+	_endif
+	
+	# Unset the transparent colour index
+	_local l_tval << .transparent_value
+	_if .has_transparency?
+	_then .instance_colourmap[l_tval] << _unset#colour.new_rgba(0,0,0,0)
+	_endif
+
+	#DEBUG write("Make T: ",l_value_height+1,%,,l_max)
+	# Make all higher values transparent
+	_for i _over range(l_value_height+1,l_max)
+	_loop .instance_colourmap[i] << _unset#colour.new_rgba(0,0,0,0)
+	_endloop
+	#DEBUG write("Done")
+	
+	>> .instance_colourmap
+#	>> colour_map.new_gray(0,l_max)
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.actual_transparent_value
+	#
+	## Returns the value for the transparency of the current
+	## object. If the value .transparent_value is set, this will be
+	## returned.
+	## In other cases it will return
+	## _self.default_transparent_index for byte grids,
+	## _self.actual_24bittransparancy_value for integer grids
+	##    without washmap and
+	## 0 when a washmap is given
+	#
+
+	>> _if (l_val << .transparent_value) _isnt _unset 
+	   _then >> l_val
+	   _else >> _self.default_transparent_index
+	   _endif
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.is_transparent_value?(p_x,p_y)
+	# 
+	## Check for value against _unset and _self.actual_transparent_value
+	## In case a washmap is given, it returns _true if the value at
+	## .washmap[p_,p_y] = 0.
+	##
+
+	>>  (l_val << .grid[p_x,p_y]) _is _unset _orif
+		l_val = _self.actual_transparent_value
+
+_endmethod
+$
+
+_pragma(classify_level=restricted, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.colour_for_value(p_val)
+	## Get colour from colourmap[p_val]
+	>> .colourmap[p_val]
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.colourmap_changed(p_map)
+	## 
+	## 
+	#DEBUG write(_self,"colourmap_changed",p_map)
+	p_map.realise()
+	.grid.uncache_image()
+	>> .colourmap << p_map
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.reset_colourmap()
+	## 
+	## Restore the colourmap from original_colourmap, slicing if it
+	## exceeds _self.max_layers and return the new colourmap
+	##
+	>> .colourmap << .original_colourmap.deep_copy()
+_endmethod
+$
+
+_pragma(classify_level=advanced, topic={style_system,raster_symbols})
+_method byte_grid_raster_symbol.non_transparent_colourmap
+	## 
+	## This method returns the .colourmap after restoring any
+	## transparency shown (by unsetting the colourmap index which
+	## is set as transparent_value)
+	##
+
+	_local l_mod? << _false 
+	_if .has_transparency? _andif
+	    .show_transparency? _is _true 
+	_then
+		_self.show_transparency? << _false
+		_local l_c << .colourmap.deep_copy()
+		_self.show_transparency? << _true
+		_return l_c
+	_else
+		_return .colourmap
+	_endif
+	
+	
+_endmethod
+$

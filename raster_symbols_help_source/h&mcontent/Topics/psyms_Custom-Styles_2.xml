@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Thematics</title>
+  <body>
+    <para styleclass="Normal"><var styleclass="Normal">&lt;%PRODUCTNAME%&gt;</var><text styleclass="Normal" translate="true"> can be used in thematic mapping definitions, for point geometries.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:413px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Definition Interface changes:</text></para>
+          <para styleclass="Normal"><image src="psyms_clip0054.ipp" scale="67.45%" width="515" height="404" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="width:662px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">End user interface:</text></para>
+          <para styleclass="TableText"><image src="psyms_clip0055.png" scale="69.63%" width="328" height="227" styleclass="TableText"></image></para>
+          <para styleclass="TableText"></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Result:</text></para>
+    <para styleclass="Normal"><image src="psyms_clip0056.png" scale="63.04%" width="507" height="232" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><table styleclass="Info_Etc" rowcount="1" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:16px; height:16px;">
+          <para styleclass="Inline_Icon"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Inline_Icon"></image></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">This is no part of the product and a suggestion only.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

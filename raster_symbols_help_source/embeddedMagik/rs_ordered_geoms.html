@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.51 in css mode. -->
+<html>
+  <head>
+    <title>wo_swo_route_builder_mods.magik</title>
+	<link type="text/css" href="magik.css" rel="stylesheet">
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">#</span><span class="comment">% text_encoding = iso8859_1
+</span><span class="magik-font-lock-keyword-statements">_package</span> sw
+<span class="comment-delimiter"># </span><span class="comment">Realworld Software Products 2017
+</span><span class="comment-delimiter">#</span><span class="comment">
+</span>
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_level=advanced, topic={Route_Manager})</span>
+<span class="function-name">_method</span> <span class="type">wo_swo_route_builder</span>.<span class="function-name">goto_object</span>()
+        <span class="comment-delimiter">#</span><span class="comment">
+</span><span class="doc">        ## Goto the bound of the object on map</span><span class="comment">
+</span><span class="doc">        ##</span><span class="comment">
+</span><span class="doc">        ## MOD: for RASTER SYMBOLS to return a route by the new method</span><span class="comment">
+</span><span class="doc">        ##      _self.ordered_geoms_for_route()</span><span class="comment">
+</span>        <span class="comment-delimiter">#</span><span class="comment">
+</span> 
+
+        g_set &lt;&lt; rwo_set.<span class="function-name">new</span>()
+        <span class="magik-font-lock-keyword-loop">_for</span> <span class="variable-name">s</span> <span class="magik-font-lock-keyword-loop">_over</span> <span class="magik-font-lock-slot">.items</span>[<span class="magik-font-lock-symbol">:routes</span>]<span class="magik-font-lock-slot">.selection</span>.<span class="function-name">fast_elements</span>()
+        <span class="magik-font-lock-keyword-loop">_loop</span>
+                <span class="magik-font-lock-keyword-statements">_if</span> s.level = 2
+                <span class="magik-font-lock-keyword-statements">_then</span> <span class="comment-delimiter"># </span><span class="comment">it is a route
+</span>
+                        <span class="comment-delimiter">#</span><span class="comment">START MOD
+</span>                        <span class="comment-delimiter"># </span><span class="comment">g_set.add_all(.routes_and_objects[s.key][:objects])
+</span>                        g_set &lt;&lt; <span class="type">_self</span>.<span class="function-name">ordered_geoms_for_route</span>(s.key)
+                        <span class="comment-delimiter">#</span><span class="comment">END MOD
+</span>                        
+                <span class="magik-font-lock-keyword-statements">_else</span> <span class="comment-delimiter"># </span><span class="comment">is an object
+</span>                        col_name &lt;&lt; <span class="magik-font-lock-slot">.routes_and_objects</span>[s.parent.key][<span class="magik-font-lock-symbol">:type</span>]
+                        obj_col &lt;&lt; <span class="type">_self</span>.framework.<span class="function-name">get_object_collection</span>(col_name.<span class="function-name">as_symbol</span>())  
+                        <span class="magik-font-lock-keyword-statements">_if</span> obj_col <span class="magik-font-lock-keyword-operators">_isnt</span> <span class="constant">_unset</span> 
+                        <span class="magik-font-lock-keyword-statements">_then</span>
+                                g_set.<span class="function-name">add</span>(obj_col.<span class="function-name">at</span>(s.key))
+                        <span class="magik-font-lock-keyword-statements">_endif</span>
+                <span class="magik-font-lock-keyword-statements">_endif</span> 
+                        
+        <span class="magik-font-lock-keyword-loop">_endloop</span>
+
+        <span class="type">_self</span>.application.databus.<span class="function-name">make_data_available</span>(<span class="magik-font-lock-symbol">:goto_request</span>, {g_set})   
+
+<span class="function-name">_endmethod</span>
+$
+
+<span class="magik-font-lock-keyword-statements">_pragma</span><span class="magik-font-lock-pragma">(classify_</span>level=advanced, topic={Route_Manager})
+<span class="function-name">_method</span> <span class="type">wo_swo_route_builder</span>.<span class="function-name">ordered_geoms_for_route</span>(p_route_name)
+        <span class="comment-delimiter">#</span><span class="comment">
+</span><span class="doc">        ## returns an ordered_geometry_set for the geoms in route</span><span class="comment">
+</span><span class="doc">        ## P_ROUTE_NAME </span><span class="comment">
+</span>        <span class="comment-delimiter"># </span><span class="comment">
+</span>        <span class="magik-font-lock-keyword-variable">_local</span> l_route &lt;&lt; <span class="magik-font-lock-slot">.routes_and_objects</span>[p_route_name]
+        <span class="magik-font-lock-keyword-variable">_local</span> l_objects &lt;&lt; l_route[<span class="magik-font-lock-symbol">:objects</span>]
+        <span class="magik-font-lock-keyword-variable">_local</span> l_orders &lt;&lt; l_route[<span class="magik-font-lock-symbol">:orders</span>]
+        <span class="magik-font-lock-keyword-variable">_local</span> l_hash &lt;&lt; hash_table.<span class="function-name">new</span>()
+        <span class="magik-font-lock-keyword-variable">_local</span> l_set &lt;&lt; ordered_geometry_set.<span class="function-name">new</span>()
+
+        <span class="magik-font-lock-keyword-loop">_for</span> <span class="variable-name">i_key</span>,i_seq <span class="magik-font-lock-keyword-loop">_over</span> l_orders.<span class="function-name">fast_keys_and_elements</span>()
+        <span class="magik-font-lock-keyword-loop">_loop</span> l_hash[i_seq] &lt;&lt; <span class="magik-font-lock-procedure">write_string</span>(i_key).<span class="magik-font-lock-procedure">as_number</span>()
+        <span class="magik-font-lock-keyword-loop">_endloop</span>
+
+        <span class="magik-font-lock-keyword-loop">_for</span> <span class="variable-name">i_seq</span>,i_key <span class="magik-font-lock-keyword-loop">_over</span> l_hash.<span class="function-name">fast_keys_and_elements</span>()
+        <span class="magik-font-lock-keyword-loop">_loop</span>
+                <span class="magik-font-lock-keyword-variable">_local</span> l_obj &lt;&lt; l_objects.<span class="function-name">select</span>(predicate.<span class="function-name">eq</span>(<span class="magik-font-lock-symbol">:id</span>,i_key))<span class="magik-font-lock-slot">.result</span>.<span class="function-name">an_element</span>()
+                <span class="magik-font-lock-keyword-statements">_if</span> l_obj <span class="magik-font-lock-keyword-operators">_is</span> <span class="constant">_unset</span> 
+                <span class="magik-font-lock-keyword-statements">_then</span> <span class="magik-font-lock-write">write</span>(<span class="string">"Error in route "</span>,p_route_name,<span class="string">" object with id "</span>,i_key,<span class="string">" not found"</span>)
+                      <span class="magik-font-lock-keyword-loop">_continue</span> 
+                <span class="magik-font-lock-keyword-statements">_endif</span>
+                <span class="magik-font-lock-keyword-statements">_if</span> i_seq  = 0
+                <span class="magik-font-lock-keyword-statements">_then</span> l_set.<span class="function-name">add_first</span>(l_obj.location)
+                <span class="magik-font-lock-keyword-statements">_else</span> l_set.<span class="function-name">add_last</span>(l_obj.location)
+                <span class="magik-font-lock-keyword-statements">_endif</span>
+        <span class="magik-font-lock-keyword-loop">_endloop</span>
+        &gt;&gt; l_set
+<span class="function-name">_endmethod</span>
+$
+</pre>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+# https://github.com/boogert-lab/MapMarkers
+# Courtesy of Realworld Software Products 2020
+# Original author andre.van.den.boogert@realworld-systems.com
+# ************************************************************
+_package sw
+
+remex(:in_place_colourmap_editor)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+##
+## Subclass that allows editing a colourmap.
+##
+def_slotted_exemplar(:in_place_colourmap_editor,{
+	{:colourmap_editor,_unset}},
+		     :in_place_colour_editor)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+in_place_colourmap_editor.define_shared_constant(:value_manager_class_name,
+	:colourmap_value_manager,
+	:private)
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_colourmap_editor.init(p_agent, _gather p_args)
+	## 
+	##
+	_global rrr
+	rrr << _self 
+#	.extra_actions << {sw_edit_action.new(:start_colourmap_editor,
+#					      :engine,_self,
+#					      :image, { :transparency, :raster_symbols_gui},
+#					      :action_message,:|activate_sub_dialog()|,
+#					      :toolbar_control,:image_button_item)}
+	>> _super.init(p_agent,_scatter p_args)
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_colourmap_editor.manage_actions()
+	## 
+	## 
+	_super.manage_actions()
+	_self.action(:value).enabled? << _false
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_colourmap_editor.activate_sub_dialog()
+	## 
+	## 
+
+	_local l_ced << .colourmap_editor
+	_if l_ced _is _unset 
+	_then
+		l_ced << .colourmap_editor <<
+			sw:colourmap_editor.new(_self,:|colourmap_changed()|,
+						_unset,"Colourmap Editor")
+	_endif
+	
+
+	_local (l_text_item,l_b) << (_scatter _self.edit_manager.current_controls)
+	(x_y, right?, down?) << _self.popup_position( l_b)
+	
+	l_ced.activate_relative_to( _unset, l_b, x_y[1]-370,x_y[2]+15)
+	.value_holder_for_popup << .value_holder
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols})
+_method in_place_colourmap_editor.colourmap_changed(p_values)
+	## 
+	##
+	#DEBUG write(_self," colourmap ",_self.value," changed ",p_values)
+	
+	_global qq
+	qq << _self
+	_global qq2
+	qq2 << p_values
+
+	_local l_map << colour_map.new_with(_scatter p_values[:layer_colours])
+	_self.value.destroy()
+#	_for i_index,i_value _over p_values[:layer_colours].fast_keys_and_elements()
+#	_loop _if i_value _isnt _unset 
+#	      _then l_map[i_index-1] << i_value
+#	      _endif
+#	_endloop
+	
+	#	_self.value_changed(l_map)
+	.agent.model.colourmap_changed(l_map)
+_endmethod
+$

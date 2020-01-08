@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Design considerations</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">There are many icon packages on the internet, but you might want to develop your own.</text></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Purpose</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">It is a good idea to envisage the purpose of icons. Are they drawn always, or only in specific situations? Text drawing is important, because it tells the user the what is where.</text></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Pixel size</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">If you use a raster image with unequal width and height, the thumbnails in the Configuration GUI will be distorted, because it forces the image in a size of 16x16 pixel. The gain in performance when drawing a lesser amount of pixels is (in the case of a raster type symbol) not noticeable.</text></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Style (family)</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The colour and style of Raster Symbols should have a similar look and feel and be evident in itself.</text></para>
+    <para styleclass="Heading 2"><text styleclass="Heading 2" translate="true">Transparency</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">If possible, use alpha channel transparency.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

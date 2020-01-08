@@ -1,0 +1,195 @@
+#% text_encoding = iso8859_1
+_package sw
+# Realworld Software Products 2017
+#
+
+remex(:db_analysis)
+$
+
+_pragma(classify_level=basic, topic={analysis})
+#
+## Analyse the numerical fields in the database.
+## Start the analysis with
+##   sw:db_analysis.analyse_db(p_soc_name)
+#
+def_slotted_exemplar(:db_analysis,{
+	{:result,_unset}
+		     })
+$
+
+_pragma(classify_level=basic, topic={analysis})
+db_analysis.define_slot_access(:result,:read,:public)
+$
+
+_pragma(classify_level=basic, topic={analysis})
+db_analysis.define_shared_constant(:excluded_field_types,{:sys_id,:gis_id,:ds_vstamp},:public)
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.analyse_db(p_soc_name)
+	## 
+	##
+
+	_local l_soc << _self.soc(p_soc_name)
+	_if l_soc _is _unset 
+	_then condition.raise(:user_error,:string,write_string("No open soc: ",p_soc_name))
+	_endif
+
+	_self.travel_datasets(l_soc)
+
+	>> .result
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.soc(p_soc_name)
+	## 
+	## 
+	_local l_open? << gis_program_manager.has_open_soc?(p_soc_name)
+	_local l_soc << _if l_open?
+			_then >> gis_program_manager.spatial_object_controller(p_soc_name)
+			_endif
+	>> l_soc	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.travel_datasets(p_soc)
+	## 
+	##
+	
+	_local l_result << .result << equality_hash_table.new()
+	_for i_ds _over p_soc.datasets()
+	_loop
+		#DEBUG write("Analysing dataset ",i_ds)
+		_local l_ds << l_result[i_ds] << equality_hash_table.new()
+		_self.analyse_collections(i_ds,l_ds)
+	_endloop
+	
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.analyse_collections(p_ds,p_result)
+	## 
+	##
+	_for i_col _over p_ds.user_tables()
+	_loop
+		_if _not i_col.descriptor.geometry_fields.empty?
+		_then
+			#DEBUG write("Analyse collection ",p_ds,%:,i_col)
+			_local l_result << p_result[i_col] << equality_hash_table.new()
+			_self.analyse_fields(i_col,l_result)
+			_if l_result.empty?
+			_then p_result.remove_key(i_col)
+			_endif
+		_endif
+	_endloop
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.analyse_fields(p_col,p_result)
+	## 
+	##
+	
+	_local l_ex << _self.excluded_field_types
+	_local l_flds << equality_hash_table.new()
+	_for i_fld _over p_col.physical_fields()
+	_loop
+		_if _not i_fld.responds_to?(:|type_parameters()|)
+		_then _continue 
+		_endif
+		(l_type,l_len) << i_fld.type_parameters()
+		_if l_ex.includes?(l_type)
+		_then _continue 
+		_endif
+		
+		_if _not {:ds_int,:ds_uint,:ds_int64,:ds_uint64,:ds_byte,:ds_float,:ds_double}.includes?(l_type)
+		_then _continue 
+		_endif
+#DEBUG		write(i_fld,%,,l_type)
+		l_flds[i_fld] << l_type
+	_endloop
+
+	# Remove text id fields
+	_for i_fld _over p_col.join_fields()
+	_loop
+		_if i_fld.join_type _is :text
+		_then l_flds.remove_key(p_col.field(i_fld.parameters[1]))
+		      #DEBUG Write(" Filtered out " ,p_col.field(i_fld.parameters[1]))
+		_endif
+	_endloop
+
+	p_result.add_all(l_flds)
+
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={analysis})
+_method db_analysis.result_as_display_tree(_optional p_flat?)
+	## 
+	## 
+
+	_local l_tree << rope.new()
+	_if p_flat?.default(_true)
+	_then
+		_for i_elem,i_key _over .result.fast_keys_and_elements()
+		_loop
+			_for i_col,i_flds _over i_key.fast_keys_and_elements()
+			_loop 
+				_for i_fld,i_type _over i_flds.fast_keys_and_elements()
+				_loop
+					_local l_size << i_col.select(predicate.new(i_fld.name,:ne,_unset)).size
+					l_dt << display_tree.new(i_fld,property_list.new())
+					l_dt.value[:ds_name] << i_col.dataset.external_name
+					l_dt.value[:col_name] << i_col.external_name
+					l_dt.value[:col_size] << i_col.size
+					l_dt.value[:fld_fill] << l_size
+					l_dt.value[:fld_name] << i_fld.external_name
+					l_dt.value[:fld_type] << i_type
+					l_dt.value[:stats_engine] << _unset
+					l_dt.styled_string << {:value,:ds_name,:tab,
+							       :value,:col_name,:tab,
+							       :value,:col_size,:tab,
+							       :value,:fld_name,:tab,
+							       :value,:fld_type,:tab,
+							       :value,:fld_fill}
+					l_tree.add(l_dt)
+				_endloop
+			_endloop
+		_endloop
+		
+	_else 
+		_for i_elem,i_key _over .result.fast_keys_and_elements()
+		_loop
+			_local l_dt << display_tree.new(i_elem,property_list.new())
+			l_dt.value[:ds_name] << i_elem.external_name
+			l_dt.styled_string << {:value,:ds_name}
+			l_tree.add(l_dt)
+			
+			_for i_col,i_flds _over i_key.fast_keys_and_elements()
+			_loop 
+				l_sdt << display_tree.new(i_col,property_list.new())
+				l_sdt.value[:col_name] << i_col.external_name
+				l_sdt.value[:col_size] << i_col.size
+				l_sdt.styled_string << {:value,:col_name,:value,:col_size}
+				
+				l_dt.add_child(l_sdt)
+
+				_for i_fld,i_type _over i_flds.fast_keys_and_elements()
+				_loop
+					l_fdt << display_tree.new(i_fld,property_list.new())
+					l_fdt.value[:fld_name] << i_fld.external_name
+					l_fdt.value[:fld_type] << i_type
+					l_fdt.styled_string << {:value,:fld_name,:tab,:value,:fld_type}
+					l_sdt.add_child(l_fdt)
+				_endloop
+			_endloop
+		_endloop
+	_endif 
+	>> l_tree
+_endmethod
+$
+

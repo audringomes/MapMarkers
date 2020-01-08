@@ -1,0 +1,11 @@
+#% text_encoding = iso8859_1
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system})
+_method lok_strasse.rs_string
+	## 
+	## 
+	>> _self.name.write_string
+_endmethod
+$

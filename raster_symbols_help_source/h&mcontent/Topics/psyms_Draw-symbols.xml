@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Operation</title>
+  <body>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">The Drawing Speed Monitor samples drawing speed of normal gis_style symbols and (when toggled) raster symbols. Pressing the </text><text styleclass="User Interface Element" translate="true">Refresh</text><text styleclass="Normal" translate="true"> button will refresh the main map view and show the speed of drawing of all symbols in the map. It takes only the first 100 to avoid endless drawing.</text></para>
+    <para styleclass="Normal"><toggle type="picture" print-expanded="true" help-expanded="false" src-collapsed="psyms_clip0002.png" src-expanded="psyms_clip0002.png" scale="25.00%" width="140" height="118" styleclass="Normal" style="color:#bfbfbf;"><caption translate="true">Click to enlarge</caption></toggle></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In the example above 62 Point Geometries are drawn with an average of 0.2245 ms.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">When the toggle </text><text styleclass="User Interface Element" translate="true">DrawPSP?</text><text styleclass="Normal" translate="true"> is set, the drawing speed of the raster symbols with the name selected in the drop down box is shown.</text></para>
+    <para styleclass="Normal"><toggle type="picture" print-expanded="true" help-expanded="false" src-collapsed="psyms_clip0003.png" src-expanded="psyms_clip0003.png" scale="25.00%" width="140" height="118" styleclass="Normal" style="color:#bfbfbf;"><caption translate="true">Click to enlarge</caption></toggle></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">These figures are rather high. All subsequent draws reveal reasonable figures, as shown in the raster below:</text></para>
+    <para styleclass="Normal"><toggle type="picture" print-expanded="true" help-expanded="false" src-collapsed="psyms_clip0004.png" src-expanded="psyms_clip0004.png" scale="25.00%" width="140" height="118" styleclass="Normal" style="color:#bfbfbf;"><caption translate="true">Click to enlarge</caption></toggle></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Note that drawing text for the raster symbol should be set off to make a fair comparison.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="2" style="page-break-inside:avoid;">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:top; width:17px; height:17px;">
+          <para styleclass="TableText"><image src="html_exclamation_mark_16px.png" scale="100.00%" styleclass="Image Caption"></image></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">This module contains an overwrite of the core method </text><text styleclass="Code in text" translate="true">sw_map_point.paint(g_context)</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Do not save this in your image.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>
