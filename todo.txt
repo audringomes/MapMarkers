@@ -1,0 +1,6 @@
+To Do list:
+1. When there is enough support, embedd raster_systems in the style application
+2. The raster_symbols have both slot and property values. When properties from a symbol are set 'on the fly', they should not change the slot values;
+3. The value scale used for Value Mappping is currently implemented as a maximum value only. Implement a true value_scale in stead of only a max value.
+4. Write a Getting Started
+5. Ask user to save drawing method for next session in stead of doing it.
