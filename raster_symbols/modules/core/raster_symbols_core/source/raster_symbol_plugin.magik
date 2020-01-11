@@ -965,8 +965,9 @@ _private _method raster_symbol_plugin.int!draw_geoms(p_set, _optional p_context,
 		_then
 			#DEBUG write("Analyse statistics for ",l_sym)
 			_local l_eng << raster_symbol_handler.statistics_engine_for(i_geom.rwo_type,i_geom.dataset.name,l_m)
-			_if l_eng.analyzed? _andif
-			    _not l_eng.stopped? _is _true
+			#DEBUG write("Engine found ",l_eng)
+			_if l_eng.analyzed? _isnt _true _andif
+			    l_eng.stopped? _isnt _true
 			_then l_eng.analyse_values_for(p_set)
 			_endif
 		_endif

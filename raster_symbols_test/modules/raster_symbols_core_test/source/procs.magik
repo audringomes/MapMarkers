@@ -1,0 +1,41 @@
+#% text_encoding = iso8859_1
+# ************************************************************
+#
+# (c) 2020 Realworld Software Products. All Rights Reserved.
+#
+# ************************************************************
+
+_package sw
+
+_pragma(classify_level=basic, topic={style_system,raster_symbols}, usage={external})
+## Set defaults for value method and value scale draws
+## If P_SET? isnt _true, the installation defaults are set
+_global !setd! <<
+_proc @change_defs(_optional p_set?)
+
+	_if p_set? _is _true
+	_then
+	
+		# VALUE METHOD DRAW
+		# Installation default: top_center
+		rsh.change_default(:value_method_box_justification,:bottom_centre)
+		# Installation default: bottom_centre
+		rsh.change_default(:value_method_text_justification,:top_centre)
+
+		# VALUE SCALE DRAW
+		# Installation default: top_center
+		rsh.change_default(:value_scale_box_justification,:top_right)
+		# Installation default: bottom_centre
+		rsh.change_default(:value_scale_text_justification,:top_left)
+		
+	_else 
+		# RESET INSTALLATION DEFAULT (DEMO)
+
+		rsh.change_default(:value_method_box_justification,:top_centre)
+		rsh.change_default(:value_method_text_justification,:bottom_centre)
+		rsh.change_default(:value_scale_box_justification,:top_centre)
+		rsh.change_default(:value_scale_text_justification,:bottom_centre)
+
+	_endif
+_endproc
+$

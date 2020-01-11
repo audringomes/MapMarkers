@@ -240,7 +240,7 @@
         </td>
         <td style="width:970px; border:none;">
           <para styleclass="TableText"><text styleclass="Normal" translate="true">This demo is based on Water Office. See also the video on </text><link displaytype="text" defaultstyle="true" type="weblink" href="https://cavdb186.home.xs4all.nl/mapmarkers/index.html" target="_blank" styleclass="Normal" translate="true">the website</link><text styleclass="Normal" translate="true">.</text></para>
-          <para styleclass="TableText"><table styleclass="Default" rowcount="17" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
+          <para styleclass="TableText"><table styleclass="Default" rowcount="18" colcount="3" style="width:100%; cell-padding:2px; cell-spacing:1px;">
             <tr style="vertical-align:top">
               <td style="width:20px;">
                 <para styleclass="TableText"></para>
@@ -381,7 +381,7 @@
                 <para styleclass="TableText"></para>
               </td>
               <td>
-                <para styleclass="TableText"><text styleclass="TableText" translate="true">We now are going to change the properties of the symbol;</text></para>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Changing the properties of the symbol:</text></para>
               </td>
             </tr>
             <tr style="vertical-align:top">
@@ -403,7 +403,7 @@
                 <para styleclass="TableText"><text styleclass="TableText" translate="true">12.</text></para>
               </td>
               <td>
-                <para styleclass="TableText"><text styleclass="TableText" translate="true">Add a value_selector</text></para>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Add the value_selector </text><text styleclass="TableText" style="font-weight:bold;" translate="true">outlet_pressure_level</text><text styleclass="TableText" translate="true">, which is actually a field</text></para>
               </td>
             </tr>
             <tr style="vertical-align:top">
@@ -414,7 +414,7 @@
                 <para styleclass="TableText"><text styleclass="TableText" translate="true">13.</text></para>
               </td>
               <td>
-                <para styleclass="TableText"><text styleclass="TableText" translate="true">Define (optional) a value scale.</text></para>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Define (optional) a </text><link displaytype="text" defaultstyle="true" type="topiclink" href="psyms_Value_scale" styleclass="TableText" translate="true">value scale</link><text styleclass="TableText" translate="true">.</text></para>
               </td>
             </tr>
             <tr style="vertical-align:top">
@@ -426,6 +426,17 @@
               </td>
               <td>
                 <para styleclass="TableText"><text styleclass="TableText" translate="true">Refresh the map</text></para>
+              </td>
+            </tr>
+            <tr style="vertical-align:top">
+              <td style="width:20px;">
+                <para styleclass="TableText"></para>
+              </td>
+              <td style="width:20px;">
+                <para styleclass="Normal"><text styleclass="Result sign" translate="true">»</text></para>
+              </td>
+              <td>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">The height of the bar represents the value returned by the value_selector.</text></para>
               </td>
             </tr>
           </table></para>
