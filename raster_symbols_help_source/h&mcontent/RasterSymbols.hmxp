@@ -8,7 +8,7 @@
         <export-tasks>
           <export-task name="Right into picture_symbols module help" format="HTM">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\..\modules\core\raster_symbols_core\resources\en_gb\help\index.html</task-config-value>
+              <task-config-value name="outputfile">..\..\raster_symbols\modules\core\raster_symbols_core\resources\en_gb\help\index.html</task-config-value>
               <task-config-value name="skin">..\h-and-m-resources\skins\blue-orange-iframe-webhelp\blue-orange-iframe-webhelp.hmskin</task-config-value>
               <task-config-value name="table_of_contents">Table of Contents</task-config-value>
               <task-config-value name="make3include">HTML</task-config-value>
@@ -23,9 +23,9 @@
               <task-variable id="FAVICONNAME" type="text" translate="true">mapmarkers_icon.ico</task-variable>
             </task-variables>
             <task-build-events>
-              <task-build-event id="EMPTY_TARGET_DIR" event-kind="before" command="E:\REPOS\raster_symbols\trunk\help_source\h&amp;mresources\empty_targetdir.cmd" params="&lt;%OUTPUTFILEPATH%&gt;"/>
-              <task-build-event id="REPLACE_CSH_KEY" event-kind="after" command="E:\REPOS\raster_symbols\trunk\help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\replace_csh_key.cmd" params="&lt;%OUTPUTFILEPATH%&gt;hmcontextids.js &lt;%CSH_KEY%&gt;"/>
-              <task-build-event id="CHECK_PAGE_ICONS" event-kind="after" command="E:\REPOS\raster_symbols\trunk\help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\check_page_icons.cmd" params="&lt;%OUTPUTFILEPATH%&gt; &lt;%LOGO_NAME%&gt; &lt;%FAVICONNAME%&gt; &lt;%PAGE_ICON%&gt;"/>
+              <task-build-event id="EMPTY_TARGET_DIR" event-kind="before" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h&amp;mresources\empty_targetdir.cmd" params="&lt;%OUTPUTFILEPATH%&gt;"/>
+              <task-build-event id="REPLACE_CSH_KEY" event-kind="after" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\replace_csh_key.cmd" params="&lt;%OUTPUTFILEPATH%&gt;hmcontextids.js &lt;%CSH_KEY%&gt;"/>
+              <task-build-event id="CHECK_PAGE_ICONS" event-kind="after" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\check_page_icons.cmd" params="&lt;%OUTPUTFILEPATH%&gt; &lt;%LOGO_NAME%&gt; &lt;%FAVICONNAME%&gt; &lt;%PAGE_ICON%&gt;"/>
             </task-build-events>
           </export-task>
         </export-tasks>
@@ -238,7 +238,7 @@
       <config-value name="historykeepdeletedfiles">0</config-value>
       <config-value name="vcsmanuallycheckout">0</config-value>
       <config-value name="repositorystyleusage">0</config-value>
-      <config-value name="searchpath">.\Pictures\;.\;.\Baggage\;.\Maps\;.\Topics\;.\Topics\Invisible\;.\;..\repository\Baggage\;.\HTMLCode\</config-value>
+      <config-value name="searchpath">.\Pictures\;.\Baggage\;.\;..\repository\Baggage\;.\HTMLCode\</config-value>
       <config-group name="TOPICSTATUS">
         <config-value name="Needs Review">#B6FEAB</config-value>
         <config-value name="Out Of Date">#FEC79E</config-value>
@@ -1132,8 +1132,8 @@ a.topiclink:hover{ font-size: 10pt; text-decoration: underline; color: #00518f;}
           <config-value name="lastexport">3</config-value>
         </config-group>
         <config-group name="report">
-          <config-value name="type">1</config-value>
-          <config-value name="sort">0</config-value>
+          <config-value name="type">3</config-value>
+          <config-value name="sort">1</config-value>
           <config-value name="include">ALL</config-value>
         </config-group>
       </config-group>

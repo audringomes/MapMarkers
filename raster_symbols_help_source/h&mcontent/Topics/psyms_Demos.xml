@@ -132,7 +132,7 @@
                 <para styleclass="TableText"><text styleclass="TableText" translate="true">9.</text></para>
               </td>
               <td>
-                <para styleclass="TableText"><text styleclass="TableText" translate="true">Open the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">Manage External Files Dialog</text><text styleclass="TableText" translate="true">, select a picture and select </text><text styleclass="User Interface Element" translate="true">Create File Symbol </text><br/><br/><image src="psyms_clip0013.png" scale="100.00%" styleclass="Image Caption"></image></para>
+                <para styleclass="TableText"><text styleclass="TableText" translate="true">Open the </text><text styleclass="TableText" style="font-weight:bold;" translate="true">Manage External Files Dialog</text><text styleclass="TableText" translate="true">, select a picture and select </text><text styleclass="User Interface Element" translate="true">Create File Symbol </text><br/><br/><image src="psyms_clip0010.png" scale="100.00%" styleclass="Image Caption"></image></para>
               </td>
             </tr>
             <tr style="vertical-align:top">
@@ -154,7 +154,7 @@
                 <para styleclass="TableText"></para>
               </td>
               <td>
-                <para styleclass="TableText"><image src="psyms_clip0012.png" scale="-99.90%" width="897" height="484" styleclass="Image Caption"></image></para>
+                <para styleclass="TableText"><image src="psyms_clip0012.png" scale="-99.90%" width="883" height="477" styleclass="Image Caption"></image></para>
               </td>
             </tr>
           </table></para>
