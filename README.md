@@ -5,3 +5,4 @@ This software enables pretty use of symbols for drawing in GE Smallworld. It can
 Help and documentation is available at www.boogert-lab.
 Contact André at andre@boogert-lab.nl or andre.van.den.boogert@realworld-systems.com
 
+# MapMarkers is published with courtesy of Realworld Software Products
