@@ -1874,7 +1874,7 @@ _pragma(classify_level=basic, topic={style_system,raster_symbols})
 _method raster_symbol_manager_gui.default_custom_draw_method_name
 	## 
 	## default without () from owner
-	>> .owner.custom_draw_method_base
+	>> .owner.default_custom_draw_method_base
 _endmethod
 $
 

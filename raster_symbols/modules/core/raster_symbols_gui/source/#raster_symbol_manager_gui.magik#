@@ -1700,7 +1700,7 @@ _method raster_symbol_manager_gui.manage_actions()
 	.ui_items[:show_in_explorer].enabled? << l_selected?
 
 	# RWO Styles
-	_local l_mprefx << .owner.custom_draw_method_base
+	_local l_mprefx << _self.default_custom_draw_method_name
 	_local l_rwo_style_selected? << _not (l_sel<<.ui_items[:rwo_list].selection).empty?
 	.ui_items[:attach].enabled? << l_sym_selected? _and
 				       l_rwo_style_selected? 
@@ -1874,15 +1874,15 @@ _pragma(classify_level=basic, topic={style_system,raster_symbols})
 _method raster_symbol_manager_gui.default_custom_draw_method_name
 	## 
 	## default without () from owner
-	>> .owner.custom_draw_method_base
+	>> .owner.default_custom_draw_method_base
 _endmethod
 $
 
 _pragma(classify_level=restricted, topic={style_system})
 _method raster_symbol_manager_gui.method_name_for_custom_draw(p_rwo_type,p_key)
 	## 
-	## Return the name .owner.custom_draw_method_base
-	## When it does have the method new names are generated with a
+	## USe _self.default_custom_draw_method_name
+	## When it does have the method already, new names are generated with a
 	## suffix number until the exemplar does not have it
 	##
 
@@ -1958,7 +1958,7 @@ _method raster_symbol_manager_gui.detach()
 	_then _return 
 	_endif
 
-	_local l_my_methods << .owner.custom_draw_method_base
+	_local l_my_methods << _self.default_custom_draw_method_name
 	_local l_anything_changed? << _false 
 	_for i_sel _over l_selected_rwo_styles.fast_elements()
 	_loop
@@ -2227,16 +2227,7 @@ _method raster_symbol_manager_gui.rwo_style_item_select(p_selection)
 	##
 
 	_self.manage_actions()
-#	_local l_enable_detach? << _true
-#	_for i_sel _over p_selection.fast_elements()
-#	_loop
-#		_if (l_m<<i_sel.key.custom_draw_method) _isnt _unset _andif
-#		    l_m.index_of_seq(.plugin.custom_draw_method_base) _is _unset 
-#		_then l_enable_detach? << _false
-#		      _leave 
-#		_endif
-#	_endloop
-#	.ui_items[:detach].enabled? << l_enable_detach?
+
 _endmethod
 $
 
@@ -2386,14 +2377,13 @@ _method raster_symbol_manager_gui.display_tree_for_style(p_rwo_style,p_current_i
 
 	_local l_elem << display_tree.new(p_rwo_style,property_list.new())
 	_local l_rope << rope.new()
-	_local l_draw_m << .owner.custom_draw_method_base
+	_local l_draw_m << _self.default_custom_draw_method_name
 
 	_if p_rwo_style.style_id = p_current_id
 	_then
 		l_rope.add(:brown)
 #		l_rope.add({"select_style.png",:raster_symbol_gui})
 	_endif
-
 
 	# define mapping states so they are selectable and sortable
 	l_rope.add(:image)

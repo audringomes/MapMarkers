@@ -139,7 +139,7 @@ _method byte_grid_raster_symbol.init(p_filename,p_properties)
 	#
 	#DEBUG write(_self," NEW ",p_filename," " ,p_properties)
 
-	_super.init(p_filename,p_properties,p_image)
+	_super.init(p_filename,p_properties)
 
 	_local l_defs << raster_symbol_handler.defaults
 	

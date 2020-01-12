@@ -8,7 +8,7 @@ _package sw
 
 _block
 	_local l_props << property_list.new()
-	l_props[:module_name] << :rs_cam_db_raster_symbols
+	l_props[:module_name] << :cam_db_raster_symbols
 	l_props[:filename] << "sw_target.png"
 	l_props[:type] << :raster
 	l_props[:pixel_offset] << pixel_coordinate.new(-24,25)

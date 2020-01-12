@@ -353,7 +353,6 @@ _private _method statistics_engine.rounded_for_scale(p_num,p_up?)
 	## 
 	##
 
-	!traceback!(!output!)
 	#DEBUG write(_self,"rounded_for_scale(p_num,p_up?)",p_num,p_up?)
 	_if p_num = 0 
 	_then _return 0
