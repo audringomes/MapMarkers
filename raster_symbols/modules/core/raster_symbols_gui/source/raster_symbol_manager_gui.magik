@@ -2385,7 +2385,6 @@ _method raster_symbol_manager_gui.display_tree_for_style(p_rwo_style,p_current_i
 #		l_rope.add({"select_style.png",:raster_symbol_gui})
 	_endif
 
-
 	# define mapping states so they are selectable and sortable
 	l_rope.add(:image)
 	_if (l_method<<p_rwo_style.custom_draw_method).index_of_seq(l_draw_m) _isnt _unset 
