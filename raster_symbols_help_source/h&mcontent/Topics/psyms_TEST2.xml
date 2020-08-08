@@ -3,6 +3,6 @@
 <topic template="Default" lasteditedby="Andre" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Document conventions</title>
   <body>
-    <para styleclass="Normal"><snippet src="rwsp_repository_1::Document-Conventions" inline="false"/></para>
+    <para styleclass="Normal"><snippet src="rwsp_repository_2::Document-Conventions" inline="false"/></para>
   </body>
 </topic>

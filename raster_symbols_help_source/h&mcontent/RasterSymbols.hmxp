@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="2.0" isskin="false" isrepository="false">
   <config>
-    <repository name="rwsp_repository_1" href="..\..\..\..\h-and-m-resources\trunk\rwsp\repositories\basic\rwsp_repository.hmxr"/>
+    <repository name="rwsp_repository_2" href="..\..\..\..\rw\repos\h-and-m-resources\trunk\rwsp\repositories\basic\rwsp_repository.hmxr"/>
     <namespaces/>
     <export-task-groups>
       <export-task-group name="HTML">
@@ -23,9 +23,9 @@
               <task-variable id="FAVICONNAME" type="text" translate="true">mapmarkers_icon.ico</task-variable>
             </task-variables>
             <task-build-events>
-              <task-build-event id="EMPTY_TARGET_DIR" event-kind="before" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h&amp;mresources\empty_targetdir.cmd" params="&lt;%OUTPUTFILEPATH%&gt;"/>
-              <task-build-event id="REPLACE_CSH_KEY" event-kind="after" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\replace_csh_key.cmd" params="&lt;%OUTPUTFILEPATH%&gt;hmcontextids.js &lt;%CSH_KEY%&gt;"/>
-              <task-build-event id="CHECK_PAGE_ICONS" event-kind="after" command="E:\REPOS\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\check_page_icons.cmd" params="&lt;%OUTPUTFILEPATH%&gt; &lt;%LOGO_NAME%&gt; &lt;%FAVICONNAME%&gt; &lt;%PAGE_ICON%&gt;"/>
+              <task-build-event id="EMPTY_TARGET_DIR" event-kind="before" command="E:\boogert-lab\mapmarkers\raster_symbols_help_source\h&amp;mresources\empty_targetdir.cmd" params="&lt;%OUTPUTFILEPATH%&gt;"/>
+              <task-build-event id="REPLACE_CSH_KEY" event-kind="after" command="E:\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\replace_csh_key.cmd" params="&lt;%OUTPUTFILEPATH%&gt;hmcontextids.js &lt;%CSH_KEY%&gt;"/>
+              <task-build-event id="CHECK_PAGE_ICONS" event-kind="after" command="E:\boogert-lab\mapmarkers\raster_symbols_help_source\h-and-m-resources\skins\blue-orange-iframe-webhelp\check_page_icons.cmd" params="&lt;%OUTPUTFILEPATH%&gt; &lt;%LOGO_NAME%&gt; &lt;%FAVICONNAME%&gt; &lt;%PAGE_ICON%&gt;"/>
             </task-build-events>
           </export-task>
         </export-tasks>
@@ -205,8 +205,8 @@
       <config-value name="title" translate="true">MapMarkers</config-value>
       <config-value name="author" translate="true">Andre van den Boogert</config-value>
       <config-value name="versionmajor">5</config-value>
-      <config-value name="versionminor">1</config-value>
-      <config-value name="versionbuild">7</config-value>
+      <config-value name="versionminor">2</config-value>
+      <config-value name="versionbuild">2</config-value>
       <config-value name="lcid" translate="true">en-gb</config-value>
       <config-value name="bidimode">0</config-value>
       <config-value name="charset" translate="true">ANSI_CHARSET</config-value>
@@ -238,7 +238,7 @@
       <config-value name="historykeepdeletedfiles">0</config-value>
       <config-value name="vcsmanuallycheckout">0</config-value>
       <config-value name="repositorystyleusage">0</config-value>
-      <config-value name="searchpath">.\Pictures\;.\Baggage\;.\;..\repository\Baggage\;.\HTMLCode\</config-value>
+      <config-value name="searchpath">.\Pictures\;.\Baggage\;.\;..\repository\Baggage\;.\HTMLCode\;.\</config-value>
       <config-group name="TOPICSTATUS">
         <config-value name="Needs Review">#B6FEAB</config-value>
         <config-value name="Out Of Date">#FEC79E</config-value>

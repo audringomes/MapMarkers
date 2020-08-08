@@ -7,7 +7,7 @@
     <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="2" style="width:auto; cell-padding:2px; cell-spacing:1px; background-color:#f2f2f2;">
       <tr style="vertical-align:top">
         <td style="width:115px;">
-          <para styleclass="TableText"><text styleclass="TableText" translate="true">Prodcut name:</text></para>
+          <para styleclass="TableText"><text styleclass="TableText" translate="true">Product name:</text></para>
         </td>
         <td style="width:200px;">
           <para styleclass="TableText"><var styleclass="Normal" style="font-weight:bold;">&lt;%PRODUCTNAME%&gt;</var></para>
